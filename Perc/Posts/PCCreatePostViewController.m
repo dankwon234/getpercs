@@ -1,0 +1,303 @@
+//
+//  PCCreatePostViewController.m
+//  Perc
+//
+//  Created by Dan Kwon on 4/17/15.
+//  Copyright (c) 2015 Perc. All rights reserved.
+
+
+#import "PCCreatePostViewController.h"
+
+@interface PCCreatePostViewController ()
+@property (strong, nonatomic) UILabel *lblCreatePost;
+@property (strong, nonatomic) UIImageView *icon;
+@property (strong, nonatomic) UIScrollView *theScrollview;
+@property (strong, nonatomic) UITextView *contentForm;
+@property (strong, nonatomic) UITextField *titleField;
+@end
+
+static NSString *placeholder = @"Content";
+
+@implementation PCCreatePostViewController
+@synthesize post;
+
+
+- (void)loadView
+{
+    UIView *view = [self baseView];
+    view.backgroundColor = [UIColor blackColor];
+    CGRect frame = view.frame;
+    
+    CGFloat dimen = 88.0f;
+    self.icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon.png"]];
+    self.icon.frame = CGRectMake(0.0f, 0.0f, dimen, dimen);
+    self.icon.center = CGPointMake(0.5f*frame.size.width, 0.5f*dimen+20.0f);
+    self.icon.layer.cornerRadius = 0.5f*dimen;
+    self.icon.layer.masksToBounds = YES;
+    self.icon.layer.borderColor = [[UIColor whiteColor] CGColor];
+    self.icon.layer.borderWidth = 1.0f;
+    [view addSubview:self.icon];
+
+    
+    CGFloat y = self.icon.frame.origin.y+self.icon.frame.size.height+12.0f;
+    CGFloat x = 16.0f;
+    CGFloat width = frame.size.width-2*x;
+    
+    self.lblCreatePost = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, 20.0f)];
+    self.lblCreatePost.textColor = [UIColor whiteColor];
+    self.lblCreatePost.textAlignment = NSTextAlignmentCenter;
+    self.lblCreatePost.font = [UIFont fontWithName:kBaseFontName size:14.0f];
+    self.lblCreatePost.text = @"CREATE POST";
+    [view addSubview:self.lblCreatePost];
+    y += self.lblCreatePost.frame.size.height+20.0f;
+    
+    
+    self.theScrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
+    self.theScrollview.delegate = self;
+    self.theScrollview.showsVerticalScrollIndicator = NO;
+    [self.theScrollview addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
+    
+
+    static CGFloat h = 44.0f;
+    self.titleField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
+    self.titleField.delegate = self;
+    self.titleField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20.0f, 44.0f)];
+    self.titleField.leftViewMode = UITextFieldViewModeAlways;
+    self.titleField.backgroundColor = [UIColor whiteColor];
+    self.titleField.alpha = 0.8f;
+    self.titleField.placeholder = @"Title";
+    self.titleField.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    [self.theScrollview addSubview:self.titleField];
+    y += self.titleField.frame.size.height+1.0f;
+
+    
+    UIView *bgContent = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 240.0f)];
+    bgContent.backgroundColor = [UIColor whiteColor];
+    bgContent.alpha = 0.8f;
+    
+    self.contentForm = [[UITextView alloc] initWithFrame:CGRectMake(x, 10.0f, width, 220.0f)];
+    self.contentForm.delegate = self;
+    self.contentForm.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    self.contentForm.backgroundColor = [UIColor clearColor];
+    self.contentForm.text = (self.post.content.length > 1) ? self.post.content : placeholder;
+    if (self.post.content.length > 4){ // set 4 as minimum bc 'none' is 4 characters
+        self.contentForm.text = self.post.content;
+        self.contentForm.textColor = [UIColor grayColor];
+    }
+    else {
+        self.contentForm.text = placeholder;
+        self.contentForm.textColor = [UIColor lightGrayColor];
+    }
+    
+    [bgContent addSubview:self.contentForm];
+    [self.theScrollview addSubview:bgContent];
+    y += bgContent.frame.size.height+1.0f;
+    
+    UIView *bgImage = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 2*h)];
+    bgImage.backgroundColor = [UIColor whiteColor];
+    bgImage.alpha = 0.8f;
+    [bgImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectImage:)]];
+    
+    dimen = bgImage.frame.size.height-20.0f;
+    UIImageView *postImage = [[UIImageView alloc] initWithFrame:CGRectMake(10.0f, 10.0f, dimen, dimen)];
+    postImage.layer.borderWidth = 1.0f;
+    postImage.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+    postImage.image = [UIImage imageNamed:@"icon.png"];
+    [bgImage addSubview:postImage];
+
+    [self.theScrollview addSubview:bgImage];
+    y += bgImage.frame.size.height;
+    
+
+    UILabel *lblZone = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
+    lblZone.backgroundColor = [UIColor grayColor];
+    lblZone.textAlignment = NSTextAlignmentCenter;
+    lblZone.textColor = [UIColor whiteColor];
+    lblZone.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    lblZone.text = @"This Post Will Show In";
+    [self.theScrollview addSubview:lblZone];
+    y += lblZone.frame.size.height;
+
+    
+    NSString *towns = @"";
+    for (int i=0; i<self.currentZone.towns.count; i++) {
+        NSString *town = [self.currentZone.towns[i] capitalizedString];
+        towns = [towns stringByAppendingString:town];
+        if (i != self.currentZone.towns.count-1)
+            towns = [towns stringByAppendingString:@", "];
+    }
+    
+    CGRect boundingRect = [towns boundingRectWithSize:CGSizeMake(width, 200.0f)
+                                              options:NSStringDrawingUsesLineFragmentOrigin
+                                           attributes:@{NSFontAttributeName:[UIFont fontWithName:kBaseFontName size:16.0f]}
+                                              context:nil];
+    
+    CGFloat height = (boundingRect.size.height > h) ? boundingRect.size.height+24.0f : h;
+    UIView *bgTowns = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, height)];
+    bgTowns.backgroundColor = [UIColor whiteColor];
+    bgTowns.alpha = 0.8f;
+    
+    UILabel *lblTowns = [[UILabel alloc] initWithFrame:CGRectMake(x, 0.0f, width, height)];
+    lblTowns.text = towns;
+    lblTowns.textColor = [UIColor grayColor];
+    lblTowns.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    lblTowns.lineBreakMode = NSLineBreakByWordWrapping;
+    lblTowns.numberOfLines = 0;
+    [bgTowns addSubview:lblTowns];
+    
+    [self.theScrollview addSubview:bgTowns];
+    y += bgTowns.frame.size.height;
+
+    UIView *bgCreate = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 96.0f)];
+    bgCreate.backgroundColor = [UIColor grayColor];
+    
+    UIButton *btnCreate = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnCreate.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    btnCreate.frame = CGRectMake(x, 0.5f*(bgCreate.frame.size.height-h), width, h);
+    btnCreate.backgroundColor = [UIColor clearColor];
+    btnCreate.layer.cornerRadius = 0.5f*h;
+    btnCreate.layer.masksToBounds = YES;
+    btnCreate.layer.borderColor = [[UIColor whiteColor] CGColor];
+    btnCreate.layer.borderWidth = 1.0f;
+    [btnCreate setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btnCreate setTitle:@"CREATE POST" forState:UIControlStateNormal];
+    [btnCreate addTarget:self action:@selector(createPost:) forControlEvents:UIControlEventTouchUpInside];
+    [bgCreate addSubview:btnCreate];
+    [self.theScrollview addSubview:bgCreate];
+    y += bgCreate.frame.size.height+h;
+    
+    
+    
+    
+    
+    [view addSubview:self.theScrollview];
+    self.theScrollview.contentSize = CGSizeMake(0, y);
+    
+    
+    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
+    swipe.direction = UISwipeGestureRecognizerDirectionRight;
+    [view addGestureRecognizer:swipe];
+    
+    
+    self.view = view;
+}
+
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self addCustomBackButton];
+}
+
+- (void)dealloc
+{
+    [self.theScrollview removeObserver:self forKeyPath:@"contentOffset"];
+    
+}
+
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"contentOffset"]){
+        UIScrollView *scrollview = self.theScrollview;
+        CGFloat offset = scrollview.contentOffset.y;
+        if (offset < 0){
+            self.icon.alpha = 1.0f;
+            return;
+        }
+        
+        self.icon.alpha = 1.0f-(offset/100.0f);
+        self.lblCreatePost.alpha = self.icon.alpha;
+        
+    }
+}
+
+
+
+
+- (void)back:(UIGestureRecognizer *)swipe
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)dismissKeyboard
+{
+    if (self.contentForm.isFirstResponder)
+        [self.contentForm resignFirstResponder];
+    
+    if (self.titleField.isFirstResponder)
+        [self.titleField resignFirstResponder];
+    
+}
+
+- (void)createPost:(UIButton *)btn
+{
+    NSLog(@"createPost: ");
+}
+
+- (void)selectImage:(UIGestureRecognizer *)tap
+{
+    NSLog(@"selectImage: ");
+}
+
+
+#pragma mark - UIScrollViewDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    //    NSLog(@"scrollViewDidScroll: %.2f", scrollView.contentOffset.y);
+    [self dismissKeyboard];
+}
+
+- (void)resetDelegate
+{
+    self.theScrollview.delegate = self;
+    //    self.addressField.delegate = self;
+}
+
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    self.theScrollview.delegate = nil;
+    [self.theScrollview setContentOffset:CGPointMake(0, 80.0f) animated:YES];
+    [self performSelector:@selector(resetDelegate) withObject:nil afterDelay:0.6f];
+    
+    return YES;
+}
+
+
+#pragma mark - UITextViewDelegate
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+    if ([textView.text isEqualToString:placeholder]){
+        textView.text = @"";
+        textView.textColor = [UIColor darkGrayColor];
+    }
+    
+    self.theScrollview.delegate = nil;
+    [self.theScrollview setContentOffset:CGPointMake(0, 124.0f) animated:YES];
+    [self performSelector:@selector(resetDelegate) withObject:nil afterDelay:0.6f];
+    
+    return YES;
+}
+
+
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView
+{
+    if (textView.text.length==0){
+        textView.text = placeholder;
+        textView.textColor = [UIColor lightGrayColor];
+    }
+    
+    return YES;
+}
+
+
+
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+}
+
+
+@end

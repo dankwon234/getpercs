@@ -112,6 +112,7 @@
 		0CD782D41AC1AB040072A0F3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CD782D31AC1AB040072A0F3 /* SystemConfiguration.framework */; };
 		0CD782D61AC1AFAA0072A0F3 /* logo-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CD782D51AC1AFAA0072A0F3 /* logo-white@2x.png */; };
 		0CDCBB9F1AC1B3050034DAB0 /* PCAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDCBB9E1AC1B3050034DAB0 /* PCAboutViewController.m */; };
+		0CDF620B1AE0BE97006B3C94 /* PCCreatePostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -303,6 +304,8 @@
 		0CD782D51AC1AFAA0072A0F3 /* logo-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-white@2x.png"; sourceTree = "<group>"; };
 		0CDCBB9D1AC1B3050034DAB0 /* PCAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCAboutViewController.h; sourceTree = "<group>"; };
 		0CDCBB9E1AC1B3050034DAB0 /* PCAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCAboutViewController.m; sourceTree = "<group>"; };
+		0CDF62091AE0BE97006B3C94 /* PCCreatePostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCreatePostViewController.h; sourceTree = "<group>"; };
+		0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCreatePostViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -418,6 +421,8 @@
 				0C333F531ADF9A280005DD84 /* PCPost.m */,
 				0C333F551ADFA0F30005DD84 /* PCPostsViewController.h */,
 				0C333F561ADFA0F30005DD84 /* PCPostsViewController.m */,
+				0CDF62091AE0BE97006B3C94 /* PCCreatePostViewController.h */,
+				0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */,
 			);
 			path = Posts;
 			sourceTree = "<group>";
@@ -907,6 +912,7 @@
 				0C0F2F401ABCF55900DBFD8F /* STPCheckoutViewController.m in Sources */,
 				0C333F541ADF9A280005DD84 /* PCPost.m in Sources */,
 				0C8B61881ABD20F000BC13C8 /* PCCreditCardViewController.m in Sources */,
+				0CDF620B1AE0BE97006B3C94 /* PCCreatePostViewController.m in Sources */,
 				0C0F2F491ABCF55900DBFD8F /* STPCard.m in Sources */,
 				0C6138FD1AB8E8C700D12C50 /* AFHTTPRequestOperationManager.m in Sources */,
 				0C8B61641ABD028800BC13C8 /* PTKCardNumber.m in Sources */,
