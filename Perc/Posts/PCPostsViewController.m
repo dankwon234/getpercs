@@ -7,6 +7,8 @@
 
 
 #import "PCPostsViewController.h"
+#import "PCCreatePostViewController.h"
+
 
 @interface PCPostsViewController ()
 
@@ -45,7 +47,7 @@
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
                                                                                            target:self
-                                                                                           action:nil];
+                                                                                           action:@selector(createPost:)];
 
     [self.loadingIndicator startLoading];
     [[PCWebServices sharedInstance] fetchPostsInZone:self.currentZone.uniqueId completion:^(id result, NSError *error){
@@ -63,6 +65,13 @@
 - (void)back:(UIGestureRecognizer *)swipe
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)createPost:(id)sender
+{
+    NSLog(@"createPost: ");
+    PCCreatePostViewController *createPostVc = [[PCCreatePostViewController alloc] init];
+    [self.navigationController pushViewController:createPostVc animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
