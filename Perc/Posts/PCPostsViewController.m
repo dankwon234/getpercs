@@ -26,8 +26,6 @@ static NSString *cellId = @"cellId";
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
-        [self addNavigationTitleView];
-        
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(postAdded:)
                                                      name:kPostCreatedNotification

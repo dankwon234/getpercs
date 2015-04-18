@@ -30,8 +30,6 @@ static NSString *placeholder = @"Type your order here.";
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
-        [self addNavigationTitleView];
-        
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(creditCardAdded:)
                                                      name:kCreditCardAddedNotification
