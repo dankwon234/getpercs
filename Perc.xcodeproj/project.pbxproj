@@ -104,6 +104,7 @@
 		0CA0DE7D1ABA4EB500537419 /* PCVenueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA0DE7C1ABA4EB500537419 /* PCVenueViewController.m */; };
 		0CA0DE7F1ABA515400537419 /* backArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CA0DE7E1ABA515400537419 /* backArrow@2x.png */; };
 		0CA68D171ABA9548007538F0 /* background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CA68D161ABA9548007538F0 /* background@2x.png */; };
+		0CAC7F441AE2265C00D42BB7 /* PCPostCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAC7F431AE2265C00D42BB7 /* PCPostCell.m */; };
 		0CBC22E61ABF88A9004722E1 /* bgBurger@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CBC22E51ABF88A9004722E1 /* bgBurger@2x.png */; };
 		0CBC22E81ABF8C53004722E1 /* bgCoffee@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CBC22E71ABF8C53004722E1 /* bgCoffee@2x.png */; };
 		0CBDB42D1AC150FA00328827 /* PCJoinUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBDB42C1AC150FA00328827 /* PCJoinUsViewController.m */; };
@@ -292,6 +293,8 @@
 		0CA0DE7C1ABA4EB500537419 /* PCVenueViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCVenueViewController.m; sourceTree = "<group>"; };
 		0CA0DE7E1ABA515400537419 /* backArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backArrow@2x.png"; sourceTree = "<group>"; };
 		0CA68D161ABA9548007538F0 /* background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background@2x.png"; sourceTree = "<group>"; };
+		0CAC7F421AE2265C00D42BB7 /* PCPostCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPostCell.h; sourceTree = "<group>"; };
+		0CAC7F431AE2265C00D42BB7 /* PCPostCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCPostCell.m; sourceTree = "<group>"; };
 		0CBC22E51ABF88A9004722E1 /* bgBurger@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgBurger@2x.png"; sourceTree = "<group>"; };
 		0CBC22E71ABF8C53004722E1 /* bgCoffee@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgCoffee@2x.png"; sourceTree = "<group>"; };
 		0CBDB42B1AC150FA00328827 /* PCJoinUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCJoinUsViewController.h; sourceTree = "<group>"; };
@@ -423,6 +426,8 @@
 				0C333F561ADFA0F30005DD84 /* PCPostsViewController.m */,
 				0CDF62091AE0BE97006B3C94 /* PCCreatePostViewController.h */,
 				0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */,
+				0CAC7F421AE2265C00D42BB7 /* PCPostCell.h */,
+				0CAC7F431AE2265C00D42BB7 /* PCPostCell.m */,
 			);
 			path = Posts;
 			sourceTree = "<group>";
@@ -913,6 +918,7 @@
 				0C333F541ADF9A280005DD84 /* PCPost.m in Sources */,
 				0C8B61881ABD20F000BC13C8 /* PCCreditCardViewController.m in Sources */,
 				0CDF620B1AE0BE97006B3C94 /* PCCreatePostViewController.m in Sources */,
+				0CAC7F441AE2265C00D42BB7 /* PCPostCell.m in Sources */,
 				0C0F2F491ABCF55900DBFD8F /* STPCard.m in Sources */,
 				0C6138FD1AB8E8C700D12C50 /* AFHTTPRequestOperationManager.m in Sources */,
 				0C8B61641ABD028800BC13C8 /* PTKCardNumber.m in Sources */,
