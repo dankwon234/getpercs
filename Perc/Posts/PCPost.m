@@ -26,6 +26,8 @@
 @synthesize imageData;
 @synthesize timestamp;
 @synthesize formattedDate;
+@synthesize numComments;
+@synthesize numViews;
 
 
 - (id)init
@@ -39,6 +41,8 @@
         self.title = @"none";
         self.content = @"none";
         self.zones = [NSMutableArray array];
+        self.numViews = 0;
+        self.numComments = 0;
         
     }
     return self;
@@ -59,6 +63,8 @@
     self.image = info[@"image"];
     self.title = info[@"title"];
     self.content = info[@"content"];
+    self.numComments = [info[@"numComments"] intValue];
+    self.numViews = [info[@"numViews"] intValue];
     self.timestamp = [self.dateFormatter dateFromString:info[@"timestamp"]];
     
     NSArray *z = info[@"zone"];

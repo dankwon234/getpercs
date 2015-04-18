@@ -21,6 +21,8 @@
 @property (strong, nonatomic) NSMutableArray *zones;
 @property (strong, nonatomic) NSDate *timestamp;
 @property (strong, nonatomic) UIImage  *imageData;
+@property (nonatomic) int numComments;
+@property (nonatomic) int numViews;
 + (PCPost *)postWithInfo:(NSDictionary *)info;
 - (NSDictionary *)parametersDictionary;
 - (NSString *)jsonRepresentation;
