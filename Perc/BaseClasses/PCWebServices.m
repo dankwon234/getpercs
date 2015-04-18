@@ -14,6 +14,7 @@
 #define kErrorDomain @"com.getpercs"
 #define kBaseUrl @"https://get-percs.appspot.com/"
 #define kPathImages @"/site/images/"
+#define kPathUpload @"/api/upload/"
 #define kPathProfiles @"/api/profiles/"
 #define kPathLogin @"/api/login/"
 #define kPathVenues @"/api/venues/"
@@ -411,7 +412,7 @@
 }
 
 
-// IMAGES
+#pragma mark - Images
 - (void)fetchImage:(NSString *)imageId completionBlock:(PCWebServiceRequestCompletionBlock)completionBlock
 {
     //check cache first:
@@ -455,10 +456,66 @@
              if (completionBlock)
                  completionBlock(nil, error);
          }];
-
-
-    
 }
+
+
+- (void)fetchUploadString:(PCWebServiceRequestCompletionBlock)completionBlock
+{
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
+    
+    [manager GET:kPathUpload
+      parameters:nil
+         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+             NSDictionary *results = responseDictionary[@"results"];
+             
+             if ([results[@"confirmation"] isEqualToString:@"success"]){
+                 if (completionBlock)
+                     completionBlock(results, nil);
+                 return;
+             }
+             
+             if (completionBlock)
+                 completionBlock(results, [NSError errorWithDomain:kErrorDomain code:0 userInfo:@{NSLocalizedDescriptionKey:results[@"message"]}]);
+         }
+         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+             NSLog(@"FAILURE BLOCK: %@", [error localizedDescription]);
+             if (completionBlock)
+                 completionBlock(nil, error);
+         }];
+}
+
+
+- (void)uploadImage:(NSDictionary *)image toUrl:(NSString *)uploadUrl completion:(PCWebServiceRequestCompletionBlock)completionBlock
+{
+    NSData *imageData = image[@"data"];
+    NSString *imageName = image[@"name"];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    [manager POST:uploadUrl
+       parameters:nil
+constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    [formData appendPartWithFileData:imageData name:@"file" fileName:imageName mimeType:@"image/jpeg"];
+}
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+              NSDictionary *results = responseDictionary[@"results"];
+              
+              if ([results[@"confirmation"] isEqualToString:@"success"]){
+                  if (completionBlock)
+                      completionBlock(results, nil);
+                  return;
+              }
+              
+              if (completionBlock)
+                  completionBlock(results, [NSError errorWithDomain:kErrorDomain code:0 userInfo:@{NSLocalizedDescriptionKey:results[@"message"]}]);
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              completionBlock(nil, error);
+              
+          }];
+}
+
 
 
 - (AFHTTPRequestOperationManager *)requestManagerForJSONSerializiation

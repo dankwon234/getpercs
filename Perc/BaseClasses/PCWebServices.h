@@ -50,6 +50,9 @@ typedef void (^PCWebServiceRequestCompletionBlock)(id result, NSError *error);
 
 // Images
 - (void)fetchImage:(NSString *)imageId completionBlock:(PCWebServiceRequestCompletionBlock)completionBlock;
+- (void)fetchUploadString:(PCWebServiceRequestCompletionBlock)completionBlock;
+- (void)uploadImage:(NSDictionary *)image toUrl:(NSString *)uploadUrl completion:(PCWebServiceRequestCompletionBlock)completionBlock;
+
 
 // Driver Application
 - (void)submitDriverApplication:(NSDictionary *)application completionBlock:(PCWebServiceRequestCompletionBlock)completionBlock;
