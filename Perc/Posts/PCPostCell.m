@@ -11,12 +11,16 @@
 
 @interface PCPostCell()
 @property (strong, nonatomic) UIView *line;
+@property (strong, nonatomic) UIView *bottomView;
 @end
 
 @implementation PCPostCell
 @synthesize icon;
 @synthesize base;
 @synthesize lblTitle;
+@synthesize lblNumViews;
+@synthesize lblNumComments;
+
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -30,6 +34,11 @@
         self.base.backgroundColor = [UIColor whiteColor];
         self.base.alpha = 0.95f;
         self.base.layer.masksToBounds = YES;
+        
+        self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 110.0f, frame.size.width, frame.size.height-110.0f)];
+        self.bottomView.backgroundColor = kLightGray;
+        [self.base addSubview:self.bottomView];
+
         
         CGFloat dimen = frame.size.height;
         self.icon = [[UIImageView alloc] initWithFrame:CGRectMake(-20.0f, 0.0f, dimen, dimen)];
@@ -59,15 +68,26 @@
         self.line.backgroundColor = [UIColor lightGrayColor];
         [self.base addSubview:self.line];
         y += self.line.frame.size.height+2.0f;
-
-//        self.lblDetails = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, 16.0f)];
-//        self.lblDetails.textAlignment = NSTextAlignmentRight;
-//        self.lblDetails.textColor = kOrange;
-//        self.lblDetails.backgroundColor = clear;
-//        self.lblDetails.font = [UIFont fontWithName:kBaseFontName size:10.0f];
-//        [self.base addSubview:self.lblDetails];
-//        y += self.lblDetails.frame.size.height+4.0f;
         
+        UIColor *gray = [UIColor grayColor];
+        self.lblNumComments = [[UILabel alloc] initWithFrame:CGRectMake(x, 8.0f, 68.0f, 18.0f)];
+        self.lblNumComments.textAlignment = NSTextAlignmentRight;
+        self.lblNumComments.text = @"8 Comments";
+        self.lblNumComments.textColor = gray;
+        self.lblNumComments.font = [UIFont systemFontOfSize:8.0f];
+        UIImageView *iconComment = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconComment.png"]];
+        [self.lblNumComments addSubview:iconComment];
+        [self.bottomView addSubview:self.lblNumComments];
+
+        self.lblNumViews = [[UILabel alloc] initWithFrame:CGRectMake(self.bottomView.frame.size.width-65.0f, 8.0f, 50.0f, 18.0f)];
+        self.lblNumViews.text = @"8 Views";
+        self.lblNumViews.textAlignment = NSTextAlignmentRight;
+        self.lblNumViews.textColor = gray;
+        self.lblNumViews.font = self.lblNumComments.font;
+        UIImageView *iconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconView.png"]];
+        [self.lblNumViews addSubview:iconView];
+        [self.bottomView addSubview:self.lblNumViews];
+
         
         
         [self.contentView addSubview:self.base];
@@ -100,6 +120,9 @@
     frame = self.line.frame;
     frame.origin.y = y;
     self.line.frame = frame;
+    
+
+    
 }
 
 
