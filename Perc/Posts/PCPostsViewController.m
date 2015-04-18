@@ -8,6 +8,7 @@
 
 #import "PCPostsViewController.h"
 #import "PCCreatePostViewController.h"
+#import "PCPostViewController.h"
 #import "PCCollectionViewFlowLayout.h"
 #import "PCPostCell.h"
 
@@ -256,6 +257,11 @@ static NSString *cellId = @"cellId";
 {
     PCPost *post = (PCPost *)self.currentZone.posts[indexPath.row];
     NSLog(@"View Post: %@", post.title);
+    
+    PCPostViewController *postVc = [[PCPostViewController alloc] init];
+    postVc.post = post;
+    [self.navigationController pushViewController:postVc animated:YES];
+
     
 }
 
