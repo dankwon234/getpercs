@@ -19,13 +19,14 @@
 @synthesize longitude;
 @synthesize baseFee;
 @synthesize venues;
-
+@synthesize posts;
 
 - (id)init
 {
     self = [super init];
     if (self){
         self.venues = nil;
+        self.posts = nil;
         
     }
     return self;
