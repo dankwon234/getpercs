@@ -33,6 +33,12 @@
     self = [super init];
     if (self){
         self.isFetching = NO;
+        self.uniqueId = @"none";
+        self.profile = @"none";
+        self.image = @"none";
+        self.title = @"none";
+        self.content = @"none";
+        self.zone = @"none";
         
     }
     return self;
