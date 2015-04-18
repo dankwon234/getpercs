@@ -14,6 +14,7 @@
 @property (strong, nonatomic) UIScrollView *theScrollview;
 @property (strong, nonatomic) UITextView *contentForm;
 @property (strong, nonatomic) UITextField *titleField;
+@property (strong, nonatomic) UIImageView *postImage;
 @end
 
 static NSString *placeholder = @"Content";
@@ -24,6 +25,9 @@ static NSString *placeholder = @"Content";
 
 - (void)loadView
 {
+    if (self.post==nil)
+        self.post = [[PCPost alloc] init];
+    
     UIView *view = [self baseView];
     view.backgroundColor = [UIColor blackColor];
     CGRect frame = view.frame;
@@ -99,11 +103,11 @@ static NSString *placeholder = @"Content";
     [bgImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectImage:)]];
     
     dimen = bgImage.frame.size.height-20.0f;
-    UIImageView *postImage = [[UIImageView alloc] initWithFrame:CGRectMake(10.0f, 10.0f, dimen, dimen)];
-    postImage.layer.borderWidth = 1.0f;
-    postImage.layer.borderColor = [[UIColor darkGrayColor] CGColor];
-    postImage.image = [UIImage imageNamed:@"icon.png"];
-    [bgImage addSubview:postImage];
+    self.postImage = [[UIImageView alloc] initWithFrame:CGRectMake(10.0f, 10.0f, dimen, dimen)];
+    self.postImage.layer.borderWidth = 1.0f;
+    self.postImage.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+    self.postImage.image = [UIImage imageNamed:@"icon.png"];
+    [bgImage addSubview:self.postImage];
 
     [self.theScrollview addSubview:bgImage];
     y += bgImage.frame.size.height;
@@ -167,9 +171,6 @@ static NSString *placeholder = @"Content";
     y += bgCreate.frame.size.height+h;
     
     
-    
-    
-    
     [view addSubview:self.theScrollview];
     self.theScrollview.contentSize = CGSizeMake(0, y);
     
@@ -208,7 +209,6 @@ static NSString *placeholder = @"Content";
         
         self.icon.alpha = 1.0f-(offset/100.0f);
         self.lblCreatePost.alpha = self.icon.alpha;
-        
     }
 }
 
@@ -227,18 +227,136 @@ static NSString *placeholder = @"Content";
     
     if (self.titleField.isFirstResponder)
         [self.titleField resignFirstResponder];
-    
 }
 
 - (void)createPost:(UIButton *)btn
 {
     NSLog(@"createPost: ");
+
+    if (self.titleField.text.length==0){
+        [self showAlertWithTitle:@"Missing Title" message:@"Please enter a title for your post."];
+        return;
+    }
+
+    if (self.contentForm.text.length==0){
+        [self showAlertWithTitle:@"Missing Content" message:@"Please enter you post content."];
+        return;
+    }
+    
+    [self.loadingIndicator startLoading];
+    if (self.post.imageData){
+        [[PCWebServices sharedInstance] fetchUploadString:^(id result, NSError *error){
+            if (error){ // remove image and submit post
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.post.imageData = nil;
+                    [self createPost:nil];
+                });
+            }
+            
+            NSDictionary *results = (NSDictionary *)result;
+            NSLog(@"%@", [results description]);
+            [self uploadImage:results[@"upload"]];
+        }];
+        
+        return;
+    }
+    
+    
+    // populate profile stuff:
+    self.post.title = self.titleField.text;
+    self.post.content = self.contentForm.text;
+    self.post.profile = self.profile.uniqueId;
+    [self.post.zones addObject:self.currentZone.uniqueId];
+
+    [[PCWebServices sharedInstance] createPost:self.post completion:^(id result, NSError *error){
+        [self.loadingIndicator stopLoading];
+        if (error){
+            [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
+            return;
+        }
+        
+        NSDictionary *results = (NSDictionary *)result;
+        NSLog(@"%@", [results description]);
+        [self.post populate:results[@"post"]];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kPostCreatedNotification object:nil userInfo:@{@"post":self.post}]];
+            [self.navigationController popViewControllerAnimated:YES];
+        });
+    }];
+
+    
+    
+    
+    
 }
+
+- (void)uploadImage:(NSString *)uploadUrl
+{
+    NSDictionary *pkg = @{@"data":UIImageJPEGRepresentation(self.post.imageData, 0.5f), @"name":@"image.jpg"};
+    [[PCWebServices sharedInstance] uploadImage:pkg toUrl:uploadUrl completion:^(id result, NSError *error){
+        [self.loadingIndicator stopLoading];
+        if (error){
+            [self.loadingIndicator stopLoading];
+            [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
+            return;
+        }
+        
+        NSDictionary *results = (NSDictionary *)result;
+        NSLog(@"%@", [results description]);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary *imageInfo = results[@"image"];
+            self.post.image = imageInfo[@"id"];
+            self.post.imageData = nil;
+            
+            [self createPost:nil];
+        });
+        
+    }];
+    
+}
+
+
 
 - (void)selectImage:(UIGestureRecognizer *)tap
 {
-    NSLog(@"selectImage: ");
+//    NSLog(@"selectImage: ");
+    UIActionSheet *actionsheet = [[UIActionSheet alloc] initWithTitle:@"Select Source" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Photo Library", @"Camera", nil];
+    actionsheet.frame = CGRectMake(0, 150.0f, self.view.frame.size.width, 100.0f);
+    actionsheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+    [actionsheet showInView:[UIApplication sharedApplication].keyWindow];
 }
+
+- (void)launchImageSelector:(UIImagePickerControllerSourceType)sourceType
+{
+    [self.loadingIndicator startLoading];
+    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    imagePicker.sourceType = sourceType;
+    imagePicker.delegate = self;
+    imagePicker.allowsEditing = YES;
+    
+    [self presentViewController:imagePicker animated:YES completion:^{
+        [self.loadingIndicator stopLoading];
+    }];
+    
+}
+
+
+#pragma mark - UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"actionSheet clickedButtonAtIndex: %d", (int)buttonIndex);
+    if (buttonIndex==0){
+        [self launchImageSelector:UIImagePickerControllerSourceTypePhotoLibrary];
+    }
+    
+    if (buttonIndex==1){
+        [self launchImageSelector:UIImagePickerControllerSourceTypeCamera];
+    }
+    
+}
+
 
 
 #pragma mark - UIScrollViewDelegate
@@ -289,6 +407,39 @@ static NSString *placeholder = @"Content";
     }
     
     return YES;
+}
+
+
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    NSLog(@"imagePickerController: didFinishPickingMediaWithInfo: %@", [info description]);
+    
+    UIImage *image = info[UIImagePickerControllerEditedImage];
+    CGFloat w = image.size.width;
+    CGFloat h = image.size.height;
+    if (w != h){
+        CGFloat dimen = (w < h) ? w : h;
+        CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], CGRectMake(0.5*(image.size.width-dimen), 0.5*(image.size.height-dimen), dimen, dimen));
+        image = [UIImage imageWithData:UIImageJPEGRepresentation([UIImage imageWithCGImage:imageRef], 0.5f)];
+        CGImageRelease(imageRef);
+    }
+    
+    self.postImage.image = image;
+    self.post.imageData = image;
+    
+    [picker dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [picker dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+    
 }
 
 
