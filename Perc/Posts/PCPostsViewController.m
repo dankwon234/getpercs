@@ -9,7 +9,7 @@
 #import "PCPostsViewController.h"
 #import "PCCreatePostViewController.h"
 #import "PCCollectionViewFlowLayout.h"
-#import "PCVenueCell.h"
+#import "PCPostCell.h"
 
 
 @interface PCPostsViewController ()
@@ -20,6 +20,22 @@ static NSString *cellId = @"cellId";
 #define kTopInset 220.0f
 
 @implementation PCPostsViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self){
+        [self addNavigationTitleView];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(postAdded:)
+                                                     name:kPostCreatedNotification
+                                                   object:nil];
+        
+    }
+    return self;
+}
+
 
 
 - (void)loadView
@@ -86,7 +102,7 @@ static NSString *cellId = @"cellId";
         //this is smoother than a conventional reload. it doesn't stutter the UI:
         dispatch_async(dispatch_get_main_queue(), ^{
             int index = (int)[self.currentZone.posts indexOfObject:post];
-            PCVenueCell *cell = (PCVenueCell *)[self.postsTable cellForItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+            PCPostCell *cell = (PCPostCell *)[self.postsTable cellForItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
             
             if (!cell)
                 return;
@@ -138,7 +154,7 @@ static NSString *cellId = @"cellId";
     self.postsTable = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, frame.size.height-20.0f) collectionViewLayout:[[PCCollectionViewFlowLayout alloc] init]];
     self.postsTable.backgroundColor = [UIColor clearColor];
     
-    [self.postsTable registerClass:[PCVenueCell class] forCellWithReuseIdentifier:cellId];
+    [self.postsTable registerClass:[PCPostCell class] forCellWithReuseIdentifier:cellId];
     self.postsTable.contentInset = UIEdgeInsetsMake(kTopInset, 0.0f, 24.0f, 0);
     self.postsTable.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
     self.postsTable.dataSource = self;
@@ -180,6 +196,16 @@ static NSString *cellId = @"cellId";
     });
 }
 
+- (void)postAdded:(NSNotification *)notfication
+{
+    NSDictionary *userInfo = notfication.userInfo;
+    PCPost *p = userInfo[@"post"];
+    if (p==nil)
+        return;
+    
+    [self.currentZone.posts insertObject:p atIndex:0];
+    [self layoutListsCollectionView];
+}
 
 
 #pragma mark - UICollectionViewDataSource
@@ -196,14 +222,13 @@ static NSString *cellId = @"cellId";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    PCVenueCell *cell = (PCVenueCell *)[collectionView dequeueReusableCellWithReuseIdentifier:cellId forIndexPath:indexPath];
+    PCPostCell *cell = (PCPostCell *)[collectionView dequeueReusableCellWithReuseIdentifier:cellId forIndexPath:indexPath];
 //    [cell.btnOrder addTarget:self action:@selector(viewVenue:) forControlEvents:UIControlEventTouchUpInside];
     
     PCPost *post = (PCPost *)self.currentZone.posts[indexPath.row];
+    cell.tag = indexPath.row+1000;
     cell.lblTitle.text = post.title;
 //    cell.lblLocation.text = [NSString stringWithFormat:@"%@, %@", [venue.city capitalizedString], [venue.state uppercaseString]];
-    cell.tag = indexPath.row+1000;
-    cell.btnOrder.tag = cell.tag;
 //    cell.lblDetails.text = [NSString stringWithFormat:@"Min Delivery Fee: $%d \u00b7 %.1f mi", venue.fee, venue.distance];
     
     if ([post.image isEqualToString:@"none"]){
@@ -225,7 +250,7 @@ static NSString *cellId = @"cellId";
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake([PCCollectionViewFlowLayout cellWidth], [PCCollectionViewFlowLayout cellHeight]);
+    return CGSizeMake([PCPostCell cellWidth], [PCPostCell cellHeight]);
 }
 
 
