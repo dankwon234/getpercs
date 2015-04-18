@@ -117,7 +117,21 @@
 
 - (void)fetchImage
 {
+    if (self.isFetching)
+        return;
     
+    if ([self.image isEqualToString:@"none"]) // no image, ignore
+        return;
+    
+    self.isFetching = YES;
+    [[PCWebServices sharedInstance] fetchImage:self.image completionBlock:^(id result, NSError *error){
+        self.isFetching = NO;
+        if (error)
+            return;
+        
+        UIImage *img = (UIImage *)result;
+        self.imageData = img;
+    }];
 }
 
 
