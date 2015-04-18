@@ -42,7 +42,7 @@ static NSString *cellId = @"cellId";
 {
     UIView *view = [self baseView];
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgBurger.png"]];
-    CGRect frame = view.frame;
+//    CGRect frame = view.frame;
     
 
 
