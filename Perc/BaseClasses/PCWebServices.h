@@ -33,12 +33,11 @@ typedef void (^PCWebServiceRequestCompletionBlock)(id result, NSError *error);
 
 // POSTS
 - (void)fetchPostsInZone:(NSString *)zone completion:(PCWebServiceRequestCompletionBlock)completionBlock;
-//- (void)createPost:(NSString *)zone completion:(PCWebServiceRequestCompletionBlock)completionBlock;
+- (void)createPost:(PCPost *)post completion:(PCWebServiceRequestCompletionBlock)completionBlock;
 
 
 // ZONE
 - (void)fetchZone:(NSDictionary *)params completion:(PCWebServiceRequestCompletionBlock)completionBlock;
-- (void)createPost:(PCPost *)post completion:(PCWebServiceRequestCompletionBlock)completionBlock;
 
 // ORDER
 - (void)fetchOrdersForProfile:(PCProfile *)profile completion:(PCWebServiceRequestCompletionBlock)completionBlock;
