@@ -22,7 +22,7 @@
 @synthesize content;
 @synthesize image;
 @synthesize profile;
-@synthesize zone;
+@synthesize zones;
 @synthesize imageData;
 @synthesize timestamp;
 @synthesize formattedDate;
@@ -38,7 +38,7 @@
         self.image = @"none";
         self.title = @"none";
         self.content = @"none";
-        self.zone = @"none";
+        self.zones = [NSMutableArray array];
         
     }
     return self;
@@ -59,8 +59,12 @@
     self.image = info[@"image"];
     self.title = info[@"title"];
     self.content = info[@"content"];
-    self.zone = info[@"zone"];
     self.timestamp = [self.dateFormatter dateFromString:info[@"timestamp"]];
+    
+    NSArray *z = info[@"zone"];
+    for (int i=0; i<z.count; i++)
+        [self.zones addObject:z[i]];
+    
 }
 
 - (void)formatTimestamp
@@ -92,7 +96,7 @@
 
 - (NSDictionary *)parametersDictionary
 {
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{@"id":self.uniqueId, @"profile":self.profile, @"image":self.image, @"title":self.title, @"content":self.content, @"zone":self.zone}];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{@"id":self.uniqueId, @"profile":self.profile, @"image":self.image, @"title":self.title, @"content":self.content, @"zones":self.zones}];
     
     
     return params;

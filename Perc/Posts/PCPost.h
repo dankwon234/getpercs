@@ -17,8 +17,8 @@
 @property (copy, nonatomic) NSString *content;
 @property (copy, nonatomic) NSString *image;
 @property (copy, nonatomic) NSString *profile;
-@property (copy, nonatomic) NSString *zone;
 @property (copy, nonatomic) NSString *formattedDate;
+@property (strong, nonatomic) NSMutableArray *zones;
 @property (strong, nonatomic) NSDate *timestamp;
 @property (strong, nonatomic) UIImage  *imageData;
 + (PCPost *)postWithInfo:(NSDictionary *)info;
