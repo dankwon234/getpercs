@@ -223,13 +223,12 @@ static NSString *cellId = @"cellId";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     PCPostCell *cell = (PCPostCell *)[collectionView dequeueReusableCellWithReuseIdentifier:cellId forIndexPath:indexPath];
-//    [cell.btnOrder addTarget:self action:@selector(viewVenue:) forControlEvents:UIControlEventTouchUpInside];
     
     PCPost *post = (PCPost *)self.currentZone.posts[indexPath.row];
     cell.tag = indexPath.row+1000;
     cell.lblTitle.text = post.title;
-//    cell.lblLocation.text = [NSString stringWithFormat:@"%@, %@", [venue.city capitalizedString], [venue.state uppercaseString]];
-//    cell.lblDetails.text = [NSString stringWithFormat:@"Min Delivery Fee: $%d \u00b7 %.1f mi", venue.fee, venue.distance];
+    cell.lblNumViews.text = [NSString stringWithFormat:@"%d Views", post.numViews];
+    cell.lblNumComments.text = [NSString stringWithFormat:@"%d Comments", post.numComments];
     
     if ([post.image isEqualToString:@"none"]){
         cell.icon.image = [UIImage imageNamed:@"logo.png"];
@@ -251,6 +250,13 @@ static NSString *cellId = @"cellId";
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     return CGSizeMake([PCPostCell cellWidth], [PCPostCell cellHeight]);
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    PCPost *post = (PCPost *)self.currentZone.posts[indexPath.row];
+    NSLog(@"View Post: %@", post.title);
+    
 }
 
 
