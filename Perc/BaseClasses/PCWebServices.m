@@ -247,6 +247,8 @@
          }];
 }
 
+
+#pragma mark - Posts
 - (void)fetchPostsInZone:(NSString *)zone completion:(PCWebServiceRequestCompletionBlock)completionBlock
 {
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
@@ -298,7 +300,38 @@
           }];
 }
 
-// ORDER
+- (void)updatePost:(PCPost *)post incrementView:(BOOL)addView completion:(PCWebServiceRequestCompletionBlock)completionBlock
+{
+    AFHTTPRequestOperationManager *manager = [self requestManagerForJSONSerializiation];
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:[post parametersDictionary]];
+    if (addView)
+        params[@"action"] = @"addView";
+    
+    [manager PUT:[kPathPosts stringByAppendingString:post.uniqueId]
+       parameters:params
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+              NSDictionary *results = responseDictionary[@"results"];
+              
+              if ([results[@"confirmation"] isEqualToString:@"success"]==NO){
+                  if (completionBlock){
+                      completionBlock(nil, [NSError errorWithDomain:kErrorDomain code:0 userInfo:@{NSLocalizedDescriptionKey:results[@"message"]}]);
+                  }
+                  return;
+              }
+              
+              if (completionBlock)
+                  completionBlock(results, nil);
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              if (completionBlock)
+                  completionBlock(nil, error);
+          }];
+    
+}
+
+#pragma mark - Order
 - (void)fetchOrdersForProfile:(PCProfile *)profile completion:(PCWebServiceRequestCompletionBlock)completionBlock
 {
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
@@ -353,7 +386,7 @@
 }
 
 
-// STRIPE
+#pragma mark - Stripe
 - (void)processStripeToken:(NSDictionary *)params completion:(PCWebServiceRequestCompletionBlock)completionBlock
 {
     AFHTTPRequestOperationManager *manager = [self requestManagerForJSONSerializiation];
