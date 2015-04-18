@@ -19,6 +19,7 @@
 #define kHideCellNotification @"hideCellNotification"
 #define kCreditCardAddedNotification @"CreditCardAddedNotification"
 #define kLocationUpdatedNotification @"LocationUpdatedNotification"
+#define kPostCreatedNotification @"PostCreatedNotification"
 
 
 
