@@ -130,12 +130,14 @@
     [self addCustomBackButton];
     
     [[PCWebServices sharedInstance] updatePost:self.post incrementView:YES completion:^(id result, NSError *error){
-        if (error){
-            
-        }
+        if (error)
+            return;
         
-        NSDictionary *results = (NSDictionary *)result;
-        NSLog(@"%@", [results description]);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary *results = (NSDictionary *)result;
+            NSLog(@"%@", [results description]);
+            [self.post populate:results[@"post"]];
+        });
         
     }];
 }
@@ -198,19 +200,24 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.textLabel.font = [UIFont fontWithName:kBaseFontName size:14.0f];
-            cell.textLabel.textColor = [UIColor darkGrayColor];
         }
         
         if (indexPath.row==0){
+            cell.textLabel.textColor = kLightBlue;
+            cell.accessoryType = UITableViewCellAccessoryNone;
             cell.imageView.image = [UIImage imageNamed:@"iconView.png"];
             cell.textLabel.text = [NSString stringWithFormat:@"%d Views", self.post.numViews];
         }
         if (indexPath.row==1){
+            cell.textLabel.textColor = kLightBlue;
+            cell.accessoryType = UITableViewCellAccessoryNone;
             cell.imageView.image = [UIImage imageNamed:@"iconComment.png"];
             cell.textLabel.text = [NSString stringWithFormat:@"%d Comments", self.post.numComments];
             
         }
         if (indexPath.row==2){
+            cell.textLabel.textColor = kOrange;
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.imageView.image = [UIImage imageNamed:@"iconEnvelope.png"];
             cell.textLabel.text = @"Connect";
         }
