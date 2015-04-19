@@ -14,11 +14,19 @@
 @property (strong, nonatomic) UIImageView *postIcon;
 @property (strong, nonatomic) UIScrollView *theScrollview;
 @property (strong, nonatomic) UITextView *replyForm;
+@property (strong, nonatomic) UILabel *lblTitle;
 @end
+
+static NSString *placeholder = @"Reply";
 
 @implementation PCConnectViewController
 @synthesize post;
 
+- (void)dealloc
+{
+    [self.theScrollview removeObserver:self forKeyPath:@"contentOffset"];
+    
+}
 
 - (void)loadView
 {
@@ -64,56 +72,86 @@
         
         y = self.postIcon.frame.origin.y+self.postIcon.frame.size.height+12.0f;
         width = frame.size.width-2*x;
-        UILabel *lblReply = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, 20.0f)];
-        lblReply.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-        lblReply.textColor = [UIColor whiteColor];
-        lblReply.textAlignment = NSTextAlignmentCenter;
-        lblReply.font = [UIFont fontWithName:kBaseFontName size:14.0f];
-        lblReply.text = @"Reply";
-        [view addSubview:lblReply];
-        y += lblReply.frame.size.height+20.0f;
+        
+        bounds = [self.post.title boundingRectWithSize:CGSizeMake(width, 40.0f)
+                                               options:NSStringDrawingUsesLineFragmentOrigin
+                                            attributes:@{NSFontAttributeName:[UIFont fontWithName:kBaseFontName size:14.0f]}
+                                               context:nil];
+        
+        
+        self.lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, bounds.size.height)];
+        self.lblTitle.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        self.lblTitle.numberOfLines = 2;
+        self.lblTitle.lineBreakMode = NSLineBreakByWordWrapping;
+        self.lblTitle.textColor = [UIColor whiteColor];
+        self.lblTitle.textAlignment = NSTextAlignmentCenter;
+        self.lblTitle.font = [UIFont fontWithName:kBaseFontName size:14.0f];
+        self.lblTitle.text = self.post.title;
+        [view addSubview:self.lblTitle];
+        y += self.lblTitle.frame.size.height+20.0f;
     }
     
 
     self.theScrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
     self.theScrollview.delegate = self;
     self.theScrollview.showsVerticalScrollIndicator = NO;
-//    [self.theScrollview addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
+    [self.theScrollview addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
     
-    
-    UIView *replyBackground = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 240.0f)];
+    CGFloat h = frame.size.height-y-96.0f-44.0f;
+    UIView *replyBackground = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
+    replyBackground.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     replyBackground.backgroundColor = [UIColor whiteColor];
     replyBackground.alpha = 0.8f;
     
-    self.replyForm = [[UITextView alloc] initWithFrame:CGRectMake(x, 10.0f, frame.size.width-2*x, 220.0f)];
-//    self.replyForm.delegate = self;
+    x = 12.0f;
+    self.replyForm = [[UITextView alloc] initWithFrame:CGRectMake(x, 10.0f, frame.size.width-2*x, h)];
+    self.replyForm.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    self.replyForm.delegate = self;
     self.replyForm.font = [UIFont fontWithName:kBaseFontName size:16.0f];
     self.replyForm.backgroundColor = [UIColor clearColor];
-//    self.orderForm.text = (self.order.order.length > 1) ? self.order.order : placeholder;
-//    if (self.order.order.length > 4){ // set 4 as minimum bc 'none' is 4 characters
-//        self.orderForm.text = self.order.order;
-//        self.orderForm.textColor = [UIColor grayColor];
-//    }
-//    else {
-//        self.orderForm.text = placeholder;
-//        self.orderForm.textColor = [UIColor lightGrayColor];
-//    }
-    
+    self.replyForm.text = placeholder;
+    self.replyForm.textColor = [UIColor lightGrayColor];
     [replyBackground addSubview:self.replyForm];
     [self.theScrollview addSubview:replyBackground];
     y += replyBackground.frame.size.height;
 
+    UIView *bgReply = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 96.0f)];
+    bgReply.backgroundColor = [UIColor grayColor];
+    
+    h = 44.0f;
+    x = 20.0f;
+    
+    UIButton *btnReply = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnReply.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    btnReply.frame = CGRectMake(x, 0.5f*(bgReply.frame.size.height-h), frame.size.width-2*x, h);
+    btnReply.backgroundColor = [UIColor clearColor];
+    btnReply.layer.cornerRadius = 0.5f*h;
+    btnReply.layer.masksToBounds = YES;
+    btnReply.layer.borderColor = [[UIColor whiteColor] CGColor];
+    btnReply.layer.borderWidth = 1.0f;
+    [btnReply setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btnReply setTitle:@"SEND REPLY" forState:UIControlStateNormal];
+    [btnReply addTarget:self action:@selector(submitReply:) forControlEvents:UIControlEventTouchUpInside];
+    [bgReply addSubview:btnReply];
+    [self.theScrollview addSubview:bgReply];
+    y += bgReply.frame.size.height+44.0f;
+
     
     
     [view addSubview:self.theScrollview];
-//    self.theScrollview.contentSize = CGSizeMake(0, y);
-    self.theScrollview.contentSize = CGSizeMake(0, 800);
+    self.theScrollview.contentSize = CGSizeMake(0, y);
 
     
     
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
     swipe.direction = UISwipeGestureRecognizerDirectionRight;
     [view addGestureRecognizer:swipe];
+    
+    UISwipeGestureRecognizer *swipeDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard:)];
+    swipeDown.direction = UISwipeGestureRecognizerDirectionDown;
+    [view addGestureRecognizer:swipeDown];
+
+
 
     self.view = view;
 }
@@ -125,11 +163,86 @@
     [self addCustomBackButton];
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"contentOffset"]){
+        UIScrollView *scrollview = self.theScrollview;
+        CGFloat offset = scrollview.contentOffset.y;
+        if (offset < 0){
+            self.postIcon.alpha = 1.0f;
+            return;
+        }
+        
+        self.postIcon.alpha = 1.0f-(offset/100.0f);
+        self.lblTitle.alpha = self.postIcon.alpha;
+        
+    }
+}
+
+
 
 - (void)back:(UIGestureRecognizer *)swipe
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+- (void)dismissKeyboard:(id)sender
+{
+    if (self.replyForm.isFirstResponder)
+        [self.replyForm resignFirstResponder];
+    
+}
+
+
+- (void)submitReply:(UIButton *)btn
+{
+    NSLog(@"submitReply: ");
+}
+
+
+#pragma mark - UIScrollViewDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    //    NSLog(@"scrollViewDidScroll: %.2f", scrollView.contentOffset.y);
+    [self dismissKeyboard:nil];
+//    if (self.replyForm.isFirstResponder)
+//        [self.replyForm resignFirstResponder];
+}
+
+- (void)resetDelegate
+{
+    self.theScrollview.delegate = self;
+}
+
+
+
+#pragma mark - UITextViewDelegate
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+    if ([textView.text isEqualToString:placeholder]){
+        textView.text = @"";
+        textView.textColor = [UIColor darkGrayColor];
+    }
+    
+    self.theScrollview.delegate = nil;
+    [self.theScrollview setContentOffset:CGPointMake(0, 80.0f) animated:YES];
+    [self performSelector:@selector(resetDelegate) withObject:nil afterDelay:0.6f];
+    
+    return YES;
+}
+
+
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView
+{
+    if (textView.text.length==0){
+        textView.text = placeholder;
+        textView.textColor = [UIColor lightGrayColor];
+    }
+    
+    [self.theScrollview setContentOffset:CGPointMake(0, 0.0f) animated:YES];
+    return YES;
+}
+
 
 
 

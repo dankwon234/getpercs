@@ -9,7 +9,7 @@
 #import "PCViewController.h"
 #import "PCPost.h"
 
-@interface PCConnectViewController : PCViewController <UIScrollViewDelegate>
+@interface PCConnectViewController : PCViewController <UIScrollViewDelegate, UITextViewDelegate>
 
 
 @property (strong, nonatomic) PCPost *post;
