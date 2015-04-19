@@ -28,6 +28,10 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [self.theScrollview removeObserver:self forKeyPath:@"contentOffset"];
+}
 
 - (void)loadView
 {
@@ -70,6 +74,7 @@
     [view addSubview:self.lblTitle];
     
     self.theScrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height-20.0f)];
+    [self.theScrollview addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
     self.theScrollview.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
     self.theScrollview.contentSize = CGSizeMake(0, 1000);
     [view addSubview:self.theScrollview];
@@ -85,7 +90,6 @@
     
     
     self.view = view;
-
 }
 
 - (void)viewDidLoad
@@ -103,6 +107,17 @@
         
     }];
 }
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"contentOffset"]==NO)
+        return;
+    
+    
+    
+    
+}
+
 
 - (void)back:(UIGestureRecognizer *)swipe
 {
