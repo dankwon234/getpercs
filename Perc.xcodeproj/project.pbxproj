@@ -35,7 +35,6 @@
 		0C5DC6671AE2E19800C4B38B /* iconComment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5DC6661AE2E19800C4B38B /* iconComment@2x.png */; };
 		0C5DC6691AE2E27500C4B38B /* iconView@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5DC6681AE2E27500C4B38B /* iconView@2x.png */; };
 		0C5DC66C1AE2EA9B00C4B38B /* PCPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5DC66B1AE2EA9B00C4B38B /* PCPostViewController.m */; };
-		0C5DC66E1AE2F09300C4B38B /* bgPost@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5DC66D1AE2F09300C4B38B /* bgPost@2x.png */; };
 		0C6138C31AB8E6A700D12C50 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6138C21AB8E6A700D12C50 /* main.m */; };
 		0C6138C61AB8E6A700D12C50 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6138C51AB8E6A700D12C50 /* AppDelegate.m */; };
 		0C6138CE1AB8E6A700D12C50 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C6138CD1AB8E6A700D12C50 /* Images.xcassets */; };
@@ -55,6 +54,7 @@
 		0C6139121AB8F29D00D12C50 /* PCVenuesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6139111AB8F29D00D12C50 /* PCVenuesViewController.m */; };
 		0C6139151AB8F2CA00D12C50 /* PCVenue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6139141AB8F2CA00D12C50 /* PCVenue.m */; };
 		0C6139181AB8F36000D12C50 /* PCLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6139171AB8F36000D12C50 /* PCLocationManager.m */; };
+		0C676E131AE32FB2001B14B7 /* bgPost@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C676E121AE32FB2001B14B7 /* bgPost@2x.png */; };
 		0C6926161ABBB88600C91B6D /* PCZone.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6926151ABBB88600C91B6D /* PCZone.m */; };
 		0C69261D1ABBECC800C91B6D /* PCOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C69261C1ABBECC800C91B6D /* PCOrder.m */; };
 		0C7232881ABCB31C00BD0920 /* PCTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7232871ABCB31C00BD0920 /* PCTextField.m */; };
@@ -184,7 +184,6 @@
 		0C5DC6681AE2E27500C4B38B /* iconView@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconView@2x.png"; sourceTree = "<group>"; };
 		0C5DC66A1AE2EA9B00C4B38B /* PCPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPostViewController.h; sourceTree = "<group>"; };
 		0C5DC66B1AE2EA9B00C4B38B /* PCPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCPostViewController.m; sourceTree = "<group>"; };
-		0C5DC66D1AE2F09300C4B38B /* bgPost@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgPost@2x.png"; sourceTree = "<group>"; };
 		0C6138BD1AB8E6A700D12C50 /* Perc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Perc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C6138C11AB8E6A700D12C50 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0C6138C21AB8E6A700D12C50 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -226,6 +225,7 @@
 		0C6139141AB8F2CA00D12C50 /* PCVenue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCVenue.m; sourceTree = "<group>"; };
 		0C6139161AB8F36000D12C50 /* PCLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCLocationManager.h; sourceTree = "<group>"; };
 		0C6139171AB8F36000D12C50 /* PCLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCLocationManager.m; sourceTree = "<group>"; };
+		0C676E121AE32FB2001B14B7 /* bgPost@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgPost@2x.png"; sourceTree = "<group>"; };
 		0C6926141ABBB88600C91B6D /* PCZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCZone.h; sourceTree = "<group>"; };
 		0C6926151ABBB88600C91B6D /* PCZone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCZone.m; sourceTree = "<group>"; };
 		0C69261B1ABBECC800C91B6D /* PCOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCOrder.h; sourceTree = "<group>"; };
@@ -594,7 +594,7 @@
 		0C6139191AB8F60E00D12C50 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				0C5DC66D1AE2F09300C4B38B /* bgPost@2x.png */,
+				0C676E121AE32FB2001B14B7 /* bgPost@2x.png */,
 				0C5DC6661AE2E19800C4B38B /* iconComment@2x.png */,
 				0C5DC6681AE2E27500C4B38B /* iconView@2x.png */,
 				0CA0DE661ABA22EE00537419 /* iconHamburger@2x.png */,
@@ -825,7 +825,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C8B61711ABD028800BC13C8 /* discover.png in Resources */,
-				0C5DC66E1AE2F09300C4B38B /* bgPost@2x.png in Resources */,
+				0C676E131AE32FB2001B14B7 /* bgPost@2x.png in Resources */,
 				0C8B617C1ABD028800BC13C8 /* textfield.png in Resources */,
 				0C8B61771ABD028800BC13C8 /* placeholder.png in Resources */,
 				0CBC22E61ABF88A9004722E1 /* bgBurger@2x.png in Resources */,
