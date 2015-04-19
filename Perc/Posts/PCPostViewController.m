@@ -195,6 +195,7 @@
         
     }
     if (indexPath.row==2){
+        cell.imageView.image = [UIImage imageNamed:@"iconEnvelope.png"];
         cell.textLabel.text = @"Connect";
     }
 
