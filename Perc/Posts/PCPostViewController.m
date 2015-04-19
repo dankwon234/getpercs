@@ -9,7 +9,6 @@
 #import "PCPostViewController.h"
 
 @interface PCPostViewController ()
-@property (strong, nonatomic) NSArray *sections;
 @property (strong, nonatomic) UIImageView *backgroundImage;
 @property (strong, nonatomic) UITableView *theTableview;
 @property (strong, nonatomic) UILabel *lblTitle;
@@ -25,7 +24,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
-        self.sections = @[@""];
         
         
     }
@@ -81,19 +79,19 @@
     self.theTableview.dataSource = self;
     self.theTableview.delegate = self;
     self.theTableview.backgroundColor = [UIColor clearColor];
-    [self.theTableview addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
     self.theTableview.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
     self.theTableview.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.theTableview addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
     
     
     CGFloat width = frame.size.width-40.0f;
-    UIFont *baseFont = [UIFont fontWithName:kBaseFontName size:14.0f];
+    UIFont *baseFont = [UIFont fontWithName:kBaseFontName size:16.0f];
     boundingRect = [self.post.content boundingRectWithSize:CGSizeMake(width, 800.0f)
                                                    options:NSStringDrawingUsesLineFragmentOrigin
                                                 attributes:@{NSFontAttributeName:baseFont}
                                                    context:nil];
     
-    NSLog(@"HEIGHT: %.2f", boundingRect.size.height);
+//    NSLog(@"HEIGHT: %.2f", boundingRect.size.height);
 
     CGFloat h = (boundingRect.size.height < 98.0f) ? 400.0f : boundingRect.size.height+302.0f;
     UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, h)];
@@ -101,12 +99,10 @@
     
     self.lblDate = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 175.0f, frame.size.width-20.0f, 22.0f)];
     self.lblDate.textColor = kOrange;
-    self.lblDate.font = [UIFont fontWithName:kBaseFontName size:12.0f];
+    self.lblDate.font = [UIFont fontWithName:kBaseFontName size:14.0f];
     self.lblDate.textAlignment = NSTextAlignmentRight;
-    self.lblDate.text = @"April 18, 2015";
+    self.lblDate.text = self.post.formattedDate;
     [header addSubview:self.lblDate];
-    
-    
     
     self.lblContent = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, 220.0f, width, boundingRect.size.height)];
     self.lblContent.numberOfLines = 0;
@@ -175,7 +171,7 @@
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -184,9 +180,24 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
     if (cell==nil){
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.textLabel.font = [UIFont fontWithName:kBaseFontName size:14.0f];
+        cell.textLabel.textColor = [UIColor darkGrayColor];
     }
     
-    cell.textLabel.text = [NSString stringWithFormat:@"%d", (int)indexPath.row];
+    if (indexPath.row==0){
+        cell.imageView.image = [UIImage imageNamed:@"iconView.png"];
+        cell.textLabel.text = [NSString stringWithFormat:@"%d Views", self.post.numViews];
+    }
+    if (indexPath.row==1){
+        cell.imageView.image = [UIImage imageNamed:@"iconComment.png"];
+        cell.textLabel.text = [NSString stringWithFormat:@"%d Comments", self.post.numComments];
+        
+    }
+    if (indexPath.row==2){
+        cell.textLabel.text = @"Connect";
+    }
+
     return cell;
 }
 
