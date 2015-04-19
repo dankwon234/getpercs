@@ -34,6 +34,7 @@
 {
     self = [super init];
     if (self){
+        self.dateFormatter = [PCDateFormatter sharedDateFormatter];
         self.isFetching = NO;
         self.uniqueId = @"none";
         self.profile = @"none";
@@ -66,6 +67,7 @@
     self.numComments = [info[@"numComments"] intValue];
     self.numViews = [info[@"numViews"] intValue];
     self.timestamp = [self.dateFormatter dateFromString:info[@"timestamp"]];
+    self.formattedDate = [self formatTimestamp];
     
     NSArray *z = info[@"zone"];
     for (int i=0; i<z.count; i++)
@@ -73,7 +75,7 @@
     
 }
 
-- (void)formatTimestamp
+- (NSString *)formatTimestamp
 {
 //    NSTimeInterval sinceNow = -1*[self.timestamp timeIntervalSinceNow];
 //    if (sinceNow < kOneDay){
@@ -89,14 +91,14 @@
 //    }
     
     NSString *dateString = [self.timestamp description];
-    //    NSLog(@"FORMATTED DATE: %@", dateString);
+    NSLog(@"FORMATTED DATE: %@", dateString);
     
     NSArray *parts = [dateString componentsSeparatedByString:@" "]; // 2014-08-22
     parts = [parts[0] componentsSeparatedByString:@"-"];
     NSString *month = self.dateFormatter.monthsArray[[parts[1] intValue]-1];
-    dateString = [NSString stringWithFormat:@"%@ %@, %@", month, parts[2], parts[0]];
+    return [NSString stringWithFormat:@"%@ %@, %@", month, parts[2], parts[0]];
     
-    self.formattedDate = dateString;
+//    self.formattedDate = dateString;
 }
 
 
