@@ -7,6 +7,7 @@
 
 
 #import "PCPostViewController.h"
+#import "PCConnectViewController.h"
 
 @interface PCPostViewController ()
 @property (strong, nonatomic) UIImageView *backgroundImage;
@@ -219,7 +220,7 @@
             cell.textLabel.textColor = kOrange;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.imageView.image = [UIImage imageNamed:@"iconEnvelope.png"];
-            cell.textLabel.text = @"Connect";
+            cell.textLabel.text = @"Reply";
         }
         
         return cell;
@@ -240,7 +241,19 @@
 }
 
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section != 0)
+        return;
 
+    
+    if (indexPath.row != 2)
+        return;
+    
+    PCConnectViewController *connectVc = [[PCConnectViewController alloc] init];
+    connectVc.post = self.post;
+    [self.navigationController pushViewController:connectVc animated:YES];
+}
 
 
 - (void)didReceiveMemoryWarning
