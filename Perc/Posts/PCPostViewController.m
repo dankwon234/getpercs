@@ -169,37 +169,67 @@
 
 
 #pragma mark - UITableViewDataSource
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (section==0)
+        return nil;
+    
+    return @"Comments";
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    if (section==0)
+        return 3;
+    
+    return 15;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellId = @"cellId";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+    if (indexPath.section==0){
+        static NSString *cellId = @"cellId";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        if (cell==nil){
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.font = [UIFont fontWithName:kBaseFontName size:14.0f];
+            cell.textLabel.textColor = [UIColor darkGrayColor];
+        }
+        
+        if (indexPath.row==0){
+            cell.imageView.image = [UIImage imageNamed:@"iconView.png"];
+            cell.textLabel.text = [NSString stringWithFormat:@"%d Views", self.post.numViews];
+        }
+        if (indexPath.row==1){
+            cell.imageView.image = [UIImage imageNamed:@"iconComment.png"];
+            cell.textLabel.text = [NSString stringWithFormat:@"%d Comments", self.post.numComments];
+            
+        }
+        if (indexPath.row==2){
+            cell.imageView.image = [UIImage imageNamed:@"iconEnvelope.png"];
+            cell.textLabel.text = @"Connect";
+        }
+        
+        return cell;
+    }
+    
+    static NSString *commentCellId = @"commentCellId";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:commentCellId];
     if (cell==nil){
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:commentCellId];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.font = [UIFont fontWithName:kBaseFontName size:14.0f];
         cell.textLabel.textColor = [UIColor darkGrayColor];
     }
     
-    if (indexPath.row==0){
-        cell.imageView.image = [UIImage imageNamed:@"iconView.png"];
-        cell.textLabel.text = [NSString stringWithFormat:@"%d Views", self.post.numViews];
-    }
-    if (indexPath.row==1){
-        cell.imageView.image = [UIImage imageNamed:@"iconComment.png"];
-        cell.textLabel.text = [NSString stringWithFormat:@"%d Comments", self.post.numComments];
-        
-    }
-    if (indexPath.row==2){
-        cell.imageView.image = [UIImage imageNamed:@"iconEnvelope.png"];
-        cell.textLabel.text = @"Connect";
-    }
-
+    cell.textLabel.text = [NSString stringWithFormat:@"Comment %d", (int)indexPath.row];
     return cell;
+
 }
 
 
