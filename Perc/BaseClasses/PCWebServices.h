@@ -10,6 +10,7 @@
 #import "PCProfile.h"
 #import "PCOrder.h"
 #import "PCPost.h"
+#import "PCMessage.h"
 
 typedef void (^PCWebServiceRequestCompletionBlock)(id result, NSError *error);
 
@@ -42,6 +43,10 @@ typedef void (^PCWebServiceRequestCompletionBlock)(id result, NSError *error);
 // ORDER
 - (void)fetchOrdersForProfile:(PCProfile *)profile completion:(PCWebServiceRequestCompletionBlock)completionBlock;
 - (void)submitOrder:(PCOrder *)order completion:(PCWebServiceRequestCompletionBlock)completionBlock;
+
+// MESSAGES
+- (void)sendMessage:(PCMessage *)message completion:(PCWebServiceRequestCompletionBlock)completionBlock;
+
 
 // STRIPE
 - (void)processStripeToken:(NSDictionary *)params completion:(PCWebServiceRequestCompletionBlock)completionBlock;

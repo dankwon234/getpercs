@@ -18,6 +18,7 @@
 #define kPathProfiles @"/api/profiles/"
 #define kPathLogin @"/api/login/"
 #define kPathVenues @"/api/venues/"
+#define kPathMessages @"/api/messages/"
 #define kPathZones @"/api/zones/"
 #define kPathOrders @"/api/orders/"
 #define kPathPosts @"/api/posts/"
@@ -384,6 +385,33 @@
                   completionBlock(nil, error);
           }];
 }
+
+- (void)sendMessage:(PCMessage *)message completion:(PCWebServiceRequestCompletionBlock)completionBlock
+{
+    AFHTTPRequestOperationManager *manager = [self requestManagerForJSONSerializiation];
+    
+    [manager POST:kPathMessages
+       parameters:[message parametersDictionary]
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+              NSDictionary *results = responseDictionary[@"results"];
+              
+              if ([results[@"confirmation"] isEqualToString:@"success"]==NO){
+                  if (completionBlock){
+                      completionBlock(nil, [NSError errorWithDomain:kErrorDomain code:0 userInfo:@{NSLocalizedDescriptionKey:results[@"message"]}]);
+                  }
+                  return;
+              }
+              
+              if (completionBlock)
+                  completionBlock(results, nil);
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              if (completionBlock)
+                  completionBlock(nil, error);
+          }];
+}
+
 
 
 #pragma mark - Stripe
