@@ -113,9 +113,20 @@
     if ([keyPath isEqualToString:@"contentOffset"]==NO)
         return;
     
+    CGFloat offset = self.theScrollview.contentOffset.y;
+    if (offset > 220.0f)
+        return;
+    
+    if (offset > 0){ // moving up - shift image up. 0 to 220.
+        CGRect frame = self.backgroundImage.frame;
+        frame.origin.y = -0.4f*offset;
+        self.backgroundImage.frame = frame;
+        return;
+    }
     
     
-    
+    double magnitude = -0.01f*offset+1.0f;
+    self.backgroundImage.transform = CGAffineTransformMakeScale(magnitude, magnitude);
 }
 
 
