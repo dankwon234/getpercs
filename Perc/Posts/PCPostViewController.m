@@ -9,9 +9,12 @@
 #import "PCPostViewController.h"
 
 @interface PCPostViewController ()
+@property (strong, nonatomic) NSArray *sections;
 @property (strong, nonatomic) UIImageView *backgroundImage;
-@property (strong, nonatomic) UIScrollView *theScrollview;
+@property (strong, nonatomic) UITableView *theTableview;
 @property (strong, nonatomic) UILabel *lblTitle;
+@property (strong, nonatomic) UILabel *lblDate;
+@property (strong, nonatomic) UILabel *lblContent;
 @end
 
 @implementation PCPostViewController
@@ -22,6 +25,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
+        self.sections = @[@""];
         
         
     }
@@ -30,7 +34,7 @@
 
 - (void)dealloc
 {
-    [self.theScrollview removeObserver:self forKeyPath:@"contentOffset"];
+    [self.theTableview removeObserver:self forKeyPath:@"contentOffset"];
 }
 
 - (void)loadView
@@ -73,16 +77,48 @@
     self.lblTitle.text = self.post.title;
     [view addSubview:self.lblTitle];
     
-    self.theScrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height-20.0f)];
-    [self.theScrollview addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
-    self.theScrollview.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
-    self.theScrollview.contentSize = CGSizeMake(0, 1000);
-    [view addSubview:self.theScrollview];
+    self.theTableview = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height-20.0f)];
+    self.theTableview.dataSource = self;
+    self.theTableview.delegate = self;
+    self.theTableview.backgroundColor = [UIColor clearColor];
+    [self.theTableview addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
+    self.theTableview.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
+    self.theTableview.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     
-    UIView *base = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, 1000.0f)];
-    base.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgPost.png"]];
-    [self.theScrollview addSubview:base];
+    CGFloat width = frame.size.width-40.0f;
+    UIFont *baseFont = [UIFont fontWithName:kBaseFontName size:14.0f];
+    boundingRect = [self.post.content boundingRectWithSize:CGSizeMake(width, 800.0f)
+                                                   options:NSStringDrawingUsesLineFragmentOrigin
+                                                attributes:@{NSFontAttributeName:baseFont}
+                                                   context:nil];
+    
+    NSLog(@"HEIGHT: %.2f", boundingRect.size.height);
+
+    CGFloat h = (boundingRect.size.height < 98.0f) ? 400.0f : boundingRect.size.height+302.0f;
+    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, h)];
+    header.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgPost.png"]];
+    
+    self.lblDate = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 175.0f, frame.size.width-20.0f, 22.0f)];
+    self.lblDate.textColor = kOrange;
+    self.lblDate.font = [UIFont fontWithName:kBaseFontName size:12.0f];
+    self.lblDate.textAlignment = NSTextAlignmentRight;
+    self.lblDate.text = @"April 18, 2015";
+    [header addSubview:self.lblDate];
+    
+    
+    
+    self.lblContent = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, 220.0f, width, boundingRect.size.height)];
+    self.lblContent.numberOfLines = 0;
+    self.lblContent.lineBreakMode = NSLineBreakByWordWrapping;
+    self.lblContent.font = baseFont;
+    self.lblContent.textColor = [UIColor darkGrayColor];
+    self.lblContent.text = self.post.content;
+    [header addSubview:self.lblContent];
+    
+    self.theTableview.tableHeaderView = header;
+    [view addSubview:self.theTableview];
+
     
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
     swipe.direction = UISwipeGestureRecognizerDirectionRight;
@@ -113,7 +149,7 @@
     if ([keyPath isEqualToString:@"contentOffset"]==NO)
         return;
     
-    CGFloat offset = self.theScrollview.contentOffset.y;
+    CGFloat offset = self.theTableview.contentOffset.y;
     if (offset > 220.0f)
         return;
     
@@ -136,6 +172,23 @@
 }
 
 
+#pragma mark - UITableViewDataSource
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 10;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellId = @"cellId";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+    if (cell==nil){
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+    }
+    
+    cell.textLabel.text = [NSString stringWithFormat:@"%d", (int)indexPath.row];
+    return cell;
+}
 
 
 
