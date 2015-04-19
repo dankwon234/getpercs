@@ -9,7 +9,7 @@
 #import "PCViewController.h"
 #import "PCPost.h"
 
-@interface PCPostViewController : PCViewController
+@interface PCPostViewController : PCViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) PCPost *post;
 @end
