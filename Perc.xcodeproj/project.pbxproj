@@ -27,6 +27,8 @@
 		0C0F2F501ABCF59100DBFD8F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C0F2F4D1ABCF59100DBFD8F /* Foundation.framework */; };
 		0C0F2F511ABCF59100DBFD8F /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C0F2F4E1ABCF59100DBFD8F /* PassKit.framework */; };
 		0C0F2F521ABCF59100DBFD8F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C0F2F4F1ABCF59100DBFD8F /* Security.framework */; };
+		0C13AC2C1AE41E4B003B1F0D /* PCConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C13AC2B1AE41E4B003B1F0D /* PCConnectViewController.m */; };
+		0C13AC2F1AE41FC2003B1F0D /* UIImage+PQImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C13AC2E1AE41FC2003B1F0D /* UIImage+PQImageEffects.m */; };
 		0C1BC8921ABBF7CC000E9EDB /* PCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C1BC8911ABBF7CC000E9EDB /* PCLoginViewController.m */; };
 		0C1BC8951ABBFD9F000E9EDB /* PCRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C1BC8941ABBFD9F000E9EDB /* PCRegisterViewController.m */; };
 		0C1FBA431ADE2DE20079BD74 /* PCZoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C1FBA421ADE2DE20079BD74 /* PCZoneViewController.m */; };
@@ -171,6 +173,10 @@
 		0C0F2F4D1ABCF59100DBFD8F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0C0F2F4E1ABCF59100DBFD8F /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
 		0C0F2F4F1ABCF59100DBFD8F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		0C13AC2A1AE41E4B003B1F0D /* PCConnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCConnectViewController.h; sourceTree = "<group>"; };
+		0C13AC2B1AE41E4B003B1F0D /* PCConnectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCConnectViewController.m; sourceTree = "<group>"; };
+		0C13AC2D1AE41FC2003B1F0D /* UIImage+PQImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+PQImageEffects.h"; sourceTree = "<group>"; };
+		0C13AC2E1AE41FC2003B1F0D /* UIImage+PQImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+PQImageEffects.m"; sourceTree = "<group>"; };
 		0C1BC8901ABBF7CC000E9EDB /* PCLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCLoginViewController.h; sourceTree = "<group>"; };
 		0C1BC8911ABBF7CC000E9EDB /* PCLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCLoginViewController.m; sourceTree = "<group>"; };
 		0C1BC8931ABBFD9F000E9EDB /* PCRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCRegisterViewController.h; sourceTree = "<group>"; };
@@ -441,6 +447,8 @@
 				0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */,
 				0CAC7F421AE2265C00D42BB7 /* PCPostCell.h */,
 				0CAC7F431AE2265C00D42BB7 /* PCPostCell.m */,
+				0C13AC2A1AE41E4B003B1F0D /* PCConnectViewController.h */,
+				0C13AC2B1AE41E4B003B1F0D /* PCConnectViewController.m */,
 			);
 			path = Posts;
 			sourceTree = "<group>";
@@ -535,6 +543,8 @@
 				0C7232871ABCB31C00BD0920 /* PCTextField.m */,
 				0C7A753F1ABE256C004FFE5B /* PCWelcomeView.h */,
 				0C7A75401ABE256C004FFE5B /* PCWelcomeView.m */,
+				0C13AC2D1AE41FC2003B1F0D /* UIImage+PQImageEffects.h */,
+				0C13AC2E1AE41FC2003B1F0D /* UIImage+PQImageEffects.m */,
 				0C91E7651AC0EB19006D7F1D /* PCDateFormatter.h */,
 				0C91E7661AC0EB19006D7F1D /* PCDateFormatter.m */,
 			);
@@ -883,6 +893,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C13AC2C1AE41E4B003B1F0D /* PCConnectViewController.m in Sources */,
 				0C6139021AB8E8C700D12C50 /* AFURLRequestSerialization.m in Sources */,
 				0C89E26E1ABAA3BA00077ABD /* PCProfile.m in Sources */,
 				0C0F2F431ABCF55900DBFD8F /* STPOSXCheckoutWebViewAdapter.m in Sources */,
@@ -919,6 +930,7 @@
 				0C0F2F4B1ABCF55900DBFD8F /* STPToken.m in Sources */,
 				0C7232881ABCB31C00BD0920 /* PCTextField.m in Sources */,
 				0C91E76A1AC111D6006D7F1D /* PCOrderViewController.m in Sources */,
+				0C13AC2F1AE41FC2003B1F0D /* UIImage+PQImageEffects.m in Sources */,
 				0C89DB921ABB994D00CE8A62 /* PCWebServices.m in Sources */,
 				0C0F2F411ABCF55900DBFD8F /* STPColorUtils.m in Sources */,
 				0CA0DE6D1ABA253600537419 /* PCVenueCell.m in Sources */,
