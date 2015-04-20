@@ -200,29 +200,32 @@
         if (cell==nil){
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.textLabel.font = [UIFont fontWithName:kBaseFontName size:14.0f];
         }
         
-        if (indexPath.row==0){
-            cell.textLabel.textColor = kLightBlue;
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            cell.imageView.image = [UIImage imageNamed:@"iconView.png"];
-            cell.textLabel.text = [NSString stringWithFormat:@"%d Views", self.post.numViews];
-        }
-        if (indexPath.row==1){
-            cell.textLabel.textColor = kLightBlue;
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            cell.imageView.image = [UIImage imageNamed:@"iconComment.png"];
-            cell.textLabel.text = [NSString stringWithFormat:@"%d Comments", self.post.numComments];
-            
-        }
         if (indexPath.row==2){
             cell.textLabel.textColor = kOrange;
+            cell.textLabel.font = [UIFont boldSystemFontOfSize:14.0f];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.imageView.image = [UIImage imageNamed:@"iconEnvelope.png"];
-            cell.textLabel.text = @"Reply";
+            cell.textLabel.text = @"REPLY";
         }
-        
+        else{
+            cell.textLabel.textColor = kLightBlue;
+            cell.textLabel.font = [UIFont fontWithName:kBaseFontName size:14.0f];
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            
+            if (indexPath.row==0){
+                cell.imageView.image = [UIImage imageNamed:@"iconView.png"];
+                cell.textLabel.text = [NSString stringWithFormat:@"%d Views", self.post.numViews];
+                
+            }
+            else{
+                cell.imageView.image = [UIImage imageNamed:@"iconComment.png"];
+                cell.textLabel.text = [NSString stringWithFormat:@"%d Comments", self.post.numComments];
+            }
+
+        }
+
         return cell;
     }
     
