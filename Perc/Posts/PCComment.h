@@ -16,6 +16,7 @@
 @property (copy, nonatomic) NSString *text;
 @property (copy, nonatomic) NSString *thread;
 @property (strong, nonatomic) NSDate *timestamp;
++ (PCComment *)commentWithInfo:(NSDictionary *)commentInfo;
 - (void)populate:(NSDictionary *)commentInfo;
 - (NSDictionary *)parametersDictionary;
 - (NSString *)jsonRepresentation;

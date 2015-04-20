@@ -28,7 +28,12 @@
     return self;
 }
 
-
++ (PCComment *)commentWithInfo:(NSDictionary *)commentInfo
+{
+    PCComment *comment = [[PCComment alloc] init];
+    [comment populate:commentInfo];
+    return comment;
+}
 
 - (void)populate:(NSDictionary *)commentInfo
 {
