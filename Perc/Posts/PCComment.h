@@ -15,6 +15,7 @@
 @property (copy, nonatomic) NSString *profile;
 @property (copy, nonatomic) NSString *text;
 @property (copy, nonatomic) NSString *thread;
+@property (copy, nonatomic) NSString *formattedDate;
 @property (strong, nonatomic) NSDate *timestamp;
 + (PCComment *)commentWithInfo:(NSDictionary *)commentInfo;
 - (void)populate:(NSDictionary *)commentInfo;
