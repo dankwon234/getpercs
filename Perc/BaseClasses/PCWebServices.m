@@ -13,17 +13,20 @@
 
 #define kErrorDomain @"com.getpercs"
 #define kBaseUrl @"https://get-percs.appspot.com/"
-#define kPathImages @"/site/images/"
 #define kPathUpload @"/api/upload/"
-#define kPathProfiles @"/api/profiles/"
 #define kPathLogin @"/api/login/"
+#define kPathStripe @"/stripe/card/"
+#define kPathApplication @"/api/applications/"
+
+// Resources:
+#define kPathImages @"/site/images/"
+#define kPathProfiles @"/api/profiles/"
 #define kPathVenues @"/api/venues/"
 #define kPathMessages @"/api/messages/"
+#define kPathComments @"/api/comments/"
 #define kPathZones @"/api/zones/"
 #define kPathOrders @"/api/orders/"
 #define kPathPosts @"/api/posts/"
-#define kPathStripe @"/stripe/card/"
-#define kPathApplication @"/api/applications/"
 
 
 
@@ -386,6 +389,8 @@
           }];
 }
 
+
+#pragma mark - Messages
 - (void)sendMessage:(PCMessage *)message completion:(PCWebServiceRequestCompletionBlock)completionBlock
 {
     AFHTTPRequestOperationManager *manager = [self requestManagerForJSONSerializiation];
@@ -413,6 +418,58 @@
 }
 
 
+#pragma mark - Comments
+- (void)fetchComments:(NSDictionary *)params completion:(PCWebServiceRequestCompletionBlock)completionBlock
+{
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
+    [manager GET:kPathComments
+      parameters:params
+         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+             NSDictionary *results = responseDictionary[@"results"];
+             
+             if ([results[@"confirmation"] isEqualToString:@"success"]){
+                 if (completionBlock)
+                     completionBlock(results, nil);
+                 return;
+             }
+             
+             if (completionBlock)
+                 completionBlock(results, [NSError errorWithDomain:kErrorDomain code:0 userInfo:@{NSLocalizedDescriptionKey:results[@"message"]}]);
+         }
+         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+             NSLog(@"FAILURE BLOCK: %@", [error localizedDescription]);
+             if (completionBlock)
+                 completionBlock(nil, error);
+         }];
+}
+
+
+- (void)submitComment:(PCComment *)comment completion:(PCWebServiceRequestCompletionBlock)completionBlock
+{
+    AFHTTPRequestOperationManager *manager = [self requestManagerForJSONSerializiation];
+    
+    [manager POST:kPathComments
+       parameters:[comment parametersDictionary]
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+              NSDictionary *results = responseDictionary[@"results"];
+              
+              if ([results[@"confirmation"] isEqualToString:@"success"]==NO){
+                  if (completionBlock){
+                      completionBlock(nil, [NSError errorWithDomain:kErrorDomain code:0 userInfo:@{NSLocalizedDescriptionKey:results[@"message"]}]);
+                  }
+                  return;
+              }
+              
+              if (completionBlock)
+                  completionBlock(results, nil);
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              if (completionBlock)
+                  completionBlock(nil, error);
+          }];
+}
 
 #pragma mark - Stripe
 - (void)processStripeToken:(NSDictionary *)params completion:(PCWebServiceRequestCompletionBlock)completionBlock
