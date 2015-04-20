@@ -8,6 +8,7 @@
 
 #import "PCPostViewController.h"
 #import "PCConnectViewController.h"
+#import "PCComment.h"
 
 @interface PCPostViewController ()
 @property (strong, nonatomic) UIImageView *backgroundImage;
@@ -16,6 +17,7 @@
 @property (strong, nonatomic) UILabel *lblDate;
 @property (strong, nonatomic) UILabel *lblContent;
 @property (strong, nonatomic) UITextField *commentField;
+@property (strong, nonatomic) PCComment *nextComment;
 @end
 
 @implementation PCPostViewController
@@ -26,6 +28,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
+        self.nextComment = [[PCComment alloc] init];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(keyboardAppearNotification:)
                                                      name:UIKeyboardWillShowNotification
@@ -102,8 +106,6 @@
                                                 attributes:@{NSFontAttributeName:baseFont}
                                                    context:nil];
     
-//    NSLog(@"HEIGHT: %.2f", boundingRect.size.height);
-
     CGFloat h = (boundingRect.size.height < 98.0f) ? 400.0f : boundingRect.size.height+302.0f;
     UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, h)];
     header.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgPost.png"]];
@@ -122,6 +124,11 @@
     self.lblContent.textColor = [UIColor darkGrayColor];
     self.lblContent.text = self.post.content;
     [header addSubview:self.lblContent];
+    
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0.0f, h-0.5f, frame.size.width, 0.5f)];
+    line.backgroundColor = [UIColor lightGrayColor];
+    [header addSubview:line];
+    
     self.theTableview.tableHeaderView = header;
     
     UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, 44.0f)];
@@ -145,6 +152,7 @@
     [btnSend setTitle:@"Send" forState:UIControlStateNormal];
     btnSend.titleLabel.font = [UIFont boldSystemFontOfSize:18.0f];
     btnSend.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    [btnSend addTarget:self action:@selector(submitComment:) forControlEvents:UIControlEventTouchUpInside];
     [footer addSubview:btnSend];
     self.theTableview.tableFooterView = footer;
     
@@ -173,9 +181,36 @@
             NSDictionary *results = (NSDictionary *)result;
             NSLog(@"%@", [results description]);
             [self.post populate:results[@"post"]];
+            
+            [self fetchComments];
+            
         });
         
     }];
+}
+
+- (void)fetchComments
+{
+    if (self.post.comments)
+        return;
+    
+    
+    [[PCWebServices sharedInstance] fetchComments:@{@"thread":self.post.uniqueId} completion:^(id result, NSError *error){
+        if (error)
+            return;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary *results = (NSDictionary *)result;
+            NSLog(@"%@", [results description]);
+            NSArray *c = results[@"comments"];
+            self.post.comments = [NSMutableArray array];
+            for (NSDictionary *commentInfo in c)
+                [self.post.comments addObject:[PCComment commentWithInfo:commentInfo]];
+            
+            [self.theTableview reloadData];
+        });
+    }];
+    
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -221,7 +256,47 @@
     [self shiftBack:kNavBarHeight];
 }
 
-
+- (void)submitComment:(UIButton *)btn
+{
+    if (self.commentField.text.length==0){
+        [self showAlertWithTitle:@"Missing Comment" message:@"Please enter a comment first."];
+        return;
+    }
+    
+    self.nextComment.text = self.commentField.text;
+    self.nextComment.profile = self.profile.uniqueId;
+    self.nextComment.thread = self.post.uniqueId;
+    [self.commentField resignFirstResponder];
+    
+    NSLog(@"submitComment: %@", [self.nextComment jsonRepresentation]);
+    
+    [self.loadingIndicator startLoading];
+    [[PCWebServices sharedInstance] submitComment:self.nextComment completion:^(id result, NSError *error){
+        [self.loadingIndicator stopLoading];
+        
+        if (error){
+            [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
+            return;
+        }
+        
+        NSDictionary *results = (NSDictionary *)result;
+        NSLog(@"%@", [results description]);
+        
+        self.nextComment = [[PCComment alloc] init];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.commentField.text = @"";
+            
+            if (self.post.comments==nil)
+                self.post.comments = [NSMutableArray array];
+            
+            [self.post.comments addObject:[PCComment commentWithInfo:results[@"comment"]]];
+            [self.theTableview reloadData];
+        });
+        
+    }];
+    
+}
 
 
 #pragma mark - UIScrollViewDelegate
@@ -251,7 +326,7 @@
     if (section==0)
         return 3;
     
-    return 0;
+    return self.post.comments.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -300,13 +375,19 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.font = [UIFont fontWithName:kBaseFontName size:14.0f];
         cell.textLabel.textColor = [UIColor darkGrayColor];
+        cell.textLabel.numberOfLines = 0;
+        cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, tableView.frame.size.width, 0.5f)];
+        line.backgroundColor = [UIColor lightGrayColor];
+        [cell.contentView addSubview:line];
     }
     
-    cell.textLabel.text = [NSString stringWithFormat:@"Comment %d", (int)indexPath.row];
+    PCComment *comment = (PCComment *)self.post.comments[indexPath.row];
+    cell.textLabel.text = comment.text;
     return cell;
 
 }
-
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -321,6 +402,21 @@
     connectVc.post = self.post;
     [self.navigationController pushViewController:connectVc animated:YES];
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section==0)
+        return 44.0f;
+    
+    PCComment *comment = (PCComment *)self.post.comments[indexPath.row];
+    CGRect bounds = [comment.text boundingRectWithSize:CGSizeMake(tableView.frame.size.width, 300.0f)
+                                               options:NSStringDrawingUsesLineFragmentOrigin
+                                            attributes:@{NSFontAttributeName:[UIFont fontWithName:kBaseFontName size:14.0f]}
+                                               context:nil];
+
+    return bounds.size.height+44.0f;
+}
+
 
 
 - (void)didReceiveMemoryWarning
