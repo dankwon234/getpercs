@@ -187,6 +187,9 @@
 
 - (void)viewPosts:(UIButton *)btn
 {
+    if (self.currentZone.isPopulated==NO)
+        return;
+        
     PCPostsViewController *postsVc = [[PCPostsViewController alloc] init];
     [self.navigationController pushViewController:postsVc animated:YES];
 }
