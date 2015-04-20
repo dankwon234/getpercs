@@ -20,6 +20,7 @@
 @synthesize baseFee;
 @synthesize venues;
 @synthesize posts;
+@synthesize isPopulated;
 
 - (id)init
 {
@@ -27,6 +28,7 @@
     if (self){
         self.venues = nil;
         self.posts = nil;
+        self.isPopulated = NO;
         
     }
     return self;
@@ -56,6 +58,8 @@
     self.latitude = [zoneInfo[@"latitude"] doubleValue];
     self.longitude = [zoneInfo[@"longitude"] doubleValue];
     self.baseFee = [zoneInfo[@"baseFee"] intValue];
+    self.isPopulated = YES;
+
 }
 
 @end

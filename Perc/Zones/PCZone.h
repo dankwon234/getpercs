@@ -22,6 +22,7 @@
 @property (nonatomic) double latitude;
 @property (nonatomic) double longitude;
 @property (nonatomic) int baseFee;
+@property (nonatomic) BOOL isPopulated;
 + (PCZone *)sharedZone;
 - (void)populate:(NSDictionary *)zoneInfo;
 @end
