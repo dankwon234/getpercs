@@ -26,6 +26,15 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardAppearNotification:)
+                                                     name:UIKeyboardWillShowNotification
+                                                   object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardHideNotification:)
+                                                     name:UIKeyboardWillHideNotification
+                                                   object:nil];
         
         
     }
@@ -181,6 +190,9 @@
     if (offset > 0){ // moving up - shift image up. 0 to 220.
         CGRect frame = self.backgroundImage.frame;
         frame.origin.y = -0.4f*offset;
+        if (frame.origin.y > 0.0f)
+            frame.origin.y = 0.0f;
+        
         self.backgroundImage.frame = frame;
         return;
     }
@@ -196,10 +208,26 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)keyboardAppearNotification:(NSNotification *)note
+{
+//    NSLog(@"keyboardAppearNotification: %@", [note.userInfo description]);
+    CGRect keyboardFrame = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    [self shiftUp:keyboardFrame.size.height-kNavBarHeight];
+}
+
+- (void)keyboardHideNotification:(NSNotification *)note
+{
+//    NSLog(@"keyboardHideNotification: %@", [note.userInfo description]);
+    [self shiftBack:kNavBarHeight];
+}
+
+
+
+
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    //    NSLog(@"scrollViewDidScroll: %.2f", scrollView.contentOffset.y);
+//    NSLog(@"scrollViewDidScroll: %.2f", scrollView.contentOffset.y);
     if (self.commentField.isFirstResponder)
         [self.commentField resignFirstResponder];
 }
@@ -223,7 +251,7 @@
     if (section==0)
         return 3;
     
-    return 15;
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -234,7 +262,8 @@
         if (cell==nil){
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.backgroundColor = kLightGray;
+            CGFloat rgb = 235.0f/255.0f;
+            cell.backgroundColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:1.0f];
         }
         
         if (indexPath.row==2){
