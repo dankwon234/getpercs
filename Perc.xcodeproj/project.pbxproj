@@ -112,6 +112,7 @@
 		0CA0DE7F1ABA515400537419 /* backArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CA0DE7E1ABA515400537419 /* backArrow@2x.png */; };
 		0CA68D171ABA9548007538F0 /* background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CA68D161ABA9548007538F0 /* background@2x.png */; };
 		0CAC7F441AE2265C00D42BB7 /* PCPostCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAC7F431AE2265C00D42BB7 /* PCPostCell.m */; };
+		0CB6E1A61AE4BB610010982C /* PCComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CB6E1A51AE4BB610010982C /* PCComment.m */; };
 		0CBC22E61ABF88A9004722E1 /* bgBurger@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CBC22E51ABF88A9004722E1 /* bgBurger@2x.png */; };
 		0CBC22E81ABF8C53004722E1 /* bgCoffee@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CBC22E71ABF8C53004722E1 /* bgCoffee@2x.png */; };
 		0CBDB42D1AC150FA00328827 /* PCJoinUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBDB42C1AC150FA00328827 /* PCJoinUsViewController.m */; };
@@ -313,6 +314,8 @@
 		0CA68D161ABA9548007538F0 /* background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background@2x.png"; sourceTree = "<group>"; };
 		0CAC7F421AE2265C00D42BB7 /* PCPostCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPostCell.h; sourceTree = "<group>"; };
 		0CAC7F431AE2265C00D42BB7 /* PCPostCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCPostCell.m; sourceTree = "<group>"; };
+		0CB6E1A41AE4BB610010982C /* PCComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCComment.h; sourceTree = "<group>"; };
+		0CB6E1A51AE4BB610010982C /* PCComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCComment.m; sourceTree = "<group>"; };
 		0CBC22E51ABF88A9004722E1 /* bgBurger@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgBurger@2x.png"; sourceTree = "<group>"; };
 		0CBC22E71ABF8C53004722E1 /* bgCoffee@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgCoffee@2x.png"; sourceTree = "<group>"; };
 		0CBDB42B1AC150FA00328827 /* PCJoinUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCJoinUsViewController.h; sourceTree = "<group>"; };
@@ -454,6 +457,8 @@
 				0C13AC2B1AE41E4B003B1F0D /* PCConnectViewController.m */,
 				0CCF89431AE46E2300051244 /* PCMessage.h */,
 				0CCF89441AE46E2300051244 /* PCMessage.m */,
+				0CB6E1A41AE4BB610010982C /* PCComment.h */,
+				0CB6E1A51AE4BB610010982C /* PCComment.m */,
 			);
 			path = Posts;
 			sourceTree = "<group>";
@@ -904,6 +909,7 @@
 				0C0F2F431ABCF55900DBFD8F /* STPOSXCheckoutWebViewAdapter.m in Sources */,
 				0C0F2F3C1ABCF55900DBFD8F /* STPAPIClient+ApplePay.m in Sources */,
 				0CA0DE6A1ABA242F00537419 /* PCCollectionViewFlowLayout.m in Sources */,
+				0CB6E1A61AE4BB610010982C /* PCComment.m in Sources */,
 				0C72328B1ABCD1A000BD0920 /* PCAccountViewController.m in Sources */,
 				0C0F2F4A1ABCF55900DBFD8F /* STPFormEncoder.m in Sources */,
 				0C1FBA431ADE2DE20079BD74 /* PCZoneViewController.m in Sources */,
