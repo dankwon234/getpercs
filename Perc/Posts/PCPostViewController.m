@@ -18,6 +18,9 @@
 @property (strong, nonatomic) UILabel *lblContent;
 @property (strong, nonatomic) UITextField *commentField;
 @property (strong, nonatomic) PCComment *nextComment;
+@property (strong, nonatomic) UIImageView *fullImage;
+@property (strong, nonatomic) UIScrollView *fullImageView;
+
 @end
 
 @implementation PCPostViewController
@@ -160,6 +163,23 @@
     [view addSubview:self.theTableview];
 
     
+    
+    self.fullImageView = [[UIScrollView alloc] initWithFrame:view.frame];
+    self.fullImageView.delegate = self;
+    self.fullImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    self.fullImageView.backgroundColor = [UIColor blackColor];
+    self.fullImageView.minimumZoomScale = 1.0f;
+    self.fullImageView.maximumZoomScale = 3.0f;
+    self.fullImageView.alpha = 0.0f;
+//    self.fullImageView.contentSize = CGSizeMake(self.post.frame.size.width, self.postImage.frame.size.height);
+    
+    self.fullImage = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, view.frame.size.width, view.frame.size.width)];
+    self.fullImage.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    self.fullImage.center = self.fullImageView.center;
+    [self.fullImageView addSubview:self.fullImage];
+    [view addSubview:self.fullImageView];
+
+    
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
     swipe.direction = UISwipeGestureRecognizerDirectionRight;
     [view addGestureRecognizer:swipe];
@@ -240,7 +260,23 @@
 
 - (void)back:(UIGestureRecognizer *)swipe
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (self.fullImageView.alpha == 0){
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
+    
+    
+    [UIView animateWithDuration:0.25f
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         self.fullImage.alpha = 0.0f;
+                         self.fullImageView.alpha = 0.0f;
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+
 }
 
 - (void)keyboardAppearNotification:(NSNotification *)note
@@ -298,6 +334,26 @@
     
 }
 
+- (void)viewFullImage
+{
+//    CGPoint location = [tap locationInView:self.threadTable];
+//    NSLog(@"viewImage: %.2f, %.2f", location.x, location.y);
+    
+    self.fullImage.image = self.post.imageData;
+    [UIView animateWithDuration:0.25f
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         self.fullImage.alpha = 1.0f;
+                         self.fullImageView.alpha = 1.0f;
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+    
+}
+
+
 
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -305,7 +361,36 @@
 //    NSLog(@"scrollViewDidScroll: %.2f", scrollView.contentOffset.y);
     if (self.commentField.isFirstResponder)
         [self.commentField resignFirstResponder];
+    
+    if ([scrollView isEqual:self.fullImageView]) // ingore this guy
+        return;
+
 }
+
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+//    NSLog(@"scrollViewDidEndDragging: %.2f", scrollView.contentOffset.y);
+    if (scrollView.contentOffset.y < -80.0f)
+        [self viewFullImage];
+}
+
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+    if ([scrollView isEqual:self.fullImageView]==NO)
+        return nil;
+    
+    return self.fullImage;
+}
+
+
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale
+{
+    
+}
+
+
 
 
 #pragma mark - UITableViewDataSource
