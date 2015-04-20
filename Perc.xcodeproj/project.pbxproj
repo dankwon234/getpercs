@@ -123,6 +123,7 @@
 		0CD782D61AC1AFAA0072A0F3 /* logo-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CD782D51AC1AFAA0072A0F3 /* logo-white@2x.png */; };
 		0CDCBB9F1AC1B3050034DAB0 /* PCAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDCBB9E1AC1B3050034DAB0 /* PCAboutViewController.m */; };
 		0CDF620B1AE0BE97006B3C94 /* PCCreatePostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */; };
+		0CE74B241AE5BB2D000F62C2 /* bgCityStreet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CE74B231AE5BB2C000F62C2 /* bgCityStreet@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -332,6 +333,7 @@
 		0CDCBB9E1AC1B3050034DAB0 /* PCAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCAboutViewController.m; sourceTree = "<group>"; };
 		0CDF62091AE0BE97006B3C94 /* PCCreatePostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCreatePostViewController.h; sourceTree = "<group>"; };
 		0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCreatePostViewController.m; sourceTree = "<group>"; };
+		0CE74B231AE5BB2C000F62C2 /* bgCityStreet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgCityStreet@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -617,6 +619,7 @@
 			isa = PBXGroup;
 			children = (
 				0C676E141AE36271001B14B7 /* iconEnvelope@2x.png */,
+				0CE74B231AE5BB2C000F62C2 /* bgCityStreet@2x.png */,
 				0C676E121AE32FB2001B14B7 /* bgPost@2x.png */,
 				0C5DC6661AE2E19800C4B38B /* iconComment@2x.png */,
 				0C5DC6681AE2E27500C4B38B /* iconView@2x.png */,
@@ -872,6 +875,7 @@
 				0C7A754F1ABE7E94004FFE5B /* hopper@2x.png in Resources */,
 				0C5DC6691AE2E27500C4B38B /* iconView@2x.png in Resources */,
 				0CA0DE671ABA22EE00537419 /* iconHamburger@2x.png in Resources */,
+				0CE74B241AE5BB2D000F62C2 /* bgCityStreet@2x.png in Resources */,
 				0C8B61731ABD028800BC13C8 /* jcb.png in Resources */,
 				0C8B61781ABD028800BC13C8 /* placeholder@2x.png in Resources */,
 				0CD782D61AC1AFAA0072A0F3 /* logo-white@2x.png in Resources */,
