@@ -330,8 +330,7 @@
         if (cell==nil){
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            CGFloat rgb = 235.0f/255.0f;
-            cell.backgroundColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:1.0f];
+            cell.backgroundColor = kLightGray;
         }
         
         // Reply Cell
