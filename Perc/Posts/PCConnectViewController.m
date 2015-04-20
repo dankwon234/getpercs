@@ -7,6 +7,7 @@
 
 
 #import "PCConnectViewController.h"
+#import "PCMessage.h"
 #import "UIImage+PQImageEffects.h"
 
 @interface PCConnectViewController ()
@@ -15,12 +16,25 @@
 @property (strong, nonatomic) UIScrollView *theScrollview;
 @property (strong, nonatomic) UITextView *replyForm;
 @property (strong, nonatomic) UILabel *lblTitle;
+@property (strong, nonatomic) PCMessage *message;
 @end
 
 static NSString *placeholder = @"Reply";
 
 @implementation PCConnectViewController
 @synthesize post;
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self){
+        self.message = [[PCMessage alloc] init];
+        
+    }
+    return self;
+}
+
+
 
 - (void)dealloc
 {
@@ -196,7 +210,35 @@ static NSString *placeholder = @"Reply";
 
 - (void)submitReply:(UIButton *)btn
 {
-    NSLog(@"submitReply: ");
+    if (self.replyForm.text.length==0){
+        [self showAlertWithTitle:@"Missing Reply" message:@"Please enter a valid reply before submitting your message."];
+        return;
+    }
+    
+    // populate message details:
+    self.message.content = self.replyForm.text;
+    self.message.profile = self.profile.uniqueId;
+    self.message.post = self.post.uniqueId;
+    self.message.recipient = self.post.profile;
+    
+    [self.loadingIndicator startLoading];
+    [[PCWebServices sharedInstance] sendMessage:self.message completion:^(id result, NSError *error){
+        [self.loadingIndicator stopLoading];
+        
+        if (error){
+            [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
+            return;
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary *results = (NSDictionary *)result;
+            NSLog(@"%@", [results description]);
+            
+            [self showAlertWithTitle:@"Message Sent!" message:@"Your message has been sent."];
+            [self.navigationController popViewControllerAnimated:YES];
+        });
+    }];
+    
 }
 
 
@@ -205,8 +247,6 @@ static NSString *placeholder = @"Reply";
 {
     //    NSLog(@"scrollViewDidScroll: %.2f", scrollView.contentOffset.y);
     [self dismissKeyboard:nil];
-//    if (self.replyForm.isFirstResponder)
-//        [self.replyForm resignFirstResponder];
 }
 
 - (void)resetDelegate
