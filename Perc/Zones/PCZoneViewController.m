@@ -12,30 +12,23 @@
 
 
 @interface PCZoneViewController ()
-@property (strong, nonatomic) UIImageView *icon;
 @property (strong, nonatomic) UILabel *lblLocation;
 @end
+
+#define kPadding 12.0f
 
 @implementation PCZoneViewController
 
 - (void)loadView
 {
     UIView *view = [self baseView];
-    view.backgroundColor = [UIColor blackColor];
+    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgCityStreet.png"]];
     CGRect frame = view.frame;
 
     CGFloat width = frame.size.width;
-    self.icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon.png"]];
-    self.icon.center = CGPointMake(0.5f*width, 88.0f);
-    self.icon.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    self.icon.layer.cornerRadius = 0.5f*self.icon.frame.size.height;
-    self.icon.layer.masksToBounds = YES;
-    self.icon.layer.borderWidth = 1.0f;
-    self.icon.layer.borderColor = [[UIColor whiteColor] CGColor];
-    [view addSubview:self.icon];
+    CGFloat y = kPadding;
     
-    CGFloat y = self.icon.frame.origin.y+self.icon.frame.size.height+20.0f;
-    self.lblLocation = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, y, width-40.0f, 22.0f)];
+    self.lblLocation = [[UILabel alloc] initWithFrame:CGRectMake(kPadding, y, width-2*kPadding, 22.0f)];
     self.lblLocation.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     self.lblLocation.textAlignment = NSTextAlignmentCenter;
     self.lblLocation.font = [UIFont fontWithName:kBaseFontName size:16.0f];
@@ -43,45 +36,58 @@
     [view addSubview:self.lblLocation];
     y += self.lblLocation.frame.size.height+24.0f;
     
-    
-    UIButton *btnFood = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnFood.frame = CGRectMake(20, y, width-40.0f, 44.0f);
-    btnFood.backgroundColor = [UIColor redColor];
-    [btnFood setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [btnFood setTitle:@"Order Food" forState:UIControlStateNormal];
-    [btnFood addTarget:self action:@selector(viewVenues:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:btnFood];
-    y += btnFood.frame.size.height+12.0f;
-    
+    CGFloat w = width-3*kPadding;
+    CGFloat bottomButtonHeight = 180.0f;
+    CGFloat h = 0.5f*(frame.size.height-3*kPadding-bottomButtonHeight);
+    y = kPadding;
     
     UIButton *btnBoard = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnBoard.frame = CGRectMake(20, y, width-40.0f, 44.0f);
-    btnBoard.backgroundColor = [UIColor redColor];
-    [btnBoard setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    btnBoard.frame = CGRectMake(kPadding, y, 0.5f*w, h);
+    btnBoard.backgroundColor = [UIColor whiteColor];
+    btnBoard.alpha = 0.8f;
+    btnBoard.layer.cornerRadius = 3.0f;
+    btnBoard.layer.masksToBounds = YES;
+    [btnBoard setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [btnBoard setTitle:@"Bulletin Board" forState:UIControlStateNormal];
     [btnBoard addTarget:self action:@selector(viewPosts:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:btnBoard];
-    y += btnBoard.frame.size.height+12.0f;
+    y += btnBoard.frame.size.height+kPadding;
 
+    UIButton *btnAccount = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnAccount.frame = CGRectMake(kPadding, y, 0.5f*w, h);
+    btnAccount.layer.cornerRadius = 3.0f;
+    btnAccount.layer.masksToBounds = YES;
+    btnAccount.alpha = 0.8f;
+    btnAccount.backgroundColor = [UIColor whiteColor];
+    [btnAccount setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    [btnAccount setTitle:@"Your Account" forState:UIControlStateNormal];
+    [btnAccount addTarget:self action:@selector(viewAccount:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:btnAccount];
+    y += btnAccount.frame.size.height+kPadding;
+    
+    
     UIButton *btnLocation = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnLocation.frame = CGRectMake(20, y, width-40.0f, 44.0f);
-    btnLocation.backgroundColor = [UIColor redColor];
-    [btnLocation setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    btnLocation.frame = CGRectMake(kPadding, y, frame.size.width-2*kPadding, frame.size.height-y-4*kPadding-10.0f);
+    btnLocation.backgroundColor = [UIColor whiteColor];
+    btnLocation.layer.cornerRadius = 3.0f;
+    btnLocation.layer.masksToBounds = YES;
+    btnLocation.alpha = 0.8f;
+    [btnLocation setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [btnLocation setTitle:@"Update Location" forState:UIControlStateNormal];
-    //    [btnJobs addTarget:self action:@selector(viewJobs:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:btnLocation];
-    y += btnLocation.frame.size.height+12.0f;
-
     
-//    UIButton *btnBulletinBoard = [UIButton buttonWithType:UIButtonTypeCustom];
-//    btnBulletinBoard.frame = CGRectMake(20, y, width-40.0f, 44.0f);
-//    btnBulletinBoard.backgroundColor = [UIColor redColor];
-//    [btnBulletinBoard setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    [btnBulletinBoard setTitle:@"Bulletin Board" forState:UIControlStateNormal];
-//    //    [btnJobs addTarget:self action:@selector(viewJobs:) forControlEvents:UIControlEventTouchUpInside];
-//    [view addSubview:btnBulletinBoard];
+    UIButton *btnFood = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnFood.frame = CGRectMake(2*kPadding+0.5f*w, kPadding, 0.5f*w, 2*h+kPadding);
+    btnFood.backgroundColor = [UIColor whiteColor];
+    btnFood.layer.cornerRadius = 3.0f;
+    btnFood.layer.masksToBounds = YES;
+    btnFood.alpha = 0.8f;
+    [btnFood setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    [btnFood setTitle:@"Order Food" forState:UIControlStateNormal];
+    [btnFood addTarget:self action:@selector(viewVenues:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:btnFood];
 
-    
+
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(viewMenu:)];
     swipe.direction = UISwipeGestureRecognizerDirectionRight;
     [view addGestureRecognizer:swipe];
@@ -174,6 +180,16 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+- (void)viewAccount:(UIButton *)btn
+{
+    if (self.profile.isPopulated){
+        [self showAccountView];
+        return;
+    }
+    
+    [self showLoginView:YES];
 }
 
 - (void)viewVenues:(UIButton *)btn
