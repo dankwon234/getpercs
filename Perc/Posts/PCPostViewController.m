@@ -239,11 +239,14 @@
         return;
     
     CGFloat offset = self.theTableview.contentOffset.y;
-    if (offset > 220.0f)
+    CGRect frame = self.backgroundImage.frame;
+    if (offset > 220.0f){
+        if (frame.origin.y > 0.0f)
+            frame.origin.y = 0.0f;
         return;
+    }
     
     if (offset > 0){ // moving up - shift image up. 0 to 220.
-        CGRect frame = self.backgroundImage.frame;
         frame.origin.y = -0.4f*offset;
         if (frame.origin.y > 0.0f)
             frame.origin.y = 0.0f;
