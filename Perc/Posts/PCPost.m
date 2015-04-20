@@ -28,6 +28,7 @@
 @synthesize formattedDate;
 @synthesize numComments;
 @synthesize numViews;
+@synthesize comments;
 
 
 - (id)init
@@ -42,6 +43,7 @@
         self.title = @"none";
         self.content = @"none";
         self.zones = [NSMutableArray array];
+        self.comments = nil;
         self.numViews = 0;
         self.numComments = 0;
         
