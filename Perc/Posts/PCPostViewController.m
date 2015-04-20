@@ -371,12 +371,14 @@
     static NSString *commentCellId = @"commentCellId";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:commentCellId];
     if (cell==nil){
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:commentCellId];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:commentCellId];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.font = [UIFont fontWithName:kBaseFontName size:14.0f];
         cell.textLabel.textColor = [UIColor darkGrayColor];
         cell.textLabel.numberOfLines = 0;
         cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        cell.detailTextLabel.font = [UIFont systemFontOfSize:10.0f];
+        cell.detailTextLabel.textColor = kLightBlue;
         
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, tableView.frame.size.width, 0.5f)];
         line.backgroundColor = [UIColor lightGrayColor];
@@ -384,7 +386,8 @@
     }
     
     PCComment *comment = (PCComment *)self.post.comments[indexPath.row];
-    cell.textLabel.text = comment.text;
+    cell.textLabel.text = [NSString stringWithFormat:@"%@\n", comment.text];
+    cell.detailTextLabel.text = comment.formattedDate;
     return cell;
 
 }
@@ -414,7 +417,7 @@
                                             attributes:@{NSFontAttributeName:[UIFont fontWithName:kBaseFontName size:14.0f]}
                                                context:nil];
 
-    return bounds.size.height+44.0f;
+    return bounds.size.height+54.0f;
 }
 
 
