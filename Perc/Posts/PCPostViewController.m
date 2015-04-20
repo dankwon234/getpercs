@@ -106,7 +106,7 @@
                                                 attributes:@{NSFontAttributeName:baseFont}
                                                    context:nil];
     
-    CGFloat h = (boundingRect.size.height < 98.0f) ? 400.0f : boundingRect.size.height+302.0f;
+    CGFloat h = (boundingRect.size.height < 98.0f) ? 428.0f : boundingRect.size.height+302.0f;
     UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, h)];
     header.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgPost.png"]];
     
@@ -309,13 +309,6 @@
 
 
 #pragma mark - UITableViewDataSource
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    if (section==0)
-        return nil;
-    
-    return @"Comments";
-}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -341,30 +334,30 @@
             cell.backgroundColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:1.0f];
         }
         
-        if (indexPath.row==2){
+        // Reply Cell
+        if (indexPath.row==0){
             cell.textLabel.textColor = kOrange;
-            cell.textLabel.font = [UIFont boldSystemFontOfSize:14.0f];
+            cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0f];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.imageView.image = [UIImage imageNamed:@"iconEnvelope.png"];
             cell.textLabel.text = @"REPLY";
-        }
-        else{
-            cell.textLabel.textColor = kLightBlue;
-            cell.textLabel.font = [UIFont fontWithName:kBaseFontName size:14.0f];
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            
-            if (indexPath.row==0){
-                cell.imageView.image = [UIImage imageNamed:@"iconView.png"];
-                cell.textLabel.text = [NSString stringWithFormat:@"%d Views", self.post.numViews];
-                
-            }
-            else{
-                cell.imageView.image = [UIImage imageNamed:@"iconComment.png"];
-                cell.textLabel.text = [NSString stringWithFormat:@"%d Comments", self.post.numComments];
-            }
+            return cell;
 
         }
-
+        
+        cell.textLabel.textColor = kLightBlue;
+        cell.textLabel.font = [UIFont fontWithName:kBaseFontName size:14.0f];
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        
+        if (indexPath.row==1){ // views cell:
+            cell.imageView.image = [UIImage imageNamed:@"iconView.png"];
+            cell.textLabel.text = [NSString stringWithFormat:@"%d Views", self.post.numViews];
+            return cell;
+        }
+        
+        // comments cell:
+        cell.imageView.image = [UIImage imageNamed:@"iconComment.png"];
+        cell.textLabel.text = [NSString stringWithFormat:@"%d Comments", self.post.numComments];
         return cell;
     }
     
@@ -398,7 +391,7 @@
         return;
 
     
-    if (indexPath.row != 2)
+    if (indexPath.row != 0)
         return;
     
     PCConnectViewController *connectVc = [[PCConnectViewController alloc] init];
