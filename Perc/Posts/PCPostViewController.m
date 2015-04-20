@@ -200,6 +200,7 @@
         if (cell==nil){
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor = kLightGray;
         }
         
         if (indexPath.row==2){
