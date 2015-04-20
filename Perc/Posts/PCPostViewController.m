@@ -15,6 +15,7 @@
 @property (strong, nonatomic) UILabel *lblTitle;
 @property (strong, nonatomic) UILabel *lblDate;
 @property (strong, nonatomic) UILabel *lblContent;
+@property (strong, nonatomic) UITextField *commentField;
 @end
 
 @implementation PCPostViewController
@@ -112,8 +113,33 @@
     self.lblContent.textColor = [UIColor darkGrayColor];
     self.lblContent.text = self.post.content;
     [header addSubview:self.lblContent];
-    
     self.theTableview.tableHeaderView = header;
+    
+    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, 44.0f)];
+    footer.backgroundColor = [UIColor lightGrayColor];
+    
+    self.commentField = [[UITextField alloc] initWithFrame:CGRectMake(6.0f, 6.0f, frame.size.width-100.0f, footer.frame.size.height-12.0f)];
+    self.commentField.delegate = self;
+    self.commentField.backgroundColor = [UIColor whiteColor];
+    self.commentField.alpha = 0.85f;
+    self.commentField.layer.cornerRadius = 2.0f;
+    self.commentField.layer.masksToBounds = YES;
+    self.commentField.font = [UIFont fontWithName:kBaseFontName size:14.0f];
+    self.commentField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 6.0f, self.commentField.frame.size.height)];
+    self.commentField.leftViewMode = UITextFieldViewModeAlways;
+    self.commentField.textColor = [UIColor darkGrayColor];
+    [footer addSubview:self.commentField];
+    
+    UIButton *btnSend = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnSend.frame = CGRectMake(frame.size.width-106.0f, footer.frame.size.height-28.0f, 100.0f, 22.0f);
+    [btnSend setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btnSend setTitle:@"Send" forState:UIControlStateNormal];
+    btnSend.titleLabel.font = [UIFont boldSystemFontOfSize:18.0f];
+    btnSend.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    [footer addSubview:btnSend];
+    self.theTableview.tableFooterView = footer;
+    
+    
     [view addSubview:self.theTableview];
 
     
@@ -168,6 +194,14 @@
 - (void)back:(UIGestureRecognizer *)swipe
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - UIScrollViewDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    //    NSLog(@"scrollViewDidScroll: %.2f", scrollView.contentOffset.y);
+    if (self.commentField.isFirstResponder)
+        [self.commentField resignFirstResponder];
 }
 
 
