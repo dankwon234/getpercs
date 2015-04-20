@@ -147,6 +147,7 @@
                     self.profile.lastZone = self.currentZone.uniqueId;
                     [self.profile updateProfile]; // update profile with last zone info on backend
                     [self.loadingIndicator stopLoading];
+                    
                     if ([self.currentZone.status isEqualToString:@"open"]==NO){
 //                        NSString *message = self.currentZone.message;
 //                        CGRect boundingRect = [message boundingRectWithSize:CGSizeMake(self.lblMessage.frame.size.width, 250.0f)
@@ -161,10 +162,6 @@
 //                        self.lblMessage.alpha = 1.0f;
                         return;
                     }
-                    
-                    
-//                    self.lblMessage.alpha = 0.0f;
-//                    [self fetchVenuesForCurrentLocation];
                     
                 });
             }];
