@@ -10,10 +10,10 @@
 #import "PCVenuesViewController.h"
 #import "PCLoginViewController.h"
 #import "PCAccountViewController.h"
-#import "PCJoinUsViewController.h"
 #import "PCAboutViewController.h"
 #import "PCZoneViewController.h"
 #import "PCOrderHistoryViewController.h"
+#import "PCMessagesViewController.h"
 
 
 @interface PCContainerViewController ()
@@ -21,8 +21,8 @@
 @property (strong, nonatomic) NSArray *sections;
 @property (strong, nonatomic) UINavigationController *navCtr;
 @property (strong, nonatomic) PCZoneViewController *zoneVc;
-@property (strong, nonatomic) PCJoinUsViewController *joinUsVc;
 @property (strong, nonatomic) PCOrderHistoryViewController *orderHistoryVc;
+@property (strong, nonatomic) PCMessagesViewController *messagesVc;
 @property (strong, nonatomic) PCViewController *currentVc;
 @property (strong, nonatomic) PCWelcomeView *welcomeView;
 @property (strong, nonatomic) UIButton *btnLogin;
@@ -325,17 +325,17 @@
 
     
     if (indexPath.row==2){
-        if (self.joinUsVc){
-            if ([self.currentVc isEqual:self.joinUsVc]){
+        if (self.messagesVc){
+            if ([self.currentVc isEqual:self.messagesVc]){
                 [self toggleMenu];
                 return;
             }
         }
         else{
-            self.joinUsVc = [[PCJoinUsViewController alloc] init];
+            self.messagesVc = [[PCMessagesViewController alloc] init];
         }
         
-        self.currentVc = self.joinUsVc;
+        self.currentVc = self.messagesVc;
     }
     
     CGRect frame = self.view.frame;
