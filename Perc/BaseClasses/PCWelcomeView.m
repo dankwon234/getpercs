@@ -23,8 +23,8 @@
 {
     self = [super initWithFrame:frame];
     if (self){
-        self.imgEating = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bgEating-1.png"]];
-        self.imgEating.center = CGPointMake(0.5f*frame.size.width, 0.5f*frame.size.height);
+        self.imgEating = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bgBklynBridge.png"]];
+        self.imgEating.center = CGPointMake(0.75f*frame.size.width, 0.5f*frame.size.height);
         self.imgEating.alpha = 0.0f;
         [self addSubview:self.imgEating];
 
@@ -35,7 +35,7 @@
         [self addSubview:self.logo];
         
         static CGFloat x = 20.0;
-        CGFloat y = 210.0f;
+        CGFloat y = 270.0f;
         static CGFloat h = 44.0f;
 
         self.btnEnter = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -93,7 +93,7 @@
                                               self.imgEating.alpha = 1.0f;
 
                                               CGPoint center = self.logo.center;
-                                              center.y = 0.2f*self.frame.size.height;
+                                              center.y = 0.7f*self.frame.size.height;
                                               self.logo.center = center;
                                               
                                           }
