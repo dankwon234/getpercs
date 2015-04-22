@@ -15,7 +15,7 @@
 @interface PCWelcomeView : UIView
 
 @property (assign) id delegate;
-@property (strong, nonatomic) UIButton *btnOrder;
+@property (strong, nonatomic) UIButton *btnEnter;
 @property (strong, nonatomic) UIButton *btnProfile;
 - (void)introAnimation;
 @end

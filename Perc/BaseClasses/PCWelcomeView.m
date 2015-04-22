@@ -15,7 +15,7 @@
 @end
 
 @implementation PCWelcomeView
-@synthesize btnOrder;
+@synthesize btnEnter;
 @synthesize btnProfile;
 
 
@@ -38,21 +38,21 @@
         CGFloat y = 210.0f;
         static CGFloat h = 44.0f;
 
-        self.btnOrder = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.btnOrder.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-        self.btnOrder.frame = CGRectMake(x, y, frame.size.width-2*x, h);
-        self.btnOrder.backgroundColor = [UIColor clearColor];
-        self.btnOrder.layer.cornerRadius = 0.5f*h;
-        self.btnOrder.layer.masksToBounds = YES;
-        self.btnOrder.layer.borderColor = [[UIColor whiteColor] CGColor];
-        self.btnOrder.layer.borderWidth = 1.0f;
-        self.btnOrder.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-        [self.btnOrder setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [self.btnOrder setTitle:@"Order" forState:UIControlStateNormal];
-        self.btnOrder.alpha = 0.0f;
-        [self.btnOrder addTarget:self action:@selector(btnOrderAction:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:self.btnOrder];
-        y += self.btnOrder.frame.size.height+20.0f;
+        self.btnEnter = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.btnEnter.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        self.btnEnter.frame = CGRectMake(x, y, frame.size.width-2*x, h);
+        self.btnEnter.backgroundColor = [UIColor clearColor];
+        self.btnEnter.layer.cornerRadius = 0.5f*h;
+        self.btnEnter.layer.masksToBounds = YES;
+        self.btnEnter.layer.borderColor = [[UIColor whiteColor] CGColor];
+        self.btnEnter.layer.borderWidth = 1.0f;
+        self.btnEnter.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+        [self.btnEnter setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self.btnEnter setTitle:@"Enter" forState:UIControlStateNormal];
+        self.btnEnter.alpha = 0.0f;
+        [self.btnEnter addTarget:self action:@selector(btnOrderAction:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:self.btnEnter];
+        y += self.btnEnter.frame.size.height+20.0f;
 
 
         self.btnProfile = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -104,7 +104,7 @@
                                                                     delay:0
                                                                   options:UIViewAnimationOptionCurveLinear
                                                                animations:^{
-                                                                   self.btnOrder.alpha = 1.0f;
+                                                                   self.btnEnter.alpha = 1.0f;
                                                                }
                                                                completion:^(BOOL finished){
                                                                    
