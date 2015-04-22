@@ -20,6 +20,7 @@
 #define kCreditCardAddedNotification @"CreditCardAddedNotification"
 #define kLocationUpdatedNotification @"LocationUpdatedNotification"
 #define kPostCreatedNotification @"PostCreatedNotification"
+#define kShowBackgroundsNotification @"ShowBackgroundsNotification"
 
 
 
