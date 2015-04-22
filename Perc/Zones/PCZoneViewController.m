@@ -42,13 +42,6 @@
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgCityStreet.png"]];
     CGRect frame = view.frame;
     
-    self.lblLocation = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 32.0f, frame.size.width, 22.0f)];
-    self.lblLocation.textAlignment = NSTextAlignmentCenter;
-    self.lblLocation.font = [UIFont boldSystemFontOfSize:22.0f];
-    self.lblLocation.textColor = [UIColor whiteColor];
-    [view addSubview:self.lblLocation];
-
-
     CGFloat width = frame.size.width;
     CGFloat y = 0.45f*frame.size.height;
     CGFloat w = width-2*kPadding;
@@ -67,6 +60,14 @@
     PCBackgroundView *bgLocation = [self sectionBackgroundWithFrame:CGRectMake(kPadding, y, w, h) withTitle:@"Update Location"];
     bgLocation.tag = 1002;
     [view addSubview:bgLocation];
+
+    
+    self.lblLocation = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, frame.size.height-62.0f, frame.size.width, 22.0f)];
+    self.lblLocation.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    self.lblLocation.textAlignment = NSTextAlignmentCenter;
+    self.lblLocation.font = [UIFont fontWithName:kBaseFontName size:22.0f];
+    self.lblLocation.textColor = [UIColor whiteColor];
+    [view addSubview:self.lblLocation];
 
     
     self.backgrounds = @[bgBoard, bgLocation, bgFood];
