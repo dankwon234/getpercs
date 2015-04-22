@@ -11,29 +11,29 @@
 
 @implementation PCBackgroundView
 @synthesize lblTitle;
-@synthesize imageView;
 
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self){
-        
-        self.backgroundColor = [UIColor whiteColor];
-        self.layer.cornerRadius = 3.0f;
+        self.backgroundColor = [UIColor clearColor];
+        self.layer.cornerRadius = 0.5f*frame.size.height;
+        self.layer.borderColor = [[UIColor whiteColor] CGColor];
+        self.layer.borderWidth = 1.0f;
         self.layer.masksToBounds = YES;
         
-        self.imageView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
-        [self addSubview:self.imageView];
+//        self.imageView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
+//        [self addSubview:self.imageView];
         
-        UIView *screen = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
-        screen.backgroundColor = [UIColor whiteColor];
-        screen.alpha = 0.65f;
-        [self addSubview:screen];
+//        UIView *screen = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
+//        screen.backgroundColor = [UIColor whiteColor];
+//        screen.alpha = 0.65f;
+//        [self addSubview:screen];
         
         self.lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, 22.0f)];
         self.lblTitle.center = CGPointMake(lblTitle.center.x, 0.5f*frame.size.height);
-        self.lblTitle.textColor = [UIColor darkGrayColor];
+        self.lblTitle.textColor = [UIColor whiteColor];
         self.lblTitle.textAlignment = NSTextAlignmentCenter;
         self.lblTitle.font = [UIFont fontWithName:kBaseFontName size:20.0f];
         [self addSubview:self.lblTitle];

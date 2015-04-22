@@ -12,5 +12,4 @@
 
 
 @property (strong, nonatomic) UILabel *lblTitle;
-@property (strong, nonatomic) UIView *imageView;
 @end
