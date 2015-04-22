@@ -297,12 +297,6 @@
         return;
     }
     
-//    if (indexPath.row==1){ // account page
-//        [self login:nil];
-//        return;
-//    }
-
-
     NSString *section = [self.sections[indexPath.row] lowercaseString];
     NSLog(@"SECTION = %@", section);
     
