@@ -42,6 +42,16 @@
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgCityStreet.png"]];
     CGRect frame = view.frame;
     
+    UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon.png"]];
+    icon.center = CGPointMake(0.5f*frame.size.width, 88.0f);
+    icon.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    icon.layer.cornerRadius = 0.5f*icon.frame.size.height;
+    icon.layer.masksToBounds = YES;
+    icon.layer.borderWidth = 1.0f;
+    icon.layer.borderColor = [[UIColor whiteColor] CGColor];
+    [view addSubview:icon];
+
+    
     CGFloat width = frame.size.width;
     CGFloat y = 0.45f*frame.size.height;
     CGFloat w = width-2*kPadding;
