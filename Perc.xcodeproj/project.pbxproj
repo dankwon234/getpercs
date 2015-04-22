@@ -120,7 +120,6 @@
 		0CB6E1A61AE4BB610010982C /* PCComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CB6E1A51AE4BB610010982C /* PCComment.m */; };
 		0CBC22E61ABF88A9004722E1 /* bgBurger@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CBC22E51ABF88A9004722E1 /* bgBurger@2x.png */; };
 		0CBC22E81ABF8C53004722E1 /* bgCoffee@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CBC22E71ABF8C53004722E1 /* bgCoffee@2x.png */; };
-		0CBDB42D1AC150FA00328827 /* PCJoinUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBDB42C1AC150FA00328827 /* PCJoinUsViewController.m */; };
 		0CCF89451AE46E2300051244 /* PCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCF89441AE46E2300051244 /* PCMessage.m */; };
 		0CD16F131AE7533700B5F85B /* bgBklynBridge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CD16F121AE7533700B5F85B /* bgBklynBridge@2x.png */; };
 		0CD16F161AE7574900B5F85B /* PCOrderHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD16F151AE7574900B5F85B /* PCOrderHistoryViewController.m */; };
@@ -333,8 +332,6 @@
 		0CB6E1A51AE4BB610010982C /* PCComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCComment.m; sourceTree = "<group>"; };
 		0CBC22E51ABF88A9004722E1 /* bgBurger@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgBurger@2x.png"; sourceTree = "<group>"; };
 		0CBC22E71ABF8C53004722E1 /* bgCoffee@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgCoffee@2x.png"; sourceTree = "<group>"; };
-		0CBDB42B1AC150FA00328827 /* PCJoinUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCJoinUsViewController.h; sourceTree = "<group>"; };
-		0CBDB42C1AC150FA00328827 /* PCJoinUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCJoinUsViewController.m; sourceTree = "<group>"; };
 		0CCF89431AE46E2300051244 /* PCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCMessage.h; sourceTree = "<group>"; };
 		0CCF89441AE46E2300051244 /* PCMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCMessage.m; sourceTree = "<group>"; };
 		0CD16F121AE7533700B5F85B /* bgBklynBridge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgBklynBridge@2x.png"; sourceTree = "<group>"; };
@@ -519,7 +516,6 @@
 				0C6138E61AB8E83900D12C50 /* BaseClasses */,
 				0C89E26B1ABAA39D00077ABD /* Profile */,
 				0CDCBB9C1AC1B2E20034DAB0 /* About */,
-				0C7A75501ABE87A3004FFE5B /* JoinUs */,
 				0C69261A1ABBECA200C91B6D /* PCOrder */,
 				0C6926131ABBB86000C91B6D /* Zones */,
 				0C333F511ADF99E60005DD84 /* Posts */,
@@ -687,15 +683,6 @@
 				0C91E7691AC111D6006D7F1D /* PCOrderViewController.m */,
 			);
 			path = PCOrder;
-			sourceTree = "<group>";
-		};
-		0C7A75501ABE87A3004FFE5B /* JoinUs */ = {
-			isa = PBXGroup;
-			children = (
-				0CBDB42B1AC150FA00328827 /* PCJoinUsViewController.h */,
-				0CBDB42C1AC150FA00328827 /* PCJoinUsViewController.m */,
-			);
-			path = JoinUs;
 			sourceTree = "<group>";
 		};
 		0C89E26B1ABAA39D00077ABD /* Profile */ = {
@@ -954,7 +941,6 @@
 				0C1FBA431ADE2DE20079BD74 /* PCZoneViewController.m in Sources */,
 				0C6139011AB8E8C700D12C50 /* AFURLConnectionOperation.m in Sources */,
 				0C0F2F441ABCF55900DBFD8F /* STPStrictURLProtocol.m in Sources */,
-				0CBDB42D1AC150FA00328827 /* PCJoinUsViewController.m in Sources */,
 				0CD16F191AE75DB200B5F85B /* PCMessagesViewController.m in Sources */,
 				0C8B61601ABD028800BC13C8 /* PTKAddressZip.m in Sources */,
 				0C1BC8951ABBFD9F000E9EDB /* PCRegisterViewController.m in Sources */,
