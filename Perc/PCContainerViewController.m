@@ -13,6 +13,7 @@
 #import "PCJoinUsViewController.h"
 #import "PCAboutViewController.h"
 #import "PCZoneViewController.h"
+#import "PCOrderHistoryViewController.h"
 
 
 @interface PCContainerViewController ()
@@ -21,6 +22,7 @@
 @property (strong, nonatomic) UINavigationController *navCtr;
 @property (strong, nonatomic) PCZoneViewController *zoneVc;
 @property (strong, nonatomic) PCJoinUsViewController *joinUsVc;
+@property (strong, nonatomic) PCOrderHistoryViewController *orderHistoryVc;
 @property (strong, nonatomic) PCViewController *currentVc;
 @property (strong, nonatomic) PCWelcomeView *welcomeView;
 @property (strong, nonatomic) UIButton *btnLogin;
@@ -33,7 +35,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
-        self.sections = @[@"Venues", @"Your Account", @"Join Us", @"About"];
+//        self.sections = @[@"Venues", @"Your Account", @"Join Us", @"About"];
+        self.sections = @[@"Venues", @"Order History", @"Messages", @"Posts", @"About"];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(toggleMenu)
                                                      name:kViewMenuNotification
@@ -250,7 +253,7 @@
     if (self.locationMgr.cities.count==0)
         return;
     
-    self.sections = @[[self.locationMgr.cities[0] uppercaseString], @"Your Account", @"Join Us", @"About"];
+    self.sections = @[[self.locationMgr.cities[0] uppercaseString], @"Order History", @"Messages", @"Posts", @"About"];
     [self.sectionsTable reloadData];
 }
 
@@ -285,7 +288,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row==3){ // about page
+    if (indexPath.row==self.sections.count-1){ // about page
         PCAboutViewController *aboutVc = [[PCAboutViewController alloc] init];
         [self presentViewController:aboutVc animated:YES completion:^{
             [self.sectionsTable deselectRowAtIndexPath:[self.sectionsTable indexPathForSelectedRow] animated:NO];
@@ -294,10 +297,10 @@
         return;
     }
     
-    if (indexPath.row==1){ // account page
-        [self login:nil];
-        return;
-    }
+//    if (indexPath.row==1){ // account page
+//        [self login:nil];
+//        return;
+//    }
 
 
     NSString *section = [self.sections[indexPath.row] lowercaseString];
@@ -311,6 +314,21 @@
         
         self.currentVc = self.zoneVc;
     }
+    
+    if (indexPath.row==1){
+        if (self.orderHistoryVc){
+            if ([self.currentVc isEqual:self.orderHistoryVc]){
+                [self toggleMenu];
+                return;
+            }
+        }
+        else{
+            self.orderHistoryVc = [[PCOrderHistoryViewController alloc] init];
+        }
+        
+        self.currentVc = self.orderHistoryVc;
+    }
+
     
     if (indexPath.row==2){
         if (self.joinUsVc){
@@ -336,12 +354,9 @@
                          self.navCtr.view.frame = navFrame;
                      }
                      completion:^(BOOL finished){
-                         if (indexPath.row==0){
-                             [self.navCtr popToRootViewControllerAnimated:NO];
-                         }
-                         else {
+                         [self.navCtr popToRootViewControllerAnimated:NO];
+                         if (indexPath.row != 0)
                              [self.navCtr pushViewController:self.currentVc animated:NO];
-                         }
                          
                          [self toggleMenu:0.85f];
                      }];
