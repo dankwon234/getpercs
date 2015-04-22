@@ -13,11 +13,27 @@
 
 @interface PCZoneViewController ()
 @property (strong, nonatomic) UILabel *lblLocation;
+@property (strong, nonatomic) NSArray *backgrounds;
 @end
 
 #define kPadding 12.0f
 
 @implementation PCZoneViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self){
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(showBackgrounds)
+                                                     name:kShowBackgroundsNotification
+                                                   object:nil];
+    }
+    
+    return self;
+    
+}
+
 
 - (void)loadView
 {
@@ -41,53 +57,34 @@
     CGFloat h = 0.5f*(frame.size.height-3*kPadding-bottomButtonHeight);
     y = kPadding;
     
-    UIButton *btnBoard = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnBoard.frame = CGRectMake(kPadding, y, 0.5f*w, h);
-    btnBoard.backgroundColor = [UIColor whiteColor];
-    btnBoard.alpha = 0.8f;
-    btnBoard.layer.cornerRadius = 3.0f;
-    btnBoard.layer.masksToBounds = YES;
-    [btnBoard setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [btnBoard setTitle:@"Bulletin Board" forState:UIControlStateNormal];
-    [btnBoard addTarget:self action:@selector(viewPosts:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:btnBoard];
-    y += btnBoard.frame.size.height+kPadding;
+    UIView *bgBoard = [self sectionBackgroundWithFrame:CGRectMake(kPadding, y, 0.5f*w, h) withTitle:@"Bulletin Board"];
+    bgBoard.tag = 1000;
+    bgBoard.alpha = 0.0f;
+    [view addSubview:bgBoard];
+    y += bgBoard.frame.size.height+kPadding;
 
-    UIButton *btnAccount = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnAccount.frame = CGRectMake(kPadding, y, 0.5f*w, h);
-    btnAccount.layer.cornerRadius = 3.0f;
-    btnAccount.layer.masksToBounds = YES;
-    btnAccount.alpha = 0.8f;
-    btnAccount.backgroundColor = [UIColor whiteColor];
-    [btnAccount setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [btnAccount setTitle:@"Your Account" forState:UIControlStateNormal];
-    [btnAccount addTarget:self action:@selector(viewAccount:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:btnAccount];
-    y += btnAccount.frame.size.height+kPadding;
+    UIView *bgAccount = [self sectionBackgroundWithFrame:CGRectMake(kPadding, y, 0.5f*w, h) withTitle:@"Your Account"];
+    bgAccount.tag = 1001;
+    bgAccount.alpha = 0.0f;
+    [view addSubview:bgAccount];
+    y += bgAccount.frame.size.height+kPadding;
+
+    UIView *bgLocation = [self sectionBackgroundWithFrame:CGRectMake(kPadding, y, frame.size.width-2*kPadding, frame.size.height-y-4*kPadding-10.0f) withTitle:@"Update Location"];
+    bgLocation.tag = 1002;
+    bgLocation.alpha = 0.0f;
+    [view addSubview:bgLocation];
+    y += bgAccount.frame.size.height+kPadding;
+
+    UIView *bgFood = [self sectionBackgroundWithFrame:CGRectMake(2*kPadding+0.5f*w, kPadding, 0.5f*w, 2*h+kPadding) withTitle:@"Order Food"];
+    bgFood.tag = 1003;
+    bgFood.alpha = 0.0f;
+    [view addSubview:bgFood];
+    y += bgAccount.frame.size.height+kPadding;
+    
+    self.backgrounds = @[bgBoard, bgFood, bgLocation, bgAccount];
+
     
     
-    UIButton *btnLocation = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnLocation.frame = CGRectMake(kPadding, y, frame.size.width-2*kPadding, frame.size.height-y-4*kPadding-10.0f);
-    btnLocation.backgroundColor = [UIColor whiteColor];
-    btnLocation.layer.cornerRadius = 3.0f;
-    btnLocation.layer.masksToBounds = YES;
-    btnLocation.alpha = 0.8f;
-    [btnLocation setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [btnLocation setTitle:@"Update Location" forState:UIControlStateNormal];
-    [view addSubview:btnLocation];
-    
-    UIButton *btnFood = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnFood.frame = CGRectMake(2*kPadding+0.5f*w, kPadding, 0.5f*w, 2*h+kPadding);
-    btnFood.backgroundColor = [UIColor whiteColor];
-    btnFood.layer.cornerRadius = 3.0f;
-    btnFood.layer.masksToBounds = YES;
-    btnFood.alpha = 0.8f;
-    [btnFood setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [btnFood setTitle:@"Order Food" forState:UIControlStateNormal];
-    [btnFood addTarget:self action:@selector(viewVenues:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:btnFood];
-
-
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(viewMenu:)];
     swipe.direction = UISwipeGestureRecognizerDirectionRight;
     [view addGestureRecognizer:swipe];
@@ -173,8 +170,6 @@
             }];
         }];
     }];
-    
-    
 }
 
 - (void)didReceiveMemoryWarning
@@ -182,30 +177,85 @@
     [super didReceiveMemoryWarning];
 }
 
-- (void)viewAccount:(UIButton *)btn
+- (UIView *)sectionBackgroundWithFrame:(CGRect)frame withTitle:(NSString *)title
 {
-    if (self.profile.isPopulated){
-        [self showAccountView];
-        return;
+    UIView *background = [[UIView alloc] initWithFrame:frame];
+    background.backgroundColor = [UIColor whiteColor];
+//    background.alpha = 0.8f;
+    background.layer.cornerRadius = 3.0f;
+    background.layer.masksToBounds = YES;
+    [background addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectSection:)]];
+    
+    UILabel *lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, 22.0f)];
+    lblTitle.center = CGPointMake(lblTitle.center.x, 0.5f*frame.size.height);
+    lblTitle.textColor = [UIColor darkGrayColor];
+    lblTitle.textAlignment = NSTextAlignmentCenter;
+    lblTitle.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    lblTitle.text = title;
+    [background addSubview:lblTitle];
+    return background;
+}
+
+- (void)selectSection:(UIGestureRecognizer *)tap
+{
+    int tag = (int)tap.view.tag;
+    NSLog(@"selectSection: %d", tag);
+    
+    if (tag==1000){ // view bulletin board posts
+        if (self.currentZone.isPopulated==NO)
+            return;
+        
+        PCPostsViewController *postsVc = [[PCPostsViewController alloc] init];
+        [self.navigationController pushViewController:postsVc animated:YES];
+    }
+
+    if (tag==1001){ // view account
+        if (self.profile.isPopulated){
+            [self showAccountView];
+            return;
+        }
+        
+        [self showLoginView:YES];
     }
     
-    [self showLoginView:YES];
-}
+    if (tag==1002){ // update location
 
-- (void)viewVenues:(UIButton *)btn
-{
-    PCVenuesViewController *venuesVc = [[PCVenuesViewController alloc] init];
-    [self.navigationController pushViewController:venuesVc animated:YES];
-}
-
-- (void)viewPosts:(UIButton *)btn
-{
-    if (self.currentZone.isPopulated==NO)
-        return;
         
-    PCPostsViewController *postsVc = [[PCPostsViewController alloc] init];
-    [self.navigationController pushViewController:postsVc animated:YES];
+    }
+
+    
+    if (tag==1003){ // view restaurants
+        PCVenuesViewController *venuesVc = [[PCVenuesViewController alloc] init];
+        [self.navigationController pushViewController:venuesVc animated:YES];
+    }
+
+    
+    
 }
+
+- (void)showBackgrounds
+{
+    for (int i=0; i<self.backgrounds.count; i++) {
+        UIView *background = self.backgrounds[i];
+        [UIView animateWithDuration:0.3f
+                              delay:i*0.2f
+                            options:UIViewAnimationOptionCurveLinear
+                         animations:^{
+                             background.alpha = 0.8f;
+                         }
+                         completion:^(BOOL finished){
+                             
+                         }];
+    }
+}
+
+
+//- (void)viewVenues:(UIButton *)btn
+//{
+//    PCVenuesViewController *venuesVc = [[PCVenuesViewController alloc] init];
+//    [self.navigationController pushViewController:venuesVc animated:YES];
+//}
+
 
 
 /*
