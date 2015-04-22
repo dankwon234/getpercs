@@ -11,7 +11,7 @@
 
 
 @interface PCMessagesViewController ()
-
+@property (strong, nonatomic) UITableView *messagesTable;
 @end
 
 @implementation PCMessagesViewController
@@ -21,7 +21,13 @@
 {
     UIView *view = [self baseView];
     view.backgroundColor = kLightGray;
-//    CGRect frame = view.frame;
+    CGRect frame = view.frame;
+    
+    self.messagesTable = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height-20.0f) style:UITableViewStylePlain];
+    self.messagesTable.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
+    self.messagesTable.dataSource = self;
+    self.messagesTable.delegate = self;
+    [view addSubview:self.messagesTable];
 
     
     self.view = view;
@@ -54,6 +60,27 @@
         });
         
     }];
+}
+
+
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 20;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellId = @"cellId";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+    if (cell==nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+    }
+    
+    cell.textLabel.text = [NSString stringWithFormat:@"%d", (int)indexPath.row];
+    return cell;
     
 }
 
