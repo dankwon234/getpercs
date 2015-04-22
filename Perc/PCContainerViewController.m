@@ -20,7 +20,6 @@
 @property (strong, nonatomic) NSArray *sections;
 @property (strong, nonatomic) UINavigationController *navCtr;
 @property (strong, nonatomic) PCZoneViewController *zoneVc;
-//@property (strong, nonatomic) PCVenuesViewController *venuesVc;
 @property (strong, nonatomic) PCJoinUsViewController *joinUsVc;
 @property (strong, nonatomic) PCViewController *currentVc;
 @property (strong, nonatomic) PCWelcomeView *welcomeView;
@@ -234,6 +233,7 @@
                          completion:^(BOOL finished){
                              [self.welcomeView removeFromSuperview];
                              self.welcomeView = nil;
+                             [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kShowBackgroundsNotification object:nil]];
                          }];
         return;
     }
