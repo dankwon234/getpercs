@@ -49,12 +49,10 @@
     if (callback != NULL)
         self.completion = callback;
     
-    if (self.locationManager==nil){
-        self.locationManager = [[CLLocationManager alloc] init];
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        self.locationManager.delegate = self;
-    }
-    
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    self.locationManager.delegate = self;
+
     if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) // required in iOS 8 and up
         [self.locationManager requestWhenInUseAuthorization];
     
@@ -69,7 +67,7 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-    //    NSLog(@"manager didUpdateLocations:");
+    NSLog(@"manager didUpdateLocations:");
     static double minAccuracy = 3000.0f;
     CLLocation *bestLocation = nil;
     for (CLLocation *loc in locations) {
