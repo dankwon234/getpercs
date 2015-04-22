@@ -98,6 +98,7 @@
 - (void)updateLocation
 {
     [self.loadingIndicator startLoading];
+    self.lblLocation.text = @"Finding Location...";
     [self.locationMgr findLocation:^(NSError *error){
         
         if (error) {
