@@ -8,6 +8,6 @@
 
 #import "PCViewController.h"
 
-@interface PCOrderHistoryViewController : PCViewController
+@interface PCOrderHistoryViewController : PCViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @end
