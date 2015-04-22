@@ -221,7 +221,7 @@
     NSString *btnTitle = [btn.titleLabel.text lowercaseString];
     NSLog(@"buttonPressed: %@", btnTitle);
     
-    if ([btnTitle isEqualToString:@"order"]){
+    if ([btnTitle isEqualToString:@"enter"]){
         [UIView animateWithDuration:0.20f
                               delay:0
                             options:UIViewAnimationOptionCurveLinear
