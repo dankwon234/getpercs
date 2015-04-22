@@ -7,6 +7,8 @@
 
 
 #import "PCMessagesViewController.h"
+#import "PCMessage.h"
+
 
 @interface PCMessagesViewController ()
 
@@ -18,7 +20,7 @@
 - (void)loadView
 {
     UIView *view = [self baseView];
-    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgBurger.png"]];
+    view.backgroundColor = kLightGray;
 //    CGRect frame = view.frame;
 
     
@@ -30,6 +32,29 @@
 {
     [super viewDidLoad];
     [self addMenuButton];
+    
+    if (self.profile.messages)
+        return;
+    
+    self.profile.messages = [NSMutableArray array];
+    [self.loadingIndicator startLoading];
+    [[PCWebServices sharedInstance] fetchMessages:@{@"profile":self.profile.uniqueId} completion:^(id result, NSError *error){
+        [self.loadingIndicator stopLoading];
+        if (error){
+            [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
+            return;
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary *results = (NSDictionary *)result;
+            NSLog(@"%@", [results description]);
+            NSArray *m = results[@"messages"];
+            for (int i=0; i<m.count; i++)
+                [self.profile.messages addObject:[PCMessage messageWithInfo:m[i]]];
+        });
+        
+    }];
+    
 }
 
 - (void)didReceiveMemoryWarning
