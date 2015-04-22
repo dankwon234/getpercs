@@ -17,6 +17,7 @@
 @property (copy, nonatomic) NSString *content;
 @property (copy, nonatomic) NSString *post; // id of post message refers to
 @property (strong, nonatomic) NSDate *timestamp;
++ (PCMessage *)messageWithInfo:(NSDictionary *)info;
 - (void)populate:(NSDictionary *)messageInfo;
 - (NSDictionary *)parametersDictionary;
 - (NSString *)jsonRepresentation;

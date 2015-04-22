@@ -41,6 +41,12 @@
     self.post = messageInfo[@"post"];
 }
 
++ (PCMessage *)messageWithInfo:(NSDictionary *)info
+{
+    PCMessage *msg = [[PCMessage alloc] init];
+    [msg populate:info];
+    return msg;
+}
 
 - (NSDictionary *)parametersDictionary
 {
