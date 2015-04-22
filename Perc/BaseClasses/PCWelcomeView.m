@@ -35,7 +35,7 @@
         [self addSubview:self.logo];
         
         static CGFloat x = 20.0;
-        CGFloat y = 270.0f;
+        CGFloat y = 0.7f*frame.size.height;
         static CGFloat h = 44.0f;
 
         self.btnEnter = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -93,7 +93,7 @@
                                               self.imgEating.alpha = 1.0f;
 
                                               CGPoint center = self.logo.center;
-                                              center.y = 0.7f*self.frame.size.height;
+                                              center.y = 0.6f*self.frame.size.height;
                                               self.logo.center = center;
                                               
                                           }
