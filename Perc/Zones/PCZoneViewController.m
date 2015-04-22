@@ -41,48 +41,35 @@
     UIView *view = [self baseView];
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgCityStreet.png"]];
     CGRect frame = view.frame;
+    
+    self.lblLocation = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 32.0f, frame.size.width, 22.0f)];
+    self.lblLocation.textAlignment = NSTextAlignmentCenter;
+    self.lblLocation.font = [UIFont boldSystemFontOfSize:22.0f];
+    self.lblLocation.textColor = [UIColor whiteColor];
+    [view addSubview:self.lblLocation];
+
 
     CGFloat width = frame.size.width;
-    CGFloat y = kPadding;
+    CGFloat y = 0.45f*frame.size.height;
+    CGFloat w = width-2*kPadding;
+    CGFloat h = 44.0f;
     
-    CGFloat w = width-3*kPadding;
-    CGFloat bottomButtonHeight = 180.0f;
-    CGFloat h = 0.5f*(frame.size.height-3*kPadding-bottomButtonHeight);
-    
-    PCBackgroundView *bgBoard = [self sectionBackgroundWithFrame:CGRectMake(kPadding, y, 0.5f*w, h) withTitle:@"Bulletin Board"];
+    PCBackgroundView *bgFood = [self sectionBackgroundWithFrame:CGRectMake(kPadding, y, w, h) withTitle:@"Order Food"];
+    bgFood.tag = 1003;
+    [view addSubview:bgFood];
+    y += bgFood.frame.size.height+kPadding;
+
+    PCBackgroundView *bgBoard = [self sectionBackgroundWithFrame:CGRectMake(kPadding, y, w, h) withTitle:@"Bulletin Board"];
     bgBoard.tag = 1000;
-    bgBoard.imageView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bulletinBoard.png"]];
     [view addSubview:bgBoard];
     y += bgBoard.frame.size.height+kPadding;
 
-    PCBackgroundView *bgAccount = [self sectionBackgroundWithFrame:CGRectMake(kPadding, y, 0.5f*w, h) withTitle:@"Your Account"];
-    bgAccount.tag = 1001;
-    bgAccount.imageView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"computer.png"]];
-    [view addSubview:bgAccount];
-    y += bgAccount.frame.size.height+kPadding;
-
-    PCBackgroundView *bgLocation = [self sectionBackgroundWithFrame:CGRectMake(kPadding, y, frame.size.width-2*kPadding, frame.size.height-y-4*kPadding-10.0f) withTitle:@"Update Location"];
+    PCBackgroundView *bgLocation = [self sectionBackgroundWithFrame:CGRectMake(kPadding, y, w, h) withTitle:@"Update Location"];
     bgLocation.tag = 1002;
-    bgLocation.imageView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"lantern.png"]];
-    
-    self.lblLocation = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 72.0f, bgLocation.frame.size.width, 22.0f)];
-    self.lblLocation.textAlignment = NSTextAlignmentCenter;
-    self.lblLocation.font = [UIFont boldSystemFontOfSize:16.0f];
-    self.lblLocation.textColor = [UIColor darkGrayColor];
-    [bgLocation addSubview:self.lblLocation];
-    y += self.lblLocation.frame.size.height+24.0f;
-    
-    
     [view addSubview:bgLocation];
-    y += bgAccount.frame.size.height+kPadding;
 
-    PCBackgroundView *bgFood = [self sectionBackgroundWithFrame:CGRectMake(2*kPadding+0.5f*w, kPadding, 0.5f*w, 2*h+kPadding) withTitle:@"Order Food"];
-    bgFood.tag = 1003;
-    bgFood.imageView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"burger.png"]];
-    [view addSubview:bgFood];
-    y += bgAccount.frame.size.height+kPadding;
     
-    self.backgrounds = @[bgBoard, bgLocation, bgAccount, bgFood];
+    self.backgrounds = @[bgBoard, bgLocation, bgFood];
 
     
     
