@@ -123,6 +123,7 @@
 		0CBDB42D1AC150FA00328827 /* PCJoinUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBDB42C1AC150FA00328827 /* PCJoinUsViewController.m */; };
 		0CCF89451AE46E2300051244 /* PCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCF89441AE46E2300051244 /* PCMessage.m */; };
 		0CD16F131AE7533700B5F85B /* bgBklynBridge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CD16F121AE7533700B5F85B /* bgBklynBridge@2x.png */; };
+		0CD16F161AE7574900B5F85B /* PCOrderHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD16F151AE7574900B5F85B /* PCOrderHistoryViewController.m */; };
 		0CD782D11AC1AAEA0072A0F3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD782CE1AC1AAEA0072A0F3 /* Reachability.m */; };
 		0CD782D21AC1AAEA0072A0F3 /* SignalCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD782D01AC1AAEA0072A0F3 /* SignalCheck.m */; };
 		0CD782D41AC1AB040072A0F3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CD782D31AC1AB040072A0F3 /* SystemConfiguration.framework */; };
@@ -336,6 +337,8 @@
 		0CCF89431AE46E2300051244 /* PCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCMessage.h; sourceTree = "<group>"; };
 		0CCF89441AE46E2300051244 /* PCMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCMessage.m; sourceTree = "<group>"; };
 		0CD16F121AE7533700B5F85B /* bgBklynBridge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgBklynBridge@2x.png"; sourceTree = "<group>"; };
+		0CD16F141AE7574900B5F85B /* PCOrderHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCOrderHistoryViewController.h; sourceTree = "<group>"; };
+		0CD16F151AE7574900B5F85B /* PCOrderHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCOrderHistoryViewController.m; sourceTree = "<group>"; };
 		0CD782CD1AC1AAEA0072A0F3 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		0CD782CE1AC1AAEA0072A0F3 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		0CD782CF1AC1AAEA0072A0F3 /* SignalCheck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignalCheck.h; sourceTree = "<group>"; };
@@ -703,6 +706,8 @@
 				0C1BC8941ABBFD9F000E9EDB /* PCRegisterViewController.m */,
 				0C7232891ABCD1A000BD0920 /* PCAccountViewController.h */,
 				0C72328A1ABCD1A000BD0920 /* PCAccountViewController.m */,
+				0CD16F141AE7574900B5F85B /* PCOrderHistoryViewController.h */,
+				0CD16F151AE7574900B5F85B /* PCOrderHistoryViewController.m */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -990,6 +995,7 @@
 				0C0F2F3E1ABCF55900DBFD8F /* STPCheckoutInternalUIWebViewController.m in Sources */,
 				0C0F2F4C1ABCF55900DBFD8F /* StripeError.m in Sources */,
 				0C0F2F401ABCF55900DBFD8F /* STPCheckoutViewController.m in Sources */,
+				0CD16F161AE7574900B5F85B /* PCOrderHistoryViewController.m in Sources */,
 				0C333F541ADF9A280005DD84 /* PCPost.m in Sources */,
 				0C8B61881ABD20F000BC13C8 /* PCCreditCardViewController.m in Sources */,
 				0CDF620B1AE0BE97006B3C94 /* PCCreatePostViewController.m in Sources */,
