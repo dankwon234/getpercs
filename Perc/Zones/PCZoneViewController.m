@@ -9,6 +9,7 @@
 #import "PCZoneViewController.h"
 #import "PCVenuesViewController.h"
 #import "PCPostsViewController.h"
+#import "PCBackgroundView.h"
 
 
 @interface PCZoneViewController ()
@@ -44,44 +45,44 @@
     CGFloat width = frame.size.width;
     CGFloat y = kPadding;
     
-    self.lblLocation = [[UILabel alloc] initWithFrame:CGRectMake(kPadding, y, width-2*kPadding, 22.0f)];
-    self.lblLocation.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    self.lblLocation.textAlignment = NSTextAlignmentCenter;
-    self.lblLocation.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    self.lblLocation.textColor = [UIColor whiteColor];
-    [view addSubview:self.lblLocation];
-    y += self.lblLocation.frame.size.height+24.0f;
-    
     CGFloat w = width-3*kPadding;
     CGFloat bottomButtonHeight = 180.0f;
     CGFloat h = 0.5f*(frame.size.height-3*kPadding-bottomButtonHeight);
-    y = kPadding;
     
-    UIView *bgBoard = [self sectionBackgroundWithFrame:CGRectMake(kPadding, y, 0.5f*w, h) withTitle:@"Bulletin Board"];
+    PCBackgroundView *bgBoard = [self sectionBackgroundWithFrame:CGRectMake(kPadding, y, 0.5f*w, h) withTitle:@"Bulletin Board"];
     bgBoard.tag = 1000;
-    bgBoard.alpha = 0.0f;
+    bgBoard.imageView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bulletinBoard.png"]];
     [view addSubview:bgBoard];
     y += bgBoard.frame.size.height+kPadding;
 
-    UIView *bgAccount = [self sectionBackgroundWithFrame:CGRectMake(kPadding, y, 0.5f*w, h) withTitle:@"Your Account"];
+    PCBackgroundView *bgAccount = [self sectionBackgroundWithFrame:CGRectMake(kPadding, y, 0.5f*w, h) withTitle:@"Your Account"];
     bgAccount.tag = 1001;
-    bgAccount.alpha = 0.0f;
+    bgAccount.imageView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"computer.png"]];
     [view addSubview:bgAccount];
     y += bgAccount.frame.size.height+kPadding;
 
-    UIView *bgLocation = [self sectionBackgroundWithFrame:CGRectMake(kPadding, y, frame.size.width-2*kPadding, frame.size.height-y-4*kPadding-10.0f) withTitle:@"Update Location"];
+    PCBackgroundView *bgLocation = [self sectionBackgroundWithFrame:CGRectMake(kPadding, y, frame.size.width-2*kPadding, frame.size.height-y-4*kPadding-10.0f) withTitle:@"Update Location"];
     bgLocation.tag = 1002;
-    bgLocation.alpha = 0.0f;
+    bgLocation.imageView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"lantern.png"]];
+    
+    self.lblLocation = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 72.0f, bgLocation.frame.size.width, 22.0f)];
+    self.lblLocation.textAlignment = NSTextAlignmentCenter;
+    self.lblLocation.font = [UIFont boldSystemFontOfSize:16.0f];
+    self.lblLocation.textColor = [UIColor darkGrayColor];
+    [bgLocation addSubview:self.lblLocation];
+    y += self.lblLocation.frame.size.height+24.0f;
+    
+    
     [view addSubview:bgLocation];
     y += bgAccount.frame.size.height+kPadding;
 
-    UIView *bgFood = [self sectionBackgroundWithFrame:CGRectMake(2*kPadding+0.5f*w, kPadding, 0.5f*w, 2*h+kPadding) withTitle:@"Order Food"];
+    PCBackgroundView *bgFood = [self sectionBackgroundWithFrame:CGRectMake(2*kPadding+0.5f*w, kPadding, 0.5f*w, 2*h+kPadding) withTitle:@"Order Food"];
     bgFood.tag = 1003;
-    bgFood.alpha = 0.0f;
+    bgFood.imageView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"burger.png"]];
     [view addSubview:bgFood];
     y += bgAccount.frame.size.height+kPadding;
     
-    self.backgrounds = @[bgBoard, bgFood, bgLocation, bgAccount];
+    self.backgrounds = @[bgBoard, bgLocation, bgAccount, bgFood];
 
     
     
@@ -103,6 +104,11 @@
         return;
     }
 
+    [self updateLocation];
+}
+
+- (void)updateLocation
+{
     [self.loadingIndicator startLoading];
     [self.locationMgr findLocation:^(NSError *error){
         
@@ -152,17 +158,17 @@
                     [self.loadingIndicator stopLoading];
                     
                     if ([self.currentZone.status isEqualToString:@"open"]==NO){
-//                        NSString *message = self.currentZone.message;
-//                        CGRect boundingRect = [message boundingRectWithSize:CGSizeMake(self.lblMessage.frame.size.width, 250.0f)
-//                                                                    options:NSStringDrawingUsesLineFragmentOrigin
-//                                                                 attributes:@{NSFontAttributeName:self.lblMessage.font}
-//                                                                    context:nil];
-//                        
-//                        CGRect frame = self.lblMessage.frame;
-//                        frame.size.height = boundingRect.size.height;
-//                        self.lblMessage.frame = frame;
-//                        self.lblMessage.text = message;
-//                        self.lblMessage.alpha = 1.0f;
+                        //                        NSString *message = self.currentZone.message;
+                        //                        CGRect boundingRect = [message boundingRectWithSize:CGSizeMake(self.lblMessage.frame.size.width, 250.0f)
+                        //                                                                    options:NSStringDrawingUsesLineFragmentOrigin
+                        //                                                                 attributes:@{NSFontAttributeName:self.lblMessage.font}
+                        //                                                                    context:nil];
+                        //
+                        //                        CGRect frame = self.lblMessage.frame;
+                        //                        frame.size.height = boundingRect.size.height;
+                        //                        self.lblMessage.frame = frame;
+                        //                        self.lblMessage.text = message;
+                        //                        self.lblMessage.alpha = 1.0f;
                         return;
                     }
                     
@@ -177,22 +183,13 @@
     [super didReceiveMemoryWarning];
 }
 
-- (UIView *)sectionBackgroundWithFrame:(CGRect)frame withTitle:(NSString *)title
+- (PCBackgroundView *)sectionBackgroundWithFrame:(CGRect)frame withTitle:(NSString *)title
 {
-    UIView *background = [[UIView alloc] initWithFrame:frame];
-    background.backgroundColor = [UIColor whiteColor];
-//    background.alpha = 0.8f;
-    background.layer.cornerRadius = 3.0f;
-    background.layer.masksToBounds = YES;
+    PCBackgroundView *background = [[PCBackgroundView alloc] initWithFrame:frame];
+    background.alpha = 0.0f; // they all start at 0 then fade in
     [background addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectSection:)]];
     
-    UILabel *lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, 22.0f)];
-    lblTitle.center = CGPointMake(lblTitle.center.x, 0.5f*frame.size.height);
-    lblTitle.textColor = [UIColor darkGrayColor];
-    lblTitle.textAlignment = NSTextAlignmentCenter;
-    lblTitle.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    lblTitle.text = title;
-    [background addSubview:lblTitle];
+    background.lblTitle.text = title;
     return background;
 }
 
@@ -219,8 +216,7 @@
     }
     
     if (tag==1002){ // update location
-
-        
+        [self updateLocation];
     }
 
     
@@ -241,7 +237,7 @@
                               delay:i*0.2f
                             options:UIViewAnimationOptionCurveLinear
                          animations:^{
-                             background.alpha = 0.8f;
+                             background.alpha = 1.0f;
                          }
                          completion:^(BOOL finished){
                              
@@ -250,11 +246,6 @@
 }
 
 
-//- (void)viewVenues:(UIButton *)btn
-//{
-//    PCVenuesViewController *venuesVc = [[PCVenuesViewController alloc] init];
-//    [self.navigationController pushViewController:venuesVc animated:YES];
-//}
 
 
 
