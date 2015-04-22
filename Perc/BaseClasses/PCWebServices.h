@@ -47,6 +47,7 @@ typedef void (^PCWebServiceRequestCompletionBlock)(id result, NSError *error);
 
 // MESSAGES
 - (void)sendMessage:(PCMessage *)message completion:(PCWebServiceRequestCompletionBlock)completionBlock;
+- (void)fetchMessages:(NSDictionary *)params completion:(PCWebServiceRequestCompletionBlock)completionBlock;
 
 // COMMENTS
 - (void)submitComment:(PCComment *)comment completion:(PCWebServiceRequestCompletionBlock)completionBlock;

@@ -417,6 +417,31 @@
           }];
 }
 
+- (void)fetchMessages:(NSDictionary *)params completion:(PCWebServiceRequestCompletionBlock)completionBlock
+{
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
+    [manager GET:kPathMessages
+      parameters:params
+         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+             NSDictionary *results = responseDictionary[@"results"];
+             
+             if ([results[@"confirmation"] isEqualToString:@"success"]){
+                 if (completionBlock)
+                     completionBlock(results, nil);
+                 return;
+             }
+             
+             if (completionBlock)
+                 completionBlock(results, [NSError errorWithDomain:kErrorDomain code:0 userInfo:@{NSLocalizedDescriptionKey:results[@"message"]}]);
+         }
+         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+             NSLog(@"FAILURE BLOCK: %@", [error localizedDescription]);
+             if (completionBlock)
+                 completionBlock(nil, error);
+         }];
+}
+
 
 #pragma mark - Comments
 - (void)fetchComments:(NSDictionary *)params completion:(PCWebServiceRequestCompletionBlock)completionBlock
