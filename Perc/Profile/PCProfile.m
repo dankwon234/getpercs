@@ -23,6 +23,7 @@
 @synthesize orderHistory;
 @synthesize deviceToken;
 @synthesize lastZone;
+@synthesize messages;
 
 - (id)init
 {
@@ -38,6 +39,7 @@
         self.lastZone = @"none";
         self.password = nil;
         self.orderHistory = nil;
+        self.messages = nil;
         self.isPopulated = NO;
         self.hasCreditCard = NO;
         
