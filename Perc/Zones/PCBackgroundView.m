@@ -24,7 +24,6 @@
         self.layer.masksToBounds = YES;
         
         self.imageView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
-        self.imageView.backgroundColor = [UIColor redColor];
         [self addSubview:self.imageView];
         
         UIView *screen = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
