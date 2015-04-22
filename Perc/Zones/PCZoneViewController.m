@@ -14,7 +14,7 @@
 
 @interface PCZoneViewController ()
 @property (strong, nonatomic) UILabel *lblLocation;
-@property (strong, nonatomic) NSArray *backgrounds;
+@property (strong, nonatomic) NSMutableArray *backgrounds;
 @end
 
 #define kPadding 12.0f
@@ -25,6 +25,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
+        self.backgrounds = [NSMutableArray array];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(showBackgrounds)
                                                      name:kShowBackgroundsNotification
@@ -57,20 +58,16 @@
     CGFloat w = width-2*kPadding;
     CGFloat h = 44.0f;
     
-    PCBackgroundView *bgFood = [self sectionBackgroundWithFrame:CGRectMake(kPadding, y, w, h) withTitle:@"Order Food"];
-    bgFood.tag = 1003;
-    [view addSubview:bgFood];
-    y += bgFood.frame.size.height+kPadding;
+    NSArray *a = @[@"Order Food", @"Bulletin Board", @"Update Location"];
+    for (int i=0; i<a.count; i++) {
+        PCBackgroundView *button = [self sectionBackgroundWithFrame:CGRectMake(kPadding, y, w, h) withTitle:a[i]];
+        button.tag = 1000+i;
+        [view addSubview:button];
+        y += button.frame.size.height+kPadding;
+        [self.backgrounds addObject:button];
 
-    PCBackgroundView *bgBoard = [self sectionBackgroundWithFrame:CGRectMake(kPadding, y, w, h) withTitle:@"Bulletin Board"];
-    bgBoard.tag = 1000;
-    [view addSubview:bgBoard];
-    y += bgBoard.frame.size.height+kPadding;
-
-    PCBackgroundView *bgLocation = [self sectionBackgroundWithFrame:CGRectMake(kPadding, y, w, h) withTitle:@"Update Location"];
-    bgLocation.tag = 1002;
-    [view addSubview:bgLocation];
-
+    }
+    
     
     self.lblLocation = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, frame.size.height-62.0f, frame.size.width, 22.0f)];
     self.lblLocation.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
@@ -80,7 +77,6 @@
     [view addSubview:self.lblLocation];
 
     
-    self.backgrounds = @[bgBoard, bgLocation, bgFood];
 
     
     
@@ -197,7 +193,12 @@
     int tag = (int)tap.view.tag;
     NSLog(@"selectSection: %d", tag);
     
-    if (tag==1000){ // view bulletin board posts
+    if (tag==1000){ // order food
+        PCVenuesViewController *venuesVc = [[PCVenuesViewController alloc] init];
+        [self.navigationController pushViewController:venuesVc animated:YES];
+    }
+
+    if (tag==1001){ // view bulletin board posts
         if (self.currentZone.isPopulated==NO)
             return;
         
@@ -205,26 +206,10 @@
         [self.navigationController pushViewController:postsVc animated:YES];
     }
 
-    if (tag==1001){ // view account
-        if (self.profile.isPopulated){
-            [self showAccountView];
-            return;
-        }
-        
-        [self showLoginView:YES];
-    }
-    
     if (tag==1002){ // update location
         [self updateLocation];
     }
 
-    
-    if (tag==1003){ // view restaurants
-        PCVenuesViewController *venuesVc = [[PCVenuesViewController alloc] init];
-        [self.navigationController pushViewController:venuesVc animated:YES];
-    }
-
-    
     
 }
 
