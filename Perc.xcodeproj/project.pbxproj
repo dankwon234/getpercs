@@ -63,6 +63,11 @@
 		0C7232881ABCB31C00BD0920 /* PCTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7232871ABCB31C00BD0920 /* PCTextField.m */; };
 		0C72328B1ABCD1A000BD0920 /* PCAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C72328A1ABCD1A000BD0920 /* PCAccountViewController.m */; };
 		0C72328F1ABCD46700BD0920 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C72328E1ABCD46700BD0920 /* icon@2x.png */; };
+		0C78AE0D1AE73CD800D2553D /* PCBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C78AE0C1AE73CD800D2553D /* PCBackgroundView.m */; };
+		0C78AE0F1AE73E5800D2553D /* burger@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C78AE0E1AE73E5800D2553D /* burger@2x.png */; };
+		0C78AE111AE73FF400D2553D /* bulletinBoard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C78AE101AE73FF400D2553D /* bulletinBoard@2x.png */; };
+		0C78AE171AE742D700D2553D /* lantern@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C78AE161AE742D700D2553D /* lantern@2x.png */; };
+		0C78AE1B1AE7498300D2553D /* computer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C78AE1A1AE7498300D2553D /* computer@2x.png */; };
 		0C7A75411ABE256C004FFE5B /* PCWelcomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7A75401ABE256C004FFE5B /* PCWelcomeView.m */; };
 		0C7A754D1ABE2DA1004FFE5B /* bgEating-1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C7A754C1ABE2DA1004FFE5B /* bgEating-1@2x.png */; };
 		0C7A754F1ABE7E94004FFE5B /* hopper@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C7A754E1ABE7E94004FFE5B /* hopper@2x.png */; };
@@ -246,6 +251,12 @@
 		0C7232891ABCD1A000BD0920 /* PCAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCAccountViewController.h; sourceTree = "<group>"; };
 		0C72328A1ABCD1A000BD0920 /* PCAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCAccountViewController.m; sourceTree = "<group>"; };
 		0C72328E1ABCD46700BD0920 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
+		0C78AE0B1AE73CD800D2553D /* PCBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCBackgroundView.h; sourceTree = "<group>"; };
+		0C78AE0C1AE73CD800D2553D /* PCBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCBackgroundView.m; sourceTree = "<group>"; };
+		0C78AE0E1AE73E5800D2553D /* burger@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "burger@2x.png"; sourceTree = "<group>"; };
+		0C78AE101AE73FF400D2553D /* bulletinBoard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bulletinBoard@2x.png"; sourceTree = "<group>"; };
+		0C78AE161AE742D700D2553D /* lantern@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lantern@2x.png"; sourceTree = "<group>"; };
+		0C78AE1A1AE7498300D2553D /* computer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "computer@2x.png"; sourceTree = "<group>"; };
 		0C7A753F1ABE256C004FFE5B /* PCWelcomeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCWelcomeView.h; sourceTree = "<group>"; };
 		0C7A75401ABE256C004FFE5B /* PCWelcomeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCWelcomeView.m; sourceTree = "<group>"; };
 		0C7A754C1ABE2DA1004FFE5B /* bgEating-1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgEating-1@2x.png"; sourceTree = "<group>"; };
@@ -618,6 +629,10 @@
 		0C6139191AB8F60E00D12C50 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0C78AE0E1AE73E5800D2553D /* burger@2x.png */,
+				0C78AE101AE73FF400D2553D /* bulletinBoard@2x.png */,
+				0C78AE1A1AE7498300D2553D /* computer@2x.png */,
+				0C78AE161AE742D700D2553D /* lantern@2x.png */,
 				0C676E141AE36271001B14B7 /* iconEnvelope@2x.png */,
 				0CE74B231AE5BB2C000F62C2 /* bgCityStreet@2x.png */,
 				0C676E121AE32FB2001B14B7 /* bgPost@2x.png */,
@@ -646,6 +661,8 @@
 				0C6926151ABBB88600C91B6D /* PCZone.m */,
 				0C1FBA411ADE2DE20079BD74 /* PCZoneViewController.h */,
 				0C1FBA421ADE2DE20079BD74 /* PCZoneViewController.m */,
+				0C78AE0B1AE73CD800D2553D /* PCBackgroundView.h */,
+				0C78AE0C1AE73CD800D2553D /* PCBackgroundView.m */,
 			);
 			path = Zones;
 			sourceTree = "<group>";
@@ -879,16 +896,20 @@
 				0C8B61731ABD028800BC13C8 /* jcb.png in Resources */,
 				0C8B61781ABD028800BC13C8 /* placeholder@2x.png in Resources */,
 				0CD782D61AC1AFAA0072A0F3 /* logo-white@2x.png in Resources */,
+				0C78AE171AE742D700D2553D /* lantern@2x.png in Resources */,
 				0C8B616F1ABD028800BC13C8 /* diners.png in Resources */,
+				0C78AE1B1AE7498300D2553D /* computer@2x.png in Resources */,
 				0C8B61691ABD028800BC13C8 /* amex.png in Resources */,
 				0C8B616C1ABD028800BC13C8 /* cvc-amex@2x.png in Resources */,
 				0C676E151AE36271001B14B7 /* iconEnvelope@2x.png in Resources */,
 				0C7A754D1ABE2DA1004FFE5B /* bgEating-1@2x.png in Resources */,
 				0C8B616D1ABD028800BC13C8 /* cvc.png in Resources */,
 				0C8B61791ABD028800BC13C8 /* visa.png in Resources */,
+				0C78AE111AE73FF400D2553D /* bulletinBoard@2x.png in Resources */,
 				0C8B617A1ABD028800BC13C8 /* visa@2x.png in Resources */,
 				0C8B61701ABD028800BC13C8 /* diners@2x.png in Resources */,
 				0C91E76C1AC11711006D7F1D /* bgDinner@2x.png in Resources */,
+				0C78AE0F1AE73E5800D2553D /* burger@2x.png in Resources */,
 				0C8B61741ABD028800BC13C8 /* jcb@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -974,6 +995,7 @@
 				0C8B61641ABD028800BC13C8 /* PTKCardNumber.m in Sources */,
 				0C8B61621ABD028800BC13C8 /* PTKCardCVC.m in Sources */,
 				0C6138FF1AB8E8C700D12C50 /* AFNetworkReachabilityManager.m in Sources */,
+				0C78AE0D1AE73CD800D2553D /* PCBackgroundView.m in Sources */,
 				0CD782D21AC1AAEA0072A0F3 /* SignalCheck.m in Sources */,
 				0C8B61611ABD028800BC13C8 /* PTKCard.m in Sources */,
 				0C6138C31AB8E6A700D12C50 /* main.m in Sources */,
