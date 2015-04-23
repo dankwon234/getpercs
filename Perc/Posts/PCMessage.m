@@ -35,7 +35,7 @@
 - (void)populate:(NSDictionary *)messageInfo
 {
     self.uniqueId = messageInfo[@"id"];
-    self.profile = [PCProfile profileWithInfo:messageInfo[@"proifle"]];
+    self.profile = [PCProfile profileWithInfo:messageInfo[@"profile"]];
     self.recipient = [PCProfile profileWithInfo:messageInfo[@"recipient"]];
     self.content = messageInfo[@"content"];
     self.post = messageInfo[@"post"];
