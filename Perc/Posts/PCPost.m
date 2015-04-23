@@ -38,7 +38,7 @@
         self.dateFormatter = [PCDateFormatter sharedDateFormatter];
         self.isFetching = NO;
         self.uniqueId = @"none";
-        self.profile = @"none";
+        self.profile = nil;
         self.image = @"none";
         self.title = @"none";
         self.content = @"none";
@@ -62,7 +62,7 @@
 - (void)populate:(NSDictionary *)info
 {
     self.uniqueId = info[@"id"];
-    self.profile = info[@"profile"];
+    self.profile = [PCProfile profileWithInfo:info[@"profile"]];
     self.image = info[@"image"];
     self.title = info[@"title"];
     self.content = info[@"content"];
@@ -106,8 +106,10 @@
 
 - (NSDictionary *)parametersDictionary
 {
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{@"id":self.uniqueId, @"profile":self.profile, @"image":self.image, @"title":self.title, @"content":self.content, @"zones":self.zones}];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{@"id":self.uniqueId, @"image":self.image, @"title":self.title, @"content":self.content, @"zones":self.zones}];
     
+    if (self.profile)
+        params[@"profile"] = self.profile.uniqueId;
     
     return params;
 }

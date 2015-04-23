@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "PCProfile.h"
 
 @interface PCPost : NSObject
 
@@ -16,8 +17,8 @@
 @property (copy, nonatomic) NSString *title;
 @property (copy, nonatomic) NSString *content;
 @property (copy, nonatomic) NSString *image;
-@property (copy, nonatomic) NSString *profile;
 @property (copy, nonatomic) NSString *formattedDate;
+@property (strong, nonatomic) PCProfile *profile;
 @property (strong, nonatomic) NSMutableArray *zones;
 @property (strong, nonatomic) NSMutableArray *comments;
 @property (strong, nonatomic) NSDate *timestamp;
