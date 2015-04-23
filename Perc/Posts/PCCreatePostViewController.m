@@ -265,7 +265,7 @@ static NSString *placeholder = @"Content";
     // populate profile stuff:
     self.post.title = self.titleField.text;
     self.post.content = self.contentForm.text;
-    self.post.profile = self.profile.uniqueId;
+    self.post.profile = self.profile;
     [self.post.zones addObject:self.currentZone.uniqueId];
 
     [[PCWebServices sharedInstance] createPost:self.post completion:^(id result, NSError *error){
