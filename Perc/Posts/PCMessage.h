@@ -14,6 +14,7 @@
 
 @property (copy, nonatomic) NSString *uniqueId;
 @property (copy, nonatomic) NSString *content;
+@property (copy, nonatomic) NSString *formattedDate;
 @property (copy, nonatomic) NSString *post; // id of post message refers to
 @property (strong, nonatomic) PCProfile *profile; // id num of profile who wrote the message
 @property (strong, nonatomic) PCProfile *recipient; // id of profile sent to
