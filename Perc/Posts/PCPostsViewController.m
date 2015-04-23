@@ -15,6 +15,7 @@
 
 @interface PCPostsViewController ()
 @property (strong, nonatomic) UICollectionView *postsTable;
+@property (strong, nonatomic) UILabel *lblMessage;
 @end
 
 static NSString *cellId = @"cellId";
@@ -41,10 +42,19 @@ static NSString *cellId = @"cellId";
 {
     UIView *view = [self baseView];
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgBurger.png"]];
-//    CGRect frame = view.frame;
+    CGRect frame = view.frame;
     
 
 
+    self.lblMessage = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, 120.0f, frame.size.width-40.0f, 22.0f)];
+    self.lblMessage.textColor = [UIColor darkGrayColor];
+    self.lblMessage.numberOfLines = 0;
+    self.lblMessage.textAlignment = NSTextAlignmentCenter;
+    self.lblMessage.lineBreakMode = NSLineBreakByWordWrapping;
+    self.lblMessage.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    self.lblMessage.alpha = 0.0f;
+    self.lblMessage.backgroundColor = [UIColor whiteColor];
+    [view addSubview:self.lblMessage];
     
     
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
@@ -63,6 +73,22 @@ static NSString *cellId = @"cellId";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
                                                                                            target:self
                                                                                            action:@selector(createPost:)];
+    
+    if (self.currentZone.isPopulated==NO){
+        self.lblMessage.alpha = 0.7f;
+        NSString *msg = [NSString stringWithFormat:@"Sorry, PERC is not in your area yet. Hopefully we'll be in %@ soon!", [self.locationMgr.cities[0] uppercaseString]];
+        
+        CGRect textBounds = [msg boundingRectWithSize:CGSizeMake(self.lblMessage.frame.size.width, 360.0f)
+                                              options:NSStringDrawingUsesLineFragmentOrigin
+                                           attributes:@{NSFontAttributeName:self.lblMessage.font}
+                                              context:nil];
+        CGRect frame = self.lblMessage.frame;
+        frame.size.height = textBounds.size.height+24.0f;
+        self.lblMessage.frame = frame;
+        
+        self.lblMessage.text = msg;
+        return;
+    }
 
     if (self.currentZone.posts){
         [self layoutListsCollectionView];
