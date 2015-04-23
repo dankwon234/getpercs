@@ -100,6 +100,7 @@ static NSString *cellId = @"cellId";
                          
                      }];
     
+    
     if (self.currentZone.venues){
         [self layoutListsCollectionView];
         return;
@@ -108,86 +109,6 @@ static NSString *cellId = @"cellId";
     [self.loadingIndicator startLoading];
     [self fetchVenuesForCurrentLocation];
 
-    /*
-    BOOL connected = [[PCWebServices sharedInstance] checkConnection];
-    if (connected==NO){
-        [self showAlertWithTitle:@"No Connection" message:@"Please find an internet connection."];
-        return;
-    }
-    
-    [self.loadingIndicator startLoading];
-    [self.locationMgr findLocation:^(NSError *error){
-        
-        if (error) {
-            [self.loadingIndicator stopLoading];
-            NSLog(@"ERROR: %@", [error localizedDescription]);
-            [self showAlertWithTitle:@"Error" message:@"Failed to Get Your Location. Please check your settings to make sure location services is ativated (under 'Privacy' section).\n\nTo choose your location, tap the icon in the upper right corner."];
-            return;
-        }
-        
-        NSLog(@"CURRENT LOCATION: %.2f, %.2f", self.locationMgr.currentLocation.latitude, self.locationMgr.currentLocation.longitude);
-        
-        [self.locationMgr reverseGeocode:self.locationMgr.currentLocation completion:^{
-            NSLog(@"%@", [self.locationMgr.cities description]);
-            NSString *townState = self.locationMgr.cities[0];
-            self.lblLocation.text = [townState uppercaseString];
-
-            NSArray *parts = [townState componentsSeparatedByString:@", "];
-            
-            if (parts.count<2){ // not a valid city, state.
-                [self showAlertWithTitle:@"No Venues" message:@"We don't serve your area yet. Sorry."];
-                return;
-            }
-            
-            NSDictionary *params = @{@"town":parts[0], @"state":parts[1]};
-            [[PCWebServices sharedInstance] fetchZone:params completion:^(id result, NSError *error){
-                if (error){
-                    [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
-                    return;
-                }
-                
-                NSDictionary *results = result;
-                NSLog(@"%@", [results description]);
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    NSArray *z = results[@"zones"];
-                    if (z.count == 0){
-                        [self.loadingIndicator stopLoading];
-                        [self showAlertWithTitle:@"No Service" message:@"Sorry, Perc is not in your area yet. Hopefully we will be in your town soon!"];
-                        return;
-                    }
-                    
-                    NSDictionary *zoneInfo = z[0];
-                    [self.currentZone populate:zoneInfo];
-                    self.profile.lastZone = self.currentZone.uniqueId;
-                    [self.profile updateProfile]; // update profile with last zone info on backend
-                    if ([self.currentZone.status isEqualToString:@"open"]==NO){
-                        [self.loadingIndicator stopLoading];
-                        
-                        NSString *message = self.currentZone.message;
-                        CGRect boundingRect = [message boundingRectWithSize:CGSizeMake(self.lblMessage.frame.size.width, 250.0f)
-                                                                    options:NSStringDrawingUsesLineFragmentOrigin
-                                                                 attributes:@{NSFontAttributeName:self.lblMessage.font}
-                                                                    context:nil];
-                        
-                        CGRect frame = self.lblMessage.frame;
-                        frame.size.height = boundingRect.size.height;
-                        self.lblMessage.frame = frame;
-                        self.lblMessage.text = message;
-                        self.lblMessage.alpha = 1.0f;
-                        return;
-                    }
-
-                    
-                    self.lblMessage.alpha = 0.0f;
-                    [self fetchVenuesForCurrentLocation];
-                    
-                });
-            }];
-        }];
-    }];
-     
-     */
 }
 
 
