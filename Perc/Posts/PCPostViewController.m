@@ -427,7 +427,7 @@
             cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0f];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.imageView.image = [UIImage imageNamed:@"iconEnvelope.png"];
-            cell.textLabel.text = @"REPLY";
+            cell.textLabel.text = @"DIRECT MESSAGE";
             return cell;
 
         }
