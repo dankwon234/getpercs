@@ -199,9 +199,6 @@
     }
 
     if (tag==1001){ // view bulletin board posts
-        if (self.currentZone.isPopulated==NO)
-            return;
-        
         PCPostsViewController *postsVc = [[PCPostsViewController alloc] init];
         [self.navigationController pushViewController:postsVc animated:YES];
     }
