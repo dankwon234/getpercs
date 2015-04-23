@@ -27,6 +27,7 @@
 @property (nonatomic) BOOL isPopulated;
 @property (nonatomic) BOOL hasCreditCard;
 + (PCProfile *)sharedProfile;
++ (PCProfile *)profileWithInfo:(NSDictionary *)info;
 - (void)populate:(NSDictionary *)profileInfo;
 - (NSDictionary *)parametersDictionary;
 - (NSString *)jsonRepresentation;

@@ -64,6 +64,13 @@
     return shared;
 }
 
++ (PCProfile *)profileWithInfo:(NSDictionary *)info
+{
+    PCProfile *profile = [[PCProfile alloc] init];
+    [profile populate:info];
+    return profile;
+}
+
 - (void)clear
 {
     self.uniqueId = @"none";
