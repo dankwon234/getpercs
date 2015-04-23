@@ -217,7 +217,7 @@ static NSString *placeholder = @"Reply";
     
     // populate message details:
     self.message.content = self.replyForm.text;
-    self.message.profile = self.profile.uniqueId;
+    self.message.profile = self.profile;
     self.message.post = self.post.uniqueId;
     self.message.recipient = self.post.profile;
     
