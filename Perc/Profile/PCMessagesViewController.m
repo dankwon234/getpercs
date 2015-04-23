@@ -8,6 +8,7 @@
 
 #import "PCMessagesViewController.h"
 #import "PCMessage.h"
+#import "PCMessageCell.h"
 
 
 @interface PCMessagesViewController ()
@@ -27,6 +28,7 @@
     self.messagesTable.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
     self.messagesTable.dataSource = self;
     self.messagesTable.delegate = self;
+    self.messagesTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     [view addSubview:self.messagesTable];
 
     
@@ -57,6 +59,8 @@
             NSArray *m = results[@"messages"];
             for (int i=0; i<m.count; i++)
                 [self.profile.messages addObject:[PCMessage messageWithInfo:m[i]]];
+            
+            [self.messagesTable reloadData];
         });
         
     }];
@@ -68,20 +72,28 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 20;
+    return self.profile.messages.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+    PCMessageCell *cell = (PCMessageCell *)[tableView dequeueReusableCellWithIdentifier:cellId];
     if (cell==nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell = [[PCMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     }
     
-    cell.textLabel.text = [NSString stringWithFormat:@"%d", (int)indexPath.row];
+    PCMessage *message = (PCMessage *)self.profile.messages[indexPath.row];
+    cell.lblName.text = [NSString stringWithFormat:@"%@ %@", [message.profile.firstName capitalizedString], [message.profile.lastName capitalizedString]];
+    cell.lblDate.text = message.formattedDate;
+    cell.lblMessage.text = message.content;
     return cell;
     
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [PCMessageCell standardCellHeight];
 }
 
 - (void)didReceiveMemoryWarning
