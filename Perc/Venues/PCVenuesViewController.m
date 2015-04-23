@@ -58,14 +58,16 @@ static NSString *cellId = @"cellId";
         self.lblLocation.text = [self.locationMgr.cities[0] uppercaseString];
 
     [view addSubview:self.lblLocation];
-    y += self.lblLocation.frame.size.height+24.0f;
+    y += self.lblLocation.frame.size.height+36.0f;
     
     self.lblMessage = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, y, frame.size.width-40.0f, 22.0f)];
-    self.lblMessage.textColor = [UIColor whiteColor];
+    self.lblMessage.textColor = [UIColor darkGrayColor];
     self.lblMessage.numberOfLines = 0;
+    self.lblMessage.textAlignment = NSTextAlignmentCenter;
     self.lblMessage.lineBreakMode = NSLineBreakByWordWrapping;
     self.lblMessage.font = [UIFont fontWithName:kBaseFontName size:16.0f];
     self.lblMessage.alpha = 0.0f;
+    self.lblMessage.backgroundColor = [UIColor whiteColor];
     [view addSubview:self.lblMessage];
     
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
@@ -100,6 +102,22 @@ static NSString *cellId = @"cellId";
                          
                      }];
     
+    if (self.currentZone.isPopulated==NO){
+        self.lblMessage.alpha = 0.7f;
+        NSString *msg = [NSString stringWithFormat:@"Sorry, PERC is not in your area yet. Hopefully we'll be in %@ soon!", [self.locationMgr.cities[0] uppercaseString]];
+        
+        CGRect textBounds = [msg boundingRectWithSize:CGSizeMake(self.lblMessage.frame.size.width, 360.0f)
+                                              options:NSStringDrawingUsesLineFragmentOrigin
+                                           attributes:@{NSFontAttributeName:self.lblMessage.font}
+                                              context:nil];
+        CGRect frame = self.lblMessage.frame;
+        frame.size.height = textBounds.size.height+24.0f;
+        self.lblMessage.frame = frame;
+        
+        self.lblMessage.text = msg;
+        return;
+    }
+
     
     if (self.currentZone.venues){
         [self layoutListsCollectionView];
