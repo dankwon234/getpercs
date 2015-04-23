@@ -22,8 +22,8 @@
     self = [super init];
     if (self) {
         self.uniqueId = @"none";
-        self.profile = @"none";
-        self.recipient = @"none";
+        self.profile = nil;
+        self.recipient = nil;
         self.content = @"none";
         self.post = @"none";
     }
@@ -35,8 +35,8 @@
 - (void)populate:(NSDictionary *)messageInfo
 {
     self.uniqueId = messageInfo[@"id"];
-    self.profile = messageInfo[@"profile"];
-    self.recipient = messageInfo[@"recipient"];
+    self.profile = [PCProfile profileWithInfo:messageInfo[@"proifle"]];
+    self.recipient = [PCProfile profileWithInfo:messageInfo[@"recipient"]];
     self.content = messageInfo[@"content"];
     self.post = messageInfo[@"post"];
 }
@@ -50,8 +50,14 @@
 
 - (NSDictionary *)parametersDictionary
 {
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{@"id":self.uniqueId, @"profile":self.profile, @"recipient":self.recipient, @"post":self.post, @"content":self.content}];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{@"id":self.uniqueId, @"post":self.post, @"content":self.content}];
     
+    if (self.profile)
+        params[@"profile"] = self.profile.uniqueId;
+
+    if (self.recipient)
+        params[@"recipient"] = self.recipient.uniqueId;
+
     return params;
 }
 
