@@ -25,6 +25,7 @@
 @property (strong, nonatomic) NSMutableArray *messages;
 @property (strong, nonatomic) UIImage *imageData;
 @property (nonatomic) BOOL isPopulated;
+@property (nonatomic) BOOL isPublic;
 @property (nonatomic) BOOL hasCreditCard;
 + (PCProfile *)sharedProfile;
 + (PCProfile *)profileWithInfo:(NSDictionary *)info;

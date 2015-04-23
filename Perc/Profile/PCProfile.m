@@ -24,6 +24,7 @@
 @synthesize deviceToken;
 @synthesize lastZone;
 @synthesize messages;
+@synthesize isPublic;
 
 - (id)init
 {
@@ -42,9 +43,10 @@
         self.messages = nil;
         self.isPopulated = NO;
         self.hasCreditCard = NO;
+        self.isPublic = NO;
         
-        if ([self populateFromCache])
-            [self refreshProfileInfo];
+//        if ([self populateFromCache])
+//            [self refreshProfileInfo];
 
     }
     
@@ -58,6 +60,8 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         shared = [[PCProfile alloc] init];
+        if ([shared populateFromCache])
+            [shared refreshProfileInfo];
         
     });
     
@@ -67,6 +71,7 @@
 + (PCProfile *)profileWithInfo:(NSDictionary *)info
 {
     PCProfile *profile = [[PCProfile alloc] init];
+    profile.isPublic = YES;
     [profile populate:info];
     return profile;
 }
@@ -85,6 +90,7 @@
     self.orderHistory = nil;
     self.isPopulated = NO;
     self.hasCreditCard = NO;
+    self.isPublic = NO;
 }
 
 
@@ -100,9 +106,10 @@
     self.lastZone = profileInfo[@"lastZone"];
     if (profileInfo[@"creditCard"])
         self.hasCreditCard = [profileInfo[@"creditCard"] isEqualToString:@"yes"];
-    
-    
     self.isPopulated = YES;
+    
+    if (self.isPublic) // don't cache public profiles
+        return;
     
     [self cacheProfile];
 }
