@@ -131,6 +131,7 @@
 		0CD782D61AC1AFAA0072A0F3 /* logo-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CD782D51AC1AFAA0072A0F3 /* logo-white@2x.png */; };
 		0CDCBB9F1AC1B3050034DAB0 /* PCAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDCBB9E1AC1B3050034DAB0 /* PCAboutViewController.m */; };
 		0CDF620B1AE0BE97006B3C94 /* PCCreatePostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */; };
+		0CFC9D001AE89DED00D2A923 /* PCMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFC9CFF1AE89DED00D2A923 /* PCMessageCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -350,6 +351,8 @@
 		0CDCBB9E1AC1B3050034DAB0 /* PCAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCAboutViewController.m; sourceTree = "<group>"; };
 		0CDF62091AE0BE97006B3C94 /* PCCreatePostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCreatePostViewController.h; sourceTree = "<group>"; };
 		0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCreatePostViewController.m; sourceTree = "<group>"; };
+		0CFC9CFE1AE89DED00D2A923 /* PCMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCMessageCell.h; sourceTree = "<group>"; };
+		0CFC9CFF1AE89DED00D2A923 /* PCMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCMessageCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -700,6 +703,8 @@
 				0CD16F151AE7574900B5F85B /* PCOrderHistoryViewController.m */,
 				0CD16F171AE75DB200B5F85B /* PCMessagesViewController.h */,
 				0CD16F181AE75DB200B5F85B /* PCMessagesViewController.m */,
+				0CFC9CFE1AE89DED00D2A923 /* PCMessageCell.h */,
+				0CFC9CFF1AE89DED00D2A923 /* PCMessageCell.m */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -951,6 +956,7 @@
 				0CCF89451AE46E2300051244 /* PCMessage.m in Sources */,
 				0C6138FC1AB8E8C700D12C50 /* AFHTTPRequestOperation.m in Sources */,
 				0C8B61651ABD028800BC13C8 /* PTKComponent.m in Sources */,
+				0CFC9D001AE89DED00D2A923 /* PCMessageCell.m in Sources */,
 				0C6139181AB8F36000D12C50 /* PCLocationManager.m in Sources */,
 				0C6139041AB8E8C700D12C50 /* AFURLSessionManager.m in Sources */,
 				0CDCBB9F1AC1B3050034DAB0 /* PCAboutViewController.m in Sources */,
