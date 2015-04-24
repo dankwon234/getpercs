@@ -25,6 +25,7 @@
 @synthesize lastZone;
 @synthesize messages;
 @synthesize isPublic;
+@synthesize posts;
 
 - (id)init
 {
@@ -41,6 +42,7 @@
         self.password = nil;
         self.orderHistory = nil;
         self.messages = nil;
+        self.posts = nil;
         self.isPopulated = NO;
         self.hasCreditCard = NO;
         self.isPublic = NO;

@@ -23,6 +23,7 @@
 @property (copy, nonatomic) NSString *lastZone;
 @property (strong, nonatomic) NSMutableArray *orderHistory;
 @property (strong, nonatomic) NSMutableArray *messages;
+@property (strong, nonatomic) NSMutableArray *posts;
 @property (strong, nonatomic) UIImage *imageData;
 @property (nonatomic) BOOL isPopulated;
 @property (nonatomic) BOOL isPublic;
