@@ -12,7 +12,6 @@
 #import "PCAccountViewController.h"
 #import "PCAboutViewController.h"
 #import "PCZoneViewController.h"
-#import "PCOrderHistoryViewController.h"
 #import "PCMessagesViewController.h"
 
 
@@ -21,7 +20,6 @@
 @property (strong, nonatomic) NSArray *sections;
 @property (strong, nonatomic) UINavigationController *navCtr;
 @property (strong, nonatomic) PCZoneViewController *zoneVc;
-@property (strong, nonatomic) PCOrderHistoryViewController *orderHistoryVc;
 @property (strong, nonatomic) PCMessagesViewController *messagesVc;
 @property (strong, nonatomic) PCViewController *currentVc;
 @property (strong, nonatomic) PCWelcomeView *welcomeView;
@@ -36,7 +34,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
 //        self.sections = @[@"Venues", @"Your Account", @"Join Us", @"About"];
-        self.sections = @[@"Venues", @"Order History", @"Messages", @"Posts", @"About"];
+        self.sections = @[@"Venues", @"Messages", @"Posts", @"About"];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(toggleMenu)
                                                      name:kViewMenuNotification
@@ -309,19 +307,19 @@
         self.currentVc = self.zoneVc;
     }
     
-    if (indexPath.row==1){
-        if (self.orderHistoryVc){
-            if ([self.currentVc isEqual:self.orderHistoryVc]){
-                [self toggleMenu];
-                return;
-            }
-        }
-        else{
-            self.orderHistoryVc = [[PCOrderHistoryViewController alloc] init];
-        }
-        
-        self.currentVc = self.orderHistoryVc;
-    }
+//    if (indexPath.row==1){
+//        if (self.orderHistoryVc){
+//            if ([self.currentVc isEqual:self.orderHistoryVc]){
+//                [self toggleMenu];
+//                return;
+//            }
+//        }
+//        else{
+//            self.orderHistoryVc = [[PCOrderHistoryViewController alloc] init];
+//        }
+//        
+//        self.currentVc = self.orderHistoryVc;
+//    }
 
     
     if (indexPath.row==2){
