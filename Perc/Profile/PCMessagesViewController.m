@@ -39,7 +39,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self addMenuButton];
+    [self addCustomBackButton];
     
     if (self.profile.messages)
         return;
