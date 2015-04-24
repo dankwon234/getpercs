@@ -20,6 +20,7 @@
 @property (strong, nonatomic) UINavigationController *navCtr;
 @property (strong, nonatomic) PCZoneViewController *zoneVc;
 @property (strong, nonatomic) PCViewController *currentVc;
+@property (strong, nonatomic) PCAboutViewController *aboutVc;
 @property (strong, nonatomic) PCWelcomeView *welcomeView;
 @property (strong, nonatomic) UIButton *btnLogin;
 @end
@@ -79,10 +80,6 @@
     [view addSubview:self.sectionsTable];
     
     
-//    self.venuesVc = [[PCVenuesViewController alloc] init];
-//    self.currentVc = self.venuesVc;
-//    self.navCtr = [[UINavigationController alloc] initWithRootViewController:self.venuesVc];
-//    self.navCtr.navigationBar.barTintColor = kOrange;
 
     self.zoneVc = [[PCZoneViewController alloc] init];
     self.currentVc = self.zoneVc;
@@ -248,7 +245,7 @@
     if (self.locationMgr.cities.count==0)
         return;
     
-    self.sections = @[[self.locationMgr.cities[0] uppercaseString], @"Order History", @"Messages", @"Posts", @"About"];
+    self.sections = @[[self.locationMgr.cities[0] uppercaseString], @"About"];
     [self.sectionsTable reloadData];
 }
 
@@ -284,10 +281,16 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row==self.sections.count-1){ // about page
-        PCAboutViewController *aboutVc = [[PCAboutViewController alloc] init];
-        [self presentViewController:aboutVc animated:YES completion:^{
-            [self.sectionsTable deselectRowAtIndexPath:[self.sectionsTable indexPathForSelectedRow] animated:NO];
-        }];
+        if (self.aboutVc==nil)
+            self.aboutVc = [[PCAboutViewController alloc] init];
+        
+        
+        // not sure why but there is a lag unless i call this on main thread:
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self presentViewController:self.aboutVc animated:YES completion:^{
+                [self.sectionsTable deselectRowAtIndexPath:[self.sectionsTable indexPathForSelectedRow] animated:NO];
+            }];
+        });
         
         return;
     }
@@ -303,35 +306,6 @@
         
         self.currentVc = self.zoneVc;
     }
-    
-//    if (indexPath.row==1){
-//        if (self.orderHistoryVc){
-//            if ([self.currentVc isEqual:self.orderHistoryVc]){
-//                [self toggleMenu];
-//                return;
-//            }
-//        }
-//        else{
-//            self.orderHistoryVc = [[PCOrderHistoryViewController alloc] init];
-//        }
-//        
-//        self.currentVc = self.orderHistoryVc;
-//    }
-
-    
-//    if (indexPath.row==2){
-//        if (self.messagesVc){
-//            if ([self.currentVc isEqual:self.messagesVc]){
-//                [self toggleMenu];
-//                return;
-//            }
-//        }
-//        else{
-//            self.messagesVc = [[PCMessagesViewController alloc] init];
-//        }
-//        
-//        self.currentVc = self.messagesVc;
-//    }
     
     CGRect frame = self.view.frame;
     [UIView animateWithDuration:0.2f
