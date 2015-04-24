@@ -31,7 +31,10 @@
     self.messagesTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     [view addSubview:self.messagesTable];
 
-    
+    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
+    swipe.direction = UISwipeGestureRecognizerDirectionRight;
+    [view addGestureRecognizer:swipe];
+
     self.view = view;
 }
 
@@ -65,6 +68,13 @@
         
     }];
 }
+
+
+- (void)back:(UIGestureRecognizer *)swipe
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 
 
