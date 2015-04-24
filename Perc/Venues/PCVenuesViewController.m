@@ -578,12 +578,9 @@ static NSString *cellId = @"cellId";
 
 - (void)viewVenue:(UIButton *)btn
 {
-    if (self.mode==0){
-        PCVenue *venue = self.currentZone.venues[btn.tag-1000];
-        [self segueToVenue:venue];
-        return;
-    }
-    
+    PCVenue *venue = self.currentZone.venues[btn.tag-1000];
+    [self segueToVenue:venue];
+    return;
 }
 
 - (void)segueToVenue:(PCVenue *)venue
