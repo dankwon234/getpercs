@@ -78,13 +78,16 @@ static NSString *cellId = @"cellId";
     self.lblTitle.textColor = [UIColor whiteColor];
     self.lblTitle.text = @"Venues";
     [view addSubview:self.lblTitle];
-    y += self.lblTitle.frame.size.height+12.0f;
+    y += self.lblTitle.frame.size.height+6.0f;
 
     
     self.btnDots = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage *dots = [UIImage imageNamed:@"dots.png"];
     self.btnDots.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    self.btnDots.frame = CGRectMake(x, y, frame.size.width-2*x, 44.0f);
-    self.btnDots.backgroundColor = [UIColor redColor];
+    self.btnDots.frame = CGRectMake(x, y, dots.size.width, dots.size.height);
+    self.btnDots.center = CGPointMake(0.5f*frame.size.width, self.btnDots.center.y);
+    [self.btnDots setImage:dots forState:UIControlStateNormal];
+    self.btnDots.backgroundColor = [UIColor clearColor];
     [self.btnDots addTarget:self action:@selector(showOptionsView:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:self.btnDots];
     
