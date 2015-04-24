@@ -20,6 +20,7 @@
 @property (strong, nonatomic) UIImageView *background;
 @property (strong, nonatomic) UIImageView *icon;
 @property (strong, nonatomic) UILabel *lblMessage;
+@property (strong, nonatomic) UILabel *lblTitle;
 @property (strong, nonatomic) UIButton *btnOrderHistory;
 @property (strong, nonatomic) UIButton *btnVenues;
 @property (strong, nonatomic) UIButton *btnDots;
@@ -70,6 +71,16 @@ static NSString *cellId = @"cellId";
     CGFloat x = 20.0f;
     CGFloat y = self.icon.frame.origin.y+self.icon.frame.size.height+20.0f;
     
+    self.lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(x, y, frame.size.width-2*x, 18.0f)];
+    self.lblTitle.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    self.lblTitle.textAlignment = NSTextAlignmentCenter;
+    self.lblTitle.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    self.lblTitle.textColor = [UIColor whiteColor];
+    self.lblTitle.text = @"Venues";
+    [view addSubview:self.lblTitle];
+    y += self.lblTitle.frame.size.height+12.0f;
+
+    
     self.btnDots = [UIButton buttonWithType:UIButtonTypeCustom];
     self.btnDots.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     self.btnDots.frame = CGRectMake(x, y, frame.size.width-2*x, 44.0f);
@@ -92,7 +103,7 @@ static NSString *cellId = @"cellId";
     self.optionsView.backgroundColor = [UIColor blackColor];
     self.optionsView.alpha = 0.0f;
     
-    y = 120.0f;
+    y = 180.0f;
     self.btnOrderHistory = [UIButton buttonWithType:UIButtonTypeCustom];
     self.btnOrderHistory.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     self.btnOrderHistory.frame = CGRectMake(x, y, frame.size.width-2*x, h);
@@ -230,6 +241,7 @@ static NSString *cellId = @"cellId";
         return;
 
     self.mode = 0;
+    self.lblTitle.text = @"Venues";
     [self layoutListsCollectionView];
 }
 
@@ -240,6 +252,7 @@ static NSString *cellId = @"cellId";
         return;
     
    self.mode = 1;
+    self.lblTitle.text = @"Order History";
     
     if (self.profile.orderHistory != nil){
         if (self.profile.orderHistory.count==0){
@@ -403,6 +416,7 @@ static NSString *cellId = @"cellId";
         double distance = offset+kTopInset;
         self.icon.alpha = 1.0f-(distance/100.0f);
         self.btnDots.alpha = self.icon.alpha;
+        self.lblTitle.alpha = self.icon.alpha;
     }
 }
 
