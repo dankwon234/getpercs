@@ -31,7 +31,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
-//        self.sections = @[@"Venues", @"Your Account", @"Join Us", @"About"];
         self.sections = @[@"Venues", @"About"];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(toggleMenu)
