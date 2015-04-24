@@ -121,7 +121,7 @@ static NSString *cellId = @"cellId";
     self.btnNearby.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
     [self.btnNearby setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.btnNearby setTitle:@"Nearby" forState:UIControlStateNormal];
-    //    [self.btnPosts addTarget:self action:@selector(viewOrderHistory:) forControlEvents:UIControlEventTouchUpInside];
+    [self.btnNearby addTarget:self action:@selector(viewNearbyPosts:) forControlEvents:UIControlEventTouchUpInside];
     [self.optionsView addSubview:self.btnNearby];
     y += self.btnNearby.frame.size.height+20.0f;
 
@@ -136,7 +136,7 @@ static NSString *cellId = @"cellId";
     self.btnYourPosts.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
     [self.btnYourPosts setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.btnYourPosts setTitle:@"Your Posts" forState:UIControlStateNormal];
-    //    [self.btnPosts addTarget:self action:@selector(viewOrderHistory:) forControlEvents:UIControlEventTouchUpInside];
+    [self.btnYourPosts addTarget:self action:@selector(viewProfilePosts:) forControlEvents:UIControlEventTouchUpInside];
     [self.optionsView addSubview:self.btnYourPosts];
     y += self.btnYourPosts.frame.size.height+20.0f;
     
@@ -231,7 +231,8 @@ static NSString *cellId = @"cellId";
         
         //this is smoother than a conventional reload. it doesn't stutter the UI:
         dispatch_async(dispatch_get_main_queue(), ^{
-            int index = (int)[self.currentZone.posts indexOfObject:post];
+            NSArray *dataArray = (self.mode==0) ? self.currentZone.posts : self.profile.posts;
+            int index = (int)[dataArray indexOfObject:post];
             PCPostCell *cell = (PCPostCell *)[self.postsTable cellForItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
             
             if (!cell)
@@ -275,6 +276,56 @@ static NSString *cellId = @"cellId";
                          
                      }];
 }
+
+- (void)viewNearbyPosts:(UIButton *)btn
+{
+    [self hideOptionsView:nil];
+    if (self.mode==0)
+        return;
+    
+    self.lblTitle.text = @"Nearby";
+    self.mode = 0;
+    [self layoutListsCollectionView];
+}
+
+- (void)viewProfilePosts:(UIButton *)btn
+{
+    [self hideOptionsView:nil];
+    if (self.mode==1)
+        return;
+    
+    self.mode = 1;
+    self.lblTitle.text = @"Your Posts";
+    if (self.profile.posts){
+        [self layoutListsCollectionView];
+        return;
+    }
+    
+    [self.loadingIndicator startLoading];
+    [[PCWebServices sharedInstance] fetchPosts:@{@"":self.profile.uniqueId} completion:^(id result, NSError *error){
+        [self.loadingIndicator stopLoading];
+        
+        if (error){
+            [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
+            return;
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.profile.posts = [NSMutableArray array];
+            NSDictionary *results = (NSDictionary *)result;
+            NSArray *a = results[@"posts"];
+            for (int i=0; i<a.count; i++)
+                [self.profile.posts addObject:[PCPost postWithInfo:a[i]]];
+            
+            [self layoutListsCollectionView];
+        });
+        
+    }];
+    
+}
+
+
+
 
 - (void)showOptionsView:(UIButton *)btn
 {
@@ -368,8 +419,9 @@ static NSString *cellId = @"cellId";
         [self.postsTable.collectionViewLayout invalidateLayout];
         [self.postsTable reloadData];
         
+        NSArray *dataArray = (self.mode==0) ? self.currentZone.posts : self.profile.posts;
         NSMutableArray *indexPaths = [NSMutableArray array];
-        for (int i=0; i<self.currentZone.posts.count; i++)
+        for (int i=0; i<dataArray.count; i++)
             [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
         
         [self.postsTable reloadItemsAtIndexPaths:indexPaths];
@@ -397,14 +449,15 @@ static NSString *cellId = @"cellId";
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     //    NSLog(@"collectionView numberOfItemsInSection: %d", self.posts.count);
-    return self.currentZone.posts.count;
+    return (self.mode==0) ? self.currentZone.posts.count : self.profile.posts.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     PCPostCell *cell = (PCPostCell *)[collectionView dequeueReusableCellWithReuseIdentifier:cellId forIndexPath:indexPath];
     
-    PCPost *post = (PCPost *)self.currentZone.posts[indexPath.row];
+//    PCPost *post = (PCPost *)self.currentZone.posts[indexPath.row];
+    PCPost *post = (self.mode==0) ? (PCPost *)self.currentZone.posts[indexPath.row] : (PCPost *)self.profile.posts[indexPath.row];
     cell.tag = indexPath.row+1000;
     cell.lblTitle.text = post.title;
     cell.lblNumViews.text = [NSString stringWithFormat:@"%d Views", post.numViews];
@@ -434,14 +487,12 @@ static NSString *cellId = @"cellId";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    PCPost *post = (PCPost *)self.currentZone.posts[indexPath.row];
+    PCPost *post = (self.mode==0) ? (PCPost *)self.currentZone.posts[indexPath.row] : (PCPost *)self.profile.posts[indexPath.row];
     NSLog(@"View Post: %@", post.title);
     
     PCPostViewController *postVc = [[PCPostViewController alloc] init];
     postVc.post = post;
     [self.navigationController pushViewController:postVc animated:YES];
-
-    
 }
 
 
