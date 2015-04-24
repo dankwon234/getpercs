@@ -87,6 +87,9 @@ static NSString *cellId = @"cellId";
     y += self.lblDescription.frame.size.height+16.0f;
     
     
+    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
+    swipe.direction = UISwipeGestureRecognizerDirectionRight;
+    [view addGestureRecognizer:swipe];
     
     
     
@@ -202,21 +205,6 @@ static NSString *cellId = @"cellId";
     }
 }
 
-- (void)logout:(id)sender
-{
-    [self.profile clear];
-    [self back:nil];
-}
-
-
-- (void)back:(id)sender
-{
-    [self.navigationController dismissViewControllerAnimated:YES completion:^{
-        
-    }];
-}
-
-
 - (void)layoutCollectionView
 {
     if (self.ordersTable){
@@ -287,6 +275,10 @@ static NSString *cellId = @"cellId";
     });
 }
 
+- (void)back:(UIGestureRecognizer *)swipe
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
