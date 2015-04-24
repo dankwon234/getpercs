@@ -10,4 +10,5 @@
 
 @interface PCPostsViewController : PCViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
+@property (nonatomic) int mode;
 @end
