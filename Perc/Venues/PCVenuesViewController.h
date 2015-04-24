@@ -11,4 +11,5 @@
 
 @interface PCVenuesViewController : PCViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate>
 
+@property (nonatomic) int mode; //0=regular, 1=order history
 @end

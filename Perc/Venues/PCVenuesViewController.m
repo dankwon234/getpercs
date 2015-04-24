@@ -9,8 +9,9 @@
 #import "PCVenuesViewController.h"
 #import "PCVenueViewController.h"
 #import "PCCollectionViewFlowLayout.h"
-#import "PCOrderHistoryViewController.h"
+#import "PCOrderViewController.h"
 #import "PCVenue.h"
+#import "PCOrder.h"
 #import "PCVenueCell.h"
 
 
@@ -20,12 +21,28 @@
 @property (strong, nonatomic) UIImageView *icon;
 @property (strong, nonatomic) UILabel *lblMessage;
 @property (strong, nonatomic) UIButton *btnOrderHistory;
+@property (strong, nonatomic) UIButton *btnVenues;
+@property (strong, nonatomic) UIButton *btnDots;
+@property (strong, nonatomic) UIView *optionsView;
 @end
 
 static NSString *cellId = @"cellId";
 #define kTopInset 220.0f
 
 @implementation PCVenuesViewController
+@synthesize mode;
+
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self){
+        self.mode = 0;
+        
+    }
+    return self;
+}
+
 
 
 - (void)loadView
@@ -52,6 +69,30 @@ static NSString *cellId = @"cellId";
     CGFloat h = 44.0f;
     CGFloat x = 20.0f;
     CGFloat y = self.icon.frame.origin.y+self.icon.frame.size.height+20.0f;
+    
+    self.btnDots = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.btnDots.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    self.btnDots.frame = CGRectMake(x, y, frame.size.width-2*x, 44.0f);
+    self.btnDots.backgroundColor = [UIColor redColor];
+    [self.btnDots addTarget:self action:@selector(showOptionsView:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:self.btnDots];
+    
+    y = 240.0f;
+    self.lblMessage = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, y, frame.size.width-40.0f, 22.0f)];
+    self.lblMessage.textColor = [UIColor darkGrayColor];
+    self.lblMessage.numberOfLines = 0;
+    self.lblMessage.textAlignment = NSTextAlignmentCenter;
+    self.lblMessage.lineBreakMode = NSLineBreakByWordWrapping;
+    self.lblMessage.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    self.lblMessage.alpha = 0.0f;
+    self.lblMessage.backgroundColor = [UIColor whiteColor];
+    [view addSubview:self.lblMessage];
+    
+    self.optionsView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
+    self.optionsView.backgroundColor = [UIColor blackColor];
+    self.optionsView.alpha = 0.0f;
+    
+    y = 120.0f;
     self.btnOrderHistory = [UIButton buttonWithType:UIButtonTypeCustom];
     self.btnOrderHistory.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     self.btnOrderHistory.frame = CGRectMake(x, y, frame.size.width-2*x, h);
@@ -64,19 +105,27 @@ static NSString *cellId = @"cellId";
     [self.btnOrderHistory setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.btnOrderHistory setTitle:@"Order History" forState:UIControlStateNormal];
     [self.btnOrderHistory addTarget:self action:@selector(viewOrderHistory:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:self.btnOrderHistory];
+    [self.optionsView addSubview:self.btnOrderHistory];
     y += self.btnOrderHistory.frame.size.height+20.0f;
 
     
-    self.lblMessage = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, y, frame.size.width-40.0f, 22.0f)];
-    self.lblMessage.textColor = [UIColor darkGrayColor];
-    self.lblMessage.numberOfLines = 0;
-    self.lblMessage.textAlignment = NSTextAlignmentCenter;
-    self.lblMessage.lineBreakMode = NSLineBreakByWordWrapping;
-    self.lblMessage.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    self.lblMessage.alpha = 0.0f;
-    self.lblMessage.backgroundColor = [UIColor whiteColor];
-    [view addSubview:self.lblMessage];
+    self.btnVenues = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.btnVenues.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    self.btnVenues.frame = CGRectMake(x, y, frame.size.width-2*x, h);
+    self.btnVenues.backgroundColor = [UIColor clearColor];
+    self.btnVenues.layer.cornerRadius = 0.5f*h;
+    self.btnVenues.layer.masksToBounds = YES;
+    self.btnVenues.layer.borderColor = [[UIColor whiteColor] CGColor];
+    self.btnVenues.layer.borderWidth = 1.0f;
+    self.btnVenues.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    [self.btnVenues setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.btnVenues setTitle:@"Venues" forState:UIControlStateNormal];
+    [self.btnVenues addTarget:self action:@selector(viewVenues:) forControlEvents:UIControlEventTouchUpInside];
+    [self.optionsView addSubview:self.btnVenues];
+
+    
+    [self.optionsView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideOptionsView:)]];
+    [view addSubview:self.optionsView];
     
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
     swipe.direction = UISwipeGestureRecognizerDirectionRight;
@@ -134,7 +183,6 @@ static NSString *cellId = @"cellId";
     
     [self.loadingIndicator startLoading];
     [self fetchVenuesForCurrentLocation];
-
 }
 
 
@@ -149,10 +197,118 @@ static NSString *cellId = @"cellId";
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)hideOptionsView:(UIGestureRecognizer *)tap
+{
+    [UIView animateWithDuration:0.35f
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         self.optionsView.alpha = 0.0f;
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
+
+- (void)showOptionsView:(UIButton *)btn
+{
+    [UIView animateWithDuration:0.35f
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         self.optionsView.alpha = 0.85f;
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
+
+- (void)viewVenues:(UIButton *)btn
+{
+    [self hideOptionsView:nil];
+    if (self.mode==0)
+        return;
+
+    self.mode = 0;
+    [self layoutListsCollectionView];
+}
+
 - (void)viewOrderHistory:(UIButton *)btn
 {
-    PCOrderHistoryViewController *orderHistoryVc = [[PCOrderHistoryViewController alloc] init];
-    [self.navigationController pushViewController:orderHistoryVc animated:YES];
+    [self hideOptionsView:nil];
+    if (self.mode==1)
+        return;
+    
+   self.mode = 1;
+    
+    if (self.profile.orderHistory != nil){
+        if (self.profile.orderHistory.count==0){
+            self.lblMessage.alpha = 1.0f;
+            self.lblMessage.text = @"You have no previous orders.";
+        }
+        else{
+            [self layoutListsCollectionView];
+        }
+        
+        return;
+    }
+    
+    self.profile.orderHistory = [NSMutableArray array];
+    [self.loadingIndicator startLoading];
+    [[PCWebServices sharedInstance] fetchOrdersForProfile:self.profile completion:^(id result, NSError *error){
+        [self.loadingIndicator stopLoading];
+        
+        if (error){
+            [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
+            return;
+        }
+        
+        NSDictionary *results = (NSDictionary *)result;
+        NSLog(@"ORDER HISTORY: %@", [results description]);
+        NSArray *list = results[@"orders"];
+        if (list.count==0){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [UIView animateWithDuration:0.3f
+                                      delay:0
+                                    options:UIViewAnimationOptionCurveLinear
+                                 animations:^{
+                                     self.lblMessage.alpha = 1.0f;
+                                     self.lblMessage.text = @"You have no previous orders.";
+                                 }
+                                 completion:NULL];
+            });
+            return;
+        }
+        
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            CLLocation *zoneLocation = [[CLLocation alloc] initWithLatitude:self.currentZone.latitude longitude:self.currentZone.longitude];
+            
+            for (int i=0; i<list.count; i++) {
+                NSDictionary *orderInfo = list[i];
+                PCOrder *order = [PCOrder orderWithInfo:orderInfo];
+                
+                order.venue.distance = [order.venue calculateDistanceFromLocation:self.locationMgr.clLocation];
+                order.venue.fee = self.currentZone.baseFee;
+                
+                
+                if ([self.currentZone.uniqueId isEqualToString:order.venue.orderZone]==NO){
+                    double distance = [order.venue calculateDistanceFromLocation:zoneLocation];
+                    
+                    if (distance >= 2.0f)
+                        distance -= 2.0f;
+                    
+                    order.venue.fee += (int)lround(distance);
+                }
+                
+                [self.profile.orderHistory addObject:order];
+            }
+            
+            [self layoutListsCollectionView];
+        });
+        
+    }];
+    
 }
 
 - (void)fetchVenuesForCurrentLocation
@@ -220,6 +376,22 @@ static NSString *cellId = @"cellId";
         });
     }
     
+    if ([keyPath isEqualToString:@"imageData"]){
+        PCOrder *order = (PCOrder *)object;
+        [order removeObserver:self forKeyPath:@"imageData"];
+        
+        //this is smoother than a conventional reload. it doesn't stutter the UI:
+        dispatch_async(dispatch_get_main_queue(), ^{
+            int index = (int)[self.profile.orderHistory indexOfObject:order];
+            PCVenueCell *cell = (PCVenueCell *)[self.venuesTable cellForItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+            
+            if (!cell)
+                return;
+            
+            cell.icon.image = order.imageData;
+        });
+    }
+    
 
     if ([keyPath isEqualToString:@"contentOffset"]){
         CGFloat offset = self.venuesTable.contentOffset.y;
@@ -230,7 +402,7 @@ static NSString *cellId = @"cellId";
         
         double distance = offset+kTopInset;
         self.icon.alpha = 1.0f-(distance/100.0f);
-        self.btnOrderHistory.alpha = self.icon.alpha;
+        self.btnDots.alpha = self.icon.alpha;
     }
 }
 
@@ -274,7 +446,8 @@ static NSString *cellId = @"cellId";
     self.venuesTable.showsVerticalScrollIndicator = NO;
     [self.venuesTable addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
     [self.view addSubview:self.venuesTable];
-    [self.view bringSubviewToFront:self.btnOrderHistory];
+    [self.view bringSubviewToFront:self.btnDots];
+    [self.view bringSubviewToFront:self.optionsView];
     
     [self refreshVenuesCollectionView];
     
@@ -301,8 +474,10 @@ static NSString *cellId = @"cellId";
         [self.venuesTable.collectionViewLayout invalidateLayout];
         [self.venuesTable reloadData];
         
+        NSArray *dataArray = (self.mode==0) ? self.currentZone.venues : self.profile.orderHistory;
+        
         NSMutableArray *indexPaths = [NSMutableArray array];
-        for (int i=0; i<self.currentZone.venues.count; i++)
+        for (int i=0; i<dataArray.count; i++)
             [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
         
         [self.venuesTable reloadItemsAtIndexPaths:indexPaths];
@@ -320,7 +495,11 @@ static NSString *cellId = @"cellId";
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     //    NSLog(@"collectionView numberOfItemsInSection: %d", self.posts.count);
-    return self.currentZone.venues.count;
+    if (self.mode==0)
+        return self.currentZone.venues.count;
+        
+
+    return self.profile.orderHistory.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -328,26 +507,52 @@ static NSString *cellId = @"cellId";
     PCVenueCell *cell = (PCVenueCell *)[collectionView dequeueReusableCellWithReuseIdentifier:cellId forIndexPath:indexPath];
     [cell.btnOrder addTarget:self action:@selector(viewVenue:) forControlEvents:UIControlEventTouchUpInside];
     
-    PCVenue *venue = (PCVenue *)self.currentZone.venues[indexPath.row];
-    cell.lblTitle.text = venue.name;
-    cell.lblLocation.text = [NSString stringWithFormat:@"%@, %@", [venue.city capitalizedString], [venue.state uppercaseString]];
+    if (self.mode==0){
+        PCVenue *venue = (PCVenue *)self.currentZone.venues[indexPath.row];
+        cell.lblTitle.text = venue.name;
+        cell.lblLocation.text = [NSString stringWithFormat:@"%@, %@", [venue.city capitalizedString], [venue.state uppercaseString]];
+        cell.tag = indexPath.row+1000;
+        cell.btnOrder.tag = cell.tag;
+        cell.lblDetails.text = [NSString stringWithFormat:@"Min Delivery Fee: $%d \u00b7 %.1f mi", venue.fee, venue.distance];
+        
+        if ([venue.icon isEqualToString:@"none"]){
+            cell.icon.image = [UIImage imageNamed:@"logo.png"];
+            return cell;
+        }
+        
+        if (venue.iconData){
+            cell.icon.image = venue.iconData;
+            return cell;
+        }
+        
+        cell.icon.image = [UIImage imageNamed:@"icon.png"];
+        [venue addObserver:self forKeyPath:@"iconData" options:0 context:nil];
+        [venue fetchImage];
+        return cell;
+    }
+    
+    
+    //ORDER HISTORY:
+    PCOrder *order = (PCOrder *)self.profile.orderHistory[indexPath.row];
+    cell.lblTitle.text = order.venue.name;
+    cell.lblLocation.text = order.formattedDate;
     cell.tag = indexPath.row+1000;
     cell.btnOrder.tag = cell.tag;
-    cell.lblDetails.text = [NSString stringWithFormat:@"Min Delivery Fee: $%d \u00b7 %.1f mi", venue.fee, venue.distance];
+    cell.lblDetails.text = order.address;
     
-    if ([venue.icon isEqualToString:@"none"]){
+    if ([order.image isEqualToString:@"none"]){
         cell.icon.image = [UIImage imageNamed:@"logo.png"];
         return cell;
     }
     
-    if (venue.iconData){
-        cell.icon.image = venue.iconData;
+    if (order.imageData){
+        cell.icon.image = order.imageData;
         return cell;
     }
     
-    cell.icon.image = [UIImage imageNamed:@"icon.png"];
-    [venue addObserver:self forKeyPath:@"iconData" options:0 context:nil];
-    [venue fetchImage];
+    [order addObserver:self forKeyPath:@"imageData" options:0 context:nil];
+    [order fetchImage];
+
     return cell;
 }
 
@@ -360,14 +565,25 @@ static NSString *cellId = @"cellId";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    PCVenue *venue = self.currentZone.venues[indexPath.row];
-    [self segueToVenue:venue];
+    if (self.mode==0){
+        PCVenue *venue = self.currentZone.venues[indexPath.row];
+        [self segueToVenue:venue];
+        return;
+    }
+    
+    PCOrder *order = (PCOrder *)self.profile.orderHistory[indexPath.row];
+    [self segueToOrder:order];
+    
 }
 
 - (void)viewVenue:(UIButton *)btn
 {
-    PCVenue *venue = self.currentZone.venues[btn.tag-1000];
-    [self segueToVenue:venue];
+    if (self.mode==0){
+        PCVenue *venue = self.currentZone.venues[btn.tag-1000];
+        [self segueToVenue:venue];
+        return;
+    }
+    
 }
 
 - (void)segueToVenue:(PCVenue *)venue
@@ -380,6 +596,21 @@ static NSString *cellId = @"cellId";
 }
 
 
+- (void)viewOrder:(UIButton *)btn
+{
+    PCOrder *order = (PCOrder *)self.profile.orderHistory[btn.tag-1000];
+    [self segueToOrder:order];
+}
+
+
+- (void)segueToOrder:(PCOrder *)order
+{
+    //    NSLog(@"segueToVenue: %@", venue.name);
+    PCOrderViewController *orderVc = [[PCOrderViewController alloc] init];
+    orderVc.order = order;
+    [self.navigationController pushViewController:orderVc animated:YES];
+    
+}
 
 
 
