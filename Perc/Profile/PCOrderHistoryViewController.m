@@ -97,7 +97,7 @@ static NSString *cellId = @"cellId";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self addMenuButton];
+    [self addCustomBackButton];
     
     if (self.profile.orderHistory){
         if (self.profile.orderHistory.count==0)
