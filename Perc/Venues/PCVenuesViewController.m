@@ -9,6 +9,7 @@
 #import "PCVenuesViewController.h"
 #import "PCVenueViewController.h"
 #import "PCCollectionViewFlowLayout.h"
+#import "PCOrderHistoryViewController.h"
 #import "PCVenue.h"
 #import "PCVenueCell.h"
 
@@ -17,8 +18,8 @@
 @property (strong, nonatomic) UICollectionView *venuesTable;
 @property (strong, nonatomic) UIImageView *background;
 @property (strong, nonatomic) UIImageView *icon;
-@property (strong, nonatomic) UILabel *lblLocation;
 @property (strong, nonatomic) UILabel *lblMessage;
+@property (strong, nonatomic) UIButton *btnOrderHistory;
 @end
 
 static NSString *cellId = @"cellId";
@@ -48,17 +49,24 @@ static NSString *cellId = @"cellId";
     self.icon.layer.borderColor = [[UIColor whiteColor] CGColor];
     [view addSubview:self.icon];
     
+    CGFloat h = 44.0f;
+    CGFloat x = 20.0f;
     CGFloat y = self.icon.frame.origin.y+self.icon.frame.size.height+20.0f;
-    self.lblLocation = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, y, frame.size.width-40.0f, 22.0f)];
-    self.lblLocation.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    self.lblLocation.textAlignment = NSTextAlignmentCenter;
-    self.lblLocation.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    self.lblLocation.textColor = [UIColor whiteColor];
-    if (self.locationMgr.cities.count > 0)
-        self.lblLocation.text = [self.locationMgr.cities[0] uppercaseString];
+    self.btnOrderHistory = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.btnOrderHistory.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    self.btnOrderHistory.frame = CGRectMake(x, y, frame.size.width-2*x, h);
+    self.btnOrderHistory.backgroundColor = [UIColor clearColor];
+    self.btnOrderHistory.layer.cornerRadius = 0.5f*h;
+    self.btnOrderHistory.layer.masksToBounds = YES;
+    self.btnOrderHistory.layer.borderColor = [[UIColor whiteColor] CGColor];
+    self.btnOrderHistory.layer.borderWidth = 1.0f;
+    self.btnOrderHistory.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    [self.btnOrderHistory setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.btnOrderHistory setTitle:@"Order History" forState:UIControlStateNormal];
+    [self.btnOrderHistory addTarget:self action:@selector(viewOrderHistory:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:self.btnOrderHistory];
+    y += self.btnOrderHistory.frame.size.height+20.0f;
 
-    [view addSubview:self.lblLocation];
-    y += self.lblLocation.frame.size.height+36.0f;
     
     self.lblMessage = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, y, frame.size.width-40.0f, 22.0f)];
     self.lblMessage.textColor = [UIColor darkGrayColor];
@@ -141,6 +149,12 @@ static NSString *cellId = @"cellId";
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)viewOrderHistory:(UIButton *)btn
+{
+    PCOrderHistoryViewController *orderHistoryVc = [[PCOrderHistoryViewController alloc] init];
+    [self.navigationController pushViewController:orderHistoryVc animated:YES];
+}
+
 - (void)fetchVenuesForCurrentLocation
 {
     NSLog(@"FETCH VENUES FOR CURRENT LOCATION");
@@ -216,7 +230,7 @@ static NSString *cellId = @"cellId";
         
         double distance = offset+kTopInset;
         self.icon.alpha = 1.0f-(distance/100.0f);
-        self.lblLocation.alpha = self.icon.alpha;
+        self.btnOrderHistory.alpha = self.icon.alpha;
     }
 }
 
@@ -260,6 +274,7 @@ static NSString *cellId = @"cellId";
     self.venuesTable.showsVerticalScrollIndicator = NO;
     [self.venuesTable addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
     [self.view addSubview:self.venuesTable];
+    [self.view bringSubviewToFront:self.btnOrderHistory];
     
     [self refreshVenuesCollectionView];
     
