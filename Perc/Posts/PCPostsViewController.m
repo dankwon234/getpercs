@@ -10,12 +10,17 @@
 #import "PCCreatePostViewController.h"
 #import "PCPostViewController.h"
 #import "PCCollectionViewFlowLayout.h"
+#import "PCMessagesViewController.h"
+#import "PCMessagesViewController.h"
 #import "PCPostCell.h"
 
 
 @interface PCPostsViewController ()
 @property (strong, nonatomic) UICollectionView *postsTable;
+@property (strong, nonatomic) UIImageView *icon;
 @property (strong, nonatomic) UILabel *lblMessage;
+@property (strong, nonatomic) UIButton *btnPosts;
+@property (strong, nonatomic) UIButton *btnMessages;
 @end
 
 static NSString *cellId = @"cellId";
@@ -36,6 +41,10 @@ static NSString *cellId = @"cellId";
     return self;
 }
 
+- (void)dealloc
+{
+    [self.postsTable removeObserver:self forKeyPath:@"contentOffset"];
+}
 
 
 - (void)loadView
@@ -44,6 +53,50 @@ static NSString *cellId = @"cellId";
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgBurger.png"]];
     CGRect frame = view.frame;
     
+    self.icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon.png"]];
+    self.icon.center = CGPointMake(0.5f*frame.size.width, 88.0f);
+    self.icon.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    self.icon.layer.cornerRadius = 0.5f*self.icon.frame.size.height;
+    self.icon.layer.masksToBounds = YES;
+    self.icon.layer.borderWidth = 1.0f;
+    self.icon.layer.borderColor = [[UIColor whiteColor] CGColor];
+    [view addSubview:self.icon];
+
+    
+    CGFloat h = 44.0f;
+    CGFloat x = 20.0f;
+    CGFloat y = self.icon.frame.origin.y+self.icon.frame.size.height+20.0f;
+    CGFloat w = 0.5F*(frame.size.width-3*x);
+    
+    self.btnPosts = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.btnPosts.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    self.btnPosts.frame = CGRectMake(x, y, w, h);
+    self.btnPosts.backgroundColor = [UIColor clearColor];
+    self.btnPosts.layer.cornerRadius = 0.5f*h;
+    self.btnPosts.layer.masksToBounds = YES;
+    self.btnPosts.layer.borderColor = [[UIColor whiteColor] CGColor];
+    self.btnPosts.layer.borderWidth = 1.0f;
+    self.btnPosts.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    [self.btnPosts setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.btnPosts setTitle:@"Your Posts" forState:UIControlStateNormal];
+//    [self.btnPosts addTarget:self action:@selector(viewOrderHistory:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:self.btnPosts];
+    x += w+20.0f;
+    
+    self.btnMessages = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.btnMessages.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    self.btnMessages.frame = CGRectMake(x, y, w, h);
+    self.btnMessages.backgroundColor = [UIColor clearColor];
+    self.btnMessages.layer.cornerRadius = 0.5f*h;
+    self.btnMessages.layer.masksToBounds = YES;
+    self.btnMessages.layer.borderColor = [[UIColor whiteColor] CGColor];
+    self.btnMessages.layer.borderWidth = 1.0f;
+    self.btnMessages.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    [self.btnMessages setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.btnMessages setTitle:@"Messages" forState:UIControlStateNormal];
+    [self.btnMessages addTarget:self action:@selector(viewMessages:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:self.btnMessages];
+    y += self.btnMessages.frame.size.height+20.0f;
 
 
     self.lblMessage = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, 120.0f, frame.size.width-40.0f, 22.0f)];
@@ -135,12 +188,32 @@ static NSString *cellId = @"cellId";
             cell.icon.image = post.imageData;
         });
     }
+    
+    if ([keyPath isEqualToString:@"contentOffset"]){
+        CGFloat offset = self.postsTable.contentOffset.y;
+        if (offset < -kTopInset){
+            self.icon.alpha = 1.0f;
+            return;
+        }
+        
+        double distance = offset+kTopInset;
+        self.icon.alpha = 1.0f-(distance/100.0f);
+        self.btnMessages.alpha = self.icon.alpha;
+        self.btnPosts.alpha = self.icon.alpha;
+    }
+    
 }
 
 
 - (void)back:(UIGestureRecognizer *)swipe
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)viewMessages:(UIButton *)btn
+{
+    PCMessagesViewController *messagesVc = [[PCMessagesViewController alloc] init];
+    [self.navigationController pushViewController:messagesVc animated:YES];
 }
 
 - (void)createPost:(id)sender
@@ -163,7 +236,7 @@ static NSString *cellId = @"cellId";
                              
                          }
                          completion:^(BOOL finished){
-//                             [self.postsTable removeObserver:self forKeyPath:@"contentOffset"];
+                             [self.postsTable removeObserver:self forKeyPath:@"contentOffset"];
                              self.postsTable.delegate = nil;
                              self.postsTable.dataSource = nil;
                              [self.postsTable removeFromSuperview];
@@ -185,8 +258,10 @@ static NSString *cellId = @"cellId";
     self.postsTable.dataSource = self;
     self.postsTable.delegate = self;
     self.postsTable.showsVerticalScrollIndicator = NO;
-//    [self.postsTable addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
+    [self.postsTable addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
     [self.view addSubview:self.postsTable];
+    [self.view bringSubviewToFront:self.btnMessages];
+    [self.view bringSubviewToFront:self.btnPosts];
     
     [self refreshVenuesCollectionView];
     
