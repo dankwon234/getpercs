@@ -12,7 +12,6 @@
 #import "PCAccountViewController.h"
 #import "PCAboutViewController.h"
 #import "PCZoneViewController.h"
-#import "PCMessagesViewController.h"
 
 
 @interface PCContainerViewController ()
@@ -20,7 +19,6 @@
 @property (strong, nonatomic) NSArray *sections;
 @property (strong, nonatomic) UINavigationController *navCtr;
 @property (strong, nonatomic) PCZoneViewController *zoneVc;
-@property (strong, nonatomic) PCMessagesViewController *messagesVc;
 @property (strong, nonatomic) PCViewController *currentVc;
 @property (strong, nonatomic) PCWelcomeView *welcomeView;
 @property (strong, nonatomic) UIButton *btnLogin;
@@ -34,7 +32,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
 //        self.sections = @[@"Venues", @"Your Account", @"Join Us", @"About"];
-        self.sections = @[@"Venues", @"Messages", @"Posts", @"About"];
+        self.sections = @[@"Venues", @"About"];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(toggleMenu)
                                                      name:kViewMenuNotification
@@ -322,19 +320,19 @@
 //    }
 
     
-    if (indexPath.row==2){
-        if (self.messagesVc){
-            if ([self.currentVc isEqual:self.messagesVc]){
-                [self toggleMenu];
-                return;
-            }
-        }
-        else{
-            self.messagesVc = [[PCMessagesViewController alloc] init];
-        }
-        
-        self.currentVc = self.messagesVc;
-    }
+//    if (indexPath.row==2){
+//        if (self.messagesVc){
+//            if ([self.currentVc isEqual:self.messagesVc]){
+//                [self toggleMenu];
+//                return;
+//            }
+//        }
+//        else{
+//            self.messagesVc = [[PCMessagesViewController alloc] init];
+//        }
+//        
+//        self.currentVc = self.messagesVc;
+//    }
     
     CGRect frame = self.view.frame;
     [UIView animateWithDuration:0.2f
