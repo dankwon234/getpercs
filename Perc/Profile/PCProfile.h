@@ -19,6 +19,7 @@
 @property (copy, nonatomic) NSString *phone;
 @property (copy, nonatomic) NSString *password;
 @property (copy, nonatomic) NSString *image;
+@property (copy, nonatomic) NSString *promoCode;
 @property (copy, nonatomic) NSString *deviceToken;
 @property (copy, nonatomic) NSString *lastZone;
 @property (strong, nonatomic) NSMutableArray *orderHistory;
@@ -28,6 +29,7 @@
 @property (nonatomic) BOOL isPopulated;
 @property (nonatomic) BOOL isPublic;
 @property (nonatomic) BOOL hasCreditCard;
+@property (nonatomic) int points;
 + (PCProfile *)sharedProfile;
 + (PCProfile *)profileWithInfo:(NSDictionary *)info;
 - (void)populate:(NSDictionary *)profileInfo;

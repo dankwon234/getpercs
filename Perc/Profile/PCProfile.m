@@ -26,26 +26,14 @@
 @synthesize messages;
 @synthesize isPublic;
 @synthesize posts;
+@synthesize points;
+@synthesize promoCode;
 
 - (id)init
 {
     self = [super init];
     if (self){
-        self.uniqueId = @"none";
-        self.firstName = @"none";
-        self.lastName = @"none";
-        self.email = @"none";
-        self.phone = @"none";
-        self.image = @"none";
-        self.deviceToken = @"none";
-        self.lastZone = @"none";
-        self.password = nil;
-        self.orderHistory = nil;
-        self.messages = nil;
-        self.posts = nil;
-        self.isPopulated = NO;
-        self.hasCreditCard = NO;
-        self.isPublic = NO;
+        [self clear];
         
 //        if ([self populateFromCache])
 //            [self refreshProfileInfo];
@@ -88,11 +76,15 @@
     self.image = @"none";
     self.deviceToken = @"none";
     self.lastZone = @"none";
+    self.promoCode = @"none";
     self.password = nil;
     self.orderHistory = nil;
+    self.messages = nil;
+    self.posts = nil;
     self.isPopulated = NO;
     self.hasCreditCard = NO;
     self.isPublic = NO;
+    self.points = 0;
 }
 
 
@@ -106,8 +98,12 @@
     self.image = profileInfo[@"image"];
     self.deviceToken = profileInfo[@"deviceToken"];
     self.lastZone = profileInfo[@"lastZone"];
+    self.lastZone = profileInfo[@"promoCode"];
+    self.points = [profileInfo[@"points"] intValue];
     if (profileInfo[@"creditCard"])
         self.hasCreditCard = [profileInfo[@"creditCard"] isEqualToString:@"yes"];
+    
+    
     self.isPopulated = YES;
     
     if (self.isPublic) // don't cache public profiles
