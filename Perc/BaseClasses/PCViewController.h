@@ -33,4 +33,5 @@
 - (void)showLoginView:(BOOL)animated;
 - (void)showAccountView;
 - (void)viewMenu:(id)sender;
+- (void)back:(UIButton *)btn;
 @end
