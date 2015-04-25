@@ -92,12 +92,18 @@ static NSString *cellId = @"cellId";
     self.btnDots = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *dots = [UIImage imageNamed:@"dots.png"];
     self.btnDots.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    self.btnDots.frame = CGRectMake(x, y, dots.size.width, dots.size.height);
+    self.btnDots.frame = CGRectMake(x, y, dots.size.width+20.0f, dots.size.height+10.0f);
+    self.btnDots.layer.cornerRadius = 0.5f*self.btnDots.frame.size.height;
+    self.btnDots.layer.masksToBounds = YES;
+    self.btnDots.layer.borderWidth = 1.0f;
+    self.btnDots.layer.borderColor = [[UIColor whiteColor] CGColor];
     self.btnDots.center = CGPointMake(0.5f*frame.size.width, self.btnDots.center.y);
     [self.btnDots setImage:dots forState:UIControlStateNormal];
     self.btnDots.backgroundColor = [UIColor clearColor];
     [self.btnDots addTarget:self action:@selector(showOptionsView:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:self.btnDots];
+    
+    
 
     
     self.lblMessage = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, 120.0f, frame.size.width-40.0f, 22.0f)];
