@@ -490,9 +490,18 @@ static NSString *cellId = @"cellId";
     PCPost *post = (self.mode==0) ? (PCPost *)self.currentZone.posts[indexPath.row] : (PCPost *)self.profile.posts[indexPath.row];
     NSLog(@"View Post: %@", post.title);
     
-    PCPostViewController *postVc = [[PCPostViewController alloc] init];
-    postVc.post = post;
-    [self.navigationController pushViewController:postVc animated:YES];
+    if (self.mode==0){
+        PCPostViewController *postVc = [[PCPostViewController alloc] init];
+        postVc.post = post;
+        [self.navigationController pushViewController:postVc animated:YES];
+        return;
+    }
+    
+    PCCreatePostViewController *editPostVc = [[PCCreatePostViewController alloc] init];
+    editPostVc.post = post;
+    [self.navigationController pushViewController:editPostVc animated:YES];
+    
+    
 }
 
 
