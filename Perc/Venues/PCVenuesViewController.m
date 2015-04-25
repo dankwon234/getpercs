@@ -165,7 +165,7 @@ static NSString *cellId = @"cellId";
                      animations:^{
                          CGPoint center = self.background.center;
                          center.y -= 200.0f;
-                         center.x -= 110.0f;
+                         center.x += 90.0f;
                          self.background.center = center;
                          self.background.transform = CGAffineTransformMakeScale(1.4f, 1.4f);
                      }
