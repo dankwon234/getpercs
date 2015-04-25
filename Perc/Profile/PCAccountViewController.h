@@ -8,6 +8,6 @@
 
 #import "PCViewController.h"
 
-@interface PCAccountViewController : PCViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate>
+@interface PCAccountViewController : PCViewController <UIScrollViewDelegate>
 
 @end
