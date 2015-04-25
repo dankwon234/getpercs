@@ -23,6 +23,12 @@
 //    CGRect frame = view.frame;
 
     
+    
+    
+    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
+    swipe.direction = UISwipeGestureRecognizerDirectionRight;
+    [view addGestureRecognizer:swipe];
+    
     self.view = view;
 }
 
