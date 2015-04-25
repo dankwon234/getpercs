@@ -92,11 +92,11 @@
 {
     static NSString *cellId = @"cellId";
     PCMessageCell *cell = (PCMessageCell *)[tableView dequeueReusableCellWithIdentifier:cellId];
-    if (cell==nil) {
+    if (cell==nil)
         cell = [[PCMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-    }
     
     PCMessage *message = (PCMessage *)self.profile.messages[indexPath.row];
+    cell.configuration = (message.isMine) ? MessageCellConfigurationTo : MessageCellConfigurationFrom;
     cell.lblName.text = [NSString stringWithFormat:@"%@ %@", [message.profile.firstName capitalizedString], [message.profile.lastName capitalizedString]];
     cell.lblDate.text = message.formattedDate;
     cell.lblMessage.text = message.content;
