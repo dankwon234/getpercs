@@ -123,44 +123,47 @@ static NSString *placeholder = @"Content";
     y += bgImage.frame.size.height;
     
 
-    UILabel *lblZone = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
-    lblZone.backgroundColor = [UIColor grayColor];
-    lblZone.textAlignment = NSTextAlignmentCenter;
-    lblZone.textColor = [UIColor whiteColor];
-    lblZone.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    lblZone.text = @"This Post Will Show In";
-    [self.theScrollview addSubview:lblZone];
-    y += lblZone.frame.size.height;
-
-    
-    NSString *towns = @"";
-    for (int i=0; i<self.currentZone.towns.count; i++) {
-        NSString *town = [self.currentZone.towns[i] capitalizedString];
-        towns = [towns stringByAppendingString:town];
-        if (i != self.currentZone.towns.count-1)
-            towns = [towns stringByAppendingString:@", "];
+    if (self.isEditMode==NO){
+        UILabel *lblZone = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
+        lblZone.backgroundColor = [UIColor grayColor];
+        lblZone.textAlignment = NSTextAlignmentCenter;
+        lblZone.textColor = [UIColor whiteColor];
+        lblZone.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+        lblZone.text = @"This Post Will Show In";
+        [self.theScrollview addSubview:lblZone];
+        y += lblZone.frame.size.height;
+        
+        
+        NSString *towns = @"";
+        for (int i=0; i<self.currentZone.towns.count; i++) {
+            NSString *town = [self.currentZone.towns[i] capitalizedString];
+            towns = [towns stringByAppendingString:town];
+            if (i != self.currentZone.towns.count-1)
+                towns = [towns stringByAppendingString:@", "];
+        }
+        
+        CGRect boundingRect = [towns boundingRectWithSize:CGSizeMake(width, 200.0f)
+                                                  options:NSStringDrawingUsesLineFragmentOrigin
+                                               attributes:@{NSFontAttributeName:[UIFont fontWithName:kBaseFontName size:16.0f]}
+                                                  context:nil];
+        
+        CGFloat height = (boundingRect.size.height > h) ? boundingRect.size.height+24.0f : h;
+        UIView *bgTowns = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, height)];
+        bgTowns.backgroundColor = [UIColor whiteColor];
+        bgTowns.alpha = 0.8f;
+        
+        UILabel *lblTowns = [[UILabel alloc] initWithFrame:CGRectMake(x, 0.0f, width, height)];
+        lblTowns.text = towns;
+        lblTowns.textColor = [UIColor grayColor];
+        lblTowns.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+        lblTowns.lineBreakMode = NSLineBreakByWordWrapping;
+        lblTowns.numberOfLines = 0;
+        [bgTowns addSubview:lblTowns];
+        
+        [self.theScrollview addSubview:bgTowns];
+        y += bgTowns.frame.size.height;
     }
     
-    CGRect boundingRect = [towns boundingRectWithSize:CGSizeMake(width, 200.0f)
-                                              options:NSStringDrawingUsesLineFragmentOrigin
-                                           attributes:@{NSFontAttributeName:[UIFont fontWithName:kBaseFontName size:16.0f]}
-                                              context:nil];
-    
-    CGFloat height = (boundingRect.size.height > h) ? boundingRect.size.height+24.0f : h;
-    UIView *bgTowns = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, height)];
-    bgTowns.backgroundColor = [UIColor whiteColor];
-    bgTowns.alpha = 0.8f;
-    
-    UILabel *lblTowns = [[UILabel alloc] initWithFrame:CGRectMake(x, 0.0f, width, height)];
-    lblTowns.text = towns;
-    lblTowns.textColor = [UIColor grayColor];
-    lblTowns.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    lblTowns.lineBreakMode = NSLineBreakByWordWrapping;
-    lblTowns.numberOfLines = 0;
-    [bgTowns addSubview:lblTowns];
-    
-    [self.theScrollview addSubview:bgTowns];
-    y += bgTowns.frame.size.height;
 
     UIView *bgCreate = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 96.0f)];
     bgCreate.backgroundColor = [UIColor grayColor];
