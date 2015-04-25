@@ -441,7 +441,10 @@ static NSString *cellId = @"cellId";
     if (p==nil)
         return;
     
-    self.mode = 0;
+    if (self.profile.posts != nil)
+        [self.profile.posts insertObject:p atIndex:0];
+    
+    
     [self.currentZone.posts insertObject:p atIndex:0];
     [self layoutListsCollectionView];
 }
