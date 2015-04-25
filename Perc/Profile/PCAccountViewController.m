@@ -14,10 +14,14 @@
 @interface PCAccountViewController ()
 @property (strong, nonatomic) UIImageView *icon;
 @property (strong, nonatomic) UILabel *lblName;
+@property (strong, nonatomic) UIScrollView *theScrollview;
+@property (strong, nonatomic) UITextField *firstNameField;
+@property (strong, nonatomic) UITextField *lastNameField;
+@property (strong, nonatomic) UITextView *bioTextView;
 @end
 
-#define kTopInset 220.0f
-
+#define kTopInset 0.0f
+static NSString *placeholder = @"Bio";
 
 @implementation PCAccountViewController
 
@@ -40,7 +44,7 @@
     CGRect frame = view.frame;
     
     self.icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon.png"]];
-
+    self.icon.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     self.icon.center = CGPointMake(0.5f*frame.size.width, 88.0f);
     self.icon.layer.cornerRadius = 0.5f*self.icon.frame.size.height;
     self.icon.layer.masksToBounds = YES;
@@ -52,15 +56,101 @@
     CGFloat y = self.icon.frame.origin.y+self.icon.frame.size.height+16.0f;
     
     self.lblName = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, y, frame.size.width-40.0f, 22.0f)];
+    self.lblName.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     self.lblName.textAlignment = NSTextAlignmentCenter;
     self.lblName.font = [UIFont fontWithName:kBaseFontName size:16.0f];
     self.lblName.textColor = [UIColor whiteColor];
     self.lblName.text = [NSString stringWithFormat:@"%@ %@", [self.profile.firstName uppercaseString], [self.profile.lastName uppercaseString]];
     [view addSubview:self.lblName];
-    y += self.lblName.frame.size.height;
+    y += self.lblName.frame.size.height+24.0f;
     
+    
+    self.theScrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
+    self.theScrollview.delegate = self;
+    self.theScrollview.showsVerticalScrollIndicator = NO;
+    [self.theScrollview addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
+    
+    static CGFloat h = 44.0f;
+    self.firstNameField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
+    self.firstNameField.delegate = self;
+    self.firstNameField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20.0f, 44.0f)];
+    self.firstNameField.leftViewMode = UITextFieldViewModeAlways;
+    self.firstNameField.backgroundColor = [UIColor whiteColor];
+    self.firstNameField.alpha = 0.8f;
+    self.firstNameField.placeholder = @"First Name";
+    self.firstNameField.textColor = [UIColor darkGrayColor];
+    self.firstNameField.text = ([self.profile.firstName isEqualToString:@"none"]) ? @"" : self.profile.firstName;
+    self.firstNameField.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    [self.theScrollview addSubview:self.firstNameField];
+    y += h+1.0f;
+
+    self.lastNameField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
+    self.lastNameField.delegate = self;
+    self.lastNameField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20.0f, 44.0f)];
+    self.lastNameField.leftViewMode = UITextFieldViewModeAlways;
+    self.lastNameField.backgroundColor = [UIColor whiteColor];
+    self.lastNameField.alpha = 0.8f;
+    self.lastNameField.placeholder = @"Last Name";
+    self.lastNameField.textColor = [UIColor darkGrayColor];
+    self.lastNameField.text = ([self.profile.lastName isEqualToString:@"none"]) ? @"" : self.profile.lastName;
+    self.lastNameField.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    [self.theScrollview addSubview:self.lastNameField];
+    y += h+1.0f;
+
+    
+    
+    UIView *bgBio = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 260.0f)];
+    bgBio.backgroundColor = [UIColor whiteColor];
+    bgBio.alpha = 0.8f;
+    
+    CGFloat x = 12.0f;
+    CGFloat width = frame.size.width-2*x;
+
+    self.bioTextView = [[UITextView alloc] initWithFrame:CGRectMake(x, 10.0f, width, bgBio.frame.size.height-20.0f)];
+    self.bioTextView.delegate = self;
+    self.bioTextView.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    self.bioTextView.backgroundColor = [UIColor clearColor];
+    if (self.profile.bio.length > 4){ // set 4 as minimum bc 'none' is 4 characters
+        self.bioTextView.text = self.profile.bio;
+        self.bioTextView.textColor = [UIColor darkGrayColor];
+    }
+    else {
+        self.bioTextView.text = placeholder;
+        self.bioTextView.textColor = [UIColor lightGrayColor];
+    }
+    
+    [bgBio addSubview:self.bioTextView];
+    [self.theScrollview addSubview:bgBio];
+    y += bgBio.frame.size.height;
+
+    UIView *bgUpdate = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 96.0f)];
+    bgUpdate.backgroundColor = [UIColor grayColor];
+    
+    UIButton *btnUpdate = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnUpdate.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    btnUpdate.frame = CGRectMake(x, 0.5f*(bgUpdate.frame.size.height-h), width, h);
+    btnUpdate.backgroundColor = [UIColor clearColor];
+    btnUpdate.layer.cornerRadius = 0.5f*h;
+    btnUpdate.layer.masksToBounds = YES;
+    btnUpdate.layer.borderColor = [[UIColor whiteColor] CGColor];
+    btnUpdate.layer.borderWidth = 1.0f;
+    [btnUpdate setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btnUpdate setTitle:@"UPDATE" forState:UIControlStateNormal];
+    [btnUpdate addTarget:self action:@selector(updateProfile:) forControlEvents:UIControlEventTouchUpInside];
+    [bgUpdate addSubview:btnUpdate];
+    [self.theScrollview addSubview:bgUpdate];
+    y += bgUpdate.frame.size.height+h;
+
+    self.theScrollview.contentSize = CGSizeMake(0, y);
+    
+    [view addSubview:self.theScrollview];
     
     self.view = view;
+}
+
+- (void)dealloc
+{
+    [self.theScrollview removeObserver:self forKeyPath:@"contentOffset"];
 }
 
 - (void)viewDidLoad
@@ -89,13 +179,24 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqualToString:@"imageData"]==NO)
-        return;
+    if ([keyPath isEqualToString:@"imageData"]){
+        [self.profile removeObserver:self forKeyPath:@"imageData"];
+        
+        if (self.profile.imageData)
+            self.icon.image = self.profile.imageData;
+    }
     
-    [self.profile removeObserver:self forKeyPath:@"imageData"];
-    
-    if (self.profile.imageData)
-        self.icon.image = self.profile.imageData;
+    if ([keyPath isEqualToString:@"contentOffset"]){
+        CGFloat offset = self.theScrollview.contentOffset.y;
+        if (offset < -kTopInset){
+            self.icon.alpha = 1.0f;
+            return;
+        }
+        
+        double distance = offset+kTopInset;
+        self.icon.alpha = 1.0f-(distance/100.0f);
+        self.lblName.alpha = self.icon.alpha;
+    }
     
 }
 
@@ -122,6 +223,66 @@
     }];
     
 }
+
+- (void)dismissKeyboard
+{
+    if (self.bioTextView.isFirstResponder)
+        [self.bioTextView resignFirstResponder];
+    
+    if (self.firstNameField.isFirstResponder)
+        [self.firstNameField resignFirstResponder];
+    
+    if (self.lastNameField.isFirstResponder)
+        [self.lastNameField resignFirstResponder];
+
+}
+
+- (void)resetDelegate
+{
+    self.theScrollview.delegate = self;
+    //    self.addressField.delegate = self;
+}
+
+
+
+#pragma mark - UITextViewDelegate
+
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+    if ([textView.text isEqualToString:placeholder]){
+        textView.text = @"";
+        textView.textColor = [UIColor darkGrayColor];
+    }
+    
+    self.theScrollview.delegate = nil;
+    [self.theScrollview setContentOffset:CGPointMake(0, 124.0f) animated:YES];
+    [self performSelector:@selector(resetDelegate) withObject:nil afterDelay:0.6f];
+    
+    return YES;
+}
+
+
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView
+{
+    if (textView.text.length==0){
+        textView.text = placeholder;
+        textView.textColor = [UIColor lightGrayColor];
+    }
+    
+    return YES;
+}
+
+
+
+
+
+#pragma mark - UIScrollViewDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    //    NSLog(@"scrollViewDidScroll: %.2f", scrollView.contentOffset.y);
+    [self dismissKeyboard];
+}
+
 
 
 #pragma mark - UIActionSheetDelegate
@@ -161,18 +322,15 @@
     [picker dismissViewControllerAnimated:YES completion:^{
         
         [[PCWebServices sharedInstance] fetchUploadString:^(id result, NSError *error){
-            if (error) {
+            if (error)
                 return;
-            }
-
+            
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSDictionary *results = (NSDictionary *)result;
                 NSLog(@"%@", [results description]);
                 [self uploadImage:results[@"upload"]];
             });
-
         }];
-
         
     }];
 }
@@ -185,16 +343,38 @@
     
 }
 
-- (void)updateProfile
+- (void)updateProfile:(UIButton *)btn
 {
+    if (self.firstNameField.text.length==0){
+        [self showAlertWithTitle:@"Missing First Name" message:@"Please enter your first name."];
+        return;
+    }
+
+    if (self.lastNameField.text.length==0){
+        [self showAlertWithTitle:@"Missing Last Name" message:@"Please enter your last name."];
+        return;
+    }
+
+    self.profile.firstName = self.firstNameField.text;
+    self.profile.lastName = self.lastNameField.text;
+    self.profile.bio = self.bioTextView.text;
+    
+    [self.loadingIndicator startLoading];
+    [self.loadingIndicator startLoading];
     [[PCWebServices sharedInstance] updateProfile:self.profile completionBlock:^(id result, NSError *error){
+        [self.loadingIndicator stopLoading];
         if (error) {
+            [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
             return;
         }
         
-        NSDictionary *results = (NSDictionary *)result;
-        NSLog(@"%@", [results description]);
         
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary *results = (NSDictionary *)result;
+            NSLog(@"%@", [results description]);
+            [self showAlertWithTitle:@"Profile Updated" message:@"Your profile has been updated."];
+        });
+
     }];
 }
 
@@ -219,7 +399,7 @@
             self.profile.image = imageInfo[@"id"];
             self.profile.imageData = nil;
             
-            [self updateProfile];
+            [self updateProfile:nil];
         });
         
     }];
@@ -228,39 +408,6 @@
 
 
 
-/*
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqualToString:@"imageData"]){
-        PCOrder *order = (PCOrder *)object;
-        [order removeObserver:self forKeyPath:@"imageData"];
-        
-        //this is smoother than a conventional reload. it doesn't stutter the UI:
-        dispatch_async(dispatch_get_main_queue(), ^{
-            int index = (int)[self.profile.orderHistory indexOfObject:order];
-            PCVenueCell *cell = (PCVenueCell *)[self.ordersTable cellForItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
-            
-            if (!cell)
-                return;
-            
-            cell.icon.image = order.imageData;
-        });
-    }
-    
-    
-    if ([keyPath isEqualToString:@"contentOffset"]){
-        CGFloat offset = self.ordersTable.contentOffset.y;
-        if (offset < -kTopInset){
-            self.icon.alpha = 1.0f;
-            return;
-        }
-        
-        double distance = offset+kTopInset;
-        self.icon.alpha = 1.0f-(distance/100.0f);
-        self.lblName.alpha = self.icon.alpha;
-        self.lblOrderHistory.alpha = self.icon.alpha;
-    }
-}*/
 
 - (void)logout:(id)sender
 {
