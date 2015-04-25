@@ -72,6 +72,7 @@
 		0C7A754D1ABE2DA1004FFE5B /* bgEating-1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C7A754C1ABE2DA1004FFE5B /* bgEating-1@2x.png */; };
 		0C7A754F1ABE7E94004FFE5B /* hopper@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C7A754E1ABE7E94004FFE5B /* hopper@2x.png */; };
 		0C7C5F241AC259500097A1F5 /* bgEatingBlue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C7C5F231AC259500097A1F5 /* bgEatingBlue@2x.png */; };
+		0C7F11201AEB68E60068D367 /* PCMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7F111F1AEB68E60068D367 /* PCMessageViewController.m */; };
 		0C89DB921ABB994D00CE8A62 /* PCWebServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C89DB911ABB994D00CE8A62 /* PCWebServices.m */; };
 		0C89E26E1ABAA3BA00077ABD /* PCProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C89E26D1ABAA3BA00077ABD /* PCProfile.m */; };
 		0C8B61601ABD028800BC13C8 /* PTKAddressZip.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B61371ABD028800BC13C8 /* PTKAddressZip.m */; };
@@ -265,6 +266,8 @@
 		0C7A754C1ABE2DA1004FFE5B /* bgEating-1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgEating-1@2x.png"; sourceTree = "<group>"; };
 		0C7A754E1ABE7E94004FFE5B /* hopper@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hopper@2x.png"; sourceTree = "<group>"; };
 		0C7C5F231AC259500097A1F5 /* bgEatingBlue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgEatingBlue@2x.png"; sourceTree = "<group>"; };
+		0C7F111E1AEB68E60068D367 /* PCMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCMessageViewController.h; sourceTree = "<group>"; };
+		0C7F111F1AEB68E60068D367 /* PCMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCMessageViewController.m; sourceTree = "<group>"; };
 		0C89DB901ABB994D00CE8A62 /* PCWebServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCWebServices.h; sourceTree = "<group>"; };
 		0C89DB911ABB994D00CE8A62 /* PCWebServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCWebServices.m; sourceTree = "<group>"; };
 		0C89E26C1ABAA3BA00077ABD /* PCProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCProfile.h; sourceTree = "<group>"; };
@@ -701,6 +704,8 @@
 				0C72328A1ABCD1A000BD0920 /* PCAccountViewController.m */,
 				0CD16F171AE75DB200B5F85B /* PCMessagesViewController.h */,
 				0CD16F181AE75DB200B5F85B /* PCMessagesViewController.m */,
+				0C7F111E1AEB68E60068D367 /* PCMessageViewController.h */,
+				0C7F111F1AEB68E60068D367 /* PCMessageViewController.m */,
 				0CFC9CFE1AE89DED00D2A923 /* PCMessageCell.h */,
 				0CFC9CFF1AE89DED00D2A923 /* PCMessageCell.m */,
 			);
@@ -970,6 +975,7 @@
 				0C0F2F481ABCF55900DBFD8F /* STPBankAccount.m in Sources */,
 				0C6139121AB8F29D00D12C50 /* PCVenuesViewController.m in Sources */,
 				0C8B61661ABD028800BC13C8 /* PTKTextField.m in Sources */,
+				0C7F11201AEB68E60068D367 /* PCMessageViewController.m in Sources */,
 				0C0F2F4B1ABCF55900DBFD8F /* STPToken.m in Sources */,
 				0C7232881ABCB31C00BD0920 /* PCTextField.m in Sources */,
 				0C91E76A1AC111D6006D7F1D /* PCOrderViewController.m in Sources */,
