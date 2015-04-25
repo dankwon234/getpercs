@@ -8,9 +8,10 @@
 
 #import "PCViewController.h"
 #import "PCMessage.h"
+#import <MessageUI/MessageUI.h>
 
+@interface PCMessageViewController : PCViewController <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UINavigationControllerDelegate>
 
-@interface PCMessageViewController : PCViewController
 
 @property (strong, nonatomic) PCMessage *message;
 @end

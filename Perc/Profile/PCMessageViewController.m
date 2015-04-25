@@ -108,9 +108,31 @@
 
 - (void)reply
 {
-    NSLog(@"reply");
+//    NSLog(@"reply");
+    if ([MFMailComposeViewController canSendMail]==NO){
+        [self showAlertWithTitle:@"Cannot Send Mail" message:@"This device cannot send mail."];
+        return;
+    }
+
+    NSArray *recipient = (self.message.isMine) ? @[self.message.recipient.email] : @[self.message.profile.email];
+    
+    MFMailComposeViewController *mailVC = [[MFMailComposeViewController alloc] init];
+    mailVC.delegate = self;
+    mailVC.mailComposeDelegate = self;
+    [mailVC setToRecipients:recipient];
+    
+    [self presentViewController:mailVC animated:YES completion:^{
+        
+        
+    }];
 }
 
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    [controller dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
 
 - (void)didReceiveMemoryWarning
 {
