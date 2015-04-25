@@ -277,7 +277,8 @@ static NSString *placeholder = @"Content";
     self.post.title = self.titleField.text;
     self.post.content = self.contentForm.text;
     self.post.profile = self.profile;
-    [self.post.zones addObject:self.currentZone.uniqueId];
+    if (self.isEditMode==NO)
+        [self.post.zones addObject:self.currentZone.uniqueId];
     
     if (self.isEditMode){
         [[PCWebServices sharedInstance] updatePost:self.post incrementView:NO completion:^(id result, NSError *error){
