@@ -60,8 +60,11 @@
             NSDictionary *results = (NSDictionary *)result;
             NSLog(@"%@", [results description]);
             NSArray *m = results[@"messages"];
-            for (int i=0; i<m.count; i++)
-                [self.profile.messages addObject:[PCMessage messageWithInfo:m[i]]];
+            for (int i=0; i<m.count; i++){
+                PCMessage *msg = [PCMessage messageWithInfo:m[i]];
+                msg.isMine = [msg.profile.uniqueId isEqual:self.profile.uniqueId];
+                [self.profile.messages addObject:msg];
+            }
             
             [self.messagesTable reloadData];
         });
@@ -97,6 +100,8 @@
     cell.lblName.text = [NSString stringWithFormat:@"%@ %@", [message.profile.firstName capitalizedString], [message.profile.lastName capitalizedString]];
     cell.lblDate.text = message.formattedDate;
     cell.lblMessage.text = message.content;
+    
+    
     return cell;
     
 }
