@@ -9,6 +9,7 @@
 #import "PCMessagesViewController.h"
 #import "PCMessage.h"
 #import "PCMessageCell.h"
+#import "PCMessageViewController.h"
 
 
 @interface PCMessagesViewController ()
@@ -72,6 +73,12 @@
     }];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.messagesTable deselectRowAtIndexPath:[self.messagesTable indexPathForSelectedRow] animated:YES];
+}
+
 
 - (void)back:(UIGestureRecognizer *)swipe
 {
@@ -104,6 +111,13 @@
     
     return cell;
     
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    PCMessageViewController *messageVc = [[PCMessageViewController alloc] init];
+    messageVc.message = self.profile.messages[indexPath.row];
+    [self.navigationController pushViewController:messageVc animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
