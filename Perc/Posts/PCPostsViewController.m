@@ -42,7 +42,13 @@ static NSString *cellId = @"cellId";
                                                  selector:@selector(postAdded:)
                                                      name:kPostCreatedNotification
                                                    object:nil];
-        
+
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(postUpdated:)
+                                                     name:kPostUpdatedNotification
+                                                   object:nil];
+
+
     }
     return self;
 }
@@ -436,6 +442,11 @@ static NSString *cellId = @"cellId";
         return;
     
     [self.currentZone.posts insertObject:p atIndex:0];
+    [self layoutListsCollectionView];
+}
+
+- (void)postUpdated:(NSNotification *)note
+{
     [self layoutListsCollectionView];
 }
 
