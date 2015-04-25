@@ -79,6 +79,17 @@
     [self.messagesTable deselectRowAtIndexPath:[self.messagesTable indexPathForSelectedRow] animated:YES];
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"imageData"]){
+        PCProfile *profile = (PCProfile *)object;
+        
+        [profile removeObserver:self forKeyPath:@"imageData"];
+        [self.messagesTable reloadData];
+        return;
+    }
+}
+
 
 - (void)back:(UIGestureRecognizer *)swipe
 {
@@ -108,7 +119,16 @@
     cell.lblDate.text = message.formattedDate;
     cell.lblMessage.text = message.content;
     
+    if ([message.profile.image isEqualToString:@"none"])
+        return cell;
     
+    if (message.profile.imageData){
+        cell.icon.image = message.profile.imageData;
+        return cell;
+    }
+    
+    [message.profile addObserver:self forKeyPath:@"imageData" options:0 context:nil];
+    [message.profile fetchImage];
     return cell;
     
 }
