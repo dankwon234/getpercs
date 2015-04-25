@@ -292,8 +292,7 @@ static NSString *placeholder = @"Content";
             [self.post populate:results[@"post"]];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kPostUpdatedNotification object:nil userInfo:@{@"post":self.post}]];
-                
+                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kPostUpdatedNotification object:nil]];
                 [self showAlertWithTitle:@"Post Updated!" message:@"Your post has been updated."];
             });
         }];
