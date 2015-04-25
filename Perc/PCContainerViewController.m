@@ -43,6 +43,11 @@
                                                      name:kLocationUpdatedNotification
                                                    object:nil];
 
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(updateProfileButton)
+                                                     name:kProfileUpdatedNotification
+                                                   object:nil];
+
         
     }
     return self;
@@ -143,6 +148,13 @@
     }
     
     [self.btnLogin setTitle:@"Log In" forState:UIControlStateNormal];
+
+}
+
+- (void)updateProfileButton
+{
+    NSString *btnText = (self.profile.isPopulated) ? [NSString stringWithFormat:@"%@ %@", [self.profile.firstName uppercaseString], [self.profile.lastName uppercaseString]] : @"LOG IN";
+    [self.btnLogin setTitle:btnText forState:UIControlStateNormal];
 
 }
 
