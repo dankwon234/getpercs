@@ -15,6 +15,7 @@
 @property (strong, nonatomic) UITextView *contentForm;
 @property (strong, nonatomic) UITextField *titleField;
 @property (strong, nonatomic) UIImageView *postImage;
+@property (nonatomic) BOOL isEditMode;
 @end
 
 static NSString *placeholder = @"Content";
@@ -25,8 +26,13 @@ static NSString *placeholder = @"Content";
 
 - (void)loadView
 {
-    if (self.post==nil)
+    if (self.post==nil){
+        self.isEditMode = NO;
         self.post = [[PCPost alloc] init];
+    }
+    else{
+        self.isEditMode = YES;
+    }
     
     UIView *view = [self baseView];
     view.backgroundColor = [UIColor blackColor];
@@ -51,7 +57,7 @@ static NSString *placeholder = @"Content";
     self.lblCreatePost.textColor = [UIColor whiteColor];
     self.lblCreatePost.textAlignment = NSTextAlignmentCenter;
     self.lblCreatePost.font = [UIFont fontWithName:kBaseFontName size:14.0f];
-    self.lblCreatePost.text = @"CREATE POST";
+    self.lblCreatePost.text = (self.isEditMode) ? @"UPDATE POST" : @"CREATE POST";
     [view addSubview:self.lblCreatePost];
     y += self.lblCreatePost.frame.size.height+20.0f;
     
@@ -71,6 +77,9 @@ static NSString *placeholder = @"Content";
     self.titleField.alpha = 0.8f;
     self.titleField.placeholder = @"Title";
     self.titleField.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    if (self.post.title.length > 4) // set 4 as minimum bc 'none' is 4 characters
+        self.titleField.text = self.post.title;
+    
     [self.theScrollview addSubview:self.titleField];
     y += self.titleField.frame.size.height+1.0f;
 
@@ -86,7 +95,7 @@ static NSString *placeholder = @"Content";
     self.contentForm.text = (self.post.content.length > 1) ? self.post.content : placeholder;
     if (self.post.content.length > 4){ // set 4 as minimum bc 'none' is 4 characters
         self.contentForm.text = self.post.content;
-        self.contentForm.textColor = [UIColor grayColor];
+        self.contentForm.textColor = [UIColor darkGrayColor];
     }
     else {
         self.contentForm.text = placeholder;
@@ -106,7 +115,8 @@ static NSString *placeholder = @"Content";
     self.postImage = [[UIImageView alloc] initWithFrame:CGRectMake(10.0f, 10.0f, dimen, dimen)];
     self.postImage.layer.borderWidth = 1.0f;
     self.postImage.layer.borderColor = [[UIColor darkGrayColor] CGColor];
-    self.postImage.image = [UIImage imageNamed:@"icon.png"];
+    self.postImage.image = (self.post.imageData) ? self.post.imageData : [UIImage imageNamed:@"icon.png"];
+    self.post.imageData = nil; // have to nil this out so the update function won't upload image unnecesarily
     [bgImage addSubview:self.postImage];
 
     [self.theScrollview addSubview:bgImage];
@@ -164,7 +174,8 @@ static NSString *placeholder = @"Content";
     btnCreate.layer.borderColor = [[UIColor whiteColor] CGColor];
     btnCreate.layer.borderWidth = 1.0f;
     [btnCreate setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [btnCreate setTitle:@"CREATE POST" forState:UIControlStateNormal];
+    NSString *btnTitle = (self.isEditMode) ? @"UPDATE POST" : @"CREATE POST";
+    [btnCreate setTitle:btnTitle forState:UIControlStateNormal];
     [btnCreate addTarget:self action:@selector(createPost:) forControlEvents:UIControlEventTouchUpInside];
     [bgCreate addSubview:btnCreate];
     [self.theScrollview addSubview:bgCreate];
@@ -267,6 +278,28 @@ static NSString *placeholder = @"Content";
     self.post.content = self.contentForm.text;
     self.post.profile = self.profile;
     [self.post.zones addObject:self.currentZone.uniqueId];
+    
+    if (self.isEditMode){
+        [[PCWebServices sharedInstance] updatePost:self.post incrementView:NO completion:^(id result, NSError *error){
+            [self.loadingIndicator stopLoading];
+            if (error){
+                [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
+                return;
+            }
+            
+            NSDictionary *results = (NSDictionary *)result;
+            NSLog(@"%@", [results description]);
+            [self.post populate:results[@"post"]];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+//                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kPostCreatedNotification object:nil userInfo:@{@"post":self.post}]];
+                
+                [self showAlertWithTitle:@"Post Updated!" message:@"Your post has been updated."];
+            });
+        }];
+        
+        return;
+    }
 
     [[PCWebServices sharedInstance] createPost:self.post completion:^(id result, NSError *error){
         [self.loadingIndicator stopLoading];
