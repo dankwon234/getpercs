@@ -9,6 +9,9 @@
 #import "PCProfile.h"
 #import "PCWebServices.h"
 
+@interface PCProfile ()
+@property (nonatomic) BOOL isFetching;
+@end
 
 @implementation PCProfile
 @synthesize uniqueId;
@@ -88,6 +91,7 @@
     self.hasCreditCard = NO;
     self.isPublic = NO;
     self.points = 0;
+    self.isFetching = NO;
 }
 
 
@@ -153,10 +157,15 @@
 
 - (void)fetchImage
 {
+    if (self.isFetching)
+        return;
+    
+    self.isFetching = YES;
     if ([self.image isEqualToString:@"none"])
         return;
     
     [[PCWebServices sharedInstance] fetchImage:self.image completionBlock:^(id result, NSError *error){
+        self.isFetching = NO;
         if (error)
             return;
         
