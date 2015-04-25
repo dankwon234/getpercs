@@ -19,6 +19,7 @@
 @property (strong, nonatomic) PCProfile *profile; // id num of profile who wrote the message
 @property (strong, nonatomic) PCProfile *recipient; // id of profile sent to
 @property (strong, nonatomic) NSDate *timestamp;
+@property (nonatomic) BOOL isMine;
 + (PCMessage *)messageWithInfo:(NSDictionary *)info;
 - (void)populate:(NSDictionary *)messageInfo;
 - (NSDictionary *)parametersDictionary;

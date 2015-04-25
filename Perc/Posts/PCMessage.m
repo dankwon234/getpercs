@@ -21,6 +21,7 @@
 @synthesize timestamp;
 @synthesize recipient;
 @synthesize formattedDate;
+@synthesize isMine;
 
 
 - (id)init
@@ -33,6 +34,7 @@
         self.recipient = nil;
         self.content = @"none";
         self.post = @"none";
+        self.isMine = NO;
     }
     
     return self;
