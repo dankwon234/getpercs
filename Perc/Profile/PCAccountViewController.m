@@ -144,6 +144,7 @@ static NSString *placeholder = @"Bio";
     self.theScrollview.contentSize = CGSizeMake(0, y);
     
     [view addSubview:self.theScrollview];
+    [view bringSubviewToFront:self.icon];
     
     self.view = view;
 }
@@ -240,7 +241,45 @@ static NSString *placeholder = @"Bio";
 - (void)resetDelegate
 {
     self.theScrollview.delegate = self;
-    //    self.addressField.delegate = self;
+}
+
+
+- (void)updateProfile:(UIButton *)btn
+{
+    if (self.firstNameField.text.length==0){
+        [self showAlertWithTitle:@"Missing First Name" message:@"Please enter your first name."];
+        return;
+    }
+    
+    if (self.lastNameField.text.length==0){
+        [self showAlertWithTitle:@"Missing Last Name" message:@"Please enter your last name."];
+        return;
+    }
+    
+    self.profile.firstName = self.firstNameField.text;
+    self.profile.lastName = self.lastNameField.text;
+    self.profile.bio = self.bioTextView.text;
+    
+    [self.loadingIndicator startLoading];
+    [self.loadingIndicator startLoading];
+    [[PCWebServices sharedInstance] updateProfile:self.profile completionBlock:^(id result, NSError *error){
+        [self.loadingIndicator stopLoading];
+        if (error) {
+            [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
+            return;
+        }
+        
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary *results = (NSDictionary *)result;
+            NSLog(@"%@", [results description]);
+            [self showAlertWithTitle:@"Profile Updated" message:@"Your profile has been updated."];
+            self.lblName.text = [NSString stringWithFormat:@"%@ %@", [self.profile.firstName uppercaseString], [self.profile.lastName uppercaseString]];
+            
+            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kProfileUpdatedNotification object:nil]];
+        });
+        
+    }];
 }
 
 
@@ -321,6 +360,7 @@ static NSString *placeholder = @"Bio";
     
     [picker dismissViewControllerAnimated:YES completion:^{
         
+        [self.loadingIndicator startLoading];
         [[PCWebServices sharedInstance] fetchUploadString:^(id result, NSError *error){
             if (error)
                 return;
@@ -343,48 +383,11 @@ static NSString *placeholder = @"Bio";
     
 }
 
-- (void)updateProfile:(UIButton *)btn
-{
-    if (self.firstNameField.text.length==0){
-        [self showAlertWithTitle:@"Missing First Name" message:@"Please enter your first name."];
-        return;
-    }
-
-    if (self.lastNameField.text.length==0){
-        [self showAlertWithTitle:@"Missing Last Name" message:@"Please enter your last name."];
-        return;
-    }
-
-    self.profile.firstName = self.firstNameField.text;
-    self.profile.lastName = self.lastNameField.text;
-    self.profile.bio = self.bioTextView.text;
-    
-    [self.loadingIndicator startLoading];
-    [self.loadingIndicator startLoading];
-    [[PCWebServices sharedInstance] updateProfile:self.profile completionBlock:^(id result, NSError *error){
-        [self.loadingIndicator stopLoading];
-        if (error) {
-            [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
-            return;
-        }
-        
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSDictionary *results = (NSDictionary *)result;
-            NSLog(@"%@", [results description]);
-            [self showAlertWithTitle:@"Profile Updated" message:@"Your profile has been updated."];
-        });
-
-    }];
-}
-
-
 
 - (void)uploadImage:(NSString *)uploadUrl
 {
     NSDictionary *pkg = @{@"data":UIImageJPEGRepresentation(self.profile.imageData, 0.5f), @"name":@"image.jpg"};
     [[PCWebServices sharedInstance] uploadImage:pkg toUrl:uploadUrl completion:^(id result, NSError *error){
-        [self.loadingIndicator stopLoading];
         if (error){
             [self.loadingIndicator stopLoading];
             [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
