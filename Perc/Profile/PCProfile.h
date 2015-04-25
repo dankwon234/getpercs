@@ -22,6 +22,7 @@
 @property (copy, nonatomic) NSString *promoCode;
 @property (copy, nonatomic) NSString *deviceToken;
 @property (copy, nonatomic) NSString *lastZone;
+@property (copy, nonatomic) NSString *bio;
 @property (strong, nonatomic) NSMutableArray *orderHistory;
 @property (strong, nonatomic) NSMutableArray *messages;
 @property (strong, nonatomic) NSMutableArray *posts;

@@ -28,6 +28,8 @@
 @synthesize posts;
 @synthesize points;
 @synthesize promoCode;
+@synthesize bio;
+
 
 - (id)init
 {
@@ -74,6 +76,7 @@
     self.email = @"none";
     self.phone = @"none";
     self.image = @"none";
+    self.bio = @"none";
     self.deviceToken = @"none";
     self.lastZone = @"none";
     self.promoCode = @"none";
@@ -99,6 +102,7 @@
     self.deviceToken = profileInfo[@"deviceToken"];
     self.lastZone = profileInfo[@"lastZone"];
     self.lastZone = profileInfo[@"promoCode"];
+    self.bio = profileInfo[@"bio"];
     self.points = [profileInfo[@"points"] intValue];
     if (profileInfo[@"creditCard"])
         self.hasCreditCard = [profileInfo[@"creditCard"] isEqualToString:@"yes"];
@@ -198,6 +202,9 @@
     
     if (self.lastZone)
         params[@"lastZone"] = self.lastZone;
+
+    if (self.bio)
+        params[@"bio"] = self.bio;
 
 
     return params;
