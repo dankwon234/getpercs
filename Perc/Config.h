@@ -22,6 +22,9 @@
 #define kPostCreatedNotification @"PostCreatedNotification"
 #define kPostUpdatedNotification @"PostUpdatedNotification"
 #define kShowBackgroundsNotification @"ShowBackgroundsNotification"
+#define kProfileUpdatedNotification @"ProfileUpdatedNotification"
+
+
 
 
 
