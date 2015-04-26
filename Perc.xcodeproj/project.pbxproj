@@ -60,7 +60,6 @@
 		0C676E151AE36271001B14B7 /* iconEnvelope@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C676E141AE36271001B14B7 /* iconEnvelope@2x.png */; };
 		0C6926161ABBB88600C91B6D /* PCZone.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6926151ABBB88600C91B6D /* PCZone.m */; };
 		0C69261D1ABBECC800C91B6D /* PCOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C69261C1ABBECC800C91B6D /* PCOrder.m */; };
-		0C7232881ABCB31C00BD0920 /* PCTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7232871ABCB31C00BD0920 /* PCTextField.m */; };
 		0C72328B1ABCD1A000BD0920 /* PCAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C72328A1ABCD1A000BD0920 /* PCAccountViewController.m */; };
 		0C72328F1ABCD46700BD0920 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C72328E1ABCD46700BD0920 /* icon@2x.png */; };
 		0C78AE0D1AE73CD800D2553D /* PCBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C78AE0C1AE73CD800D2553D /* PCBackgroundView.m */; };
@@ -247,8 +246,6 @@
 		0C6926151ABBB88600C91B6D /* PCZone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCZone.m; sourceTree = "<group>"; };
 		0C69261B1ABBECC800C91B6D /* PCOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCOrder.h; sourceTree = "<group>"; };
 		0C69261C1ABBECC800C91B6D /* PCOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCOrder.m; sourceTree = "<group>"; };
-		0C7232861ABCB31C00BD0920 /* PCTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCTextField.h; sourceTree = "<group>"; };
-		0C7232871ABCB31C00BD0920 /* PCTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCTextField.m; sourceTree = "<group>"; };
 		0C7232891ABCD1A000BD0920 /* PCAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCAccountViewController.h; sourceTree = "<group>"; };
 		0C72328A1ABCD1A000BD0920 /* PCAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCAccountViewController.m; sourceTree = "<group>"; };
 		0C72328E1ABCD46700BD0920 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
@@ -565,8 +562,6 @@
 				0CA0DE691ABA242F00537419 /* PCCollectionViewFlowLayout.m */,
 				0C89DB901ABB994D00CE8A62 /* PCWebServices.h */,
 				0C89DB911ABB994D00CE8A62 /* PCWebServices.m */,
-				0C7232861ABCB31C00BD0920 /* PCTextField.h */,
-				0C7232871ABCB31C00BD0920 /* PCTextField.m */,
 				0C7A753F1ABE256C004FFE5B /* PCWelcomeView.h */,
 				0C7A75401ABE256C004FFE5B /* PCWelcomeView.m */,
 				0C13AC2D1AE41FC2003B1F0D /* UIImage+PQImageEffects.h */,
@@ -965,7 +960,6 @@
 				0C8B61661ABD028800BC13C8 /* PTKTextField.m in Sources */,
 				0C7F11201AEB68E60068D367 /* PCMessageViewController.m in Sources */,
 				0C0F2F4B1ABCF55900DBFD8F /* STPToken.m in Sources */,
-				0C7232881ABCB31C00BD0920 /* PCTextField.m in Sources */,
 				0C91E76A1AC111D6006D7F1D /* PCOrderViewController.m in Sources */,
 				0C13AC2F1AE41FC2003B1F0D /* UIImage+PQImageEffects.m in Sources */,
 				0C89DB921ABB994D00CE8A62 /* PCWebServices.m in Sources */,
