@@ -14,6 +14,7 @@
 
 @interface PCMessagesViewController ()
 @property (strong, nonatomic) UITableView *messagesTable;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
 @end
 
 @implementation PCMessagesViewController
@@ -30,6 +31,16 @@
     self.messagesTable.dataSource = self;
     self.messagesTable.delegate = self;
     self.messagesTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    self.refreshControl.backgroundColor = [UIColor clearColor];
+    self.refreshControl.tintColor = [UIColor grayColor];
+    [self.refreshControl addTarget:self
+                            action:@selector(fetchProfileMessages)
+                  forControlEvents:UIControlEventValueChanged];
+    
+    [self.messagesTable addSubview:self.refreshControl];
+
     [view addSubview:self.messagesTable];
 
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
@@ -48,29 +59,7 @@
     if (self.profile.messages)
         return;
     
-    self.profile.messages = [NSMutableArray array];
-    [self.loadingIndicator startLoading];
-    [[PCWebServices sharedInstance] fetchMessages:@{@"profile":self.profile.uniqueId} completion:^(id result, NSError *error){
-        [self.loadingIndicator stopLoading];
-        if (error){
-            [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
-            return;
-        }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSDictionary *results = (NSDictionary *)result;
-            NSLog(@"%@", [results description]);
-            NSArray *m = results[@"messages"];
-            for (int i=0; i<m.count; i++){
-                PCMessage *msg = [PCMessage messageWithInfo:m[i]];
-                msg.isMine = [msg.profile.uniqueId isEqual:self.profile.uniqueId];
-                [self.profile.messages addObject:msg];
-            }
-            
-            [self.messagesTable reloadData];
-        });
-        
-    }];
+    [self fetchProfileMessages];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -96,6 +85,33 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)fetchProfileMessages
+{
+    self.profile.messages = [NSMutableArray array];
+    [self.loadingIndicator startLoading];
+    [[PCWebServices sharedInstance] fetchMessages:@{@"profile":self.profile.uniqueId} completion:^(id result, NSError *error){
+        [self.loadingIndicator stopLoading];
+        if (error){
+            [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
+            return;
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary *results = (NSDictionary *)result;
+            NSLog(@"%@", [results description]);
+            NSArray *m = results[@"messages"];
+            for (int i=0; i<m.count; i++){
+                PCMessage *msg = [PCMessage messageWithInfo:m[i]];
+                msg.isMine = [msg.profile.uniqueId isEqual:self.profile.uniqueId];
+                [self.profile.messages addObject:msg];
+            }
+            
+            [self.messagesTable reloadData];
+            [self.refreshControl endRefreshing];
+        });
+        
+    }];
+}
 
 
 
