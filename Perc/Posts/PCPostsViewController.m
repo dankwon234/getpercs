@@ -230,6 +230,9 @@ static NSString *cellId = @"cellId";
                 [self.currentZone.posts addObject:[PCPost postWithInfo:postInfo]];
             
             [self layoutListsCollectionView];
+            
+            if (self.currentZone.posts.count==0)
+                [self showAlertWithTitle:@"No Posts" message:@"This area has no posts. To add one, tap the icon in the upper right corner."];
         });
         
     }];
