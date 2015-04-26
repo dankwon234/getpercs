@@ -9,11 +9,11 @@
 #import "PCRegisterViewController.h"
 
 @interface PCRegisterViewController ()
-@property (strong, nonatomic) UITextField *firstNameField;
-@property (strong, nonatomic) UITextField *lastNameField;
+@property (strong, nonatomic) UITextField *nameField;
 @property (strong, nonatomic) UITextField *emailField;
 @property (strong, nonatomic) UITextField *phoneField;
 @property (strong, nonatomic) UITextField *passwordField;
+@property (strong, nonatomic) UITextField *promoCodeField;
 @end
 
 @implementation PCRegisterViewController
@@ -26,7 +26,7 @@
     CGRect frame = view.frame;
     
     static CGFloat x = 20.0f;
-    CGFloat y = 0.15f*frame.size.height;
+    CGFloat y = 0.12f*frame.size.height;
     CGFloat width = frame.size.width;
     
     UILabel *lblSignup = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width-2*x, 32.0f)];
@@ -38,43 +38,74 @@
     y += lblSignup.frame.size.height+32.0f;
 
 
-    self.firstNameField = [PCTextField textFieldWithFrame:CGRectMake(x, y, width-2*x, 32.0f)];
-    self.firstNameField.delegate = self;
-    self.firstNameField.placeholder = @"First Name";
-    self.firstNameField.returnKeyType = UIReturnKeyNext;
-    [view addSubview:self.firstNameField];
-    y += self.firstNameField.frame.size.height+14.0f;
+    CGFloat h = 44.0f;
+    self.nameField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, y, width, h)];
+    self.nameField.delegate = self;
+    self.nameField.placeholder = @"Full Name";
+    self.nameField.returnKeyType = UIReturnKeyNext;
+    self.nameField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 20.0f, 44.0f)];;
+    self.nameField.leftViewMode = UITextFieldViewModeAlways;
+    self.nameField.backgroundColor = [UIColor whiteColor];
+    self.nameField.alpha = 0.8f;
+    self.nameField.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    self.nameField.textColor = [UIColor darkGrayColor];
+    [view addSubview:self.nameField];
+    y += self.nameField.frame.size.height+1.0f;
 
-    self.lastNameField = [PCTextField textFieldWithFrame:CGRectMake(x, y, width-2*x, 32.0f)];
-    self.lastNameField.delegate = self;
-    self.lastNameField.placeholder = @"Last Name";
-    self.lastNameField.returnKeyType = UIReturnKeyNext;
-    [view addSubview:self.lastNameField];
-    y += self.lastNameField.frame.size.height+14.0f;
-
-    
-    self.emailField = [PCTextField textFieldWithFrame:CGRectMake(x, y, width-2*x, 32.0f)];
+    self.emailField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, y, width, h)];
     self.emailField.delegate = self;
     self.emailField.placeholder = @"Email";
     self.emailField.returnKeyType = UIReturnKeyNext;
+    self.emailField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 20.0f, 44.0f)];;
+    self.emailField.leftViewMode = UITextFieldViewModeAlways;
+    self.emailField.backgroundColor = [UIColor whiteColor];
+    self.emailField.alpha = 0.8f;
+    self.emailField.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    self.emailField.textColor = [UIColor darkGrayColor];
     [view addSubview:self.emailField];
-    y += self.emailField.frame.size.height+14.0f;
+    y += self.emailField.frame.size.height+1.0f;
 
-    self.phoneField = [PCTextField textFieldWithFrame:CGRectMake(x, y, width-2*x, 32.0f)];
+    self.phoneField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, y, width, h)];
     self.phoneField.delegate = self;
     self.phoneField.placeholder = @"Phone (We text you when your order is ready)";
     self.phoneField.returnKeyType = UIReturnKeyNext;
+    self.phoneField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 20.0f, 44.0f)];;
+    self.phoneField.leftViewMode = UITextFieldViewModeAlways;
+    self.phoneField.backgroundColor = [UIColor whiteColor];
+    self.phoneField.alpha = 0.8f;
+    self.phoneField.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    self.phoneField.textColor = [UIColor darkGrayColor];
     [view addSubview:self.phoneField];
-    y += self.phoneField.frame.size.height+14.0f;
+    y += self.phoneField.frame.size.height+1.0f;
 
 
-    self.passwordField = [PCTextField textFieldWithFrame:CGRectMake(x, y, width-2*x, 32.0f)];
+    self.passwordField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, y, width, h)];
     self.passwordField.delegate = self;
     self.passwordField.placeholder = @"Password";
     self.passwordField.secureTextEntry = YES;
-    self.passwordField.returnKeyType = UIReturnKeyGo;
+    self.passwordField.returnKeyType = UIReturnKeyNext;
+    self.passwordField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 20.0f, 44.0f)];;
+    self.passwordField.leftViewMode = UITextFieldViewModeAlways;
+    self.passwordField.backgroundColor = [UIColor whiteColor];
+    self.passwordField.alpha = 0.8f;
+    self.passwordField.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    self.passwordField.textColor = [UIColor darkGrayColor];
     [view addSubview:self.passwordField];
-    y += self.passwordField.frame.size.height+20.0f;
+    y += self.passwordField.frame.size.height+1.0f;
+
+    self.promoCodeField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, y, width, h)];
+    self.promoCodeField.delegate = self;
+    self.promoCodeField.placeholder = @"Referral Code";
+    self.promoCodeField.returnKeyType = UIReturnKeyGo;
+    self.promoCodeField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 20.0f, 44.0f)];;
+    self.promoCodeField.leftViewMode = UITextFieldViewModeAlways;
+    self.promoCodeField.backgroundColor = [UIColor whiteColor];
+    self.promoCodeField.alpha = 0.8f;
+    self.promoCodeField.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    self.promoCodeField.textColor = [UIColor darkGrayColor];
+    [view addSubview:self.promoCodeField];
+    y += self.promoCodeField.frame.size.height+20.0f;
+
     
     UIButton *btnRegister = [UIButton buttonWithType:UIButtonTypeCustom];
     btnRegister.frame = CGRectMake(x, y, width-2*x, 44.0f);
@@ -111,8 +142,7 @@
 
 - (void)dismissKeyboard
 {
-    [self.firstNameField resignFirstResponder];
-    [self.lastNameField resignFirstResponder];
+    [self.nameField resignFirstResponder];
     [self.phoneField resignFirstResponder];
     [self.emailField resignFirstResponder];
     [self.passwordField resignFirstResponder];
@@ -124,16 +154,20 @@
 
 - (void)registerProfile:(UIButton *)btn
 {
-    if (self.firstNameField.text.length==0){
-        [self showAlertWithTitle:@"Missing First Name" message:@"PLease enter your first name."];
-        return;
-    }
-
-    if (self.lastNameField.text.length==0){
-        [self showAlertWithTitle:@"Missing Last Name" message:@"PLease enter your last name."];
+    if (self.nameField.text.length==0){
+        [self showAlertWithTitle:@"Missing Full Name" message:@"Please enter your full name."];
         return;
     }
     
+    NSString *fullName = self.nameField.text;
+    NSArray *parts = [fullName componentsSeparatedByString:@" "];
+    
+    if (parts.count < 2){
+        [self showAlertWithTitle:@"Missing Full Name" message:@"PLease enter your first and last name."];
+        return;
+    }
+
+
     if (self.emailField.text.length==0){
         [self showAlertWithTitle:@"Missing Email" message:@"PLease enter your email."];
         return;
@@ -149,11 +183,15 @@
         return;
     }
     
-    self.profile.firstName = self.firstNameField.text;
-    self.profile.lastName = self.lastNameField.text;
+    
+    self.profile.firstName = parts[0];
+    self.profile.lastName = parts[parts.count-1];
     self.profile.email = self.emailField.text;
     self.profile.phone = self.phoneField.text;
     self.profile.password = self.passwordField.text;
+    if (self.promoCodeField.text.length > 0)
+        self.profile.referral = self.promoCodeField.text;
+    
 
 
 
@@ -191,19 +229,17 @@
         [self shiftUp:96.0f];
     }
 
+    if ([textField isEqual:self.promoCodeField]){
+        [self shiftUp:96.0f];
+    }
+
     return YES;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    if ([textField isEqual:self.firstNameField]){
-        [self.lastNameField becomeFirstResponder];
-        return YES;
-    }
-    
-    if ([textField isEqual:self.lastNameField]){
+    if ([textField isEqual:self.nameField]){
         [self.emailField becomeFirstResponder];
-        [self shiftUp:64.0f];
         return YES;
     }
     
@@ -218,7 +254,13 @@
         [self shiftUp:96.0f];
         return YES;
     }
-    
+
+    if ([textField isEqual:self.passwordField]){
+        [self.promoCodeField becomeFirstResponder];
+        [self shiftUp:96.0f];
+        return YES;
+    }
+
     [textField resignFirstResponder];
     [self registerProfile:nil];
     [self shiftBack:64.0f];

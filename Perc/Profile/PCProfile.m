@@ -32,6 +32,7 @@
 @synthesize points;
 @synthesize promoCode;
 @synthesize bio;
+@synthesize referral;
 
 
 - (id)init
@@ -83,6 +84,7 @@
     self.deviceToken = @"none";
     self.lastZone = @"none";
     self.promoCode = @"none";
+    self.referral = @"none";
     self.password = nil;
     self.orderHistory = nil;
     self.messages = nil;
@@ -222,6 +224,9 @@
 
     if (self.bio)
         params[@"bio"] = self.bio;
+    
+    if (self.referral)
+        params[@"referral"] = self.referral;
 
 
     return params;

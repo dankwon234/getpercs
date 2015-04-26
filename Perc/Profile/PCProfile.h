@@ -20,6 +20,7 @@
 @property (copy, nonatomic) NSString *password;
 @property (copy, nonatomic) NSString *image;
 @property (copy, nonatomic) NSString *promoCode;
+@property (copy, nonatomic) NSString *referral; // promo code of person who referred profile
 @property (copy, nonatomic) NSString *deviceToken;
 @property (copy, nonatomic) NSString *lastZone;
 @property (copy, nonatomic) NSString *bio;
