@@ -314,7 +314,7 @@ static NSString *cellId = @"cellId";
     }
     
     [self.loadingIndicator startLoading];
-    [[PCWebServices sharedInstance] fetchPosts:@{@"":self.profile.uniqueId} completion:^(id result, NSError *error){
+    [[PCWebServices sharedInstance] fetchPosts:@{@"profile":self.profile.uniqueId} completion:^(id result, NSError *error){
         [self.loadingIndicator stopLoading];
         
         if (error){
