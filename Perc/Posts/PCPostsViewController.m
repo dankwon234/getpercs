@@ -330,6 +330,11 @@ static NSString *cellId = @"cellId";
                 [self.profile.posts addObject:[PCPost postWithInfo:a[i]]];
             
             [self layoutListsCollectionView];
+            
+            if (self.profile.posts.count==0){
+                [self showAlertWithTitle:@"No Posts" message:@"You have no posts yet. To get started, tap the icon in the upper right corner."];
+                return;
+            }
         });
         
     }];
