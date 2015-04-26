@@ -357,6 +357,16 @@
 }
 
 
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"buttonIndex == %ld", (long)buttonIndex);
+    [self showLoginView:YES]; // not logged in - go to log in / register view controller
+}
+
+
+
+
 
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -480,6 +490,15 @@
     
     if (indexPath.row != 0)
         return;
+    
+    if (self.profile.isPopulated==NO){
+        if (self.profile.isPopulated==NO){
+            UIAlertView *alert = [self showAlertWithTitle:@"Log In" message:@"Please log in or register to send a direct message."];
+            alert.delegate = self;
+            return;
+        }
+        
+    }
     
     PCConnectViewController *connectVc = [[PCConnectViewController alloc] init];
     connectVc.post = self.post;
