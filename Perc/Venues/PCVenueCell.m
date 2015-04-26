@@ -57,7 +57,7 @@
         [self.lblTitle addObserver:self forKeyPath:@"text" options:0 context:nil];
         self.lblTitle.textAlignment = NSTextAlignmentRight;
         self.lblTitle.textColor = darkGray;
-        self.lblTitle.numberOfLines = 0;
+        self.lblTitle.numberOfLines = 1;
         self.lblTitle.backgroundColor = clear;
         self.lblTitle.lineBreakMode = NSLineBreakByWordWrapping;
         self.lblTitle.font = [UIFont fontWithName:kBaseFontName size:16.0f];
