@@ -302,6 +302,12 @@ static NSString *cellId = @"cellId";
 
 - (void)viewProfilePosts:(UIButton *)btn
 {
+    if (self.profile.isPopulated==NO){
+        UIAlertView *alert = [self showAlertWithTitle:@"Log In" message:@"Please log in or register to view your posts."];
+        alert.delegate = self;
+        return;
+    }
+
     [self hideOptionsView:nil];
     if (self.mode==1)
         return;
@@ -360,6 +366,12 @@ static NSString *cellId = @"cellId";
 
 - (void)viewMessages:(UIButton *)btn
 {
+    if (self.profile.isPopulated==NO){
+        UIAlertView *alert = [self showAlertWithTitle:@"Log In" message:@"Please log in or register to view your messages."];
+        alert.delegate = self;
+        return;
+    }
+
     PCMessagesViewController *messagesVc = [[PCMessagesViewController alloc] init];
     [self.navigationController pushViewController:messagesVc animated:YES];
 }
@@ -368,7 +380,7 @@ static NSString *cellId = @"cellId";
 {
     NSLog(@"createPost: ");
     if (self.profile.isPopulated==NO){
-        UIAlertView *alert = [self showAlertWithTitle:@"Log In" message:@"Please log in or register to place an order."];
+        UIAlertView *alert = [self showAlertWithTitle:@"Log In" message:@"Please log in or register to create a post."];
         alert.delegate = self;
         return;
     }
