@@ -108,6 +108,10 @@
             
             [self.messagesTable reloadData];
             [self.refreshControl endRefreshing];
+            
+            if (self.profile.messages.count==0)
+                [self showAlertWithTitle:@"No Messages" message:@"You have no direct messages yet."];
+
         });
         
     }];
