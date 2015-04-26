@@ -54,7 +54,7 @@
         
         
         self.lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, 18.0f)];
-        [self.lblTitle addObserver:self forKeyPath:@"text" options:0 context:nil];
+//        [self.lblTitle addObserver:self forKeyPath:@"text" options:0 context:nil];
         self.lblTitle.textAlignment = NSTextAlignmentRight;
         self.lblTitle.textColor = darkGray;
         self.lblTitle.numberOfLines = 1;
@@ -112,11 +112,12 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [self.lblTitle removeObserver:self forKeyPath:@"text"];
-}
+//- (void)dealloc
+//{
+//    [self.lblTitle removeObserver:self forKeyPath:@"text"];
+//}
 
+/*
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"text"]==NO)
@@ -137,6 +138,7 @@
     frame.origin.y = y;
     self.lblLocation.frame = frame;
 }
+ */
 
 
 
