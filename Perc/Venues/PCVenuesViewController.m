@@ -535,6 +535,7 @@ static NSString *cellId = @"cellId";
         cell.tag = indexPath.row+1000;
         cell.btnOrder.tag = cell.tag;
         cell.lblDetails.text = [NSString stringWithFormat:@"Min Delivery Fee: $%d \u00b7 %.1f mi", venue.fee, venue.distance];
+        cell.btnOrder.alpha = 1.0f;
         
         if ([venue.icon isEqualToString:@"none"]){
             cell.icon.image = [UIImage imageNamed:@"logo.png"];
@@ -560,6 +561,7 @@ static NSString *cellId = @"cellId";
     cell.tag = indexPath.row+1000;
     cell.btnOrder.tag = cell.tag;
     cell.lblDetails.text = order.address;
+    cell.btnOrder.alpha = 0;
     
     if ([order.image isEqualToString:@"none"]){
         cell.icon.image = [UIImage imageNamed:@"logo.png"];
