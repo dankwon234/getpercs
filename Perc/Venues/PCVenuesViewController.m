@@ -254,6 +254,12 @@ static NSString *cellId = @"cellId";
 
 - (void)viewOrderHistory:(UIButton *)btn
 {
+    if (self.profile.isPopulated==NO){
+        UIAlertView *alert = [self showAlertWithTitle:@"Log In" message:@"Please log in or register to view your order history."];
+        alert.delegate = self;
+        return;
+    }
+
     [self hideOptionsView:nil];
     if (self.mode==1)
         return;
@@ -504,6 +510,15 @@ static NSString *cellId = @"cellId";
         [self.venuesTable reloadItemsAtIndexPaths:indexPaths];
     });
 }
+
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"buttonIndex == %ld", (long)buttonIndex);
+    [self showLoginView:YES]; // not logged in - go to log in / register view controller
+}
+
 
 
 
