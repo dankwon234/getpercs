@@ -91,6 +91,7 @@
     [self.loadingIndicator startLoading];
     [[PCWebServices sharedInstance] fetchMessages:@{@"profile":self.profile.uniqueId} completion:^(id result, NSError *error){
         [self.loadingIndicator stopLoading];
+        [self.refreshControl endRefreshing];
         if (error){
             [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
             return;
@@ -107,7 +108,6 @@
             }
             
             [self.messagesTable reloadData];
-            [self.refreshControl endRefreshing];
             
             if (self.profile.messages.count==0)
                 [self showAlertWithTitle:@"No Messages" message:@"You have no direct messages yet."];
