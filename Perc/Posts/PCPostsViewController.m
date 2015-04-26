@@ -367,6 +367,14 @@ static NSString *cellId = @"cellId";
 - (void)createPost:(id)sender
 {
     NSLog(@"createPost: ");
+    if (self.profile.isPopulated==NO){
+        UIAlertView *alert = [self showAlertWithTitle:@"Log In" message:@"Please log in or register to place an order."];
+        alert.delegate = self;
+        return;
+    }
+
+    
+    
     PCCreatePostViewController *createPostVc = [[PCCreatePostViewController alloc] init];
     [self.navigationController pushViewController:createPostVc animated:YES];
 }
@@ -464,6 +472,16 @@ static NSString *cellId = @"cellId";
 {
     [self layoutListsCollectionView];
 }
+
+
+#pragma UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"buttonIndex == %ld", (long)buttonIndex);
+    [self showLoginView:YES]; // not logged in - go to log in / register view controller
+}
+
+
 
 
 #pragma mark - UICollectionViewDataSource
