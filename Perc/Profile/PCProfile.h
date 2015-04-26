@@ -39,4 +39,5 @@
 - (void)updateProfile;
 - (void)fetchImage;
 - (void)clear;
+- (void)logout;
 @end

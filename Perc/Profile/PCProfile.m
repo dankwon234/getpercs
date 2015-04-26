@@ -94,6 +94,14 @@
     self.isFetching = NO;
 }
 
+- (void)logout
+{
+    [self clear];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:@"user"];
+    [defaults synchronize];
+}
 
 - (void)populate:(NSDictionary *)profileInfo
 {
