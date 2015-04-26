@@ -294,7 +294,8 @@ static NSString *placeholder = @"Bio";
     }
     
     self.theScrollview.delegate = nil;
-    [self.theScrollview setContentOffset:CGPointMake(0, 124.0f) animated:YES];
+//    [self.theScrollview setContentOffset:CGPointMake(0, 124.0f) animated:YES];
+    [self.theScrollview setContentOffset:CGPointMake(0, 204.0f) animated:YES];
     [self performSelector:@selector(resetDelegate) withObject:nil afterDelay:0.6f];
     
     return YES;
