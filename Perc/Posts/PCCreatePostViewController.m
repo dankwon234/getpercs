@@ -77,7 +77,7 @@ static NSString *placeholder = @"Content";
     self.titleField.alpha = 0.8f;
     self.titleField.placeholder = @"Title";
     self.titleField.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    if (self.post.title.length > 4) // set 4 as minimum bc 'none' is 4 characters
+    if ([self.post.title isEqualToString:@"none"]==NO && self.post.title.length > 0)
         self.titleField.text = self.post.title;
     
     [self.theScrollview addSubview:self.titleField];
@@ -93,7 +93,7 @@ static NSString *placeholder = @"Content";
     self.contentForm.font = [UIFont fontWithName:kBaseFontName size:16.0f];
     self.contentForm.backgroundColor = [UIColor clearColor];
     self.contentForm.text = (self.post.content.length > 1) ? self.post.content : placeholder;
-    if (self.post.content.length > 4){ // set 4 as minimum bc 'none' is 4 characters
+    if (self.post.content.length > 4){
         self.contentForm.text = self.post.content;
         self.contentForm.textColor = [UIColor darkGrayColor];
     }
