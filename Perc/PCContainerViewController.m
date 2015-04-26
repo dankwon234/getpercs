@@ -32,7 +32,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
-        self.sections = @[@"Venues", @"About"];
+        self.sections = @[@"Venues", @"Account", @"About"];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(toggleMenu)
                                                      name:kViewMenuNotification
@@ -258,7 +258,7 @@
     if (self.locationMgr.cities.count==0)
         return;
     
-    self.sections = @[[self.locationMgr.cities[0] uppercaseString], @"About"];
+    self.sections = @[[self.locationMgr.cities[0] uppercaseString], @"Account", @"About"];
     [self.sectionsTable reloadData];
 }
 
@@ -303,6 +303,17 @@
             [self presentViewController:self.aboutVc animated:YES completion:^{
                 [self.sectionsTable deselectRowAtIndexPath:[self.sectionsTable indexPathForSelectedRow] animated:NO];
             }];
+        });
+        
+        return;
+    }
+    
+    if (indexPath.row==1){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (self.profile.isPopulated)
+                [self showAccountView];
+            else
+                [self showLoginView:YES];
         });
         
         return;
