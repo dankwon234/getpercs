@@ -148,6 +148,9 @@
                     
                     NSDictionary *zoneInfo = z[0];
                     [self.currentZone populate:zoneInfo];
+                    self.currentZone.venues = nil;
+                    self.currentZone.posts = nil;
+                    
                     self.profile.lastZone = self.currentZone.uniqueId;
                     [self.profile updateProfile]; // update profile with last zone info on backend
                     [self.loadingIndicator stopLoading];
