@@ -13,6 +13,7 @@
 
 @interface PCAccountViewController ()
 @property (strong, nonatomic) UIImageView *icon;
+@property (strong, nonatomic) UILabel *lblTapToChange;
 @property (strong, nonatomic) UILabel *lblName;
 @property (strong, nonatomic) UIScrollView *theScrollview;
 @property (strong, nonatomic) UITextField *firstNameField;
@@ -53,7 +54,16 @@ static NSString *placeholder = @"Bio";
     self.icon.userInteractionEnabled = YES;
     [self.icon addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectImage:)]];
     [view addSubview:self.icon];
-    CGFloat y = self.icon.frame.origin.y+self.icon.frame.size.height+16.0f;
+    CGFloat y = self.icon.frame.origin.y+self.icon.frame.size.height+4.0f;
+    
+    self.lblTapToChange = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, y, frame.size.width-40.0f, 18.0f)];
+    self.lblTapToChange.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    self.lblTapToChange.textAlignment = NSTextAlignmentCenter;
+    self.lblTapToChange.font = [UIFont fontWithName:kBaseFontName size:12.0f];
+    self.lblTapToChange.textColor = [UIColor whiteColor];
+    self.lblTapToChange.text = @"(Tap to Change)";
+    [view addSubview:self.lblTapToChange];
+    y += self.lblTapToChange.frame.size.height+6.0f;
     
     self.lblName = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, y, frame.size.width-40.0f, 22.0f)];
     self.lblName.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
@@ -191,12 +201,15 @@ static NSString *placeholder = @"Bio";
         CGFloat offset = self.theScrollview.contentOffset.y;
         if (offset < -kTopInset){
             self.icon.alpha = 1.0f;
+            self.lblName.alpha = self.icon.alpha;
+            self.lblTapToChange.alpha = self.icon.alpha;
             return;
         }
         
         double distance = offset+kTopInset;
         self.icon.alpha = 1.0f-(distance/100.0f);
         self.lblName.alpha = self.icon.alpha;
+        self.lblTapToChange.alpha = self.icon.alpha;
     }
     
 }
