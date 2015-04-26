@@ -492,12 +492,9 @@
         return;
     
     if (self.profile.isPopulated==NO){
-        if (self.profile.isPopulated==NO){
-            UIAlertView *alert = [self showAlertWithTitle:@"Log In" message:@"Please log in or register to send a direct message."];
-            alert.delegate = self;
-            return;
-        }
-        
+        UIAlertView *alert = [self showAlertWithTitle:@"Log In" message:@"Please log in or register to send a direct message."];
+        alert.delegate = self;
+        return;
     }
     
     PCConnectViewController *connectVc = [[PCConnectViewController alloc] init];
