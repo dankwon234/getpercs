@@ -62,7 +62,7 @@ static NSString *cellId = @"cellId";
 - (void)loadView
 {
     UIView *view = [self baseView];
-    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgBurger.png"]];
+    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgLights.png"]];
     CGRect frame = view.frame;
     
     self.icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon.png"]];
