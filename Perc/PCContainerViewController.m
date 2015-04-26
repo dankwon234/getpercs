@@ -144,6 +144,8 @@
     
     if (self.profile.isPopulated){
         [self.btnLogin setTitle:[NSString stringWithFormat:@"%@ %@", [self.profile.firstName uppercaseString], [self.profile.lastName uppercaseString]] forState:UIControlStateNormal];
+        
+        [self.welcomeView.btnProfile setTitle:@"Your Account" forState:UIControlStateNormal];
         return;
     }
     
@@ -155,10 +157,6 @@
 {
     NSString *btnText = (self.profile.isPopulated) ? [NSString stringWithFormat:@"%@ %@", [self.profile.firstName uppercaseString], [self.profile.lastName uppercaseString]] : @"LOG IN";
     [self.btnLogin setTitle:btnText forState:UIControlStateNormal];
-
-    btnText = (self.profile.isPopulated) ? @"Your Account" : @"Log In";
-    [self.welcomeView.btnProfile setTitle:btnText forState:UIControlStateNormal];
-
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
