@@ -10,8 +10,8 @@
 #import "PCRegisterViewController.h"
 
 @interface PCLoginViewController ()
-@property (strong, nonatomic) PCTextField *emailField;
-@property (strong, nonatomic) PCTextField *passwordField;
+@property (strong, nonatomic) UITextField *emailField;
+@property (strong, nonatomic) UITextField *passwordField;
 @end
 
 @implementation PCLoginViewController
@@ -35,10 +35,10 @@
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgBurger.png"]];
     CGRect frame = view.frame;
     
-    static CGFloat x = 20.0f;
     CGFloat y = 0.15f*frame.size.height;
     CGFloat width = frame.size.width;
     
+    static CGFloat x = 20.0f;
     UILabel *lblLogin = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width-2*x, 32.0f)];
     lblLogin.textColor = [UIColor whiteColor];
     lblLogin.textAlignment = NSTextAlignmentCenter;
@@ -47,17 +47,29 @@
     [view addSubview:lblLogin];
     y += lblLogin.frame.size.height+32.0f;
 
-    self.emailField = [PCTextField textFieldWithFrame:CGRectMake(x, y, width-2*x, 32.0f)];
+    self.emailField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, y, width, 44.0f)];
     self.emailField.delegate = self;
+    self.emailField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 20.0f, 44.0f)];;
+    self.emailField.leftViewMode = UITextFieldViewModeAlways;
+    self.emailField.backgroundColor = [UIColor whiteColor];
+    self.emailField.alpha = 0.8f;
+    self.emailField.textColor = [UIColor darkGrayColor];
+    self.emailField.font = [UIFont fontWithName:kBaseFontName size:16.0f];
     self.emailField.placeholder = @"Email";
     self.emailField.returnKeyType = UIReturnKeyNext;
     [view addSubview:self.emailField];
-    y += self.emailField.frame.size.height+14.0f;
-    
-    self.passwordField = [PCTextField textFieldWithFrame:CGRectMake(x, y, width-2*x, 32.0f)];
+    y += self.emailField.frame.size.height+1.0f;
+
+    self.passwordField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, y, width, 44.0f)];
     self.passwordField.delegate = self;
-    self.passwordField.placeholder = @"Password";
+    self.passwordField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 20.0f, 44.0f)];;
+    self.passwordField.leftViewMode = UITextFieldViewModeAlways;
+    self.passwordField.backgroundColor = [UIColor whiteColor];
+    self.passwordField.alpha = 0.8f;
+    self.passwordField.textColor = [UIColor darkGrayColor];
+    self.passwordField.font = [UIFont fontWithName:kBaseFontName size:16.0f];
     self.passwordField.secureTextEntry = YES;
+    self.passwordField.placeholder = @"Password";
     self.passwordField.returnKeyType = UIReturnKeyGo;
     [view addSubview:self.passwordField];
     y += self.passwordField.frame.size.height+20.0f;
