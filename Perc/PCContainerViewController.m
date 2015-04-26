@@ -156,6 +156,9 @@
     NSString *btnText = (self.profile.isPopulated) ? [NSString stringWithFormat:@"%@ %@", [self.profile.firstName uppercaseString], [self.profile.lastName uppercaseString]] : @"LOG IN";
     [self.btnLogin setTitle:btnText forState:UIControlStateNormal];
 
+    btnText = (self.profile.isPopulated) ? @"Your Account" : @"Log In";
+    [self.welcomeView.btnProfile setTitle:btnText forState:UIControlStateNormal];
+
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
