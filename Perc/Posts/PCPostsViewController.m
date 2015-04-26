@@ -486,7 +486,7 @@ static NSString *cellId = @"cellId";
 }
 
 
-#pragma UIAlertViewDelegate
+#pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSLog(@"buttonIndex == %ld", (long)buttonIndex);
