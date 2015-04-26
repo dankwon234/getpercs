@@ -58,7 +58,7 @@
 - (NSString *)formatTimestamp
 {
     NSString *dateString = [self.timestamp description];
-    NSLog(@"FORMATTED DATE: %@", dateString);
+//    NSLog(@"FORMATTED DATE: %@", dateString);
     
     NSArray *parts = [dateString componentsSeparatedByString:@" "]; // 2014-08-22
     parts = [parts[0] componentsSeparatedByString:@"-"];
