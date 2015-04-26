@@ -414,7 +414,7 @@ static NSString *placeholder = @"Bio";
 
 - (void)logout:(id)sender
 {
-    [self.profile clear];
+    [self.profile logout];
     [self back:nil];
 }
 
