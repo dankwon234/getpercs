@@ -114,10 +114,18 @@
         cell = [[PCMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     
     PCMessage *message = (PCMessage *)self.profile.messages[indexPath.row];
-    cell.configuration = (message.isMine) ? MessageCellConfigurationTo : MessageCellConfigurationFrom;
-    cell.lblName.text = [NSString stringWithFormat:@"%@ %@", [message.profile.firstName capitalizedString], [message.profile.lastName capitalizedString]];
     cell.lblDate.text = message.formattedDate;
     cell.lblMessage.text = message.content;
+    
+    if (message.isMine){
+        cell.configuration = MessageCellConfigurationTo;
+        cell.lblName.text = [NSString stringWithFormat:@"%@ %@", [message.recipient.firstName capitalizedString], [message.recipient.lastName capitalizedString]];
+    }
+    else {
+        cell.configuration = MessageCellConfigurationFrom;
+        cell.lblName.text = [NSString stringWithFormat:@"%@ %@", [message.profile.firstName capitalizedString], [message.profile.lastName capitalizedString]];
+        
+    }
     
     if ([message.profile.image isEqualToString:@"none"])
         return cell;
