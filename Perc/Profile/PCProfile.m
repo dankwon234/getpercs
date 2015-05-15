@@ -81,10 +81,12 @@
     self.phone = @"none";
     self.image = @"none";
     self.bio = @"none";
-    self.deviceToken = @"none";
     self.lastZone = @"none";
     self.promoCode = @"none";
     self.referral = @"none";
+    if (self.deviceToken==nil)
+        self.deviceToken = @"none";
+
     self.password = nil;
     self.orderHistory = nil;
     self.messages = nil;
