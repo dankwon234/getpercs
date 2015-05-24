@@ -29,7 +29,7 @@
 @synthesize numComments;
 @synthesize numViews;
 @synthesize comments;
-
+@synthesize isVisible;
 
 - (id)init
 {
@@ -46,6 +46,7 @@
         self.comments = nil;
         self.numViews = 0;
         self.numComments = 0;
+        self.isVisible = YES;
         
     }
     return self;
@@ -66,6 +67,7 @@
     self.image = info[@"image"];
     self.title = info[@"title"];
     self.content = info[@"content"];
+    self.isVisible = [info[@"isVisible"] isEqualToString:@"yes"];
     self.numComments = [info[@"numComments"] intValue];
     self.numViews = [info[@"numViews"] intValue];
     self.timestamp = [self.dateFormatter dateFromString:info[@"timestamp"]];

@@ -25,6 +25,7 @@
 @property (strong, nonatomic) UIImage  *imageData;
 @property (nonatomic) int numComments;
 @property (nonatomic) int numViews;
+@property (nonatomic) BOOL isVisible;
 + (PCPost *)postWithInfo:(NSDictionary *)info;
 - (NSDictionary *)parametersDictionary;
 - (NSString *)jsonRepresentation;
