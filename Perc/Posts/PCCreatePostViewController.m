@@ -163,6 +163,25 @@ static NSString *placeholder = @"Content";
         [self.theScrollview addSubview:bgTowns];
         y += bgTowns.frame.size.height;
     }
+    else {
+        y += 1.0f;
+        UIView *bgVisible = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
+        bgVisible.backgroundColor = [UIColor whiteColor];
+        bgVisible.alpha = 0.8f;
+        
+        UILabel *lblVisible = [[UILabel alloc] initWithFrame:CGRectMake(12.0f, 0.0f, frame.size.width-24.0f, h)];
+        lblVisible.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+        lblVisible.text = @"Visible";
+        [bgVisible addSubview:lblVisible];
+        
+        UISwitch *toggleVisible = [[UISwitch alloc] initWithFrame:CGRectMake(frame.size.width-63.0f, 6.5f, 51.0f, 31.0)];
+        toggleVisible.on = self.post.isVisible;
+        [toggleVisible addTarget:self action:@selector(toggleVisibility:) forControlEvents:UIControlEventValueChanged];
+        [bgVisible addSubview:toggleVisible];
+        
+        [self.theScrollview addSubview:bgVisible];
+        y += bgVisible.frame.size.height;
+    }
     
 
     UIView *bgCreate = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 96.0f)];
@@ -378,6 +397,12 @@ static NSString *placeholder = @"Content";
     
 }
 
+- (void)toggleVisibility:(UISwitch *)toggleSwitch
+{
+    NSString *onOff = (toggleSwitch.on) ? @"yes" : @"no";
+    NSLog(@"toggleVisibility: %@", onOff);
+    self.post.isVisible = toggleSwitch.on;
+}
 
 #pragma mark - UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
