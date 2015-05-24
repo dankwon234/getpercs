@@ -37,6 +37,7 @@
 		0C5DC6671AE2E19800C4B38B /* iconComment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5DC6661AE2E19800C4B38B /* iconComment@2x.png */; };
 		0C5DC6691AE2E27500C4B38B /* iconView@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5DC6681AE2E27500C4B38B /* iconView@2x.png */; };
 		0C5DC66C1AE2EA9B00C4B38B /* PCPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5DC66B1AE2EA9B00C4B38B /* PCPostViewController.m */; };
+		0C5E38011B124B7A0028F9A6 /* PCSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5E38001B124B7A0028F9A6 /* PCSession.m */; };
 		0C6138C31AB8E6A700D12C50 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6138C21AB8E6A700D12C50 /* main.m */; };
 		0C6138C61AB8E6A700D12C50 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6138C51AB8E6A700D12C50 /* AppDelegate.m */; };
 		0C6138CE1AB8E6A700D12C50 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C6138CD1AB8E6A700D12C50 /* Images.xcassets */; };
@@ -199,6 +200,8 @@
 		0C5DC6681AE2E27500C4B38B /* iconView@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconView@2x.png"; sourceTree = "<group>"; };
 		0C5DC66A1AE2EA9B00C4B38B /* PCPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPostViewController.h; sourceTree = "<group>"; };
 		0C5DC66B1AE2EA9B00C4B38B /* PCPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCPostViewController.m; sourceTree = "<group>"; };
+		0C5E37FF1B124B7A0028F9A6 /* PCSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCSession.h; sourceTree = "<group>"; };
+		0C5E38001B124B7A0028F9A6 /* PCSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCSession.m; sourceTree = "<group>"; };
 		0C6138BD1AB8E6A700D12C50 /* Perc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Perc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C6138C11AB8E6A700D12C50 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0C6138C21AB8E6A700D12C50 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -562,6 +565,8 @@
 			children = (
 				0C6139051AB8EADC00D12C50 /* PCViewController.h */,
 				0C6139061AB8EADC00D12C50 /* PCViewController.m */,
+				0C5E37FF1B124B7A0028F9A6 /* PCSession.h */,
+				0C5E38001B124B7A0028F9A6 /* PCSession.m */,
 				0C6139081AB8EAFC00D12C50 /* PCLoadingIndicator.h */,
 				0C6139091AB8EAFC00D12C50 /* PCLoadingIndicator.m */,
 				0C6139161AB8F36000D12C50 /* PCLocationManager.h */,
@@ -942,6 +947,7 @@
 				0C6139011AB8E8C700D12C50 /* AFURLConnectionOperation.m in Sources */,
 				0C0F2F441ABCF55900DBFD8F /* STPStrictURLProtocol.m in Sources */,
 				0CD16F191AE75DB200B5F85B /* PCMessagesViewController.m in Sources */,
+				0C5E38011B124B7A0028F9A6 /* PCSession.m in Sources */,
 				0C8B61601ABD028800BC13C8 /* PTKAddressZip.m in Sources */,
 				0C1BC8951ABBFD9F000E9EDB /* PCRegisterViewController.m in Sources */,
 				0C8B61681ABD028800BC13C8 /* PTKView.m in Sources */,
