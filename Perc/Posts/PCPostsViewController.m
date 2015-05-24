@@ -23,7 +23,6 @@
 @property (strong, nonatomic) UIButton *btnNearby;
 @property (strong, nonatomic) UIButton *btnYourPosts;
 @property (strong, nonatomic) UIButton *btnMessages;
-@property (strong, nonatomic) UIButton *btnDots;
 @property (strong, nonatomic) UIView *optionsView;
 @end
 
@@ -88,23 +87,6 @@ static NSString *cellId = @"cellId";
     self.lblTitle.text = @"Nearby";
     [view addSubview:self.lblTitle];
     y += self.lblTitle.frame.size.height+6.0f;
-    
-    self.btnDots = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *dots = [UIImage imageNamed:@"dots.png"];
-    self.btnDots.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    self.btnDots.frame = CGRectMake(x, y, dots.size.width+20.0f, dots.size.height+10.0f);
-    self.btnDots.layer.cornerRadius = 0.5f*self.btnDots.frame.size.height;
-    self.btnDots.layer.masksToBounds = YES;
-    self.btnDots.layer.borderWidth = 1.0f;
-    self.btnDots.layer.borderColor = [[UIColor whiteColor] CGColor];
-    self.btnDots.center = CGPointMake(0.5f*frame.size.width, self.btnDots.center.y);
-    [self.btnDots setImage:dots forState:UIControlStateNormal];
-    self.btnDots.backgroundColor = [UIColor clearColor];
-    [self.btnDots addTarget:self action:@selector(showOptionsView:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:self.btnDots];
-    
-    
-
     
     self.lblMessage = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, 120.0f, frame.size.width-40.0f, 22.0f)];
     self.lblMessage.textColor = [UIColor darkGrayColor];
@@ -187,9 +169,13 @@ static NSString *cellId = @"cellId";
     [super viewDidLoad];
     [self addCustomBackButton];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
-                                                                                           target:self
-                                                                                           action:@selector(createPost:)];
+    UIImage *imgDots = [UIImage imageNamed:@"dots"];
+    UIButton *btnDots = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnDots.frame = CGRectMake(0.0f, 0.0f, 0.6f*imgDots.size.width, 0.6f*imgDots.size.height);
+    [btnDots setBackgroundImage:imgDots forState:UIControlStateNormal];
+    [btnDots addTarget:self action:@selector(showOptionsView:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnDots];
+
     
     if (self.currentZone.isPopulated==NO){
         self.lblMessage.alpha = 0.7f;
@@ -266,9 +252,7 @@ static NSString *cellId = @"cellId";
         
         double distance = offset+kTopInset;
         self.icon.alpha = 1.0f-(distance/100.0f);
-        self.btnDots.alpha = self.icon.alpha;
         self.lblTitle.alpha = self.icon.alpha;
-        
     }
     
 }
@@ -359,7 +343,7 @@ static NSString *cellId = @"cellId";
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         self.optionsView.alpha = 0.85f;
+                         self.optionsView.alpha = 0.90f;
                      }
                      completion:^(BOOL finished){
                          
@@ -431,7 +415,6 @@ static NSString *cellId = @"cellId";
     self.postsTable.showsVerticalScrollIndicator = NO;
     [self.postsTable addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
     [self.view addSubview:self.postsTable];
-    [self.view bringSubviewToFront:self.btnDots];
     [self.view bringSubviewToFront:self.optionsView];
     
     [self refreshVenuesCollectionView];
