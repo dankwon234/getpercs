@@ -23,7 +23,7 @@
 @property (strong, nonatomic) UILabel *lblTitle;
 @property (strong, nonatomic) UIButton *btnOrderHistory;
 @property (strong, nonatomic) UIButton *btnVenues;
-@property (strong, nonatomic) UIButton *btnDots;
+//@property (strong, nonatomic) UIButton *btnDots;
 @property (strong, nonatomic) UIView *optionsView;
 @end
 
@@ -78,22 +78,8 @@ static NSString *cellId = @"cellId";
     self.lblTitle.textColor = [UIColor whiteColor];
     self.lblTitle.text = @"Venues";
     [view addSubview:self.lblTitle];
-    y += self.lblTitle.frame.size.height+6.0f;
+//    y += self.lblTitle.frame.size.height+6.0f;
 
-    
-    self.btnDots = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *dots = [UIImage imageNamed:@"dots.png"];
-    self.btnDots.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    self.btnDots.frame = CGRectMake(x, y, dots.size.width+20.0f, dots.size.height+10.0f);
-    self.btnDots.layer.cornerRadius = 0.5f*self.btnDots.frame.size.height;
-    self.btnDots.layer.masksToBounds = YES;
-    self.btnDots.layer.borderWidth = 1.0f;
-    self.btnDots.layer.borderColor = [[UIColor whiteColor] CGColor];
-    self.btnDots.center = CGPointMake(0.5f*frame.size.width, self.btnDots.center.y);
-    [self.btnDots setImage:dots forState:UIControlStateNormal];
-    self.btnDots.backgroundColor = [UIColor clearColor];
-    [self.btnDots addTarget:self action:@selector(showOptionsView:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:self.btnDots];
     
     y = 240.0f;
     self.lblMessage = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, y, frame.size.width-40.0f, 22.0f)];
@@ -163,6 +149,14 @@ static NSString *cellId = @"cellId";
     [super viewDidLoad];
     [self addCustomBackButton];
     
+    UIImage *imgDots = [UIImage imageNamed:@"dots"];
+    UIButton *btnDots = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnDots.frame = CGRectMake(0.0f, 0.0f, 0.6f*imgDots.size.width, 0.6f*imgDots.size.height);
+    [btnDots setBackgroundImage:imgDots forState:UIControlStateNormal];
+    [btnDots addTarget:self action:@selector(toggleOptionsView:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnDots];
+
+    
     [UIView animateWithDuration:45.0f
                           delay:0.0f
                         options:UIViewAnimationOptionCurveLinear
@@ -213,6 +207,16 @@ static NSString *cellId = @"cellId";
 - (void)back:(UIGestureRecognizer *)swipe
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)toggleOptionsView:(id)sender
+{
+    if (self.optionsView.alpha == 0.0f){
+        [self showOptionsView:nil];
+        return;
+    }
+    
+    [self hideOptionsView:nil];
 }
 
 - (void)hideOptionsView:(UIGestureRecognizer *)tap
@@ -431,7 +435,6 @@ static NSString *cellId = @"cellId";
         
         double distance = offset+kTopInset;
         self.icon.alpha = 1.0f-(distance/100.0f);
-        self.btnDots.alpha = self.icon.alpha;
         self.lblTitle.alpha = self.icon.alpha;
     }
 }
@@ -478,7 +481,6 @@ static NSString *cellId = @"cellId";
     self.venuesTable.showsVerticalScrollIndicator = NO;
     [self.venuesTable addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
     [self.view addSubview:self.venuesTable];
-    [self.view bringSubviewToFront:self.btnDots];
     [self.view bringSubviewToFront:self.optionsView];
     
     [self refreshVenuesCollectionView];
