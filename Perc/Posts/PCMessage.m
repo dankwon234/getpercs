@@ -22,6 +22,7 @@
 @synthesize recipient;
 @synthesize formattedDate;
 @synthesize isMine;
+@synthesize reference;
 
 
 - (id)init
@@ -34,6 +35,7 @@
         self.recipient = nil;
         self.content = @"none";
         self.post = @"none";
+        self.reference = nil;
         self.isMine = NO;
     }
     
@@ -48,6 +50,7 @@
     self.recipient = [PCProfile profileWithInfo:messageInfo[@"recipient"]];
     self.content = messageInfo[@"content"];
     self.post = messageInfo[@"post"];
+    self.reference = messageInfo[@"reference"];
     self.timestamp = [self.dateFormatter dateFromString:messageInfo[@"timestamp"]];
     self.formattedDate = [self formatTimestamp];
 }
