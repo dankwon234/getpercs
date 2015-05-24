@@ -9,6 +9,7 @@
 #import "PCPost.h"
 #import "PCDateFormatter.h"
 #import "PCWebServices.h"
+#import "PCSession.h"
 
 @interface PCPost ()
 @property (strong, nonatomic) PCDateFormatter *dateFormatter;
@@ -59,6 +60,10 @@
 {
     PCPost *post = [[PCPost alloc] init];
     [post populate:info];
+    PCSession *session = [PCSession sharedSession];
+    if ([post.uniqueId isEqualToString:@"none"]==NO)
+        session.posts[post.uniqueId] = post;
+    
     return post;
 }
 
