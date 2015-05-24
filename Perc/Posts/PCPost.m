@@ -30,6 +30,7 @@
 @synthesize numViews;
 @synthesize comments;
 @synthesize isVisible;
+@synthesize tags;
 
 - (id)init
 {
@@ -43,6 +44,7 @@
         self.title = @"none";
         self.content = @"none";
         self.zones = [NSMutableArray array];
+        self.tags = [NSMutableArray array];
         self.comments = nil;
         self.numViews = 0;
         self.numComments = 0;
@@ -67,6 +69,7 @@
     self.image = info[@"image"];
     self.title = info[@"title"];
     self.content = info[@"content"];
+    self.tags = [NSMutableArray arrayWithArray:info[@"tags"]];
     self.isVisible = [info[@"isVisible"] isEqualToString:@"yes"];
     self.numComments = [info[@"numComments"] intValue];
     self.numViews = [info[@"numViews"] intValue];
@@ -114,7 +117,10 @@
     
     if (self.profile)
         params[@"profile"] = self.profile.uniqueId;
-    
+
+    if (self.tags)
+        params[@"tags"] = self.tags;
+
 
     return params;
 }

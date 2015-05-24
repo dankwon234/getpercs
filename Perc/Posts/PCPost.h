@@ -20,6 +20,7 @@
 @property (copy, nonatomic) NSString *formattedDate;
 @property (strong, nonatomic) PCProfile *profile;
 @property (strong, nonatomic) NSMutableArray *zones;
+@property (strong, nonatomic) NSMutableArray *tags;
 @property (strong, nonatomic) NSMutableArray *comments;
 @property (strong, nonatomic) NSDate *timestamp;
 @property (strong, nonatomic) UIImage  *imageData;
