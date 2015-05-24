@@ -59,24 +59,25 @@
     view.backgroundColor = [UIColor whiteColor];
     CGRect frame = view.frame;
     
+    CGFloat width = frame.size.width;
+    CGFloat height = frame.size.width;
     if (self.post.imageData){
-        CGFloat width = frame.size.width;
         double scale = width/self.post.imageData.size.width;
-        CGFloat height = scale*self.post.imageData.size.height;
-        
-        self.backgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, width, height)];
-        self.backgroundImage.image = self.post.imageData;
-        
-        CAGradientLayer *gradient = [CAGradientLayer layer];
-        CGRect bounds = self.backgroundImage.bounds;
-        bounds.size.height *= 0.6f;
-        gradient.frame = bounds;
-        gradient.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.7f] CGColor], (id)[[UIColor clearColor] CGColor]];
-        [self.backgroundImage.layer insertSublayer:gradient atIndex:0];
-
-        [view addSubview:self.backgroundImage];
+        height = scale*self.post.imageData.size.height;
     }
     
+    self.backgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, width, height)];
+    self.backgroundImage.image = self.post.imageData;
+    
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    CGRect bounds = self.backgroundImage.bounds;
+    bounds.size.height *= 0.6f;
+    gradient.frame = bounds;
+    gradient.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.7f] CGColor], (id)[[UIColor clearColor] CGColor]];
+    [self.backgroundImage.layer insertSublayer:gradient atIndex:0];
+    
+    [view addSubview:self.backgroundImage];
+
     UIFont *boldFont = [UIFont fontWithName:kBaseFontName size:22.0f];
     CGFloat w = frame.size.width-40.0f;
     CGRect boundingRect = [self.post.title boundingRectWithSize:CGSizeMake(w, 60)
@@ -102,7 +103,7 @@
     [self.theTableview addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
     
     
-    CGFloat width = frame.size.width-40.0f;
+    width = frame.size.width-40.0f;
     UIFont *baseFont = [UIFont fontWithName:kBaseFontName size:16.0f];
     boundingRect = [self.post.content boundingRectWithSize:CGSizeMake(width, 800.0f)
                                                    options:NSStringDrawingUsesLineFragmentOrigin
@@ -199,15 +200,19 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             NSDictionary *results = (NSDictionary *)result;
-            NSLog(@"%@", [results description]);
             [self.post populate:results[@"post"]];
-            
             [self fetchComments];
-            
         });
-        
     }];
+    
+    if (self.post.imageData)
+        return;
+    
+    [self.post addObserver:self forKeyPath:@"imageData" options:0 context:nil];
+    [self.post fetchImage];
+
 }
+
 
 - (void)fetchComments
 {
@@ -221,7 +226,7 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             NSDictionary *results = (NSDictionary *)result;
-            NSLog(@"%@", [results description]);
+//            NSLog(@"%@", [results description]);
             NSArray *c = results[@"comments"];
             self.post.comments = [NSMutableArray array];
             for (NSDictionary *commentInfo in c)
@@ -235,29 +240,35 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqualToString:@"contentOffset"]==NO)
-        return;
-    
-    CGFloat offset = self.theTableview.contentOffset.y;
-    CGRect frame = self.backgroundImage.frame;
-    if (offset > 220.0f){
-        if (frame.origin.y > 0.0f)
-            frame.origin.y = 0.0f;
-        return;
+    if ([keyPath isEqualToString:@"imageData"]){
+        [object removeObserver:self forKeyPath:@"imageData"];
+        self.backgroundImage.image = self.post.imageData;
     }
     
-    if (offset > 0){ // moving up - shift image up. 0 to 220.
-        frame.origin.y = -0.4f*offset;
-        if (frame.origin.y > 0.0f)
-            frame.origin.y = 0.0f;
+
+    if ([keyPath isEqualToString:@"contentOffset"]){
+        CGFloat offset = self.theTableview.contentOffset.y;
+        CGRect frame = self.backgroundImage.frame;
+        if (offset > 220.0f){
+            if (frame.origin.y > 0.0f)
+                frame.origin.y = 0.0f;
+            return;
+        }
         
-        self.backgroundImage.frame = frame;
-        return;
+        if (offset > 0){ // moving up - shift image up. 0 to 220.
+            frame.origin.y = -0.4f*offset;
+            if (frame.origin.y > 0.0f)
+                frame.origin.y = 0.0f;
+            
+            self.backgroundImage.frame = frame;
+            return;
+        }
+        
+        
+        double magnitude = -0.01f*offset+1.0f;
+        self.backgroundImage.transform = CGAffineTransformMakeScale(magnitude, magnitude);
     }
     
-    
-    double magnitude = -0.01f*offset+1.0f;
-    self.backgroundImage.transform = CGAffineTransformMakeScale(magnitude, magnitude);
 }
 
 
