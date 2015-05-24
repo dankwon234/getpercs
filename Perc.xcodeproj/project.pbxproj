@@ -454,6 +454,18 @@
 			path = Checkout;
 			sourceTree = "<group>";
 		};
+		0C30C5161B11A09200E350AB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0CD782D31AC1AB040072A0F3 /* SystemConfiguration.framework */,
+				0C8B617E1ABD034400BC13C8 /* QuartzCore.framework */,
+				0C0F2F4D1ABCF59100DBFD8F /* Foundation.framework */,
+				0C0F2F4E1ABCF59100DBFD8F /* PassKit.framework */,
+				0C0F2F4F1ABCF59100DBFD8F /* Security.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		0C333F511ADF99E60005DD84 /* Posts */ = {
 			isa = PBXGroup;
 			children = (
@@ -480,12 +492,8 @@
 		0C6138B41AB8E6A700D12C50 = {
 			isa = PBXGroup;
 			children = (
-				0CD782D31AC1AB040072A0F3 /* SystemConfiguration.framework */,
-				0C8B617E1ABD034400BC13C8 /* QuartzCore.framework */,
-				0C0F2F4D1ABCF59100DBFD8F /* Foundation.framework */,
-				0C0F2F4E1ABCF59100DBFD8F /* PassKit.framework */,
-				0C0F2F4F1ABCF59100DBFD8F /* Security.framework */,
 				0C6138BF1AB8E6A700D12C50 /* Perc */,
+				0C30C5161B11A09200E350AB /* Frameworks */,
 				0C6138D91AB8E6A700D12C50 /* PercTests */,
 				0C6138BE1AB8E6A700D12C50 /* Products */,
 			);
