@@ -7,6 +7,7 @@
 
 
 #import "PCMessageViewController.h"
+#import "PCPostViewController.h"
 
 @interface PCMessageViewController ()
 @property (strong, nonatomic) UIScrollView *theScrollview;
@@ -29,22 +30,21 @@
     
     CGFloat h = 44.0f;
     CGFloat y = 0.0;
-    
-    UILabel *lblSource = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
-    lblSource.backgroundColor = [UIColor whiteColor];
-    lblSource.text = [NSString stringWithFormat:@"  FROM: %@ %@", [self.message.profile.firstName capitalizedString], [self.message.profile.lastName capitalizedString]];
-    lblSource.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    UILabel *lblSource = [self labelWithFrame:CGRectMake(0.0f, y, frame.size.width, h) withText:[NSString stringWithFormat:@"  FROM: %@ %@", [self.message.profile.firstName capitalizedString], [self.message.profile.lastName capitalizedString]]];
     [self.theScrollview addSubview:lblSource];
     y += h+1.0f;
-
     
-    UILabel *lblRecipient = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
-    lblRecipient.backgroundColor = [UIColor whiteColor];
-    lblRecipient.text = [NSString stringWithFormat:@"  TO: %@ %@", [self.message.recipient.firstName capitalizedString], [self.message.recipient.lastName capitalizedString]];
-    lblRecipient.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    UILabel *lblRecipient = [self labelWithFrame:CGRectMake(0.0f, y, frame.size.width, h) withText:[NSString stringWithFormat:@"  TO: %@ %@", [self.message.recipient.firstName capitalizedString], [self.message.recipient.lastName capitalizedString]]];
     [self.theScrollview addSubview:lblRecipient];
-    y += h+12.0f;
     
+    if (self.message.reference[@"post"] != nil) {
+        y += h+1.0f;
+        UILabel *lblReference = [self labelWithFrame:CGRectMake(0.0f, y, frame.size.width, h) withText:[NSString stringWithFormat:@"  In Reference To"]];
+        [lblReference addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewReferncePost:)]];
+        [self.theScrollview addSubview:lblReference];
+    }
+    
+    y += h+12.0f;
     CGFloat x = 20.0f;
     self.lblDate = [[UILabel alloc] initWithFrame:CGRectMake(x, y, frame.size.width, 18.0f)];
     self.lblDate.textColor = kOrange;
@@ -104,6 +104,24 @@
 {
     [super viewDidLoad];
     [self addCustomBackButton];
+}
+
+- (UILabel *)labelWithFrame:(CGRect)frame withText:(NSString *)text
+{
+    UILabel *label = [[UILabel alloc] initWithFrame:frame];
+    label.backgroundColor = [UIColor whiteColor];
+    label.text = text;
+    label.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    label.userInteractionEnabled = YES;
+    return label;
+}
+
+- (void)viewReferncePost:(UIGestureRecognizer *)tap
+{
+    NSLog(@"viewReferncePost: ");
+//    PCPostViewController *postVc = [[PCPostViewController alloc] init];
+//    PCPost *post = [PCPost postWithInfo:nil];
+//    [self.navigationController pushViewController:postVc animated:YES];
 }
 
 - (void)reply
