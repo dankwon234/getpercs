@@ -74,7 +74,10 @@
         PCProfile *profile = (PCProfile *)object;
         
         [profile removeObserver:self forKeyPath:@"imageData"];
-        [self.messagesTable reloadData];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.messagesTable reloadData];
+        });
         return;
     }
 }
@@ -97,16 +100,17 @@
             return;
         }
         
+        NSDictionary *results = (NSDictionary *)result;
+        NSLog(@"%@", [results description]);
+        NSArray *m = results[@"messages"];
+        for (int i=0; i<m.count; i++){
+            PCMessage *msg = [PCMessage messageWithInfo:m[i]];
+            msg.isMine = [msg.profile.uniqueId isEqual:self.profile.uniqueId];
+            [self.profile.messages addObject:msg];
+        }
+
+        
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSDictionary *results = (NSDictionary *)result;
-            NSLog(@"%@", [results description]);
-            NSArray *m = results[@"messages"];
-            for (int i=0; i<m.count; i++){
-                PCMessage *msg = [PCMessage messageWithInfo:m[i]];
-                msg.isMine = [msg.profile.uniqueId isEqual:self.profile.uniqueId];
-                [self.profile.messages addObject:msg];
-            }
-            
             [self.messagesTable reloadData];
             
             if (self.profile.messages.count==0)
