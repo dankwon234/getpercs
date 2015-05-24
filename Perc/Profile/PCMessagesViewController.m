@@ -59,7 +59,7 @@
     if (self.profile.messages)
         return;
     
-    [self fetchProfileMessages];
+    [self fetchProfileMessages:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -90,8 +90,15 @@
 
 - (void)fetchProfileMessages
 {
+    [self fetchProfileMessages:NO];
+}
+
+- (void)fetchProfileMessages:(BOOL)showLoading
+{
+    if (showLoading)
+        [self.loadingIndicator startLoading];
+    
     self.profile.messages = [NSMutableArray array];
-    [self.loadingIndicator startLoading];
     [[PCWebServices sharedInstance] fetchMessages:@{@"profile":self.profile.uniqueId} completion:^(id result, NSError *error){
         [self.loadingIndicator stopLoading];
         [self.refreshControl endRefreshing];
