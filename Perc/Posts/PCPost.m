@@ -60,9 +60,10 @@
 {
     PCPost *post = [[PCPost alloc] init];
     [post populate:info];
-    PCSession *session = [PCSession sharedSession];
-    if ([post.uniqueId isEqualToString:@"none"]==NO)
+    if ([post.uniqueId isEqualToString:@"none"]==NO){
+        PCSession *session = [PCSession sharedSession];
         session.posts[post.uniqueId] = post;
+    }
     
     return post;
 }
