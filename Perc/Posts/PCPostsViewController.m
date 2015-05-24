@@ -105,63 +105,27 @@ static NSString *cellId = @"cellId";
     self.optionsView.alpha = 0.0f;
     
     y = 180.0f;
-    self.btnCreate = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.btnCreate.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    self.btnCreate.frame = CGRectMake(x, y, frame.size.width-2*x, h);
-    self.btnCreate.backgroundColor = [UIColor clearColor];
-    self.btnCreate.layer.cornerRadius = 0.5f*h;
-    self.btnCreate.layer.masksToBounds = YES;
-    self.btnCreate.layer.borderColor = [[UIColor whiteColor] CGColor];
-    self.btnCreate.layer.borderWidth = 1.0f;
-    self.btnCreate.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    [self.btnCreate setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.btnCreate = [self optionButtonWithFrame:CGRectMake(x, y, frame.size.width-2*x, h)];
     [self.btnCreate setTitle:@"Create Post" forState:UIControlStateNormal];
     [self.btnCreate addTarget:self action:@selector(createPost:) forControlEvents:UIControlEventTouchUpInside];
     [self.optionsView addSubview:self.btnCreate];
     y += self.btnCreate.frame.size.height+20.0f;
     
     
-    self.btnNearby = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.btnNearby.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    self.btnNearby.frame = CGRectMake(x, y, frame.size.width-2*x, h);
-    self.btnNearby.backgroundColor = [UIColor clearColor];
-    self.btnNearby.layer.cornerRadius = 0.5f*h;
-    self.btnNearby.layer.masksToBounds = YES;
-    self.btnNearby.layer.borderColor = [[UIColor whiteColor] CGColor];
-    self.btnNearby.layer.borderWidth = 1.0f;
-    self.btnNearby.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    [self.btnNearby setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.btnNearby = [self optionButtonWithFrame:CGRectMake(x, y, frame.size.width-2*x, h)];
     [self.btnNearby setTitle:@"Nearby" forState:UIControlStateNormal];
     [self.btnNearby addTarget:self action:@selector(viewNearbyPosts:) forControlEvents:UIControlEventTouchUpInside];
     [self.optionsView addSubview:self.btnNearby];
     y += self.btnNearby.frame.size.height+20.0f;
 
-    self.btnYourPosts = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.btnYourPosts.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    self.btnYourPosts.frame = CGRectMake(x, y, frame.size.width-2*x, h);
-    self.btnYourPosts.backgroundColor = [UIColor clearColor];
-    self.btnYourPosts.layer.cornerRadius = 0.5f*h;
-    self.btnYourPosts.layer.masksToBounds = YES;
-    self.btnYourPosts.layer.borderColor = [[UIColor whiteColor] CGColor];
-    self.btnYourPosts.layer.borderWidth = 1.0f;
-    self.btnYourPosts.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    [self.btnYourPosts setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.btnYourPosts = [self optionButtonWithFrame:CGRectMake(x, y, frame.size.width-2*x, h)];
     [self.btnYourPosts setTitle:@"Your Posts" forState:UIControlStateNormal];
     [self.btnYourPosts addTarget:self action:@selector(viewProfilePosts:) forControlEvents:UIControlEventTouchUpInside];
     [self.optionsView addSubview:self.btnYourPosts];
     y += self.btnYourPosts.frame.size.height+20.0f;
     
     
-    self.btnMessages = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.btnMessages.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    self.btnMessages.frame = CGRectMake(x, y, frame.size.width-2*x, h);
-    self.btnMessages.backgroundColor = [UIColor clearColor];
-    self.btnMessages.layer.cornerRadius = 0.5f*h;
-    self.btnMessages.layer.masksToBounds = YES;
-    self.btnMessages.layer.borderColor = [[UIColor whiteColor] CGColor];
-    self.btnMessages.layer.borderWidth = 1.0f;
-    self.btnMessages.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    [self.btnMessages setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.btnMessages = [self optionButtonWithFrame:CGRectMake(x, y, frame.size.width-2*x, h)];
     [self.btnMessages setTitle:@"Direct Messages" forState:UIControlStateNormal];
     [self.btnMessages addTarget:self action:@selector(viewMessages:) forControlEvents:UIControlEventTouchUpInside];
     [self.optionsView addSubview:self.btnMessages];
@@ -274,6 +238,21 @@ static NSString *cellId = @"cellId";
     
 }
 
+- (UIButton *)optionButtonWithFrame:(CGRect)frame
+{
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    btn.frame = frame;
+    btn.backgroundColor = [UIColor clearColor];
+    btn.layer.cornerRadius = 0.5f*frame.size.height;
+    btn.layer.masksToBounds = YES;
+    btn.layer.borderColor = [[UIColor whiteColor] CGColor];
+    btn.layer.borderWidth = 1.0f;
+    btn.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    return btn;
+
+}
 
 - (void)back:(UIGestureRecognizer *)swipe
 {
