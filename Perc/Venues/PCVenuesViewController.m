@@ -234,7 +234,7 @@ static NSString *cellId = @"cellId";
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         self.optionsView.alpha = 0.85f;
+                         self.optionsView.alpha = 0.90f;
                      }
                      completion:^(BOOL finished){
                          
@@ -269,10 +269,12 @@ static NSString *cellId = @"cellId";
     
     if (self.profile.orderHistory != nil){
         if (self.profile.orderHistory.count==0){
+            self.venuesTable.alpha = 0.0f;
             self.lblMessage.alpha = 1.0f;
             self.lblMessage.text = @"You have no previous orders.";
         }
         else{
+            self.lblMessage.alpha = 0.0f;
             [self layoutListsCollectionView];
         }
         
@@ -298,6 +300,7 @@ static NSString *cellId = @"cellId";
                                       delay:0
                                     options:UIViewAnimationOptionCurveLinear
                                  animations:^{
+                                     self.venuesTable.alpha = 0.0f;
                                      self.lblMessage.alpha = 1.0f;
                                      self.lblMessage.text = @"You have no previous orders.";
                                  }
@@ -440,6 +443,7 @@ static NSString *cellId = @"cellId";
 - (void)layoutListsCollectionView
 {
     if (self.venuesTable){
+        [self.loadingIndicator startLoading];
         [UIView animateWithDuration:0.40f
                               delay:0
                             options:UIViewAnimationOptionCurveEaseInOut
@@ -460,6 +464,7 @@ static NSString *cellId = @"cellId";
         return;
     }
     
+    self.lblMessage.alpha = 0.0f;
     CGRect frame = self.view.frame;
     
     self.venuesTable = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, frame.size.height-20.0f) collectionViewLayout:[[PCCollectionViewFlowLayout alloc] init]];
@@ -479,6 +484,7 @@ static NSString *cellId = @"cellId";
     [self refreshVenuesCollectionView];
     
     
+    [self.loadingIndicator stopLoading];
     [UIView animateWithDuration:1.20f
                           delay:0
          usingSpringWithDamping:0.6f
