@@ -20,6 +20,7 @@
 @property (strong, nonatomic) UIImageView *icon;
 @property (strong, nonatomic) UILabel *lblTitle;
 @property (strong, nonatomic) UILabel *lblMessage;
+@property (strong, nonatomic) UIButton *btnCreate;
 @property (strong, nonatomic) UIButton *btnNearby;
 @property (strong, nonatomic) UIButton *btnYourPosts;
 @property (strong, nonatomic) UIButton *btnMessages;
@@ -104,6 +105,22 @@ static NSString *cellId = @"cellId";
     self.optionsView.alpha = 0.0f;
     
     y = 180.0f;
+    self.btnCreate = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.btnCreate.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    self.btnCreate.frame = CGRectMake(x, y, frame.size.width-2*x, h);
+    self.btnCreate.backgroundColor = [UIColor clearColor];
+    self.btnCreate.layer.cornerRadius = 0.5f*h;
+    self.btnCreate.layer.masksToBounds = YES;
+    self.btnCreate.layer.borderColor = [[UIColor whiteColor] CGColor];
+    self.btnCreate.layer.borderWidth = 1.0f;
+    self.btnCreate.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    [self.btnCreate setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.btnCreate setTitle:@"Create Post" forState:UIControlStateNormal];
+    [self.btnCreate addTarget:self action:@selector(createPost:) forControlEvents:UIControlEventTouchUpInside];
+    [self.optionsView addSubview:self.btnCreate];
+    y += self.btnCreate.frame.size.height+20.0f;
+    
+    
     self.btnNearby = [UIButton buttonWithType:UIButtonTypeCustom];
     self.btnNearby.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     self.btnNearby.frame = CGRectMake(x, y, frame.size.width-2*x, h);
