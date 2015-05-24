@@ -40,7 +40,7 @@
     if (self.message.reference[@"post"] != nil) {
         y += h+1.0f;
         UILabel *lblReference = [self labelWithFrame:CGRectMake(0.0f, y, frame.size.width, h) withText:[NSString stringWithFormat:@"  In Reference To"]];
-        [lblReference addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewReferncePost:)]];
+        [lblReference addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewReferencePost:)]];
         [self.theScrollview addSubview:lblReference];
     }
     
@@ -116,12 +116,38 @@
     return label;
 }
 
-- (void)viewReferncePost:(UIGestureRecognizer *)tap
+- (void)viewReferencePost:(UIGestureRecognizer *)tap
 {
-    NSLog(@"viewReferncePost: ");
-//    PCPostViewController *postVc = [[PCPostViewController alloc] init];
-//    PCPost *post = [PCPost postWithInfo:nil];
-//    [self.navigationController pushViewController:postVc animated:YES];
+    NSString *postId = self.message.reference[@"post"];
+    PCPost *post = self.session.posts[postId];
+    if (post != nil){
+//        NSLog(@"viewReferncePost: POST %@ Found", postId);
+        [self segueToPost:post];
+        return;
+    }
+    
+//    NSLog(@"viewReferncePost: POST %@ Not Found", postId);
+    [self.loadingIndicator startLoading];
+    [[PCWebServices sharedInstance] fetchPost:postId completion:^(id result, NSError *error){
+        [self.loadingIndicator stopLoading];
+        if (error){
+            [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
+            return;
+        }
+        
+        NSDictionary *results = (NSDictionary *)result;
+        PCPost *p = [PCPost postWithInfo:results[@"post"]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self segueToPost:p];
+        });
+    }];
+}
+
+- (void)segueToPost:(PCPost *)post
+{
+    PCPostViewController *postVc = [[PCPostViewController alloc] init];
+    postVc.post = post;
+    [self.navigationController pushViewController:postVc animated:YES];
 }
 
 - (void)reply
