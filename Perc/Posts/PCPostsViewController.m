@@ -173,7 +173,7 @@ static NSString *cellId = @"cellId";
     UIButton *btnDots = [UIButton buttonWithType:UIButtonTypeCustom];
     btnDots.frame = CGRectMake(0.0f, 0.0f, 0.6f*imgDots.size.width, 0.6f*imgDots.size.height);
     [btnDots setBackgroundImage:imgDots forState:UIControlStateNormal];
-    [btnDots addTarget:self action:@selector(showOptionsView:) forControlEvents:UIControlEventTouchUpInside];
+    [btnDots addTarget:self action:@selector(toggleOptionsView:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnDots];
 
     
@@ -263,6 +263,16 @@ static NSString *cellId = @"cellId";
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)toggleOptionsView:(id)sender
+{
+    if (self.optionsView.alpha == 0.0f){
+        [self showOptionsView:nil];
+        return;
+    }
+    
+    [self hideOptionsView:nil];
+}
+
 - (void)hideOptionsView:(UIGestureRecognizer *)tap
 {
     [UIView animateWithDuration:0.35f
@@ -275,6 +285,21 @@ static NSString *cellId = @"cellId";
                          
                      }];
 }
+
+
+- (void)showOptionsView:(UIButton *)btn
+{
+    [UIView animateWithDuration:0.35f
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         self.optionsView.alpha = 0.90f;
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
+
 
 - (void)viewNearbyPosts:(UIButton *)btn
 {
@@ -334,21 +359,6 @@ static NSString *cellId = @"cellId";
     
 }
 
-
-
-
-- (void)showOptionsView:(UIButton *)btn
-{
-    [UIView animateWithDuration:0.35f
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         self.optionsView.alpha = 0.90f;
-                     }
-                     completion:^(BOOL finished){
-                         
-                     }];
-}
 
 
 - (void)viewMessages:(UIButton *)btn
