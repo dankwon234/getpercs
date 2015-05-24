@@ -15,6 +15,7 @@
 @synthesize profile;
 @synthesize currentZone;
 @synthesize locationMgr;
+@synthesize session;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -25,6 +26,7 @@
         [self addNavigationTitleView];
         self.profile = [PCProfile sharedProfile];
         self.currentZone = [PCZone sharedZone];
+        self.session = [PCSession sharedSession];
         self.locationMgr = [PCLocationManager sharedLocationManager];
     }
     

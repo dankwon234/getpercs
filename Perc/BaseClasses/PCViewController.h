@@ -13,6 +13,7 @@
 #import "PCZone.h"
 #import "PCWebServices.h"
 #import "PCLocationManager.h"
+#import "PCSession.h"
 
 
 @interface PCViewController : UIViewController
@@ -20,6 +21,7 @@
 @property (strong, nonatomic) PCLoadingIndicator *loadingIndicator;
 @property (strong, nonatomic) PCProfile *profile;
 @property (strong, nonatomic) PCZone *currentZone;
+@property (strong, nonatomic) PCSession *session;
 @property (strong, nonatomic) PCLocationManager *locationMgr;
 - (UIView *)baseView;
 - (UIView *)baseViewWithNavBar;
