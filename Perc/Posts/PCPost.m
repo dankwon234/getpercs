@@ -110,9 +110,12 @@
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{@"id":self.uniqueId, @"image":self.image, @"title":self.title, @"content":self.content, @"zones":self.zones}];
     
+    params[@"isVisible"] = (self.isVisible) ? @"yes" : @"no";
+    
     if (self.profile)
         params[@"profile"] = self.profile.uniqueId;
     
+
     return params;
 }
 
