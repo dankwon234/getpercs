@@ -23,7 +23,6 @@
 @property (strong, nonatomic) UILabel *lblTitle;
 @property (strong, nonatomic) UIButton *btnOrderHistory;
 @property (strong, nonatomic) UIButton *btnVenues;
-//@property (strong, nonatomic) UIButton *btnDots;
 @property (strong, nonatomic) UIView *optionsView;
 @end
 
