@@ -97,33 +97,12 @@ static NSString *cellId = @"cellId";
     self.optionsView.alpha = 0.0f;
     
     y = 180.0f;
-    self.btnOrderHistory = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.btnOrderHistory.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    self.btnOrderHistory.frame = CGRectMake(x, y, frame.size.width-2*x, h);
-    self.btnOrderHistory.backgroundColor = [UIColor clearColor];
-    self.btnOrderHistory.layer.cornerRadius = 0.5f*h;
-    self.btnOrderHistory.layer.masksToBounds = YES;
-    self.btnOrderHistory.layer.borderColor = [[UIColor whiteColor] CGColor];
-    self.btnOrderHistory.layer.borderWidth = 1.0f;
-    self.btnOrderHistory.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    [self.btnOrderHistory setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.btnOrderHistory setTitle:@"Order History" forState:UIControlStateNormal];
+    self.btnOrderHistory = [self optionButtonWithFrame:CGRectMake(x, y, frame.size.width-2*x, h) withTite:@"Order History"];
     [self.btnOrderHistory addTarget:self action:@selector(viewOrderHistory:) forControlEvents:UIControlEventTouchUpInside];
     [self.optionsView addSubview:self.btnOrderHistory];
     y += self.btnOrderHistory.frame.size.height+20.0f;
 
-    
-    self.btnVenues = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.btnVenues.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    self.btnVenues.frame = CGRectMake(x, y, frame.size.width-2*x, h);
-    self.btnVenues.backgroundColor = [UIColor clearColor];
-    self.btnVenues.layer.cornerRadius = 0.5f*h;
-    self.btnVenues.layer.masksToBounds = YES;
-    self.btnVenues.layer.borderColor = [[UIColor whiteColor] CGColor];
-    self.btnVenues.layer.borderWidth = 1.0f;
-    self.btnVenues.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    [self.btnVenues setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.btnVenues setTitle:@"Venues" forState:UIControlStateNormal];
+    self.btnVenues = [self optionButtonWithFrame:CGRectMake(x, y, frame.size.width-2*x, h) withTite:@"Venues"];
     [self.btnVenues addTarget:self action:@selector(viewVenues:) forControlEvents:UIControlEventTouchUpInside];
     [self.optionsView addSubview:self.btnVenues];
 
@@ -208,6 +187,25 @@ static NSString *cellId = @"cellId";
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+
+- (UIButton *)optionButtonWithFrame:(CGRect)frame withTite:(NSString *)title
+{
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    btn.frame = frame;
+    btn.backgroundColor = [UIColor clearColor];
+    btn.layer.cornerRadius = 0.5f*frame.size.height;
+    btn.layer.masksToBounds = YES;
+    btn.layer.borderColor = [[UIColor whiteColor] CGColor];
+    btn.layer.borderWidth = 1.0f;
+    btn.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btn setTitle:title forState:UIControlStateNormal];
+    return btn;
+}
+
+
 
 - (void)toggleOptionsView:(id)sender
 {
