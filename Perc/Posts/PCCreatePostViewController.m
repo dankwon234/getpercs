@@ -7,6 +7,8 @@
 
 
 #import "PCCreatePostViewController.h"
+#import "PCInviteViewController.h"
+
 
 @interface PCCreatePostViewController ()
 @property (strong, nonatomic) UILabel *lblCreatePost;
@@ -291,6 +293,14 @@ static NSString *placeholder = @"Content";
 
     if (self.contentForm.text.length==0){
         [self showAlertWithTitle:@"Missing Content" message:@"Please enter you post content."];
+        return;
+    }
+    
+    
+    if (self.post.isPublic==NO){ // private post - segue to invite view controller
+        PCInviteViewController *inviteVc = [[PCInviteViewController alloc] init];
+        inviteVc.post = self.post;
+        [self.navigationController pushViewController:inviteVc animated:YES];
         return;
     }
     
