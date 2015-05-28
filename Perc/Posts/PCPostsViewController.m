@@ -320,6 +320,7 @@ static NSString *cellId = @"cellId";
     self.mode = 1;
     self.lblTitle.text = @"Your Posts";
     if (self.profile.posts){
+        self.lblMessage.alpha = 0.0f;
         [self layoutListsCollectionView];
         return;
     }
@@ -346,6 +347,9 @@ static NSString *cellId = @"cellId";
                 [self showAlertWithTitle:@"No Posts" message:@"You have no posts yet. To get started, tap the icon in the upper right corner."];
                 return;
             }
+            
+            self.lblMessage.alpha = 0.0f;
+
         });
         
     }];
