@@ -105,28 +105,24 @@ static NSString *cellId = @"cellId";
     self.optionsView.alpha = 0.0f;
     
     y = 180.0f;
-    self.btnCreate = [self optionButtonWithFrame:CGRectMake(x, y, frame.size.width-2*x, h)];
-    [self.btnCreate setTitle:@"Create Post" forState:UIControlStateNormal];
+    self.btnCreate = [self optionButtonWithFrame:CGRectMake(x, y, frame.size.width-2*x, h) withTitle:@"Create Post"];
     [self.btnCreate addTarget:self action:@selector(createPost:) forControlEvents:UIControlEventTouchUpInside];
     [self.optionsView addSubview:self.btnCreate];
     y += self.btnCreate.frame.size.height+20.0f;
     
     
-    self.btnNearby = [self optionButtonWithFrame:CGRectMake(x, y, frame.size.width-2*x, h)];
-    [self.btnNearby setTitle:@"Nearby" forState:UIControlStateNormal];
+    self.btnNearby = [self optionButtonWithFrame:CGRectMake(x, y, frame.size.width-2*x, h) withTitle:@"Nearby"];
     [self.btnNearby addTarget:self action:@selector(viewNearbyPosts:) forControlEvents:UIControlEventTouchUpInside];
     [self.optionsView addSubview:self.btnNearby];
     y += self.btnNearby.frame.size.height+20.0f;
 
-    self.btnYourPosts = [self optionButtonWithFrame:CGRectMake(x, y, frame.size.width-2*x, h)];
-    [self.btnYourPosts setTitle:@"Your Posts" forState:UIControlStateNormal];
+    self.btnYourPosts = [self optionButtonWithFrame:CGRectMake(x, y, frame.size.width-2*x, h) withTitle:@"Your Posts"];
     [self.btnYourPosts addTarget:self action:@selector(viewProfilePosts:) forControlEvents:UIControlEventTouchUpInside];
     [self.optionsView addSubview:self.btnYourPosts];
     y += self.btnYourPosts.frame.size.height+20.0f;
     
     
-    self.btnMessages = [self optionButtonWithFrame:CGRectMake(x, y, frame.size.width-2*x, h)];
-    [self.btnMessages setTitle:@"Direct Messages" forState:UIControlStateNormal];
+    self.btnMessages = [self optionButtonWithFrame:CGRectMake(x, y, frame.size.width-2*x, h) withTitle:@"Direct Messages"];
     [self.btnMessages addTarget:self action:@selector(viewMessages:) forControlEvents:UIControlEventTouchUpInside];
     [self.optionsView addSubview:self.btnMessages];
     y += self.btnMessages.frame.size.height+20.0f;
@@ -238,7 +234,7 @@ static NSString *cellId = @"cellId";
     
 }
 
-- (UIButton *)optionButtonWithFrame:(CGRect)frame
+- (UIButton *)optionButtonWithFrame:(CGRect)frame withTitle:(NSString *)title
 {
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
@@ -248,6 +244,7 @@ static NSString *cellId = @"cellId";
     btn.layer.masksToBounds = YES;
     btn.layer.borderColor = [[UIColor whiteColor] CGColor];
     btn.layer.borderWidth = 1.0f;
+    [btn setTitle:title forState:UIControlStateNormal];
     btn.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     return btn;
