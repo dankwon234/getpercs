@@ -128,6 +128,7 @@
 		0CD782D41AC1AB040072A0F3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CD782D31AC1AB040072A0F3 /* SystemConfiguration.framework */; };
 		0CD782D61AC1AFAA0072A0F3 /* logo-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CD782D51AC1AFAA0072A0F3 /* logo-white@2x.png */; };
 		0CDCBB9F1AC1B3050034DAB0 /* PCAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDCBB9E1AC1B3050034DAB0 /* PCAboutViewController.m */; };
+		0CDD96DC1B16F3520026E052 /* PCInviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDD96DB1B16F3520026E052 /* PCInviteViewController.m */; };
 		0CDF620B1AE0BE97006B3C94 /* PCCreatePostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */; };
 		0CFC9D001AE89DED00D2A923 /* PCMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFC9CFF1AE89DED00D2A923 /* PCMessageCell.m */; };
 /* End PBXBuildFile section */
@@ -345,6 +346,8 @@
 		0CD782D51AC1AFAA0072A0F3 /* logo-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-white@2x.png"; sourceTree = "<group>"; };
 		0CDCBB9D1AC1B3050034DAB0 /* PCAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCAboutViewController.h; sourceTree = "<group>"; };
 		0CDCBB9E1AC1B3050034DAB0 /* PCAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCAboutViewController.m; sourceTree = "<group>"; };
+		0CDD96DA1B16F3520026E052 /* PCInviteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCInviteViewController.h; sourceTree = "<group>"; };
+		0CDD96DB1B16F3520026E052 /* PCInviteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCInviteViewController.m; sourceTree = "<group>"; };
 		0CDF62091AE0BE97006B3C94 /* PCCreatePostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCreatePostViewController.h; sourceTree = "<group>"; };
 		0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCreatePostViewController.m; sourceTree = "<group>"; };
 		0CFC9CFE1AE89DED00D2A923 /* PCMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCMessageCell.h; sourceTree = "<group>"; };
@@ -480,6 +483,8 @@
 				0C5DC66B1AE2EA9B00C4B38B /* PCPostViewController.m */,
 				0CDF62091AE0BE97006B3C94 /* PCCreatePostViewController.h */,
 				0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */,
+				0CDD96DA1B16F3520026E052 /* PCInviteViewController.h */,
+				0CDD96DB1B16F3520026E052 /* PCInviteViewController.m */,
 				0CAC7F421AE2265C00D42BB7 /* PCPostCell.h */,
 				0CAC7F431AE2265C00D42BB7 /* PCPostCell.m */,
 				0C13AC2A1AE41E4B003B1F0D /* PCConnectViewController.h */,
@@ -973,6 +978,7 @@
 				0C6139121AB8F29D00D12C50 /* PCVenuesViewController.m in Sources */,
 				0C8B61661ABD028800BC13C8 /* PTKTextField.m in Sources */,
 				0C7F11201AEB68E60068D367 /* PCMessageViewController.m in Sources */,
+				0CDD96DC1B16F3520026E052 /* PCInviteViewController.m in Sources */,
 				0C0F2F4B1ABCF55900DBFD8F /* STPToken.m in Sources */,
 				0C91E76A1AC111D6006D7F1D /* PCOrderViewController.m in Sources */,
 				0C13AC2F1AE41FC2003B1F0D /* UIImage+PQImageEffects.m in Sources */,
