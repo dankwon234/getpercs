@@ -120,8 +120,25 @@ static NSString *placeholder = @"Content";
     [bgImage addSubview:self.postImage];
 
     [self.theScrollview addSubview:bgImage];
-    y += bgImage.frame.size.height;
+    y += bgImage.frame.size.height+1.0f;
+
+    UIView *bgPublic = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
+    bgPublic.backgroundColor = [UIColor whiteColor];
+    bgPublic.alpha = 0.8f;
     
+    UILabel *lblPublic = [[UILabel alloc] initWithFrame:CGRectMake(12.0f, 0.0f, frame.size.width-24.0f, h)];
+    lblPublic.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    lblPublic.text = @"Public";
+    [bgPublic addSubview:lblPublic];
+    
+    UISwitch *togglePublic = [[UISwitch alloc] initWithFrame:CGRectMake(frame.size.width-63.0f, 6.5f, 51.0f, 31.0)];
+    togglePublic.on = YES;
+    [togglePublic addTarget:self action:@selector(togglePublic:) forControlEvents:UIControlEventValueChanged];
+    [bgPublic addSubview:togglePublic];
+    
+    [self.theScrollview addSubview:bgPublic];
+    y += bgPublic.frame.size.height;
+
 
     if (self.isEditMode==NO){
         UILabel *lblZone = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
@@ -182,6 +199,7 @@ static NSString *placeholder = @"Content";
         [self.theScrollview addSubview:bgVisible];
         y += bgVisible.frame.size.height;
     }
+    
     
 
     UIView *bgCreate = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 96.0f)];
@@ -397,10 +415,15 @@ static NSString *placeholder = @"Content";
     
 }
 
+- (void)togglePublic:(UISwitch *)toggleSwitch
+{
+    NSLog(@"togglePublic: %@", (toggleSwitch.on) ? @"yes" : @"no");
+    self.post.isPublic = toggleSwitch.on;
+}
+
 - (void)toggleVisibility:(UISwitch *)toggleSwitch
 {
-    NSString *onOff = (toggleSwitch.on) ? @"yes" : @"no";
-    NSLog(@"toggleVisibility: %@", onOff);
+    NSLog(@"toggleVisibility: %@", (toggleSwitch.on) ? @"yes" : @"no");
     self.post.isVisible = toggleSwitch.on;
 }
 
