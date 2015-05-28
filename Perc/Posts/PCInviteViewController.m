@@ -19,12 +19,13 @@
     CGRect frame = view.frame;
     
     
-    CGFloat y = frame.size.height-96.f;
+    CGFloat y = frame.size.height-116.f;
     CGFloat h = 44.0f;
     CGFloat x = 16.0f;
     CGFloat width = frame.size.width-2*x;
 
     UIView *bgCreate = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 96.0f)];
+    bgCreate.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     bgCreate.backgroundColor = [UIColor grayColor];
     
     UIButton *btnCreate = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -43,6 +44,11 @@
     [view addSubview:bgCreate];
     
     
+    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
+    swipe.direction = UISwipeGestureRecognizerDirectionRight;
+    [view addGestureRecognizer:swipe];
+
+    
     self.view = view;
 }
 
@@ -51,6 +57,12 @@
     [super viewDidLoad];
     [self addCustomBackButton];
 }
+
+- (void)back:(UIGestureRecognizer *)swipe
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 
 @end
