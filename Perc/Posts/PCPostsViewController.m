@@ -89,7 +89,7 @@ static NSString *cellId = @"cellId";
     [view addSubview:self.lblTitle];
     y += self.lblTitle.frame.size.height+6.0f;
     
-    self.lblMessage = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, 120.0f, frame.size.width-40.0f, 22.0f)];
+    self.lblMessage = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, 240.0f, frame.size.width-40.0f, 22.0f)];
     self.lblMessage.textColor = [UIColor darkGrayColor];
     self.lblMessage.numberOfLines = 0;
     self.lblMessage.textAlignment = NSTextAlignmentCenter;
