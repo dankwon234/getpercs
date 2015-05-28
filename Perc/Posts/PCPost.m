@@ -32,6 +32,9 @@
 @synthesize comments;
 @synthesize isVisible;
 @synthesize tags;
+@synthesize fee;
+@synthesize invited;
+@synthesize confirmed;
 
 - (id)init
 {
@@ -46,10 +49,14 @@
         self.content = @"none";
         self.zones = [NSMutableArray array];
         self.tags = [NSMutableArray array];
+        self.invited = [NSMutableArray array];
+        self.confirmed = [NSMutableArray array];
         self.comments = nil;
         self.numViews = 0;
         self.numComments = 0;
+        self.fee = 0;
         self.isVisible = YES;
+        self.isPublic = YES;
         
     }
     return self;
@@ -75,10 +82,14 @@
     self.image = info[@"image"];
     self.title = info[@"title"];
     self.content = info[@"content"];
+    self.invited = [NSMutableArray arrayWithArray:info[@"invited"]];
+    self.confirmed = [NSMutableArray arrayWithArray:info[@"confirmed"]];
     self.tags = [NSMutableArray arrayWithArray:info[@"tags"]];
     self.isVisible = [info[@"isVisible"] isEqualToString:@"yes"];
+    self.isPublic = [info[@"isPublic"] isEqualToString:@"yes"];
     self.numComments = [info[@"numComments"] intValue];
     self.numViews = [info[@"numViews"] intValue];
+    self.fee = [info[@"fee"] intValue];
     self.timestamp = [self.dateFormatter dateFromString:info[@"timestamp"]];
     self.formattedDate = [self formatTimestamp];
     
@@ -117,15 +128,18 @@
 
 - (NSDictionary *)parametersDictionary
 {
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{@"id":self.uniqueId, @"image":self.image, @"title":self.title, @"content":self.content, @"zones":self.zones}];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{@"id":self.uniqueId, @"image":self.image, @"title":self.title, @"content":self.content, @"zones":self.zones, @"fee":[NSString stringWithFormat:@"%d", self.fee], @"invited":self.invited, @"confirmed":self.confirmed}];
     
     params[@"isVisible"] = (self.isVisible) ? @"yes" : @"no";
-    
+    params[@"isPublic"] = (self.isPublic) ? @"yes" : @"no";
+
     if (self.profile)
         params[@"profile"] = self.profile.uniqueId;
 
     if (self.tags)
         params[@"tags"] = self.tags;
+    
+    
 
 
     return params;

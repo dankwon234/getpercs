@@ -22,11 +22,15 @@
 @property (strong, nonatomic) NSMutableArray *zones;
 @property (strong, nonatomic) NSMutableArray *tags;
 @property (strong, nonatomic) NSMutableArray *comments;
+@property (strong, nonatomic) NSMutableArray *invited;
+@property (strong, nonatomic) NSMutableArray *confirmed;
 @property (strong, nonatomic) NSDate *timestamp;
 @property (strong, nonatomic) UIImage  *imageData;
 @property (nonatomic) int numComments;
 @property (nonatomic) int numViews;
+@property (nonatomic) int fee;
 @property (nonatomic) BOOL isVisible;
+@property (nonatomic) BOOL isPublic;
 + (PCPost *)postWithInfo:(NSDictionary *)info;
 - (NSDictionary *)parametersDictionary;
 - (NSString *)jsonRepresentation;
