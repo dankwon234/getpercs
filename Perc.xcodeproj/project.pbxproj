@@ -68,6 +68,8 @@
 		0C7A754D1ABE2DA1004FFE5B /* bgEating-1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C7A754C1ABE2DA1004FFE5B /* bgEating-1@2x.png */; };
 		0C7A754F1ABE7E94004FFE5B /* hopper@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C7A754E1ABE7E94004FFE5B /* hopper@2x.png */; };
 		0C7C5F241AC259500097A1F5 /* bgEatingBlue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C7C5F231AC259500097A1F5 /* bgEatingBlue@2x.png */; };
+		0C7CBFC01B1811D30039602E /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C7CBFBF1B1811D30039602E /* AddressBook.framework */; };
+		0C7CBFC21B1811E30039602E /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C7CBFC11B1811E30039602E /* AddressBookUI.framework */; };
 		0C7F11201AEB68E60068D367 /* PCMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7F111F1AEB68E60068D367 /* PCMessageViewController.m */; };
 		0C89DB921ABB994D00CE8A62 /* PCWebServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C89DB911ABB994D00CE8A62 /* PCWebServices.m */; };
 		0C89E26E1ABAA3BA00077ABD /* PCProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C89E26D1ABAA3BA00077ABD /* PCProfile.m */; };
@@ -260,6 +262,8 @@
 		0C7A754C1ABE2DA1004FFE5B /* bgEating-1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgEating-1@2x.png"; sourceTree = "<group>"; };
 		0C7A754E1ABE7E94004FFE5B /* hopper@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hopper@2x.png"; sourceTree = "<group>"; };
 		0C7C5F231AC259500097A1F5 /* bgEatingBlue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgEatingBlue@2x.png"; sourceTree = "<group>"; };
+		0C7CBFBF1B1811D30039602E /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		0C7CBFC11B1811E30039602E /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		0C7F111E1AEB68E60068D367 /* PCMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCMessageViewController.h; sourceTree = "<group>"; };
 		0C7F111F1AEB68E60068D367 /* PCMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCMessageViewController.m; sourceTree = "<group>"; };
 		0C89DB901ABB994D00CE8A62 /* PCWebServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCWebServices.h; sourceTree = "<group>"; };
@@ -359,6 +363,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C7CBFC21B1811E30039602E /* AddressBookUI.framework in Frameworks */,
+				0C7CBFC01B1811D30039602E /* AddressBook.framework in Frameworks */,
 				0CD782D41AC1AB040072A0F3 /* SystemConfiguration.framework in Frameworks */,
 				0C8B617F1ABD034400BC13C8 /* QuartzCore.framework in Frameworks */,
 				0C0F2F501ABCF59100DBFD8F /* Foundation.framework in Frameworks */,
@@ -463,6 +469,8 @@
 		0C30C5161B11A09200E350AB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0C7CBFC11B1811E30039602E /* AddressBookUI.framework */,
+				0C7CBFBF1B1811D30039602E /* AddressBook.framework */,
 				0CD782D31AC1AB040072A0F3 /* SystemConfiguration.framework */,
 				0C8B617E1ABD034400BC13C8 /* QuartzCore.framework */,
 				0C0F2F4D1ABCF59100DBFD8F /* Foundation.framework */,
