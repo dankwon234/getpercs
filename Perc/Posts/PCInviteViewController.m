@@ -7,13 +7,29 @@
 
 
 #import "PCInviteViewController.h"
+#import <AddressBook/AddressBook.h>
+#import <AddressBookUI/AddressBookUI.h>
+
 
 @interface PCInviteViewController ()
 @property (strong, nonatomic) UITableView *contactsTable;
+@property (strong, nonatomic) NSMutableArray *contactList;
 @end
 
 @implementation PCInviteViewController
 @synthesize post;
+
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self){
+        self.contactList = [NSMutableArray array];
+        
+    }
+    return self;
+}
+
 
 
 - (void)loadView
@@ -52,7 +68,7 @@
     [btnCreate setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 //    NSString *btnTitle = (self.isEditMode) ? @"UPDATE POST" : @"CREATE POST";
     [btnCreate setTitle:@"CREATE POST" forState:UIControlStateNormal];
-//    [btnCreate addTarget:self action:@selector(createPost:) forControlEvents:UIControlEventTouchUpInside];
+    [btnCreate addTarget:self action:@selector(createPost:) forControlEvents:UIControlEventTouchUpInside];
     [bgCreate addSubview:btnCreate];
     [view addSubview:bgCreate];
     
@@ -69,6 +85,8 @@
 {
     [super viewDidLoad];
     [self addCustomBackButton];
+    
+    [self requestAddresBookAccess];
 }
 
 - (void)back:(UIGestureRecognizer *)swipe
@@ -76,11 +94,200 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)createPost:(UIButton *)btn
+{
+    NSLog(@"createPost: %@", [self.post jsonRepresentation]);
+    
+    [self.loadingIndicator startLoading];
+    if (self.post.imageData){
+        [[PCWebServices sharedInstance] fetchUploadString:^(id result, NSError *error){
+            if (error){ // remove image and submit post
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.post.imageData = nil;
+                    [self createPost:nil];
+                });
+            }
+            
+            NSDictionary *results = (NSDictionary *)result;
+//            NSLog(@"%@", [results description]);
+            [self uploadImage:results[@"upload"]];
+        }];
+        
+        return;
+    }
+
+    [[PCWebServices sharedInstance] createPost:self.post completion:^(id result, NSError *error){
+        [self.loadingIndicator stopLoading];
+        if (error){
+            [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
+            return;
+        }
+        
+        NSDictionary *results = (NSDictionary *)result;
+//        NSLog(@"%@", [results description]);
+        [self.post populate:results[@"post"]];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+//            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kPostCreatedNotification object:nil userInfo:@{@"post":self.post}]];
+//            [self.navigationController popViewControllerAnimated:YES];
+//            [self.navigationController popToRootViewControllerAnimated:YES];
+            
+            NSArray *array = [self.navigationController viewControllers];
+            [self.navigationController popToViewController:array[1] animated:YES];
+        });
+    }];
+    
+    
+
+
+}
+
+
+- (void)uploadImage:(NSString *)uploadUrl
+{
+    NSDictionary *pkg = @{@"data":UIImageJPEGRepresentation(self.post.imageData, 0.5f), @"name":@"image.jpg"};
+    [[PCWebServices sharedInstance] uploadImage:pkg toUrl:uploadUrl completion:^(id result, NSError *error){
+        [self.loadingIndicator stopLoading];
+        if (error){
+            [self.loadingIndicator stopLoading];
+            [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
+            return;
+        }
+        
+        NSDictionary *results = (NSDictionary *)result;
+        NSLog(@"%@", [results description]);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary *imageInfo = results[@"image"];
+            self.post.image = imageInfo[@"id"];
+            self.post.imageData = nil;
+            
+            [self createPost:nil];
+        });
+        
+    }];
+    
+}
+
+
+
+//search for beginning of first or last name, have search work for only prefixes
+- (void)requestAddresBookAccess//call to get address book, latency
+{;
+    CFErrorRef error = NULL;
+    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
+    if (error) {
+        //        NSLog(@"Address book error: %@", [nsError localizedDescription]);
+        [self showAlertWithTitle:@"Contact List Unauthorized" message:@"Please go to the settings app and allow BUBL to access your address book to request references."];
+        return;
+    }
+    
+    
+    ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error){
+        if (!granted){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //                NSLog(@"Address book access denied");
+                [self showAlertWithTitle:@"Contact List Unauthorized" message:@"Please go to the settings app and allow BUBL to access your address book to request references."];
+                return;
+            });
+        }
+        
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //            NSLog(@"Address book access granted");
+            [self parseContactsList:addressBook];
+        });
+    });
+}
+
+
+
+- (void)parseContactsList:(ABAddressBookRef)addressBook
+{
+    //    NSLog(@"Address book access granted");
+    static NSString *numbers = @"0123456789";
+
+    NSArray *allContacts = (__bridge_transfer NSArray*)ABAddressBookCopyArrayOfAllPeople(addressBook);
+    for (int i=0; i<allContacts.count; i++) {
+        ABRecordRef contact = (__bridge ABRecordRef)allContacts[i];
+        NSString *firstName = (__bridge NSString *)ABRecordCopyValue(contact, kABPersonFirstNameProperty);
+        
+        // phone:
+        ABMultiValueRef phones = ABRecordCopyValue(contact, kABPersonPhoneProperty);
+        NSString *phoneNumber = (__bridge NSString *)ABMultiValueCopyValueAtIndex(phones, 0);
+        
+        BOOL enoughInfo = NO;
+        if (firstName != nil && phoneNumber != nil)
+            enoughInfo = YES;
+        
+        if (enoughInfo==NO)
+            continue;
+        
+        
+        NSMutableDictionary *contactInfo = [NSMutableDictionary dictionary];
+        contactInfo[@"firstName"] = [firstName lowercaseString];
+        
+        NSString *formattedNumber = @"";
+        for (int i=0; i<phoneNumber.length; i++) {
+            NSString *character = [phoneNumber substringWithRange:NSMakeRange(i, 1)];
+            if ([numbers rangeOfString:character].location != NSNotFound){
+                formattedNumber = [formattedNumber stringByAppendingString:character];
+                
+                NSString *firstNum = [formattedNumber substringWithRange:NSMakeRange(0, 1)];
+                if ([firstNum isEqualToString:@"1"])
+                    formattedNumber = [formattedNumber substringFromIndex:1];
+            }
+        }
+        
+        if ([formattedNumber isEqualToString:self.profile.phone]) // this is the user's phone - ignore
+            continue;
+        
+        
+        contactInfo[@"phoneNumber"] = formattedNumber;
+        
+        // email:
+        ABMultiValueRef emails = ABRecordCopyValue(contact, kABPersonEmailProperty);
+        NSString *email = (__bridge NSString *)ABMultiValueCopyValueAtIndex(emails, 0);
+        if (email)
+            contactInfo[@"email"] = email;
+        
+        NSString *lastName = (__bridge NSString *)ABRecordCopyValue(contact, kABPersonLastNameProperty);
+        if (lastName){
+            contactInfo[@"lastName"] = [lastName lowercaseString];
+            contactInfo[@"fullName"] = [[NSString stringWithFormat:@"%@ %@", firstName, lastName] lowercaseString];
+        }
+        else{
+            contactInfo[@"fullName"] = [firstName lowercaseString];
+        }
+        
+        BOOL alreadyThere = NO;
+        for (NSDictionary *c in self.contactList) {
+            if ([c[@"fullName"] isEqualToString:contactInfo[@"fullName"]]){
+                alreadyThere = YES;
+                break;
+            }
+        }
+        
+        if (alreadyThere)
+            continue;
+        
+        [self.contactList addObject:contactInfo]; // add contact to full contact list
+    }
+    
+    CFRelease(addressBook);
+    
+    // alphabetize the contact list
+    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"fullName" ascending:YES];
+    [self.contactList sortUsingDescriptors:@[descriptor]];
+    
+    [self.contactsTable reloadData];
+}
+
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
 {
-    return 40;
+    return self.contactList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -91,9 +298,25 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     }
     
-    cell.textLabel.text = [NSString stringWithFormat:@"%d", (int)indexPath.row];
+    NSDictionary *contactInfo = self.contactList[indexPath.row];
+    cell.textLabel.text = contactInfo[@"fullName"];
+    cell.textLabel.textColor = ([self.post.invited containsObject:contactInfo]) ? [UIColor greenColor] : [UIColor blackColor];
     return cell;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *contactInfo = self.contactList[indexPath.row];
+    if ([self.post.invited containsObject:contactInfo]){
+        [self.post.invited removeObject:contactInfo];
+        [self.contactsTable reloadData];
+        return;
+    }
+    
+    [self.post.invited addObject:contactInfo];
+    [self.contactsTable reloadData];
+}
+
 
 
 @end
