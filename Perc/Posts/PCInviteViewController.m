@@ -9,6 +9,7 @@
 #import "PCInviteViewController.h"
 #import <AddressBook/AddressBook.h>
 #import <AddressBookUI/AddressBookUI.h>
+#import "PCContactCell.h"
 
 
 @interface PCInviteViewController ()
@@ -293,14 +294,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+    PCContactCell *cell = (PCContactCell *)[tableView dequeueReusableCellWithIdentifier:cellId];
     if (cell==nil){
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell = [[PCContactCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     }
     
     NSDictionary *contactInfo = self.contactList[indexPath.row];
-    cell.textLabel.text = contactInfo[@"fullName"];
-    cell.textLabel.textColor = ([self.post.invited containsObject:contactInfo]) ? [UIColor greenColor] : [UIColor blackColor];
+    cell.lblName.text = contactInfo[@"fullName"];
+    cell.lblName.textColor = ([self.post.invited containsObject:contactInfo]) ? [UIColor greenColor] : [UIColor blackColor];
     return cell;
 }
 
@@ -317,6 +318,10 @@
     [self.contactsTable reloadData];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [PCContactCell standardCellHeight];
+}
 
 
 @end
