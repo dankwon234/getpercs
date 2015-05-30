@@ -42,6 +42,7 @@
     self.contactsTable = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height-20.0f) style:UITableViewStylePlain];
     self.contactsTable.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
     self.contactsTable.showsVerticalScrollIndicator = NO;
+    self.contactsTable.separatorStyle = UITableViewCellSelectionStyleNone;
     self.contactsTable.dataSource = self;
     self.contactsTable.delegate = self;
     self.contactsTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, 96.0f)];
@@ -255,10 +256,10 @@
         NSString *lastName = (__bridge NSString *)ABRecordCopyValue(contact, kABPersonLastNameProperty);
         if (lastName){
             contactInfo[@"lastName"] = [lastName lowercaseString];
-            contactInfo[@"fullName"] = [[NSString stringWithFormat:@"%@ %@", firstName, lastName] lowercaseString];
+            contactInfo[@"fullName"] = [[[NSString stringWithFormat:@"%@ %@", firstName, lastName] lowercaseString] capitalizedString];
         }
         else{
-            contactInfo[@"fullName"] = [firstName lowercaseString];
+            contactInfo[@"fullName"] = [[firstName lowercaseString] capitalizedString];
         }
         
         BOOL alreadyThere = NO;
@@ -301,7 +302,7 @@
     
     NSDictionary *contactInfo = self.contactList[indexPath.row];
     cell.lblName.text = contactInfo[@"fullName"];
-    cell.lblName.textColor = ([self.post.invited containsObject:contactInfo]) ? [UIColor greenColor] : [UIColor blackColor];
+    cell.imgCheckmark.image = ([self.post.invited containsObject:contactInfo]) ? [UIImage imageNamed:@"iconCheckmark.png"] : nil;
     return cell;
 }
 
