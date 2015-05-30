@@ -180,7 +180,7 @@
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
     if (error) {
         //        NSLog(@"Address book error: %@", [nsError localizedDescription]);
-        [self showAlertWithTitle:@"Contact List Unauthorized" message:@"Please go to the settings app and allow BUBL to access your address book to request references."];
+        [self showAlertWithTitle:@"Contact List Unauthorized" message:@"Please go to the settings app and allow PERC to access your address book to request references."];
         return;
     }
     
@@ -189,7 +189,7 @@
         if (!granted){
             dispatch_async(dispatch_get_main_queue(), ^{
                 //                NSLog(@"Address book access denied");
-                [self showAlertWithTitle:@"Contact List Unauthorized" message:@"Please go to the settings app and allow BUBL to access your address book to request references."];
+                [self showAlertWithTitle:@"Contact List Unauthorized" message:@"Please go to the settings app and allow PERC to access your address book to request references."];
                 return;
             });
         }
