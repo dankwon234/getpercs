@@ -10,6 +10,8 @@
 
 @implementation PCContactCell
 @synthesize lblName;
+@synthesize imgCheckmark;
+
 
 #define kCellHeight 54.0f
 
@@ -20,10 +22,18 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         CGRect frame = [UIScreen mainScreen].applicationFrame;
         
-        self.lblName = [[UILabel alloc] initWithFrame:CGRectMake(12.0f, 12.0f, frame.size.width-24.0f, 24.0f)];
+        UIImage *checkmark = [UIImage imageNamed:@"iconCheckmark.png"];
+        self.imgCheckmark = [[UIImageView alloc] initWithImage:checkmark];
+        self.imgCheckmark.frame = CGRectMake(12.0f, 12.0f, checkmark.size.width, checkmark.size.height);
+        [self.contentView addSubview:self.imgCheckmark];
+        
+        
+        self.lblName = [[UILabel alloc] initWithFrame:CGRectMake(checkmark.size.width+24.0f, 12.0f, frame.size.width-24.0f, 24.0f)];
         [self.contentView addSubview:self.lblName];
         
-        
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0.0f, kCellHeight-1.0f, frame.size.width, 0.5f)];
+        line.backgroundColor = [UIColor lightGrayColor];
+        [self.contentView addSubview:line];
     }
     
     return self;

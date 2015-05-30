@@ -12,5 +12,6 @@
 
 
 @property (strong, nonatomic) UILabel *lblName;
+@property (strong, nonatomic) UIImageView *imgCheckmark;
 + (CGFloat)standardCellHeight;
 @end
