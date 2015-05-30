@@ -208,6 +208,7 @@
 {
     //    NSLog(@"Address book access granted");
     static NSString *numbers = @"0123456789";
+    NSMutableArray *added = [NSMutableArray array];
 
     NSArray *allContacts = (__bridge_transfer NSArray*)ABAddressBookCopyArrayOfAllPeople(addressBook);
     for (int i=0; i<allContacts.count; i++) {
@@ -262,17 +263,11 @@
             contactInfo[@"fullName"] = [[firstName lowercaseString] capitalizedString];
         }
         
-        BOOL alreadyThere = NO;
-        for (NSDictionary *c in self.contactList) {
-            if ([c[@"fullName"] isEqualToString:contactInfo[@"fullName"]]){
-                alreadyThere = YES;
-                break;
-            }
-        }
-        
-        if (alreadyThere)
+        NSString *fullName = contactInfo[@"fullName"];
+        if ([added containsObject:fullName]==YES) // it's already there
             continue;
         
+        [added addObject:fullName];
         [self.contactList addObject:contactInfo]; // add contact to full contact list
     }
     
