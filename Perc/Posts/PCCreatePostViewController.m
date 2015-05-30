@@ -108,21 +108,21 @@ static NSString *placeholder = @"Content";
     [self.theScrollview addSubview:bgContent];
     y += bgContent.frame.size.height+1.0f;
     
-    UIView *bgImage = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 2*h)];
-    bgImage.backgroundColor = [UIColor whiteColor];
-    bgImage.alpha = 0.8f;
-    [bgImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectImage:)]];
-    
-    dimen = bgImage.frame.size.height-20.0f;
-    self.postImage = [[UIImageView alloc] initWithFrame:CGRectMake(10.0f, 10.0f, dimen, dimen)];
-    self.postImage.layer.borderWidth = 1.0f;
-    self.postImage.layer.borderColor = [[UIColor darkGrayColor] CGColor];
-    self.postImage.image = (self.post.imageData) ? self.post.imageData : [UIImage imageNamed:@"icon.png"];
-    self.post.imageData = nil; // have to nil this out so the update function won't upload image unnecesarily
-    [bgImage addSubview:self.postImage];
-
-    [self.theScrollview addSubview:bgImage];
-    y += bgImage.frame.size.height+1.0f;
+//    UIView *bgImage = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 2*h)];
+//    bgImage.backgroundColor = [UIColor whiteColor];
+//    bgImage.alpha = 0.8f;
+//    [bgImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectImage:)]];
+//    
+//    dimen = bgImage.frame.size.height-20.0f;
+//    self.postImage = [[UIImageView alloc] initWithFrame:CGRectMake(10.0f, 10.0f, dimen, dimen)];
+//    self.postImage.layer.borderWidth = 1.0f;
+//    self.postImage.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+//    self.postImage.image = (self.post.imageData) ? self.post.imageData : [UIImage imageNamed:@"icon.png"];
+//    self.post.imageData = nil; // have to nil this out so the update function won't upload image unnecesarily
+//    [bgImage addSubview:self.postImage];
+//
+//    [self.theScrollview addSubview:bgImage];
+//    y += bgImage.frame.size.height+1.0f;
 
     UIView *bgPublic = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
     bgPublic.backgroundColor = [UIColor whiteColor];
@@ -139,8 +139,37 @@ static NSString *placeholder = @"Content";
     [bgPublic addSubview:togglePublic];
     
     [self.theScrollview addSubview:bgPublic];
-    y += bgPublic.frame.size.height;
+    y += bgPublic.frame.size.height+1.0f;
 
+    UIView *bgFee = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
+    bgFee.backgroundColor = [UIColor whiteColor];
+    [bgFee addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeFee:)]];
+    bgFee.alpha = 0.8f;
+    
+    UILabel *lblFee = [[UILabel alloc] initWithFrame:CGRectMake(12.0f, 0.0f, frame.size.width-24.0f, 44.0f)];
+    lblFee.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    lblFee.text = @"Fee: FREE";
+    [bgFee addSubview:lblFee];
+
+    [self.theScrollview addSubview:bgFee];
+    y += bgFee.frame.size.height+1.0f;
+
+
+    UIView *bgImage = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 2*h)];
+    bgImage.backgroundColor = [UIColor whiteColor];
+    bgImage.alpha = 0.8f;
+    [bgImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectImage:)]];
+    
+    dimen = bgImage.frame.size.height-20.0f;
+    self.postImage = [[UIImageView alloc] initWithFrame:CGRectMake(10.0f, 10.0f, dimen, dimen)];
+    self.postImage.layer.borderWidth = 1.0f;
+    self.postImage.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+    self.postImage.image = (self.post.imageData) ? self.post.imageData : [UIImage imageNamed:@"icon.png"];
+    self.post.imageData = nil; // have to nil this out so the update function won't upload image unnecesarily
+    [bgImage addSubview:self.postImage];
+    
+    [self.theScrollview addSubview:bgImage];
+    y += bgImage.frame.size.height;
 
     if (self.isEditMode==NO){
         UILabel *lblZone = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
@@ -199,9 +228,10 @@ static NSString *placeholder = @"Content";
         [bgVisible addSubview:toggleVisible];
         
         [self.theScrollview addSubview:bgVisible];
-        y += bgVisible.frame.size.height;
+        y += bgVisible.frame.size.height+1.0f;
     }
-    
+
+
     
 
     UIView *bgCreate = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 96.0f)];
@@ -264,6 +294,7 @@ static NSString *placeholder = @"Content";
         self.lblCreatePost.alpha = self.icon.alpha;
     }
 }
+
 
 
 
@@ -391,12 +422,15 @@ static NSString *placeholder = @"Content";
             
             [self createPost:nil];
         });
-        
     }];
-    
 }
 
 
+- (void)changeFee:(UIGestureRecognizer *)tap
+{
+    NSLog(@"changeFee: ");
+    
+}
 
 - (void)selectImage:(UIGestureRecognizer *)tap
 {
