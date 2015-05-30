@@ -31,6 +31,7 @@
 		0C13AC2F1AE41FC2003B1F0D /* UIImage+PQImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C13AC2E1AE41FC2003B1F0D /* UIImage+PQImageEffects.m */; };
 		0C1BC8921ABBF7CC000E9EDB /* PCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C1BC8911ABBF7CC000E9EDB /* PCLoginViewController.m */; };
 		0C1BC8951ABBFD9F000E9EDB /* PCRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C1BC8941ABBFD9F000E9EDB /* PCRegisterViewController.m */; };
+		0C1E4EC11B197B09001B840E /* iconCheckmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C1E4EC01B197B09001B840E /* iconCheckmark@2x.png */; };
 		0C1FBA431ADE2DE20079BD74 /* PCZoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C1FBA421ADE2DE20079BD74 /* PCZoneViewController.m */; };
 		0C333F541ADF9A280005DD84 /* PCPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C333F531ADF9A280005DD84 /* PCPost.m */; };
 		0C333F571ADFA0F30005DD84 /* PCPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C333F561ADFA0F30005DD84 /* PCPostsViewController.m */; };
@@ -194,6 +195,7 @@
 		0C1BC8911ABBF7CC000E9EDB /* PCLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCLoginViewController.m; sourceTree = "<group>"; };
 		0C1BC8931ABBFD9F000E9EDB /* PCRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCRegisterViewController.h; sourceTree = "<group>"; };
 		0C1BC8941ABBFD9F000E9EDB /* PCRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCRegisterViewController.m; sourceTree = "<group>"; };
+		0C1E4EC01B197B09001B840E /* iconCheckmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconCheckmark@2x.png"; sourceTree = "<group>"; };
 		0C1FBA411ADE2DE20079BD74 /* PCZoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCZoneViewController.h; sourceTree = "<group>"; };
 		0C1FBA421ADE2DE20079BD74 /* PCZoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCZoneViewController.m; sourceTree = "<group>"; };
 		0C333F521ADF9A280005DD84 /* PCPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPost.h; sourceTree = "<group>"; };
@@ -658,6 +660,7 @@
 		0C6139191AB8F60E00D12C50 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0C1E4EC01B197B09001B840E /* iconCheckmark@2x.png */,
 				0C90B89D1AEAD9290035CC42 /* dots@2x.png */,
 				0CAE850D1AEC6B27007332A6 /* bgLights@2x.png */,
 				0CD16F121AE7533700B5F85B /* bgBklynBridge@2x.png */,
@@ -923,6 +926,7 @@
 				0C8B61731ABD028800BC13C8 /* jcb.png in Resources */,
 				0C90B89E1AEAD9290035CC42 /* dots@2x.png in Resources */,
 				0C8B61781ABD028800BC13C8 /* placeholder@2x.png in Resources */,
+				0C1E4EC11B197B09001B840E /* iconCheckmark@2x.png in Resources */,
 				0CD782D61AC1AFAA0072A0F3 /* logo-white@2x.png in Resources */,
 				0C8B616F1ABD028800BC13C8 /* diners.png in Resources */,
 				0C8B61691ABD028800BC13C8 /* amex.png in Resources */,
