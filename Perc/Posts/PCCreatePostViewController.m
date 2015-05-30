@@ -33,9 +33,9 @@ static NSString *placeholder = @"Content";
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
         self.fees = [NSMutableArray array];
-        for (int i=0; i<50; i++) {
+        for (int i=0; i<101; i++)
             [self.fees addObject:[NSString stringWithFormat:@"$%d.00", i]];
-        }
+        
     }
     
     return self;
@@ -257,7 +257,7 @@ static NSString *placeholder = @"Content";
     [view addSubview:self.theScrollview];
     self.theScrollview.contentSize = CGSizeMake(0, y);
     
-    self.feePicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height-180.0f, frame.size.width, 180.0f)];
+    self.feePicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, 180.0f)];
     self.feePicker.dataSource = self;
     self.feePicker.delegate = self;
     self.feePicker.backgroundColor = [UIColor whiteColor];
@@ -550,7 +550,6 @@ static NSString *placeholder = @"Content";
                      completion:^(BOOL finished){
                          
                      }];
-    
 }
 
 #pragma mark - UITextFieldDelegate
