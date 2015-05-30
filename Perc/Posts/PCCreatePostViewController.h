@@ -9,7 +9,7 @@
 #import "PCViewController.h"
 #import "PCPost.h"
 
-@interface PCCreatePostViewController : PCViewController <UIScrollViewDelegate, UITextViewDelegate, UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface PCCreatePostViewController : PCViewController <UIScrollViewDelegate, UITextViewDelegate, UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 
 
 @property (strong, nonatomic) PCPost *post;

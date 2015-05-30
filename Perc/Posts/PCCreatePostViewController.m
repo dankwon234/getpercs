@@ -12,11 +12,14 @@
 
 @interface PCCreatePostViewController ()
 @property (strong, nonatomic) UILabel *lblCreatePost;
+@property (strong, nonatomic) UILabel *lblFee;
 @property (strong, nonatomic) UIImageView *icon;
 @property (strong, nonatomic) UIScrollView *theScrollview;
 @property (strong, nonatomic) UITextView *contentForm;
 @property (strong, nonatomic) UITextField *titleField;
 @property (strong, nonatomic) UIImageView *postImage;
+@property (strong, nonatomic) UIPickerView *feePicker;
+@property (strong, nonatomic) NSMutableArray *fees;
 @property (nonatomic) BOOL isEditMode;
 @end
 
@@ -24,6 +27,19 @@ static NSString *placeholder = @"Content";
 
 @implementation PCCreatePostViewController
 @synthesize post;
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self){
+        self.fees = [NSMutableArray array];
+        for (int i=0; i<50; i++) {
+            [self.fees addObject:[NSString stringWithFormat:@"$%d.00", i]];
+        }
+    }
+    
+    return self;
+}
 
 
 - (void)loadView
@@ -108,22 +124,6 @@ static NSString *placeholder = @"Content";
     [self.theScrollview addSubview:bgContent];
     y += bgContent.frame.size.height+1.0f;
     
-//    UIView *bgImage = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 2*h)];
-//    bgImage.backgroundColor = [UIColor whiteColor];
-//    bgImage.alpha = 0.8f;
-//    [bgImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectImage:)]];
-//    
-//    dimen = bgImage.frame.size.height-20.0f;
-//    self.postImage = [[UIImageView alloc] initWithFrame:CGRectMake(10.0f, 10.0f, dimen, dimen)];
-//    self.postImage.layer.borderWidth = 1.0f;
-//    self.postImage.layer.borderColor = [[UIColor darkGrayColor] CGColor];
-//    self.postImage.image = (self.post.imageData) ? self.post.imageData : [UIImage imageNamed:@"icon.png"];
-//    self.post.imageData = nil; // have to nil this out so the update function won't upload image unnecesarily
-//    [bgImage addSubview:self.postImage];
-//
-//    [self.theScrollview addSubview:bgImage];
-//    y += bgImage.frame.size.height+1.0f;
-
     UIView *bgPublic = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
     bgPublic.backgroundColor = [UIColor whiteColor];
     bgPublic.alpha = 0.8f;
@@ -146,10 +146,10 @@ static NSString *placeholder = @"Content";
     [bgFee addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeFee:)]];
     bgFee.alpha = 0.8f;
     
-    UILabel *lblFee = [[UILabel alloc] initWithFrame:CGRectMake(12.0f, 0.0f, frame.size.width-24.0f, 44.0f)];
-    lblFee.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    lblFee.text = @"Fee: FREE";
-    [bgFee addSubview:lblFee];
+    self.lblFee = [[UILabel alloc] initWithFrame:CGRectMake(12.0f, 0.0f, frame.size.width-24.0f, 44.0f)];
+    self.lblFee.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    self.lblFee.text = @"Fee: FREE";
+    [bgFee addSubview:self.lblFee];
 
     [self.theScrollview addSubview:bgFee];
     y += bgFee.frame.size.height+1.0f;
@@ -256,6 +256,12 @@ static NSString *placeholder = @"Content";
     
     [view addSubview:self.theScrollview];
     self.theScrollview.contentSize = CGSizeMake(0, y);
+    
+    self.feePicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height-180.0f, frame.size.width, 180.0f)];
+    self.feePicker.dataSource = self;
+    self.feePicker.delegate = self;
+    self.feePicker.backgroundColor = [UIColor whiteColor];
+    [view addSubview:self.feePicker];
     
     
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
@@ -430,6 +436,20 @@ static NSString *placeholder = @"Content";
 {
     NSLog(@"changeFee: ");
     
+    [UIView animateWithDuration:0.3f
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         CGRect frame = self.feePicker.frame;
+                         frame.origin.y = self.view.frame.size.height-frame.size.height;
+                         self.feePicker.frame = frame;
+                         
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+
+    
 }
 
 - (void)selectImage:(UIGestureRecognizer *)tap
@@ -494,6 +514,43 @@ static NSString *placeholder = @"Content";
 {
     self.theScrollview.delegate = self;
     //    self.addressField.delegate = self;
+}
+
+
+#pragma mark - UIPickerViewDataSource
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return self.fees.count;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return self.fees[row];
+    
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    self.post.fee = (int)row;
+    self.lblFee.text = [NSString stringWithFormat:@"Fee: %@", self.fees[row]];
+    [UIView animateWithDuration:0.3f
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         CGRect frame = self.feePicker.frame;
+                         frame.origin.y = self.view.frame.size.height;
+                         self.feePicker.frame = frame;
+                         
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+    
 }
 
 #pragma mark - UITextFieldDelegate
