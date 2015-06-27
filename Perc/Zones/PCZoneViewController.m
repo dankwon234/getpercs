@@ -155,6 +155,8 @@
                     [self.profile updateProfile]; // update profile with last zone info on backend
                     [self.loadingIndicator stopLoading];
                     
+                    [self showBackgrounds];
+                    
                     if ([self.currentZone.status isEqualToString:@"open"]==NO){
                         //                        NSString *message = self.currentZone.message;
                         //                        CGRect boundingRect = [message boundingRectWithSize:CGSizeMake(self.lblMessage.frame.size.width, 250.0f)
@@ -217,6 +219,9 @@
 {
     for (int i=0; i<self.backgrounds.count; i++) {
         UIView *background = self.backgrounds[i];
+        if (background.alpha > 0)
+            continue;
+        
         [UIView animateWithDuration:0.3f
                               delay:i*0.2f
                             options:UIViewAnimationOptionCurveLinear
