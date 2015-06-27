@@ -95,6 +95,11 @@
     [self.navCtr willMoveToParentViewController:self];
     [view addSubview:self.navCtr.view];
     
+    if (self.profile.isPopulated){
+        self.view = view;
+        return;
+    }
+    
     [self.profile addObserver:self forKeyPath:@"isPopulated" options:0 context:nil];
     
     self.welcomeView = [[PCWelcomeView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
@@ -124,7 +129,8 @@
     swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
     [self.navCtr.view addGestureRecognizer:swipeRight];
     
-    [self.welcomeView introAnimation];
+    if (self.welcomeView != nil)
+        [self.welcomeView introAnimation];
 
 }
 
@@ -134,7 +140,6 @@
     if (self.welcomeView==nil)
         return;
     
-//    [self.welcomeView introAnimation];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
