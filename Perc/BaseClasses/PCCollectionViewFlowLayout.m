@@ -22,10 +22,9 @@
     if (self){
         self.minimumInteritemSpacing = 0; // horizontal gap between columns
         self.minimumLineSpacing = 24; // vertical gap between rows
-//        self.itemSize = CGSizeMake(kVenueCellWidth, kVenueCellHeight);
+        
         self.itemSize = CGSizeMake([PCCollectionViewFlowLayout cellWidth], [PCCollectionViewFlowLayout cellHeight]);
         self.sectionInset = UIEdgeInsetsMake(0.0f, kCellPadding, 0.0f, kCellPadding);
-//        self.sectionInset = UIEdgeInsetsMake(0.0f, 0, 0.0f, 0);
         self.dynamicAnimator = [[UIDynamicAnimator alloc] initWithCollectionViewLayout:self];
     }
     
@@ -41,12 +40,13 @@
 + (CGFloat)cellWidth
 {
     CGRect frame = [UIScreen mainScreen].applicationFrame;
-    return (frame.size.width > 320.0f) ? 320.0f : 280.0f;
+//    return (frame.size.width > 320.0f) ? 320.0f : 280.0f;
+    return (frame.size.width > 320.0f) ? 160.0f : 140.0f;
 }
 
 + (CGFloat)cellHeight
 {
-    static CGFloat h = 112.0f;
+    static CGFloat h = 236.0f;
     return h;
 }
 
