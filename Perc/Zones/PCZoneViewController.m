@@ -24,7 +24,7 @@
 @end
 
 #define kPadding 12.0f
-#define kTopInset 220.0f
+#define kTopInset 260.0f
 static NSString *cellId = @"cellId";
 
 @implementation PCZoneViewController
@@ -33,7 +33,8 @@ static NSString *cellId = @"cellId";
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
-        
+        self.edgesForExtendedLayout = UIRectEdgeAll;
+
         
     }
     
@@ -113,17 +114,17 @@ static NSString *cellId = @"cellId";
     }
     
     
-    if ([keyPath isEqualToString:@"contentOffset"]){
-        CGFloat offset = self.venuesTable.contentOffset.y;
-        if (offset < -kTopInset){
+//    if ([keyPath isEqualToString:@"contentOffset"]){
+//        CGFloat offset = self.venuesTable.contentOffset.y;
+//        if (offset < -kTopInset){
 //            self.icon.alpha = 1.0f;
-            return;
-        }
-        
-        double distance = offset+kTopInset;
+//            return;
+//        }
+//        
+//        double distance = offset+kTopInset;
 //        self.icon.alpha = 1.0f-(distance/100.0f);
 //        self.lblTitle.alpha = self.icon.alpha;
-    }
+//    }
 }
 
 
@@ -326,11 +327,14 @@ static NSString *cellId = @"cellId";
     
     CGRect frame = self.view.frame;
     
-    self.venuesTable = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, frame.size.height-20.0f) collectionViewLayout:[[PCCollectionViewFlowLayout alloc] init]];
+//    self.venuesTable = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, frame.size.height-20.0f) collectionViewLayout:[[PCCollectionViewFlowLayout alloc] init]];
+    
+    self.venuesTable = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, frame.size.height-kTopInset-20.0f) collectionViewLayout:[[PCCollectionViewFlowLayout alloc] init]];
     self.venuesTable.backgroundColor = [UIColor clearColor];
     
     [self.venuesTable registerClass:[PCVenueCell class] forCellWithReuseIdentifier:cellId];
-    self.venuesTable.contentInset = UIEdgeInsetsMake(kTopInset, 0.0f, 48.0f, 0);
+//    self.venuesTable.contentInset = UIEdgeInsetsMake(kTopInset, 0.0f, 48.0f, 0);
+    self.venuesTable.contentInset = UIEdgeInsetsMake(0.0f, 0.0f, 48.0f, 0);
     self.venuesTable.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
     self.venuesTable.dataSource = self;
     self.venuesTable.delegate = self;
@@ -344,14 +348,14 @@ static NSString *cellId = @"cellId";
     
     
     [self.loadingIndicator stopLoading];
-    [UIView animateWithDuration:1.20f
+    [UIView animateWithDuration:1.40f
                           delay:0
          usingSpringWithDamping:0.6f
           initialSpringVelocity:0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          CGRect frame = self.venuesTable.frame;
-                         self.venuesTable.frame = CGRectMake(frame.origin.x, 0.0f, frame.size.width, frame.size.height);
+                         self.venuesTable.frame = CGRectMake(frame.origin.x, kTopInset, frame.size.width, frame.size.height);
                          
                      }
                      completion:^(BOOL finished){
