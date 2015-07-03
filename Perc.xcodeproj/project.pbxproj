@@ -65,7 +65,6 @@
 		0C69261D1ABBECC800C91B6D /* PCOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C69261C1ABBECC800C91B6D /* PCOrder.m */; };
 		0C72328B1ABCD1A000BD0920 /* PCAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C72328A1ABCD1A000BD0920 /* PCAccountViewController.m */; };
 		0C72328F1ABCD46700BD0920 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C72328E1ABCD46700BD0920 /* icon@2x.png */; };
-		0C78AE0D1AE73CD800D2553D /* PCBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C78AE0C1AE73CD800D2553D /* PCBackgroundView.m */; };
 		0C7A75411ABE256C004FFE5B /* PCWelcomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7A75401ABE256C004FFE5B /* PCWelcomeView.m */; };
 		0C7A754D1ABE2DA1004FFE5B /* bgEating-1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C7A754C1ABE2DA1004FFE5B /* bgEating-1@2x.png */; };
 		0C7A754F1ABE7E94004FFE5B /* hopper@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C7A754E1ABE7E94004FFE5B /* hopper@2x.png */; };
@@ -260,8 +259,6 @@
 		0C7232891ABCD1A000BD0920 /* PCAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCAccountViewController.h; sourceTree = "<group>"; };
 		0C72328A1ABCD1A000BD0920 /* PCAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCAccountViewController.m; sourceTree = "<group>"; };
 		0C72328E1ABCD46700BD0920 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
-		0C78AE0B1AE73CD800D2553D /* PCBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCBackgroundView.h; sourceTree = "<group>"; };
-		0C78AE0C1AE73CD800D2553D /* PCBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCBackgroundView.m; sourceTree = "<group>"; };
 		0C7A753F1ABE256C004FFE5B /* PCWelcomeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCWelcomeView.h; sourceTree = "<group>"; };
 		0C7A75401ABE256C004FFE5B /* PCWelcomeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCWelcomeView.m; sourceTree = "<group>"; };
 		0C7A754C1ABE2DA1004FFE5B /* bgEating-1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgEating-1@2x.png"; sourceTree = "<group>"; };
@@ -692,8 +689,6 @@
 				0C6926151ABBB88600C91B6D /* PCZone.m */,
 				0C1FBA411ADE2DE20079BD74 /* PCZoneViewController.h */,
 				0C1FBA421ADE2DE20079BD74 /* PCZoneViewController.m */,
-				0C78AE0B1AE73CD800D2553D /* PCBackgroundView.h */,
-				0C78AE0C1AE73CD800D2553D /* PCBackgroundView.m */,
 			);
 			path = Zones;
 			sourceTree = "<group>";
@@ -1027,7 +1022,6 @@
 				0C8B61641ABD028800BC13C8 /* PTKCardNumber.m in Sources */,
 				0C8B61621ABD028800BC13C8 /* PTKCardCVC.m in Sources */,
 				0C6138FF1AB8E8C700D12C50 /* AFNetworkReachabilityManager.m in Sources */,
-				0C78AE0D1AE73CD800D2553D /* PCBackgroundView.m in Sources */,
 				0CD782D21AC1AAEA0072A0F3 /* SignalCheck.m in Sources */,
 				0C8B61611ABD028800BC13C8 /* PTKCard.m in Sources */,
 				0C6138C31AB8E6A700D12C50 /* main.m in Sources */,

@@ -9,12 +9,10 @@
 #import "PCZoneViewController.h"
 #import "PCVenuesViewController.h"
 #import "PCPostsViewController.h"
-#import "PCBackgroundView.h"
 
 
 @interface PCZoneViewController ()
 @property (strong, nonatomic) UILabel *lblLocation;
-@property (strong, nonatomic) NSMutableArray *backgrounds;
 @end
 
 #define kPadding 12.0f
@@ -25,11 +23,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
-        self.backgrounds = [NSMutableArray array];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(showBackgrounds)
-                                                     name:kShowBackgroundsNotification
-                                                   object:nil];
+        
+        
     }
     
     return self;
@@ -52,22 +47,6 @@
     icon.layer.borderColor = [[UIColor whiteColor] CGColor];
     [view addSubview:icon];
 
-    
-    CGFloat width = frame.size.width;
-    CGFloat y = 0.45f*frame.size.height;
-    CGFloat w = width-2*kPadding;
-    CGFloat h = 44.0f;
-    
-    NSArray *a = @[@"Order Food", @"Bulletin Board", @"Update Location"];
-    for (int i=0; i<a.count; i++) {
-        PCBackgroundView *button = [self sectionBackgroundWithFrame:CGRectMake(kPadding, y, w, h) withTitle:a[i]];
-        button.tag = 1000+i;
-        [view addSubview:button];
-        y += button.frame.size.height+kPadding;
-        [self.backgrounds addObject:button];
-
-    }
-    
     
     self.lblLocation = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, frame.size.height-62.0f, frame.size.width, 22.0f)];
     self.lblLocation.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
@@ -155,7 +134,6 @@
                     [self.profile updateProfile]; // update profile with last zone info on backend
                     [self.loadingIndicator stopLoading];
                     
-                    [self showBackgrounds];
                     
                     if ([self.currentZone.status isEqualToString:@"open"]==NO){
                         //                        NSString *message = self.currentZone.message;
@@ -183,15 +161,6 @@
     [super didReceiveMemoryWarning];
 }
 
-- (PCBackgroundView *)sectionBackgroundWithFrame:(CGRect)frame withTitle:(NSString *)title
-{
-    PCBackgroundView *background = [[PCBackgroundView alloc] initWithFrame:frame];
-    background.alpha = 0.0f; // they all start at 0 then fade in
-    [background addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectSection:)]];
-    
-    background.lblTitle.text = title;
-    return background;
-}
 
 - (void)selectSection:(UIGestureRecognizer *)tap
 {
@@ -215,37 +184,10 @@
     
 }
 
-- (void)showBackgrounds
-{
-    for (int i=0; i<self.backgrounds.count; i++) {
-        UIView *background = self.backgrounds[i];
-        if (background.alpha > 0)
-            continue;
-        
-        [UIView animateWithDuration:0.3f
-                              delay:i*0.2f
-                            options:UIViewAnimationOptionCurveLinear
-                         animations:^{
-                             background.alpha = 1.0f;
-                         }
-                         completion:^(BOOL finished){
-                             
-                         }];
-    }
-}
 
 
 
 
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
