@@ -31,6 +31,7 @@
 - (void)addNavigationTitleView;
 - (void)addCustomBackButton;
 - (void)addMenuButton;
+- (void)addOptionsButton;
 - (void)showLoginView:(BOOL)animated;
 - (void)showAccountView;
 - (void)viewMenu:(id)sender;

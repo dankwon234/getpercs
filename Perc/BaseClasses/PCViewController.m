@@ -140,6 +140,16 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnMenu];
 }
 
+- (void)addOptionsButton
+{
+    UIImage *imgDots = [UIImage imageNamed:@"dots"];
+    UIButton *btnDots = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnDots.frame = CGRectMake(0.0f, 0.0f, 0.6f*imgDots.size.width, 0.6f*imgDots.size.height);
+    [btnDots setBackgroundImage:imgDots forState:UIControlStateNormal];
+    //    [btnDots addTarget:self action:@selector(toggleOptionsView:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnDots];
+}
+
 
 - (void)back:(UIButton *)btn
 {
