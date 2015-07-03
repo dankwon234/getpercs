@@ -16,7 +16,7 @@
 @synthesize lblTitle;
 @synthesize lblLocation;
 @synthesize lblDetails;
-@synthesize btnOrder;
+
 
 #define kAnimationDuration 0.24f
 
@@ -30,74 +30,63 @@
         
         self.base = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
         self.base.layer.cornerRadius = 2.0f;
-        self.base.backgroundColor = [UIColor whiteColor];
+        self.base.backgroundColor = kLightGray;
         self.base.alpha = 0.95f;
         self.base.layer.masksToBounds = YES;
         
-        CGFloat dimen = frame.size.height-24.0f;
+        CGFloat dimen = frame.size.width;
         self.icon = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, dimen, dimen)];
-        self.icon.center = CGPointMake(0.5f*frame.size.height, 0.5f*frame.size.height);
-        self.icon.layer.cornerRadius = 0.5f*dimen;
-        self.icon.layer.masksToBounds = YES;
-        self.icon.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-        self.icon.layer.borderWidth = 1.0f;
         self.icon.image = [UIImage imageNamed:@"icon.png"];
         self.icon.backgroundColor = [UIColor whiteColor];
+        
+        CAGradientLayer *gradient = [CAGradientLayer layer];
+        CGRect bounds = self.icon.bounds;
+        bounds.size.height *= 0.5f;
+        bounds.origin.y += 0.5f*self.icon.bounds.size.height;
+        gradient.frame = bounds;
+        gradient.colors = @[(id)[[UIColor clearColor] CGColor], (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.75f] CGColor]];
+        [self.icon.layer insertSublayer:gradient atIndex:0];
+        
         [self.base addSubview:self.icon];
         
         UIColor *darkGray = [UIColor darkGrayColor];
         UIColor *clear = [UIColor clearColor];
         
-        CGFloat y = 12.0f;
-        CGFloat x = self.icon.frame.origin.x+dimen+12.0f;
-        CGFloat width = frame.size.width-x-12.0f;
+        CGFloat y = dimen-20.0f;
+        CGFloat x = 4.0f;
+        CGFloat width = frame.size.width-2*x;
         
         
         self.lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, 18.0f)];
-//        [self.lblTitle addObserver:self forKeyPath:@"text" options:0 context:nil];
-        self.lblTitle.textAlignment = NSTextAlignmentRight;
-        self.lblTitle.textColor = darkGray;
+        self.lblTitle.textColor = [UIColor whiteColor];
         self.lblTitle.numberOfLines = 1;
         self.lblTitle.backgroundColor = clear;
         self.lblTitle.lineBreakMode = NSLineBreakByWordWrapping;
         self.lblTitle.font = [UIFont fontWithName:kBaseFontName size:16.0f];
         [self.base addSubview:self.lblTitle];
-        y += self.lblTitle.frame.size.height;
+        y += self.lblTitle.frame.size.height+4.0f;
         
         self.lblLocation = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, 16.0f)];
-        self.lblLocation.textAlignment = NSTextAlignmentRight;
         self.lblLocation.textColor = darkGray;
         self.lblLocation.backgroundColor = clear;
         self.lblLocation.font = [UIFont fontWithName:kBaseFontName size:12.0f];
         [self.base addSubview:self.lblLocation];
         y += self.lblLocation.frame.size.height+4.0f;
-        
-        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(x, y, width, 0.5f)];
-        line.backgroundColor = [UIColor lightGrayColor];
-        [self.base addSubview:line];
-        y += line.frame.size.height+2.0f;
+
         
         
         self.lblDetails = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, 16.0f)];
-        self.lblDetails.textAlignment = NSTextAlignmentRight;
         self.lblDetails.textColor = kOrange;
         self.lblDetails.backgroundColor = clear;
         self.lblDetails.font = [UIFont fontWithName:kBaseFontName size:10.0f];
         [self.base addSubview:self.lblDetails];
-        y += self.lblDetails.frame.size.height+4.0f;
+        y += self.lblDetails.frame.size.height+12.0f;
         
-        
-        self.btnOrder = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.btnOrder.frame = CGRectMake(x, y, width, 28.0f);
-        self.btnOrder.backgroundColor = [UIColor clearColor];
-        self.btnOrder.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-        [self.btnOrder setTitleColor:kOrange forState:UIControlStateNormal];
-        [self.btnOrder setTitle:@"ORDER" forState:UIControlStateNormal];
-        self.btnOrder.layer.cornerRadius = 0.5f*self.btnOrder.frame.size.height;
-        self.btnOrder.layer.masksToBounds = YES;
-        self.btnOrder.layer.borderWidth = 1.0f;
-        self.btnOrder.layer.borderColor = [kOrange CGColor];
-        [self.base addSubview:self.btnOrder];
+
+        UIView *bottom = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 26.0f)];
+        static CGFloat rgb = 230.0f;
+        bottom.backgroundColor = [UIColor colorWithRed:rgb/255.0f green:rgb/255.0f blue:rgb/255.0f alpha:1.0f];
+        [self.base addSubview:bottom];
         
         
         [self.contentView addSubview:self.base];
@@ -111,34 +100,6 @@
     }
     return self;
 }
-
-//- (void)dealloc
-//{
-//    [self.lblTitle removeObserver:self forKeyPath:@"text"];
-//}
-
-/*
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqualToString:@"text"]==NO)
-        return;
-    
-    
-    CGRect frame = self.lblTitle.frame;
-    CGRect boudingRect = [self.lblTitle.text boundingRectWithSize:CGSizeMake(self.lblTitle.frame.size.width, 250.0f)
-                                                          options:NSStringDrawingUsesLineFragmentOrigin
-                                                       attributes:@{NSFontAttributeName:self.lblTitle.font}
-                                                          context:NULL];
-    frame.size.height = boudingRect.size.height;
-    self.lblTitle.frame = frame;
-    
-    CGFloat y = frame.origin.y+frame.size.height;
-    
-    frame = self.lblLocation.frame;
-    frame.origin.y = y;
-    self.lblLocation.frame = frame;
-}
- */
 
 
 

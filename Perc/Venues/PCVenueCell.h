@@ -15,5 +15,4 @@
 @property (strong, nonatomic) UILabel *lblTitle;
 @property (strong, nonatomic) UILabel *lblLocation;
 @property (strong, nonatomic) UILabel *lblDetails; // fee, distance, status, etc
-@property (strong, nonatomic) UIButton *btnOrder;
 @end
