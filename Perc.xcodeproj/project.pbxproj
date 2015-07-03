@@ -133,6 +133,7 @@
 		0CDD96DC1B16F3520026E052 /* PCInviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDD96DB1B16F3520026E052 /* PCInviteViewController.m */; };
 		0CDF620B1AE0BE97006B3C94 /* PCCreatePostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */; };
 		0CE891CE1B3F529500CEC7D5 /* logo-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CE891CD1B3F529500CEC7D5 /* logo-white@2x.png */; };
+		0CF976A71B4702CB006E9E12 /* bgBlurry@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CF976A61B4702CB006E9E12 /* bgBlurry@2x.png */; };
 		0CFC9D001AE89DED00D2A923 /* PCMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFC9CFF1AE89DED00D2A923 /* PCMessageCell.m */; };
 /* End PBXBuildFile section */
 
@@ -356,6 +357,7 @@
 		0CDF62091AE0BE97006B3C94 /* PCCreatePostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCreatePostViewController.h; sourceTree = "<group>"; };
 		0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCreatePostViewController.m; sourceTree = "<group>"; };
 		0CE891CD1B3F529500CEC7D5 /* logo-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-white@2x.png"; sourceTree = "<group>"; };
+		0CF976A61B4702CB006E9E12 /* bgBlurry@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgBlurry@2x.png"; sourceTree = "<group>"; };
 		0CFC9CFE1AE89DED00D2A923 /* PCMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCMessageCell.h; sourceTree = "<group>"; };
 		0CFC9CFF1AE89DED00D2A923 /* PCMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCMessageCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -658,6 +660,7 @@
 			isa = PBXGroup;
 			children = (
 				0C1E4EC01B197B09001B840E /* iconCheckmark@2x.png */,
+				0CF976A61B4702CB006E9E12 /* bgBlurry@2x.png */,
 				0C90B89D1AEAD9290035CC42 /* dots@2x.png */,
 				0CAE850D1AEC6B27007332A6 /* bgLights@2x.png */,
 				0CD16F121AE7533700B5F85B /* bgBklynBridge@2x.png */,
@@ -890,6 +893,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CF976A71B4702CB006E9E12 /* bgBlurry@2x.png in Resources */,
 				0C8B61711ABD028800BC13C8 /* discover.png in Resources */,
 				0C676E131AE32FB2001B14B7 /* bgPost@2x.png in Resources */,
 				0C8B617C1ABD028800BC13C8 /* textfield.png in Resources */,
