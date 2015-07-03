@@ -36,7 +36,7 @@
 - (void)loadView
 {
     UIView *view = [self baseView];
-    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgCityStreet.png"]];
+    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgBlurry.png"]];
     CGRect frame = view.frame;
     
     
@@ -107,8 +107,8 @@
                              }
                              completion:NULL];
             
-            NSArray *parts = [townState componentsSeparatedByString:@", "];
             
+            NSArray *parts = [townState componentsSeparatedByString:@", "];
             if (parts.count < 2){ // not a valid city, state.
                 [self showAlertWithTitle:@"No Venues" message:@"We don't serve your area yet. Sorry."];
                 return;
