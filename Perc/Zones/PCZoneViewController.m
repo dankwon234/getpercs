@@ -67,7 +67,9 @@
 {
     [super viewDidLoad];
     [self addMenuButton];
+    [self addOptionsButton];
     
+
     BOOL connected = [[PCWebServices sharedInstance] checkConnection];
     if (connected==NO){
         [self showAlertWithTitle:@"No Connection" message:@"Please find an internet connection."];
