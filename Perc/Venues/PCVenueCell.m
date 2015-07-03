@@ -66,24 +66,24 @@
         [self.base addSubview:self.lblTitle];
         y += self.lblTitle.frame.size.height+4.0f;
         
-        self.lblLocation = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, 16.0f)];
+        self.lblLocation = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, 14.0f)];
         self.lblLocation.textColor = darkGray;
         self.lblLocation.backgroundColor = clear;
         self.lblLocation.font = [UIFont fontWithName:kBaseFontName size:12.0f];
         [self.base addSubview:self.lblLocation];
-        y += self.lblLocation.frame.size.height+4.0f;
+        y += self.lblLocation.frame.size.height;
 
         
         
-        self.lblDetails = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, 16.0f)];
+        self.lblDetails = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, 14.0f)];
         self.lblDetails.textColor = kOrange;
         self.lblDetails.backgroundColor = clear;
         self.lblDetails.font = [UIFont fontWithName:kBaseFontName size:10.0f];
         [self.base addSubview:self.lblDetails];
-        y += self.lblDetails.frame.size.height+12.0f;
+        y += self.lblDetails.frame.size.height+16.0f;
         
 
-        UIView *bottom = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 26.0f)];
+        UIView *bottom = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 28.0f)];
         static CGFloat rgb = 230.0f;
         bottom.backgroundColor = [UIColor colorWithRed:rgb/255.0f green:rgb/255.0f blue:rgb/255.0f alpha:1.0f];
         [self.base addSubview:bottom];
@@ -92,26 +92,12 @@
         [self.contentView addSubview:self.base];
         
         
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(hideCell:)
-                                                     name:kHideCellNotification
-                                                   object:nil];
         
     }
     return self;
 }
 
 
-
-- (void)hideCell:(NSNotification *)note
-{
-    //    NSLog(@"HIDE CELL: %@", [note.userInfo description]);
-    PCVenueCell *sourceCell = (PCVenueCell *)note.userInfo[@"source"];
-    if ([sourceCell isEqual:self])
-        return;
-    
-    self.contentView.alpha = 0.0f;
-}
 
 
 
