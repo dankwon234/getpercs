@@ -12,6 +12,7 @@
 
 
 @interface PCZoneViewController ()
+@property (strong, nonatomic) UIView *locationView;
 @property (strong, nonatomic) UILabel *lblLocation;
 @end
 
@@ -46,18 +47,22 @@
     icon.layer.borderWidth = 1.0f;
     icon.layer.borderColor = [[UIColor whiteColor] CGColor];
     [view addSubview:icon];
+    
+    CGFloat h = 24.0f;
+    self.locationView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height-h-20.0f, frame.size.width, h)];
+    self.locationView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    self.locationView.backgroundColor = [UIColor blackColor];
+    self.locationView.alpha = 0.75f;
+    [view addSubview:self.locationView];
 
     
-    self.lblLocation = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, frame.size.height-62.0f, frame.size.width, 22.0f)];
+    self.lblLocation = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, 22.0f)];
     self.lblLocation.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     self.lblLocation.textAlignment = NSTextAlignmentCenter;
-    self.lblLocation.font = [UIFont fontWithName:kBaseFontName size:22.0f];
+    self.lblLocation.font = [UIFont fontWithName:kBaseFontName size:16.0f];
     self.lblLocation.textColor = [UIColor whiteColor];
     [view addSubview:self.lblLocation];
 
-    
-
-    
     
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(viewMenu:)];
     swipe.direction = UISwipeGestureRecognizerDirectionRight;
@@ -98,7 +103,17 @@
         [self.locationMgr reverseGeocode:self.locationMgr.currentLocation completion:^{
             NSLog(@"%@", [self.locationMgr.cities description]);
             NSString *townState = self.locationMgr.cities[0];
-            self.lblLocation.text = [townState uppercaseString];
+            self.lblLocation.text = [NSString stringWithFormat:@"Currently in %@", [townState uppercaseString]];
+            [UIView animateWithDuration:0.3f
+                                  delay:0
+                                options:UIViewAnimationOptionCurveLinear
+                             animations:^{
+                                 CGRect frame = self.lblLocation.frame;
+                                 frame.origin.y = self.locationView.frame.origin.y+2.0f;
+                                 self.lblLocation.frame = frame;
+                                 
+                             }
+                             completion:NULL];
             
             NSArray *parts = [townState componentsSeparatedByString:@", "];
             
