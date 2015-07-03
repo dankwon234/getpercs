@@ -143,6 +143,8 @@
                     [self.profile updateProfile]; // update profile with last zone info on backend
                     [self.loadingIndicator stopLoading];
                     
+                    [self fetchVenuesForCurrentLocation];
+                    
                     
                     if ([self.currentZone.status isEqualToString:@"open"]==NO){
                         //                        NSString *message = self.currentZone.message;
@@ -189,8 +191,52 @@
     if (tag==1002){ // update location
         [self updateLocation];
     }
+}
 
+
+- (void)fetchVenuesForCurrentLocation
+{
+    NSLog(@"FETCH VENUES FOR CURRENT LOCATION");
+    CLLocationCoordinate2D coordinate = self.locationMgr.currentLocation;
+    NSString *lat = [NSString stringWithFormat:@"%.6f", coordinate.latitude];
+    NSString *lng = [NSString stringWithFormat:@"%.6f", coordinate.longitude];
     
+    [[PCWebServices sharedInstance] fetchVenuesNearLocation:@{@"lat":lat, @"lng":lng} completion:^(id result, NSError *error){
+        [self.loadingIndicator stopLoading];
+        if (error){
+            [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
+            return;
+        }
+        
+        NSDictionary *results = result;
+        NSLog(@"%@", [results description]);
+        
+        CLLocation *zoneLocation = [[CLLocation alloc] initWithLatitude:self.currentZone.latitude longitude:self.currentZone.longitude];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.currentZone.venues = [NSMutableArray array];
+            NSArray *list = results[@"venues"];
+            for (int i=0; i<list.count; i++) {
+                NSDictionary *venueInfo = list[i];
+                PCVenue *venue = [PCVenue venueWithInfo:venueInfo];
+                venue.fee = self.currentZone.baseFee;
+                venue.distance = [venue calculateDistanceFromLocation:self.locationMgr.clLocation];
+                
+                if ([self.currentZone.uniqueId isEqualToString:venue.orderZone]==NO){
+                    double distance = [venue calculateDistanceFromLocation:zoneLocation];
+                    if (distance >= 2.0f)
+                        distance -= 2.0f;
+                    
+                    venue.fee += (int)lround(distance);
+                }
+                
+                [self.currentZone.venues addObject:venue];
+            }
+            
+//            [self layoutListsCollectionView];
+        });
+        
+    }];
 }
 
 
