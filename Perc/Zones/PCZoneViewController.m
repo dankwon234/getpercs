@@ -325,8 +325,6 @@ static NSString *cellId = @"cellId";
             for (NSDictionary *postInfo in a)
                 [self.currentZone.posts addObject:[PCPost postWithInfo:postInfo]];
             
-//            [self layoutListsCollectionView];
-            
             
             int max = (self.currentZone.posts.count > 3) ? 3 : (int)self.currentZone.posts.count;
             for (int i=0; i<max; i++) {
