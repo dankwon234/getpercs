@@ -546,16 +546,16 @@ static NSString *cellId = @"cellId";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     PCVenueCell *cell = (PCVenueCell *)[collectionView dequeueReusableCellWithReuseIdentifier:cellId forIndexPath:indexPath];
-    [cell.btnOrder addTarget:self action:@selector(viewVenue:) forControlEvents:UIControlEventTouchUpInside];
+//    [cell.btnOrder addTarget:self action:@selector(viewVenue:) forControlEvents:UIControlEventTouchUpInside];
     
     if (self.mode==0){
         PCVenue *venue = (PCVenue *)self.currentZone.venues[indexPath.row];
         cell.lblTitle.text = venue.name;
         cell.lblLocation.text = [NSString stringWithFormat:@"%@, %@", [venue.city capitalizedString], [venue.state uppercaseString]];
         cell.tag = indexPath.row+1000;
-        cell.btnOrder.tag = cell.tag;
+//        cell.btnOrder.tag = cell.tag;
         cell.lblDetails.text = [NSString stringWithFormat:@"Min Delivery Fee: $%d \u00b7 %.1f mi", venue.fee, venue.distance];
-        cell.btnOrder.alpha = 1.0f;
+//        cell.btnOrder.alpha = 1.0f;
         
         if ([venue.icon isEqualToString:@"none"]){
             cell.icon.image = [UIImage imageNamed:@"logo.png"];
@@ -579,9 +579,9 @@ static NSString *cellId = @"cellId";
     cell.lblTitle.text = order.venue.name;
     cell.lblLocation.text = order.formattedDate;
     cell.tag = indexPath.row+1000;
-    cell.btnOrder.tag = cell.tag;
+//    cell.btnOrder.tag = cell.tag;
     cell.lblDetails.text = order.address;
-    cell.btnOrder.alpha = 0;
+//    cell.btnOrder.alpha = 0;
     
     if ([order.image isEqualToString:@"none"]){
         cell.icon.image = [UIImage imageNamed:@"logo.png"];
