@@ -89,7 +89,12 @@
     self.zoneVc = [[PCZoneViewController alloc] init];
     self.currentVc = self.zoneVc;
     self.navCtr = [[UINavigationController alloc] initWithRootViewController:self.zoneVc];
-    self.navCtr.navigationBar.barTintColor = kOrange;
+    
+    // makes nav bar clear:
+    [self.navCtr.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    self.navCtr.view.backgroundColor = [UIColor clearColor];
+    self.navCtr.navigationBar.shadowImage = [UIImage new];
+    self.navCtr.navigationBar.translucent = YES;
 
     [self addChildViewController:self.navCtr];
     [self.navCtr willMoveToParentViewController:self];
