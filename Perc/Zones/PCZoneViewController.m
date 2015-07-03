@@ -18,6 +18,7 @@
 
 
 @interface PCZoneViewController ()
+@property (strong, nonatomic) UIScrollView *bulletinBoardScroll;
 @property (strong, nonatomic) UIView *locationView;
 @property (strong, nonatomic) UILabel *lblLocation;
 @property (strong, nonatomic) UICollectionView *venuesTable;
@@ -54,6 +55,10 @@ static NSString *cellId = @"cellId";
     UIView *view = [self baseView];
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgBlurry.png"]];
     CGRect frame = view.frame;
+    
+    self.bulletinBoardScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, kTopInset)];
+    self.bulletinBoardScroll.backgroundColor = [UIColor blackColor];
+    [view addSubview:self.bulletinBoardScroll];
     
     
     CGFloat h = 24.0f;
@@ -270,7 +275,7 @@ static NSString *cellId = @"cellId";
         }
         
         NSDictionary *results = result;
-        NSLog(@"%@", [results description]);
+//        NSLog(@"%@", [results description]);
         
         CLLocation *zoneLocation = [[CLLocation alloc] initWithLatitude:self.currentZone.latitude longitude:self.currentZone.longitude];
         
@@ -295,11 +300,53 @@ static NSString *cellId = @"cellId";
             }
             
             [self layoutListsCollectionView];
+            [self fetchPostsForCurrentLocation];
         });
         
     }];
 }
 
+
+- (void)fetchPostsForCurrentLocation
+{
+    [[PCWebServices sharedInstance] fetchPostsInZone:self.currentZone.uniqueId completion:^(id result, NSError *error){
+        [self.loadingIndicator stopLoading];
+        if (error){
+            [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
+            return;
+        }
+        
+        NSDictionary *results = (NSDictionary *)result;
+        NSLog(@"%@", [results description]);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.currentZone.posts = [NSMutableArray array];
+            NSArray *a = results[@"posts"];
+            for (NSDictionary *postInfo in a)
+                [self.currentZone.posts addObject:[PCPost postWithInfo:postInfo]];
+            
+//            [self layoutListsCollectionView];
+            
+            
+            int max = (self.currentZone.posts.count > 3) ? 3 : (int)self.currentZone.posts.count;
+            for (int i=0; i<max; i++) {
+                PCPost *post = self.currentZone.posts[i];
+                UIView *postView = [[UIView alloc] initWithFrame:CGRectMake(i*kTopInset, -64.0f, kTopInset, kTopInset)];
+                postView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+                postView.backgroundColor = [UIColor greenColor];
+                [self.bulletinBoardScroll addSubview:postView];
+            }
+            
+            self.bulletinBoardScroll.contentSize = CGSizeMake(max*kTopInset, 0);
+            
+            
+//            if (self.currentZone.posts.count==0)
+//                [self showAlertWithTitle:@"No Posts" message:@"This area has no posts. To add one, tap the icon in the upper right corner."];
+        });
+        
+    }];
+
+}
 
 - (void)layoutListsCollectionView
 {
@@ -326,15 +373,11 @@ static NSString *cellId = @"cellId";
     }
     
     CGRect frame = self.view.frame;
-    
-//    self.venuesTable = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, frame.size.height-20.0f) collectionViewLayout:[[PCCollectionViewFlowLayout alloc] init]];
-    
     self.venuesTable = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, frame.size.height-kTopInset-20.0f) collectionViewLayout:[[PCCollectionViewFlowLayout alloc] init]];
     self.venuesTable.backgroundColor = [UIColor clearColor];
     
     [self.venuesTable registerClass:[PCVenueCell class] forCellWithReuseIdentifier:cellId];
-//    self.venuesTable.contentInset = UIEdgeInsetsMake(kTopInset, 0.0f, 48.0f, 0);
-    self.venuesTable.contentInset = UIEdgeInsetsMake(0.0f, 0.0f, 48.0f, 0);
+    self.venuesTable.contentInset = UIEdgeInsetsMake(24.0f, 0.0f, 48.0f, 0);
     self.venuesTable.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
     self.venuesTable.dataSource = self;
     self.venuesTable.delegate = self;
@@ -369,8 +412,6 @@ static NSString *cellId = @"cellId";
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.venuesTable.collectionViewLayout invalidateLayout];
         [self.venuesTable reloadData];
-        
-//        NSArray *dataArray = (self.mode==0) ? self.currentZone.venues : self.profile.orderHistory;
         
         NSMutableArray *indexPaths = [NSMutableArray array];
         for (int i=0; i<self.currentZone.venues.count; i++)
