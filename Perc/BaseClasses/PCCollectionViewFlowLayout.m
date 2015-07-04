@@ -40,8 +40,7 @@
 + (CGFloat)cellWidth
 {
     CGRect frame = [UIScreen mainScreen].applicationFrame;
-//    return (frame.size.width > 320.0f) ? 320.0f : 280.0f;
-    return (frame.size.width > 320.0f) ? 160.0f : 140.0f;
+    return (frame.size.width > 320.0f) ? 160.0f : 132.0f;
 }
 
 + (CGFloat)cellHeight
