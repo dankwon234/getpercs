@@ -15,6 +15,7 @@
 #import "PCVenue.h"
 #import "PCOrder.h"
 #import "PCVenueCell.h"
+#import "PCPostView.h"
 
 
 @interface PCZoneViewController ()
@@ -25,7 +26,6 @@
 @end
 
 #define kPadding 12.0f
-#define kTopInset 260.0f
 static NSString *cellId = @"cellId";
 
 @implementation PCZoneViewController
@@ -56,20 +56,22 @@ static NSString *cellId = @"cellId";
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgBlurry.png"]];
     CGRect frame = view.frame;
     
-    self.bulletinBoardScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, kTopInset)];
+    CGFloat width = frame.size.width;
+    self.bulletinBoardScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, width, width)];
     self.bulletinBoardScroll.backgroundColor = [UIColor blackColor];
+    self.bulletinBoardScroll.pagingEnabled = YES;
     [view addSubview:self.bulletinBoardScroll];
     
     
     CGFloat h = 24.0f;
-    self.locationView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height-h-20.0f, frame.size.width, h)];
+    self.locationView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height-h-20.0f, width, h)];
     self.locationView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     self.locationView.backgroundColor = [UIColor blackColor];
     self.locationView.alpha = 0.75f;
     [view addSubview:self.locationView];
 
     
-    self.lblLocation = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, 22.0f)];
+    self.lblLocation = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, width, 22.0f)];
     self.lblLocation.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     self.lblLocation.textAlignment = NSTextAlignmentCenter;
     self.lblLocation.font = [UIFont fontWithName:kBaseFontName size:16.0f];
@@ -102,21 +104,40 @@ static NSString *cellId = @"cellId";
         });
     }
     
+    
+//    if ([keyPath isEqualToString:@"imageData"]){
+//        PCOrder *order = (PCOrder *)object;
+//        [order removeObserver:self forKeyPath:@"imageData"];
+//        
+//        //this is smoother than a conventional reload. it doesn't stutter the UI:
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            int index = (int)[self.profile.orderHistory indexOfObject:order];
+//            PCVenueCell *cell = (PCVenueCell *)[self.venuesTable cellForItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+//            
+//            if (!cell)
+//                return;
+//            
+//            cell.icon.image = order.imageData;
+//        });
+//    }
+    
+    
     if ([keyPath isEqualToString:@"imageData"]){
-        PCOrder *order = (PCOrder *)object;
-        [order removeObserver:self forKeyPath:@"imageData"];
+        PCPost *post = (PCPost *)object;
+        [post removeObserver:self forKeyPath:@"imageData"];
         
-        //this is smoother than a conventional reload. it doesn't stutter the UI:
         dispatch_async(dispatch_get_main_queue(), ^{
-            int index = (int)[self.profile.orderHistory indexOfObject:order];
-            PCVenueCell *cell = (PCVenueCell *)[self.venuesTable cellForItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+            int index = (int)[self.currentZone.posts indexOfObject:post];
+            index += 1000;
             
-            if (!cell)
+            PCPostView *postView = (PCPostView *)[self.bulletinBoardScroll viewWithTag:index];
+            if (postView==nil) // huh?
                 return;
             
-            cell.icon.image = order.imageData;
+            postView.postImage.image = post.imageData;
         });
     }
+
     
     
 //    if ([keyPath isEqualToString:@"contentOffset"]){
@@ -130,6 +151,7 @@ static NSString *cellId = @"cellId";
 //        self.icon.alpha = 1.0f-(distance/100.0f);
 //        self.lblTitle.alpha = self.icon.alpha;
 //    }
+    
 }
 
 
@@ -302,7 +324,6 @@ static NSString *cellId = @"cellId";
             [self layoutListsCollectionView];
             [self fetchPostsForCurrentLocation];
         });
-        
     }];
 }
 
@@ -325,18 +346,20 @@ static NSString *cellId = @"cellId";
             for (NSDictionary *postInfo in a)
                 [self.currentZone.posts addObject:[PCPost postWithInfo:postInfo]];
             
-            
-            int max = (self.currentZone.posts.count > 3) ? 3 : (int)self.currentZone.posts.count;
+            int max = (self.currentZone.posts.count > 8) ? 8 : (int)self.currentZone.posts.count;
+            CGFloat dimen = self.bulletinBoardScroll.frame.size.width;
             for (int i=0; i<max; i++) {
                 PCPost *post = self.currentZone.posts[i];
-                UIView *postView = [[UIView alloc] initWithFrame:CGRectMake(i*kTopInset, -64.0f, kTopInset, kTopInset)];
-                postView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-                postView.backgroundColor = [UIColor greenColor];
+                PCPostView *postView = [[PCPostView alloc] initWithFrame:CGRectMake(i*dimen, -64.0f, dimen, dimen)];
+                postView.tag = 1000+i;
+                
                 [self.bulletinBoardScroll addSubview:postView];
+                
+                [post addObserver:self forKeyPath:@"imageData" options:0 context:nil];
+                [post fetchImage];
             }
             
-            self.bulletinBoardScroll.contentSize = CGSizeMake(max*kTopInset, 0);
-            
+            self.bulletinBoardScroll.contentSize = CGSizeMake(max*dimen, 0);
             
 //            if (self.currentZone.posts.count==0)
 //                [self showAlertWithTitle:@"No Posts" message:@"This area has no posts. To add one, tap the icon in the upper right corner."];
@@ -371,11 +394,13 @@ static NSString *cellId = @"cellId";
     }
     
     CGRect frame = self.view.frame;
-    self.venuesTable = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, frame.size.height-kTopInset-20.0f) collectionViewLayout:[[PCCollectionViewFlowLayout alloc] init]];
+//    self.venuesTable = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, frame.size.height-kTopInset-20.0f) collectionViewLayout:[[PCCollectionViewFlowLayout alloc] init]];
+    
+    self.venuesTable = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, frame.size.height-frame.size.width-20.0f) collectionViewLayout:[[PCCollectionViewFlowLayout alloc] init]];
     self.venuesTable.backgroundColor = [UIColor clearColor];
     
     [self.venuesTable registerClass:[PCVenueCell class] forCellWithReuseIdentifier:cellId];
-    self.venuesTable.contentInset = UIEdgeInsetsMake(24.0f, 0.0f, 48.0f, 0);
+    self.venuesTable.contentInset = UIEdgeInsetsMake(24.0f, 18.0f, 48.0f, 18.0f);
     self.venuesTable.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
     self.venuesTable.dataSource = self;
     self.venuesTable.delegate = self;
@@ -396,7 +421,8 @@ static NSString *cellId = @"cellId";
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          CGRect frame = self.venuesTable.frame;
-                         self.venuesTable.frame = CGRectMake(frame.origin.x, kTopInset, frame.size.width, frame.size.height);
+//                         self.venuesTable.frame = CGRectMake(frame.origin.x, kTopInset, frame.size.width, frame.size.height);
+                         self.venuesTable.frame = CGRectMake(frame.origin.x, frame.size.width, frame.size.width, frame.size.height);
                          
                      }
                      completion:^(BOOL finished){
@@ -419,6 +445,26 @@ static NSString *cellId = @"cellId";
     });
 }
 
+- (void)viewVenue:(UIButton *)btn
+{
+    PCVenue *venue = self.currentZone.venues[btn.tag-1000];
+    [self segueToVenue:venue];
+}
+
+- (void)segueToVenue:(PCVenue *)venue
+{
+    NSLog(@"segueToVenue: %@", venue.name);
+    PCVenueViewController *venueVc = [[PCVenueViewController alloc] init];
+    venueVc.venue = venue;
+    [self.navigationController pushViewController:venueVc animated:YES];
+    
+}
+
+
+- (void)addNavigationTitleView
+{
+    // override because we actually don't want it in this view
+}
 
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -435,15 +481,12 @@ static NSString *cellId = @"cellId";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     PCVenueCell *cell = (PCVenueCell *)[collectionView dequeueReusableCellWithReuseIdentifier:cellId forIndexPath:indexPath];
-    [cell.btnOrder addTarget:self action:@selector(viewVenue:) forControlEvents:UIControlEventTouchUpInside];
     
     PCVenue *venue = (PCVenue *)self.currentZone.venues[indexPath.row];
     cell.lblTitle.text = venue.name;
     cell.lblLocation.text = [NSString stringWithFormat:@"%@, %@", [venue.city capitalizedString], [venue.state uppercaseString]];
     cell.tag = indexPath.row+1000;
-    cell.btnOrder.tag = cell.tag;
-    cell.lblDetails.text = [NSString stringWithFormat:@"Min Delivery Fee: $%d \u00b7 %.1f mi", venue.fee, venue.distance];
-    cell.btnOrder.alpha = 1.0f;
+    cell.lblDetails.text = [NSString stringWithFormat:@"%.1f miles", venue.distance];
     
     if ([venue.icon isEqualToString:@"none"]){
         cell.icon.image = [UIImage imageNamed:@"logo.png"];
@@ -459,8 +502,6 @@ static NSString *cellId = @"cellId";
     [venue addObserver:self forKeyPath:@"iconData" options:0 context:nil];
     [venue fetchImage];
     return cell;
-    
-    
 }
 
 
@@ -476,21 +517,6 @@ static NSString *cellId = @"cellId";
     [self segueToVenue:venue];
 }
 
-
-- (void)viewVenue:(UIButton *)btn
-{
-    PCVenue *venue = self.currentZone.venues[btn.tag-1000];
-    [self segueToVenue:venue];
-}
-
-- (void)segueToVenue:(PCVenue *)venue
-{
-    NSLog(@"segueToVenue: %@", venue.name);
-    PCVenueViewController *venueVc = [[PCVenueViewController alloc] init];
-    venueVc.venue = venue;
-    [self.navigationController pushViewController:venueVc animated:YES];
-    
-}
 
 
 
