@@ -10,16 +10,19 @@
 #import "PCVenuesViewController.h"
 #import "PCVenueViewController.h"
 #import "PCPostsViewController.h"
+#import "PCPostViewController.h"
 #import "PCCollectionViewFlowLayout.h"
 #import "PCOrderViewController.h"
 #import "PCVenue.h"
 #import "PCOrder.h"
 #import "PCVenueCell.h"
 #import "PCPostView.h"
+#import "UIImage+PQImageEffects.h"
 
 
 @interface PCZoneViewController ()
 @property (strong, nonatomic) UIScrollView *bulletinBoardScroll;
+@property (strong, nonatomic) UIImageView *blurryBackground;
 @property (strong, nonatomic) UIView *locationView;
 @property (strong, nonatomic) UILabel *lblLocation;
 @property (strong, nonatomic) UICollectionView *venuesTable;
@@ -57,12 +60,25 @@ static NSString *cellId = @"cellId";
     CGRect frame = view.frame;
     
     CGFloat width = frame.size.width;
+    self.blurryBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, width, width)];
+    self.blurryBackground.backgroundColor = [UIColor blackColor];
+    
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    gradient.frame = self.blurryBackground.bounds;
+    gradient.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.50f] CGColor], (id)[[UIColor clearColor] CGColor], (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.75f] CGColor]];
+    [self.blurryBackground.layer insertSublayer:gradient atIndex:0];
+
+    [view addSubview:self.blurryBackground];
+    
     self.bulletinBoardScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, width, width)];
-    self.bulletinBoardScroll.backgroundColor = [UIColor blackColor];
+    self.bulletinBoardScroll.delegate = self;
+    self.bulletinBoardScroll.backgroundColor = [UIColor clearColor];
     self.bulletinBoardScroll.pagingEnabled = YES;
+    self.bulletinBoardScroll.showsHorizontalScrollIndicator = NO;
     [view addSubview:self.bulletinBoardScroll];
     
     
+
     CGFloat h = 24.0f;
     self.locationView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height-h-20.0f, width, h)];
     self.locationView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
@@ -140,17 +156,27 @@ static NSString *cellId = @"cellId";
 
     
     
-//    if ([keyPath isEqualToString:@"contentOffset"]){
-//        CGFloat offset = self.venuesTable.contentOffset.y;
-//        if (offset < -kTopInset){
-//            self.icon.alpha = 1.0f;
-//            return;
-//        }
-//        
-//        double distance = offset+kTopInset;
-//        self.icon.alpha = 1.0f-(distance/100.0f);
-//        self.lblTitle.alpha = self.icon.alpha;
-//    }
+    if ([keyPath isEqualToString:@"contentOffset"]){
+        CGFloat offset = self.venuesTable.contentOffset.y+self.venuesTable.contentInset.top;
+        
+        NSLog(@"%.2f", offset);
+        
+        if (offset <= 0){
+            self.bulletinBoardScroll.alpha = 1.0f;
+            self.blurryBackground.alpha = 1.0f;
+            return;
+        }
+        
+        if (offset > 225.0f){
+            self.bulletinBoardScroll.alpha = 0.0f;
+            self.blurryBackground.alpha = 0.0f;
+            return;
+        }
+        
+        double alpha = 1.0f-(offset/225.0f);
+        self.bulletinBoardScroll.alpha = alpha;
+        self.blurryBackground.alpha = alpha;
+    }
     
 }
 
@@ -297,8 +323,6 @@ static NSString *cellId = @"cellId";
         }
         
         NSDictionary *results = result;
-//        NSLog(@"%@", [results description]);
-        
         CLLocation *zoneLocation = [[CLLocation alloc] initWithLatitude:self.currentZone.latitude longitude:self.currentZone.longitude];
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -346,13 +370,13 @@ static NSString *cellId = @"cellId";
             for (NSDictionary *postInfo in a)
                 [self.currentZone.posts addObject:[PCPost postWithInfo:postInfo]];
             
-            int max = (self.currentZone.posts.count > 8) ? 8 : (int)self.currentZone.posts.count;
+            int max = (self.currentZone.posts.count > 12) ? 12 : (int)self.currentZone.posts.count;
             CGFloat dimen = self.bulletinBoardScroll.frame.size.width;
             for (int i=0; i<max; i++) {
                 PCPost *post = self.currentZone.posts[i];
-                PCPostView *postView = [[PCPostView alloc] initWithFrame:CGRectMake(i*dimen, -64.0f, dimen, dimen)];
+                PCPostView *postView = [[PCPostView alloc] initWithFrame:CGRectMake(i*dimen, 0.0f, dimen, dimen)];
                 postView.tag = 1000+i;
-                
+                [postView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewPost:)]];
                 [self.bulletinBoardScroll addSubview:postView];
                 
                 [post addObserver:self forKeyPath:@"imageData" options:0 context:nil];
@@ -394,17 +418,18 @@ static NSString *cellId = @"cellId";
     }
     
     CGRect frame = self.view.frame;
-//    self.venuesTable = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, frame.size.height-kTopInset-20.0f) collectionViewLayout:[[PCCollectionViewFlowLayout alloc] init]];
     
-    self.venuesTable = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, frame.size.height-frame.size.width-20.0f) collectionViewLayout:[[PCCollectionViewFlowLayout alloc] init]];
+    self.venuesTable = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, frame.size.height-20.0f) collectionViewLayout:[[PCCollectionViewFlowLayout alloc] init]];
+
     self.venuesTable.backgroundColor = [UIColor clearColor];
     
     [self.venuesTable registerClass:[PCVenueCell class] forCellWithReuseIdentifier:cellId];
-    self.venuesTable.contentInset = UIEdgeInsetsMake(24.0f, 18.0f, 48.0f, 18.0f);
+    self.venuesTable.contentInset = UIEdgeInsetsMake(frame.size.width, 18.0f, 48.0f, 18.0f);
     self.venuesTable.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
     self.venuesTable.dataSource = self;
     self.venuesTable.delegate = self;
     self.venuesTable.showsVerticalScrollIndicator = NO;
+    
     [self.venuesTable addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
     [self.view addSubview:self.venuesTable];
     [self.view bringSubviewToFront:self.locationView];
@@ -421,12 +446,11 @@ static NSString *cellId = @"cellId";
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          CGRect frame = self.venuesTable.frame;
-//                         self.venuesTable.frame = CGRectMake(frame.origin.x, kTopInset, frame.size.width, frame.size.height);
-                         self.venuesTable.frame = CGRectMake(frame.origin.x, frame.size.width, frame.size.width, frame.size.height);
+                         self.venuesTable.frame = CGRectMake(frame.origin.x, 24.0f, frame.size.width, frame.size.height);
                          
                      }
                      completion:^(BOOL finished){
-                         
+                         [self.view bringSubviewToFront:self.bulletinBoardScroll];
                      }];
 }
 
@@ -460,6 +484,20 @@ static NSString *cellId = @"cellId";
     
 }
 
+
+- (void)viewPost:(UIGestureRecognizer *)tap
+{
+    int tag = (int)tap.view.tag-1000;
+    NSLog(@"viewPost: %d", tag);
+    
+    PCPost *post = self.currentZone.posts[tag];
+    PCPostViewController *postVc = [[PCPostViewController alloc] init];
+    postVc.post = post;
+    [self.navigationController pushViewController:postVc animated:YES];
+
+    
+    
+}
 
 - (void)addNavigationTitleView
 {
@@ -517,6 +555,67 @@ static NSString *cellId = @"cellId";
     [self segueToVenue:venue];
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if ([scrollView isEqual:self.bulletinBoardScroll])
+        return;
+    
+    [self.view bringSubviewToFront:self.venuesTable];
+}
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
+{
+    NSLog(@"scrollViewWillBeginDecelerating:");
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    CGFloat offset = scrollView.contentOffset.y;
+    NSLog(@"scrollViewDidEndDecelerating: %.2f", offset);
+    
+    if ([scrollView isEqual:self.bulletinBoardScroll]){
+        CGFloat x = scrollView.contentOffset.x;
+        int page = (int)x/scrollView.frame.size.width;
+
+        NSLog(@"PAGE: %d", page);
+        
+        PCPost *post = self.currentZone.posts[page];
+        UIImage *postImage = post.imageData;
+        CGFloat dimen = 0.15f*postImage.size.width;
+        postImage = [UIImage crop:postImage rect:CGRectMake(0.5*(postImage.size.width-dimen), 0.5*(postImage.size.height-dimen), dimen, dimen)];
+        
+        [UIView animateWithDuration:0.25f
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             self.blurryBackground.alpha = 0.0f;
+                         }
+                         completion:^(BOOL finished){
+                             self.blurryBackground.image = [postImage applyBlurOnImage:0.9f];
+                             [UIView animateWithDuration:0.25f
+                                                   delay:0
+                                                 options:UIViewAnimationOptionCurveEaseInOut
+                                              animations:^{
+                                                  self.blurryBackground.alpha = 1.0f;
+                                              }
+                                              completion:^(BOOL finished){
+                                                  
+                                              }];
+                             
+                         }];
+        
+        return;
+    }
+    
+    
+    if (offset == -self.bulletinBoardScroll.frame.size.width){
+        [self.view bringSubviewToFront:self.bulletinBoardScroll];
+        return;
+    }
+    
+    [self.view bringSubviewToFront:self.venuesTable];
+    
+}
 
 
 
