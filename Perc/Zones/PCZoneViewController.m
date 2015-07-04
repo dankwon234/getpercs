@@ -22,10 +22,12 @@
 
 @interface PCZoneViewController ()
 @property (strong, nonatomic) UIScrollView *bulletinBoardScroll;
+@property (strong, nonatomic) UIImageView *blurryBackground2;
 @property (strong, nonatomic) UIImageView *blurryBackground;
 @property (strong, nonatomic) UIView *locationView;
 @property (strong, nonatomic) UILabel *lblLocation;
 @property (strong, nonatomic) UICollectionView *venuesTable;
+@property (nonatomic) int currentPage;
 @end
 
 #define kPadding 12.0f
@@ -38,7 +40,7 @@ static NSString *cellId = @"cellId";
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
         self.edgesForExtendedLayout = UIRectEdgeAll;
-
+        self.currentPage = 0;
         
     }
     
@@ -60,14 +62,20 @@ static NSString *cellId = @"cellId";
     CGRect frame = view.frame;
     
     CGFloat width = frame.size.width;
-    self.blurryBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, width, width)];
-    self.blurryBackground.backgroundColor = [UIColor blackColor];
     
+    self.blurryBackground2 = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, width, width)];
+    CAGradientLayer *gradient2 = [CAGradientLayer layer];
+    gradient2.frame = self.blurryBackground2.bounds;
+    gradient2.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.50f] CGColor], (id)[[UIColor clearColor] CGColor], (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.75f] CGColor]];
+    [self.blurryBackground2.layer insertSublayer:gradient2 atIndex:0];
+    [view addSubview:self.blurryBackground2];
+
+    
+    self.blurryBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, width, width)];
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = self.blurryBackground.bounds;
     gradient.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.50f] CGColor], (id)[[UIColor clearColor] CGColor], (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.75f] CGColor]];
     [self.blurryBackground.layer insertSublayer:gradient atIndex:0];
-
     [view addSubview:self.blurryBackground];
     
     self.bulletinBoardScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, width, width)];
@@ -144,13 +152,15 @@ static NSString *cellId = @"cellId";
         
         dispatch_async(dispatch_get_main_queue(), ^{
             int index = (int)[self.currentZone.posts indexOfObject:post];
-            index += 1000;
-            
-            PCPostView *postView = (PCPostView *)[self.bulletinBoardScroll viewWithTag:index];
+            PCPostView *postView = (PCPostView *)[self.bulletinBoardScroll viewWithTag:index+1000];
             if (postView==nil) // huh?
                 return;
             
             postView.postImage.image = post.imageData;
+            
+            NSLog(@"INDEX = %d", index);
+            if (index==0)
+                [self fadeBackgroundImage:post.imageData];
         });
     }
 
@@ -158,24 +168,24 @@ static NSString *cellId = @"cellId";
     
     if ([keyPath isEqualToString:@"contentOffset"]){
         CGFloat offset = self.venuesTable.contentOffset.y+self.venuesTable.contentInset.top;
-        
-        NSLog(@"%.2f", offset);
-        
+        NSArray *views = @[self.bulletinBoardScroll, self.blurryBackground, self.blurryBackground2];
         if (offset <= 0){
-            self.bulletinBoardScroll.alpha = 1.0f;
-            self.blurryBackground.alpha = 1.0f;
+            for (UIView *view in views)
+                view.alpha = 1.0f;
+            
             return;
         }
         
         if (offset > 225.0f){
-            self.bulletinBoardScroll.alpha = 0.0f;
-            self.blurryBackground.alpha = 0.0f;
+            for (UIView *view in views)
+                view.alpha = 0.0f;
+
             return;
         }
         
         double alpha = 1.0f-(offset/225.0f);
-        self.bulletinBoardScroll.alpha = alpha;
-        self.blurryBackground.alpha = alpha;
+        for (UIView *view in views)
+            view.alpha = alpha;
     }
     
 }
@@ -481,7 +491,6 @@ static NSString *cellId = @"cellId";
     PCVenueViewController *venueVc = [[PCVenueViewController alloc] init];
     venueVc.venue = venue;
     [self.navigationController pushViewController:venueVc animated:YES];
-    
 }
 
 
@@ -494,9 +503,6 @@ static NSString *cellId = @"cellId";
     PCPostViewController *postVc = [[PCPostViewController alloc] init];
     postVc.post = post;
     [self.navigationController pushViewController:postVc animated:YES];
-
-    
-    
 }
 
 - (void)addNavigationTitleView
@@ -578,32 +584,12 @@ static NSString *cellId = @"cellId";
         int page = (int)x/scrollView.frame.size.width;
 
         NSLog(@"PAGE: %d", page);
+        if (page==self.currentPage)
+            return;
         
+        self.currentPage = page;
         PCPost *post = self.currentZone.posts[page];
-        UIImage *postImage = post.imageData;
-        CGFloat dimen = 0.15f*postImage.size.width;
-        postImage = [UIImage crop:postImage rect:CGRectMake(0.5*(postImage.size.width-dimen), 0.5*(postImage.size.height-dimen), dimen, dimen)];
-        
-        [UIView animateWithDuration:0.25f
-                              delay:0
-                            options:UIViewAnimationOptionCurveEaseInOut
-                         animations:^{
-                             self.blurryBackground.alpha = 0.0f;
-                         }
-                         completion:^(BOOL finished){
-                             self.blurryBackground.image = [postImage applyBlurOnImage:0.9f];
-                             [UIView animateWithDuration:0.25f
-                                                   delay:0
-                                                 options:UIViewAnimationOptionCurveEaseInOut
-                                              animations:^{
-                                                  self.blurryBackground.alpha = 1.0f;
-                                              }
-                                              completion:^(BOOL finished){
-                                                  
-                                              }];
-                             
-                         }];
-        
+        [self fadeBackgroundImage:post.imageData];
         return;
     }
     
@@ -614,7 +600,35 @@ static NSString *cellId = @"cellId";
     }
     
     [self.view bringSubviewToFront:self.venuesTable];
+}
+
+- (void)fadeBackgroundImage:(UIImage *)postImage
+{
+//    PCPost *post = self.currentZone.posts[page];
+//    UIImage *postImage = post.imageData;
+    CGFloat dimen = 0.20f*postImage.size.width;
+    postImage = [UIImage crop:postImage rect:CGRectMake(0.5*(postImage.size.width-dimen), 0.5*(postImage.size.height-dimen), dimen, dimen)];
     
+    [UIView animateWithDuration:0.25f
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         self.blurryBackground.alpha = 0.0f;
+                     }
+                     completion:^(BOOL finished){
+                         UIImage *blurryImage = [postImage applyBlurOnImage:0.9f];
+                         self.blurryBackground.image = blurryImage;
+                         [UIView animateWithDuration:0.25f
+                                               delay:0
+                                             options:UIViewAnimationOptionCurveEaseInOut
+                                          animations:^{
+                                              self.blurryBackground.alpha = 1.0f;
+                                          }
+                                          completion:^(BOOL finished){
+                                              self.blurryBackground2.image = blurryImage;
+                                          }];
+                         
+                     }];
 }
 
 
