@@ -27,6 +27,7 @@
 @property (strong, nonatomic) UIView *locationView;
 @property (strong, nonatomic) UILabel *lblLocation;
 @property (strong, nonatomic) UICollectionView *venuesTable;
+@property (strong, nonatomic) NSArray *fadeViews;
 @property (nonatomic) int currentPage;
 @end
 
@@ -64,9 +65,10 @@ static NSString *cellId = @"cellId";
     CGFloat width = frame.size.width;
     
     self.blurryBackground2 = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, width, width)];
+    self.blurryBackground2.alpha = 0;
     CAGradientLayer *gradient2 = [CAGradientLayer layer];
     gradient2.frame = self.blurryBackground2.bounds;
-    gradient2.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.50f] CGColor], (id)[[UIColor clearColor] CGColor], (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.75f] CGColor]];
+    gradient2.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.50f] CGColor], (id)[[UIColor clearColor] CGColor], (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.65f] CGColor]];
     [self.blurryBackground2.layer insertSublayer:gradient2 atIndex:0];
     [view addSubview:self.blurryBackground2];
 
@@ -74,7 +76,7 @@ static NSString *cellId = @"cellId";
     self.blurryBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, width, width)];
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = self.blurryBackground.bounds;
-    gradient.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.50f] CGColor], (id)[[UIColor clearColor] CGColor], (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.75f] CGColor]];
+    gradient.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.50f] CGColor], (id)[[UIColor clearColor] CGColor], (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.65f] CGColor]];
     [self.blurryBackground.layer insertSublayer:gradient atIndex:0];
     [view addSubview:self.blurryBackground];
     
@@ -85,6 +87,7 @@ static NSString *cellId = @"cellId";
     self.bulletinBoardScroll.showsHorizontalScrollIndicator = NO;
     [view addSubview:self.bulletinBoardScroll];
     
+    self.fadeViews = @[self.bulletinBoardScroll, self.blurryBackground, self.blurryBackground2];
     
 
     CGFloat h = 24.0f;
@@ -106,6 +109,7 @@ static NSString *cellId = @"cellId";
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(viewMenu:)];
     swipe.direction = UISwipeGestureRecognizerDirectionRight;
     [view addGestureRecognizer:swipe];
+
 
     self.view = view;
 }
@@ -168,23 +172,26 @@ static NSString *cellId = @"cellId";
     
     if ([keyPath isEqualToString:@"contentOffset"]){
         CGFloat offset = self.venuesTable.contentOffset.y+self.venuesTable.contentInset.top;
-        NSArray *views = @[self.bulletinBoardScroll, self.blurryBackground, self.blurryBackground2];
+        
+        for (UIView *view in self.fadeViews)
+            view.alpha = 1.0f;
+
         if (offset <= 0){
-            for (UIView *view in views)
+            for (UIView *view in self.fadeViews)
                 view.alpha = 1.0f;
             
             return;
         }
         
         if (offset > 225.0f){
-            for (UIView *view in views)
+            for (UIView *view in self.fadeViews)
                 view.alpha = 0.0f;
 
             return;
         }
         
         double alpha = 1.0f-(offset/225.0f);
-        for (UIView *view in views)
+        for (UIView *view in self.fadeViews)
             view.alpha = alpha;
     }
     
@@ -434,7 +441,7 @@ static NSString *cellId = @"cellId";
     self.venuesTable.backgroundColor = [UIColor clearColor];
     
     [self.venuesTable registerClass:[PCVenueCell class] forCellWithReuseIdentifier:cellId];
-    self.venuesTable.contentInset = UIEdgeInsetsMake(frame.size.width, 18.0f, 48.0f, 18.0f);
+    self.venuesTable.contentInset = UIEdgeInsetsMake(frame.size.width, 18.0f, 64.0f, 18.0f);
     self.venuesTable.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
     self.venuesTable.dataSource = self;
     self.venuesTable.delegate = self;
@@ -510,6 +517,14 @@ static NSString *cellId = @"cellId";
     // override because we actually don't want it in this view
 }
 
+- (void)bringLocationViewsToFront
+{
+    [self.view bringSubviewToFront:self.venuesTable];
+    [self.view bringSubviewToFront:self.locationView];
+    [self.view bringSubviewToFront:self.lblLocation];
+
+}
+
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
@@ -566,12 +581,20 @@ static NSString *cellId = @"cellId";
     if ([scrollView isEqual:self.bulletinBoardScroll])
         return;
     
-    [self.view bringSubviewToFront:self.venuesTable];
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView;
+{
+    if ([scrollView isEqual:self.bulletinBoardScroll])
+        return;
+    
+    [self bringLocationViewsToFront];
 }
 
 - (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
 {
     NSLog(@"scrollViewWillBeginDecelerating:");
+    
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
@@ -599,7 +622,8 @@ static NSString *cellId = @"cellId";
         return;
     }
     
-    [self.view bringSubviewToFront:self.venuesTable];
+    [self bringLocationViewsToFront];
+
 }
 
 - (void)fadeBackgroundImage:(UIImage *)postImage
