@@ -32,8 +32,14 @@
         bounds.origin.y = bounds.size.height;
         gradient.frame = bounds;
         gradient.colors = @[(id)[[UIColor clearColor] CGColor], (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.75f] CGColor]];
-        
         [self.postImage.layer insertSublayer:gradient atIndex:0];
+        
+        self.postImage.layer.shadowOffset = CGSizeMake(1.0f, 1.0f);
+        self.postImage.layer.shadowColor = [[UIColor blackColor] CGColor];
+        self.postImage.layer.shadowRadius = 1.0f;
+        self.postImage.layer.shadowOpacity = 0.8f;
+        self.postImage.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.postImage.layer.bounds] CGPath];
+        
         [self addSubview:self.postImage];
         
         self.lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.85f*frame.size.height, frame.size.width, 16.0f)];
