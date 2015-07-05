@@ -87,7 +87,7 @@
 
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
 {
-    NSLog(@"shouldInvalidateLayoutForBoundsChange:");
+//    NSLog(@"shouldInvalidateLayoutForBoundsChange:");
     UIScrollView *scrollView = self.collectionView;
     CGFloat delta = newBounds.origin.x - scrollView.bounds.origin.x;
     
