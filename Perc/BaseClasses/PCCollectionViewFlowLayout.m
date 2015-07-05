@@ -21,7 +21,7 @@
     self = [super init];
     if (self){
         self.minimumInteritemSpacing = 0; // horizontal gap between columns
-        self.minimumLineSpacing = 24; // vertical gap between rows
+        self.minimumLineSpacing = 4.0f; // vertical gap between rows
         
         self.itemSize = CGSizeMake([PCCollectionViewFlowLayout cellWidth], [PCCollectionViewFlowLayout cellHeight]);
         self.sectionInset = UIEdgeInsetsMake(0.0f, kCellPadding, 0.0f, kCellPadding);
@@ -40,12 +40,13 @@
 + (CGFloat)cellWidth
 {
     CGRect frame = [UIScreen mainScreen].applicationFrame;
-    return (frame.size.width > 320.0f) ? 160.0f : 132.0f;
+//    return (frame.size.width > 320.0f) ? 160.0f : 132.0f;
+    return (frame.size.width > 320.0f) ? 120.0f : 103.0f;
 }
 
 + (CGFloat)cellHeight
 {
-    static CGFloat h = 236.0f;
+    static CGFloat h = 180.0f;
     return h;
 }
 
