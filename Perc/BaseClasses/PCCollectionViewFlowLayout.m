@@ -20,8 +20,9 @@
     
     self = [super init];
     if (self){
+        self.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         self.minimumInteritemSpacing = 0; // horizontal gap between columns
-        self.minimumLineSpacing = 4.0f; // vertical gap between rows
+        self.minimumLineSpacing = 6.0f; // vertical gap between rows
         
         self.itemSize = CGSizeMake([PCCollectionViewFlowLayout cellWidth], [PCCollectionViewFlowLayout cellHeight]);
         self.sectionInset = UIEdgeInsetsMake(0.0f, kCellPadding, 0.0f, kCellPadding);
@@ -41,12 +42,13 @@
 {
     CGRect frame = [UIScreen mainScreen].applicationFrame;
 //    return (frame.size.width > 320.0f) ? 160.0f : 132.0f;
-    return (frame.size.width > 320.0f) ? 120.0f : 103.0f;
+    return (frame.size.width > 320.0f) ? 140.0f : 123.0f;
 }
 
 + (CGFloat)cellHeight
 {
-    static CGFloat h = 180.0f;
+    CGRect frame = [UIScreen mainScreen].applicationFrame;
+    CGFloat h = (frame.size.width > 320.0f) ? 240.0f : 216.0f;
     return h;
 }
 
@@ -73,7 +75,7 @@
 }
 
 
--(NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
+- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
 {
     return [self.dynamicAnimator itemsInRect:rect];
 }
@@ -83,23 +85,22 @@
     return [self.dynamicAnimator layoutAttributesForCellAtIndexPath:indexPath];
 }
 
-
--(BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
+- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
 {
-    //    NSLog(@"shouldInvalidateLayoutForBoundsChange:");
+    NSLog(@"shouldInvalidateLayoutForBoundsChange:");
     UIScrollView *scrollView = self.collectionView;
-    CGFloat delta = newBounds.origin.y - scrollView.bounds.origin.y;
+    CGFloat delta = newBounds.origin.x - scrollView.bounds.origin.x;
     
     CGPoint touchLocation = [self.collectionView.panGestureRecognizer locationInView:self.collectionView];
     
     [self.dynamicAnimator.behaviors enumerateObjectsUsingBlock:^(UIAttachmentBehavior *springBehaviour, NSUInteger idx, BOOL *stop) {
-        CGFloat yDistanceFromTouch = fabsf(touchLocation.y - springBehaviour.anchorPoint.y);
-        CGFloat xDistanceFromTouch = fabsf(touchLocation.x - springBehaviour.anchorPoint.x);
+        CGFloat yDistanceFromTouch = fabsf(touchLocation.x - springBehaviour.anchorPoint.x);
+        CGFloat xDistanceFromTouch = fabsf(touchLocation.y - springBehaviour.anchorPoint.y);
         CGFloat scrollResistance = (yDistanceFromTouch + xDistanceFromTouch) / 1300.0f;
         
         UICollectionViewLayoutAttributes *item = springBehaviour.items.firstObject;
         CGPoint center = item.center;
-        center.y += (delta < 0) ? MAX(delta, delta*scrollResistance) : MIN(delta, delta*scrollResistance);
+        center.x += (delta < 0) ? MAX(delta, delta*scrollResistance) : MIN(delta, delta*scrollResistance);
         item.center = center;
         
         [self.dynamicAnimator updateItemUsingCurrentState:item];
@@ -107,5 +108,29 @@
     
     return NO;
 }
+
+//- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
+//{
+//    //    NSLog(@"shouldInvalidateLayoutForBoundsChange:");
+//    UIScrollView *scrollView = self.collectionView;
+//    CGFloat delta = newBounds.origin.y - scrollView.bounds.origin.y;
+//    
+//    CGPoint touchLocation = [self.collectionView.panGestureRecognizer locationInView:self.collectionView];
+//    
+//    [self.dynamicAnimator.behaviors enumerateObjectsUsingBlock:^(UIAttachmentBehavior *springBehaviour, NSUInteger idx, BOOL *stop) {
+//        CGFloat yDistanceFromTouch = fabsf(touchLocation.y - springBehaviour.anchorPoint.y);
+//        CGFloat xDistanceFromTouch = fabsf(touchLocation.x - springBehaviour.anchorPoint.x);
+//        CGFloat scrollResistance = (yDistanceFromTouch + xDistanceFromTouch) / 1300.0f;
+//        
+//        UICollectionViewLayoutAttributes *item = springBehaviour.items.firstObject;
+//        CGPoint center = item.center;
+//        center.y += (delta < 0) ? MAX(delta, delta*scrollResistance) : MIN(delta, delta*scrollResistance);
+//        item.center = center;
+//        
+//        [self.dynamicAnimator updateItemUsingCurrentState:item];
+//    }];
+//    
+//    return NO;
+//}
 
 @end
