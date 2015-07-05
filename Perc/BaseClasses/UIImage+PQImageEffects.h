@@ -13,5 +13,5 @@
 + (UIImage *)crop:(UIImage *)originalImage rect:(CGRect)cropRect;
 - (UIImage *)applyBlurOnImage:(CGFloat)blurRadius;
 - (UIImage *)convertImageToGrayScale;
-- (UIImage *)reflectedImage:(UIImageView *)fromImage withHeight:(NSInteger)height;
+- (UIImage *)reflectedImage:(UIImage *)fromImage withBounds:(CGRect)bounds withHeight:(NSInteger)height;
 @end

@@ -171,13 +171,15 @@ CGContextRef MyCreateBitmapContext(NSInteger pixelsWide, NSInteger pixelsHigh)
     return bitmapContext;
 }
 
-- (UIImage *)reflectedImage:(UIImageView *)fromImage withHeight:(NSInteger)height
+
+
+- (UIImage *)reflectedImage:(UIImage *)fromImage withBounds:(CGRect)bounds withHeight:(NSInteger)height
 {
     if (height == 0)
         return nil;
     
     // create a bitmap graphics context the size of the image
-    CGContextRef mainViewContentContext = MyCreateBitmapContext(fromImage.bounds.size.width, height);
+    CGContextRef mainViewContentContext = MyCreateBitmapContext(bounds.size.width, height);
     
     // create a 2 bit CGImage containing a gradient that will be used for masking the
     // main view content to create the 'fade' of the reflection.  The CGImageCreateWithMask
@@ -186,7 +188,7 @@ CGContextRef MyCreateBitmapContext(NSInteger pixelsWide, NSInteger pixelsHigh)
     
     // create an image by masking the bitmap of the mainView content with the gradient view
     // then release the  pre-masked content bitmap and the gradient bitmap
-    CGContextClipToMask(mainViewContentContext, CGRectMake(0.0, 0.0, fromImage.bounds.size.width, height), gradientMaskImage);
+    CGContextClipToMask(mainViewContentContext, CGRectMake(0.0, 0.0, bounds.size.width, height), gradientMaskImage);
     CGImageRelease(gradientMaskImage);
     
     // In order to grab the part of the image that we want to render, we move the context origin to the
@@ -195,7 +197,7 @@ CGContextRef MyCreateBitmapContext(NSInteger pixelsWide, NSInteger pixelsHigh)
     CGContextScaleCTM(mainViewContentContext, 1.0, -1.0);
     
     // draw the image into the bitmap context
-    CGContextDrawImage(mainViewContentContext, fromImage.bounds, fromImage.image.CGImage);
+    CGContextDrawImage(mainViewContentContext, bounds, fromImage.CGImage);
     
     // create CGImageRef of the main view bitmap content, and then release that bitmap context
     CGImageRef reflectionImage = CGBitmapContextCreateImage(mainViewContentContext);
@@ -209,7 +211,6 @@ CGContextRef MyCreateBitmapContext(NSInteger pixelsWide, NSInteger pixelsHigh)
     
     return theImage;
 }
-
 
 
 
