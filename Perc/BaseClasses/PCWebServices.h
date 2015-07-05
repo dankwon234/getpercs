@@ -34,7 +34,6 @@ typedef void (^PCWebServiceRequestCompletionBlock)(id result, NSError *error);
 - (void)fetchVenuesNearLocation:(NSDictionary *)params completion:(PCWebServiceRequestCompletionBlock)completionBlock;
 
 // POSTS
-- (void)fetchPostsInZone:(NSString *)zone completion:(PCWebServiceRequestCompletionBlock)completionBlock;
 - (void)fetchPosts:(NSDictionary *)params completion:(PCWebServiceRequestCompletionBlock)completionBlock;
 - (void)fetchPost:(NSString *)postId completion:(PCWebServiceRequestCompletionBlock)completionBlock;
 - (void)createPost:(PCPost *)post completion:(PCWebServiceRequestCompletionBlock)completionBlock;
