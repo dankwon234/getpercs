@@ -30,6 +30,7 @@ static NSString *placeholder = @"Type your order here.";
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
+        self.edgesForExtendedLayout = UIRectEdgeAll;
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(creditCardAdded:)
                                                      name:kCreditCardAddedNotification
@@ -53,6 +54,7 @@ static NSString *placeholder = @"Type your order here.";
     
     static CGFloat dimen = 88.0f;
     self.venueIcon = [[UIImageView alloc] initWithImage:self.venue.iconData];
+    self.venueIcon.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     self.venueIcon.frame = CGRectMake(0.0f, 0.0f, dimen, dimen);
     self.venueIcon.center = CGPointMake(0.5f*frame.size.width, 0.5f*dimen+20.0f);
     self.venueIcon.layer.cornerRadius = 0.5f*dimen;
@@ -66,6 +68,7 @@ static NSString *placeholder = @"Type your order here.";
     CGFloat x = 20.0f;
     CGFloat width = frame.size.width-2*x;
     self.lblLocation = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, 20.0f)];
+    self.lblLocation.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     self.lblLocation.textColor = [UIColor whiteColor];
     self.lblLocation.textAlignment = NSTextAlignmentCenter;
     self.lblLocation.font = [UIFont fontWithName:kBaseFontName size:14.0f];
@@ -75,6 +78,7 @@ static NSString *placeholder = @"Type your order here.";
     
     self.theScrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
     self.theScrollview.delegate = self;
+    self.theScrollview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     self.theScrollview.showsVerticalScrollIndicator = NO;
     [self.theScrollview addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
     
@@ -246,6 +250,13 @@ static NSString *placeholder = @"Type your order here.";
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+- (void)addNavigationTitleView
+{
+    // override because we actually don't want it in this view
+}
+
+
 
 - (void)dismissKeyboard
 {
