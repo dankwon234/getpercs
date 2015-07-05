@@ -582,7 +582,7 @@
 
 
 #pragma mark - Images
-- (void)fetchImage:(NSString *)imageId completionBlock:(PCWebServiceRequestCompletionBlock)completionBlock
+- (void)fetchImage:(NSString *)imageId parameters:(NSDictionary *)params completionBlock:(PCWebServiceRequestCompletionBlock)completionBlock
 {
     //check cache first:
     NSString *filePath = [self createFilePath:imageId];
@@ -607,7 +607,7 @@
     
     
     [manager GET:[kPathImages stringByAppendingString:imageId]
-      parameters:@{@"crop":@"1024"}
+      parameters:params
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
              
              //Save image to cache directory:
