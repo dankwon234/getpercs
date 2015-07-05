@@ -31,6 +31,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
+        self.edgesForExtendedLayout = UIRectEdgeAll;
         self.nextComment = [[PCComment alloc] init];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -56,7 +57,8 @@
 - (void)loadView
 {
     UIView *view = [self baseView];
-    view.backgroundColor = [UIColor whiteColor];
+    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgBlurry.png"]];
+//    view.backgroundColor = [UIColor whiteColor];
     CGRect frame = view.frame;
     
     CGFloat width = frame.size.width;
@@ -85,7 +87,7 @@
                                                      attributes:@{NSFontAttributeName:boldFont}
                                                         context:nil];
     
-    self.lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, 12.0f, w, boundingRect.size.height)];
+    self.lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, 64.0f, w, boundingRect.size.height)];
     self.lblTitle.textColor = [UIColor whiteColor];
     self.lblTitle.numberOfLines = 2;
     self.lblTitle.lineBreakMode = NSLineBreakByWordWrapping;
@@ -211,6 +213,11 @@
     [self.post addObserver:self forKeyPath:@"imageData" options:0 context:nil];
     [self.post fetchImage];
 
+}
+
+- (void)addNavigationTitleView
+{
+    // override because we actually don't want it in this view
 }
 
 
