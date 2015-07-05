@@ -632,7 +632,7 @@
     
     
     [manager GET:[kPathImages stringByAppendingString:imageId]
-      parameters:@{@"crop":@"640"}
+      parameters:@{@"crop":@"1024"}
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
              
              //Save image to cache directory:
