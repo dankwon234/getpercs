@@ -167,7 +167,7 @@
         return;
     
     self.isFetching = YES;
-    [[PCWebServices sharedInstance] fetchImage:self.image completionBlock:^(id result, NSError *error){
+    [[PCWebServices sharedInstance] fetchImage:self.image parameters:@{@"crop":@"1024"} completionBlock:^(id result, NSError *error){
         self.isFetching = NO;
         if (error)
             return;
