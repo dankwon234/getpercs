@@ -27,18 +27,9 @@
     if (self) {
         self.contentView.layer.cornerRadius = 1.0f;
         self.contentView.layer.masksToBounds = YES;
-        
-//        self.layer.shadowOffset = CGSizeMake(1.0f, 1.0f);
-//        self.layer.shadowColor = [[UIColor blackColor] CGColor];
-//        self.layer.shadowRadius = 1.0f;
-//        self.layer.shadowOpacity = 0.8f;
-//        self.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.layer.bounds] CGPath];
-
-        
         self.contentView.layer.shadowColor = [[UIColor blackColor] CGColor];
         
         self.base = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
-//        self.base.layer.cornerRadius = 2.0f;
         self.base.backgroundColor = kLightGray;
         self.base.alpha = 0.95f;
         self.base.layer.masksToBounds = YES;
@@ -55,7 +46,8 @@
         gradient.frame = bounds;
         gradient.colors = @[(id)[[UIColor clearColor] CGColor], (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.70f] CGColor]];
         [self.icon.layer insertSublayer:gradient atIndex:0];
-        
+        self.icon.alpha = 0.0f;
+        [self.icon addObserver:self forKeyPath:@"image" options:0 context:nil];
         [self.base addSubview:self.icon];
         
         UIColor *darkGray = [UIColor darkGrayColor];
@@ -90,23 +82,36 @@
         [self.base addSubview:self.lblDetails];
         y += self.lblDetails.frame.size.height+16.0f;
         
-
-//        UIView *bottom = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 28.0f)];
-//        static CGFloat rgb = 230.0f;
-//        bottom.backgroundColor = [UIColor colorWithRed:rgb/255.0f green:rgb/255.0f blue:rgb/255.0f alpha:1.0f];
-//        [self.base addSubview:bottom];
-        
-        
         [self.contentView addSubview:self.base];
-        
-        
-        
     }
     return self;
 }
 
+- (void)dealloc
+{
+    [self.icon removeObserver:self forKeyPath:@"image"];
+}
 
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"image"]){
+        if (self.icon.alpha != 0)
+            return;
+        
+        [UIView animateWithDuration:0.30f
+                              delay:0.25f
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             self.icon.alpha = 1.0f;
+                         }
+                         completion:^(BOOL finished){
+                             
+                         }];
+        
+    }
+
+}
 
 
 
