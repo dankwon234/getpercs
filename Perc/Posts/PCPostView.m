@@ -22,38 +22,52 @@
         self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         self.backgroundColor = [UIColor clearColor];
         
-        CGFloat x = 74.0f;
+        CGFloat x = 0.0f;
         self.postImage = [[UIImageView alloc] initWithFrame:CGRectMake(x, x, frame.size.width-2*x, frame.size.width-2*x)];
+        self.postImage.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         self.postImage.userInteractionEnabled = YES;
         
         CAGradientLayer *gradient = [CAGradientLayer layer];
         CGRect bounds = self.postImage.bounds;
-        bounds.size.height *= 0.5f;
-        bounds.origin.y = bounds.size.height;
+        bounds.size.height *= 0.6f;
         gradient.frame = bounds;
-        gradient.colors = @[(id)[[UIColor clearColor] CGColor], (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.75f] CGColor]];
+        gradient.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.80f] CGColor], (id)[[UIColor clearColor] CGColor]];
         [self.postImage.layer insertSublayer:gradient atIndex:0];
-        
-        self.postImage.layer.shadowOffset = CGSizeMake(1.0f, 1.0f);
-        self.postImage.layer.shadowColor = [[UIColor blackColor] CGColor];
-        self.postImage.layer.shadowRadius = 1.0f;
-        self.postImage.layer.shadowOpacity = 0.8f;
-        self.postImage.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.postImage.layer.bounds] CGPath];
-        
         [self addSubview:self.postImage];
         
-        self.lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.85f*frame.size.height, frame.size.width, 16.0f)];
-        self.lblTitle.textAlignment = NSTextAlignmentCenter;
+        self.lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(16.0f, 42.0f, 0.6f*frame.size.width, 22.0f)];
+        self.lblTitle.numberOfLines = 0;
+        self.lblTitle.lineBreakMode = NSLineBreakByWordWrapping;
+        self.lblTitle.textAlignment = NSTextAlignmentLeft;
         self.lblTitle.textColor = [UIColor whiteColor];
         self.lblTitle.text = @"Post Title";
+        self.lblTitle.font = [UIFont boldSystemFontOfSize:20.0f];
+        [self.lblTitle addObserver:self forKeyPath:@"text" options:0 context:nil];
         [self addSubview:self.lblTitle];
-        
-
     }
     
     return self;
 }
 
+- (void)dealloc
+{
+    [self.lblTitle removeObserver:self forKeyPath:@"text"];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"text"]==NO)
+        return;
+    
+    CGRect frame = self.lblTitle.frame;
+    CGRect bounds = [self.lblTitle.text boundingRectWithSize:CGSizeMake(frame.size.width, 250.0f)
+                                                     options:NSStringDrawingUsesLineFragmentOrigin
+                                                  attributes:@{NSFontAttributeName:self.lblTitle.font}
+                                                     context:nil];
+    
+    frame.size.height = bounds.size.height;
+    self.lblTitle.frame = frame;
+}
 
 
 @end
