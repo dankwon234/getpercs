@@ -7,7 +7,7 @@
 
 
 #import "PCOrderViewController.h"
-#import "PCVenueViewController.h"
+#import "PCOrderFoodViewController.h"
 
 @interface PCOrderViewController()
 @property (strong, nonatomic) UIImageView *venueIcon;
@@ -233,12 +233,12 @@
 
 - (void)orderAgain:(UIButton *)btn
 {
-    PCVenueViewController *venueVc = [[PCVenueViewController alloc] init];
-    venueVc.venue = self.order.venue;
+    PCOrderFoodViewController *orderFoodVc = [[PCOrderFoodViewController alloc] init];
+    orderFoodVc.venue = self.order.venue;
     PCOrder *repeatOrder = [[PCOrder alloc] init];
     repeatOrder.order = self.order.order;
-    venueVc.order = repeatOrder;
-    [self.navigationController pushViewController:venueVc animated:YES];
+    orderFoodVc.order = repeatOrder;
+    [self.navigationController pushViewController:orderFoodVc animated:YES];
 
     
 }
