@@ -26,6 +26,8 @@
 @synthesize distance;
 @synthesize uniqueId;
 @synthesize orderZone;
+@synthesize category;
+@synthesize profile;
 
 
 - (id)init
@@ -48,8 +50,11 @@
 
 - (void)populate:(NSDictionary *)venueInfo
 {
+    NSLog(@"POPULATE VENUE: %@", [venueInfo description]);
     self.uniqueId = venueInfo[@"id"];
     self.name = venueInfo[@"name"];
+    self.category = venueInfo[@"category"];
+    self.profile = venueInfo[@"profile"];
     self.address = venueInfo[@"address"];
     self.icon = venueInfo[@"image"];
     self.city = venueInfo[@"town"];

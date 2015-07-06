@@ -15,6 +15,8 @@
 
 @property (copy, nonatomic) NSString *uniqueId;
 @property (copy, nonatomic) NSString *name;
+@property (copy, nonatomic) NSString *category;
+@property (copy, nonatomic) NSString *profile;
 @property (copy, nonatomic) NSString *address;
 @property (copy, nonatomic) NSString *icon;
 @property (copy, nonatomic) NSString *city;
