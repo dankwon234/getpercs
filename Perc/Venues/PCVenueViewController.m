@@ -7,10 +7,12 @@
 
 
 #import "PCVenueViewController.h"
+#import "PCPostViewController.h"
 #import "UIImage+PQImageEffects.h"
 
 @interface PCVenueViewController ()
 @property (strong, nonatomic) UITableView *postsTable;
+@property (strong, nonatomic) NSMutableArray *venuePosts;
 @end
 
 @implementation PCVenueViewController
@@ -20,6 +22,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
         self.edgesForExtendedLayout = UIRectEdgeAll;
+        self.venuePosts = [NSMutableArray array];
 
     }
     return self;
@@ -96,6 +99,27 @@
 {
     [super viewDidLoad];
     [self addCustomBackButton];
+    
+    [[PCWebServices sharedInstance] fetchPosts:@{@"zone":self.currentZone.uniqueId} completion:^(id result, NSError *error){
+        if (error){
+            [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
+            return;
+        }
+        
+        NSDictionary *results = (NSDictionary *)result;
+        NSLog(@"%@", [results description]);
+        
+        NSArray *posts = results[@"posts"];
+        for (int i=0; i<posts.count; i++) {
+            PCPost *post = [PCPost postWithInfo:posts[i]];
+            [self.venuePosts addObject:post];
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.postsTable reloadData];
+        });
+        
+    }];
 }
 
 
@@ -115,7 +139,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 30;
+    return self.venuePosts.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -125,14 +149,25 @@
     if (cell==nil){
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         cell.backgroundColor = tableView.backgroundColor;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
         static double rgb = 0.35f;
         cell.textLabel.textColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:1.0f];
     }
     
-    cell.textLabel.text = [NSString stringWithFormat:@"%d", (int)indexPath.row];
+    PCPost *post = (PCPost *)self.venuePosts[indexPath.row];
+    
+    cell.textLabel.text = post.title;
     return cell;
 }
 
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    PCPostViewController *postVc = [[PCPostViewController alloc] init];
+    postVc.post = (PCPost *)self.venuePosts[indexPath.row];
+    [self.navigationController pushViewController:postVc animated:YES];
+}
 
 
 @end
