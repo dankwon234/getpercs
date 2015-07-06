@@ -70,7 +70,6 @@
 		0C7555241B4A2A8800C57261 /* PCOrderFoodViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7555231B4A2A8800C57261 /* PCOrderFoodViewController.m */; };
 		0C7A75411ABE256C004FFE5B /* PCWelcomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7A75401ABE256C004FFE5B /* PCWelcomeView.m */; };
 		0C7A754D1ABE2DA1004FFE5B /* bgEating-1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C7A754C1ABE2DA1004FFE5B /* bgEating-1@2x.png */; };
-		0C7A754F1ABE7E94004FFE5B /* hopper@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C7A754E1ABE7E94004FFE5B /* hopper@2x.png */; };
 		0C7C5F241AC259500097A1F5 /* bgEatingBlue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C7C5F231AC259500097A1F5 /* bgEatingBlue@2x.png */; };
 		0C7CBFC01B1811D30039602E /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C7CBFBF1B1811D30039602E /* AddressBook.framework */; };
 		0C7CBFC21B1811E30039602E /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C7CBFC11B1811E30039602E /* AddressBookUI.framework */; };
@@ -269,7 +268,6 @@
 		0C7A753F1ABE256C004FFE5B /* PCWelcomeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCWelcomeView.h; sourceTree = "<group>"; };
 		0C7A75401ABE256C004FFE5B /* PCWelcomeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCWelcomeView.m; sourceTree = "<group>"; };
 		0C7A754C1ABE2DA1004FFE5B /* bgEating-1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgEating-1@2x.png"; sourceTree = "<group>"; };
-		0C7A754E1ABE7E94004FFE5B /* hopper@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hopper@2x.png"; sourceTree = "<group>"; };
 		0C7C5F231AC259500097A1F5 /* bgEatingBlue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgEatingBlue@2x.png"; sourceTree = "<group>"; };
 		0C7CBFBF1B1811D30039602E /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		0C7CBFC11B1811E30039602E /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
@@ -688,7 +686,6 @@
 				0CBC22E71ABF8C53004722E1 /* bgCoffee@2x.png */,
 				0C7C5F231AC259500097A1F5 /* bgEatingBlue@2x.png */,
 				0C7A754C1ABE2DA1004FFE5B /* bgEating-1@2x.png */,
-				0C7A754E1ABE7E94004FFE5B /* hopper@2x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -929,7 +926,6 @@
 				0C5DC6671AE2E19800C4B38B /* iconComment@2x.png in Resources */,
 				0C8B61751ABD028800BC13C8 /* mastercard.png in Resources */,
 				0C6A0A8B1B48F9300033CF93 /* dots@2x.png in Resources */,
-				0C7A754F1ABE7E94004FFE5B /* hopper@2x.png in Resources */,
 				0C5DC6691AE2E27500C4B38B /* iconView@2x.png in Resources */,
 				0CD16F1B1AE7654900B5F85B /* bgCityStreet@2x.png in Resources */,
 				0CA0DE671ABA22EE00537419 /* iconHamburger@2x.png in Resources */,
