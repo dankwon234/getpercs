@@ -650,12 +650,12 @@
 		0C61390F1AB8F26D00D12C50 /* Venues */ = {
 			isa = PBXGroup;
 			children = (
+				0C6139131AB8F2CA00D12C50 /* PCVenue.h */,
+				0C6139141AB8F2CA00D12C50 /* PCVenue.m */,
 				0C6139101AB8F29D00D12C50 /* PCVenuesViewController.h */,
 				0C6139111AB8F29D00D12C50 /* PCVenuesViewController.m */,
 				0CA0DE7B1ABA4EB500537419 /* PCVenueViewController.h */,
 				0CA0DE7C1ABA4EB500537419 /* PCVenueViewController.m */,
-				0C6139131AB8F2CA00D12C50 /* PCVenue.h */,
-				0C6139141AB8F2CA00D12C50 /* PCVenue.m */,
 				0CA0DE6B1ABA253600537419 /* PCVenueCell.h */,
 				0CA0DE6C1ABA253600537419 /* PCVenueCell.m */,
 			);
