@@ -67,6 +67,7 @@
 		0C6A0A8F1B48FD000033CF93 /* bgBlurry@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C6A0A8E1B48FD000033CF93 /* bgBlurry@2x.png */; };
 		0C72328B1ABCD1A000BD0920 /* PCAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C72328A1ABCD1A000BD0920 /* PCAccountViewController.m */; };
 		0C72328F1ABCD46700BD0920 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C72328E1ABCD46700BD0920 /* icon@2x.png */; };
+		0C7555241B4A2A8800C57261 /* PCOrderFoodViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7555231B4A2A8800C57261 /* PCOrderFoodViewController.m */; };
 		0C7A75411ABE256C004FFE5B /* PCWelcomeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7A75401ABE256C004FFE5B /* PCWelcomeView.m */; };
 		0C7A754D1ABE2DA1004FFE5B /* bgEating-1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C7A754C1ABE2DA1004FFE5B /* bgEating-1@2x.png */; };
 		0C7A754F1ABE7E94004FFE5B /* hopper@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C7A754E1ABE7E94004FFE5B /* hopper@2x.png */; };
@@ -263,6 +264,8 @@
 		0C7232891ABCD1A000BD0920 /* PCAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCAccountViewController.h; sourceTree = "<group>"; };
 		0C72328A1ABCD1A000BD0920 /* PCAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCAccountViewController.m; sourceTree = "<group>"; };
 		0C72328E1ABCD46700BD0920 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
+		0C7555221B4A2A8800C57261 /* PCOrderFoodViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCOrderFoodViewController.h; sourceTree = "<group>"; };
+		0C7555231B4A2A8800C57261 /* PCOrderFoodViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCOrderFoodViewController.m; sourceTree = "<group>"; };
 		0C7A753F1ABE256C004FFE5B /* PCWelcomeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCWelcomeView.h; sourceTree = "<group>"; };
 		0C7A75401ABE256C004FFE5B /* PCWelcomeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCWelcomeView.m; sourceTree = "<group>"; };
 		0C7A754C1ABE2DA1004FFE5B /* bgEating-1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgEating-1@2x.png"; sourceTree = "<group>"; };
@@ -710,6 +713,8 @@
 				0C8B61871ABD20F000BC13C8 /* PCCreditCardViewController.m */,
 				0C91E7681AC111D6006D7F1D /* PCOrderViewController.h */,
 				0C91E7691AC111D6006D7F1D /* PCOrderViewController.m */,
+				0C7555221B4A2A8800C57261 /* PCOrderFoodViewController.h */,
+				0C7555231B4A2A8800C57261 /* PCOrderFoodViewController.m */,
 			);
 			path = PCOrder;
 			sourceTree = "<group>";
@@ -969,6 +974,7 @@
 				0CB6E1A61AE4BB610010982C /* PCComment.m in Sources */,
 				0C72328B1ABCD1A000BD0920 /* PCAccountViewController.m in Sources */,
 				0C0F2F4A1ABCF55900DBFD8F /* STPFormEncoder.m in Sources */,
+				0C7555241B4A2A8800C57261 /* PCOrderFoodViewController.m in Sources */,
 				0C1FBA431ADE2DE20079BD74 /* PCZoneViewController.m in Sources */,
 				0C6139011AB8E8C700D12C50 /* AFURLConnectionOperation.m in Sources */,
 				0C0F2F441ABCF55900DBFD8F /* STPStrictURLProtocol.m in Sources */,
