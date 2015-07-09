@@ -29,10 +29,11 @@
 @property (strong, nonatomic) UICollectionView *venuesTable;
 @property (strong, nonatomic) UIPageControl *pageControl;
 @property (nonatomic) int currentPage;
+@property (nonatomic) int showNextPage;
 @end
 
 #define kPadding 12.0f
-#define kPageDuration 15
+#define kPageDuration 10
 static NSString *cellId = @"cellId";
 
 @implementation PCZoneViewController
@@ -43,6 +44,7 @@ static NSString *cellId = @"cellId";
     if (self){
         self.edgesForExtendedLayout = UIRectEdgeAll;
         self.currentPage = 0;
+        self.showNextPage = YES;
         
     }
     
@@ -277,6 +279,12 @@ static NSString *cellId = @"cellId";
 
 - (void)nextPage
 {
+    if (self.showNextPage==NO){
+        [self performSelector:@selector(nextPage) withObject:nil afterDelay:kPageDuration];
+        self.showNextPage = YES;
+        return;
+    }
+        
     if (self.currentPage == self.currentZone.posts.count-1)
         self.currentPage = 0;
     else
@@ -571,6 +579,7 @@ static NSString *cellId = @"cellId";
         return;
     
     [self checkPostImage:NO];
+    self.showNextPage = NO; // this resets the timer
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
