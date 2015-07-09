@@ -13,4 +13,7 @@
 
 @property (strong, nonatomic) UIImageView *postImage;
 @property (strong, nonatomic) UILabel *lblTitle;
+@property (strong, nonatomic) UILabel *lblComments;
+@property (strong, nonatomic) UILabel *lblViews;
+@property (strong, nonatomic) UILabel *lblDate;
 @end
