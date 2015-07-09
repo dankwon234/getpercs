@@ -56,7 +56,7 @@ static NSString *cellId = @"cellId";
 - (void)loadView
 {
     UIView *view = [self baseView];
-    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgBlurry.png"]];
+    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background3.png"]];
     CGRect frame = view.frame;
     
     CGFloat width = frame.size.width;
