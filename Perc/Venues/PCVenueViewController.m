@@ -37,28 +37,38 @@
     UIImage *venueImage = self.venue.iconData;
     double scale = frame.size.width/venueImage.size.width;
     CGFloat height = scale*venueImage.size.height;
-    UIImageView *blurryBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, height)];
     
-    CGFloat width = 0.3f*venueImage.size.width;
-    CGFloat h = 0.3f*venueImage.size.height;
-
-    UIImage *blurryImage = [UIImage crop:venueImage rect:CGRectMake(0.5f*(frame.size.width-width), 0.5f*(frame.size.height-h), width, h)];
-    blurryBackground.image = [blurryImage applyBlurOnImage:0.90f];
-    
+    UIImageView *background = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, height)];
+    background.image = self.venue.iconData;
     CAGradientLayer *gradient = [CAGradientLayer layer];
-    CGRect bounds = blurryBackground.bounds;
+    CGRect bounds = background.bounds;
     gradient.frame = bounds;
-    gradient.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.90f] CGColor], (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.35f] CGColor]];
-    [blurryBackground.layer insertSublayer:gradient atIndex:0];
+    gradient.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.80f] CGColor], (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.6f] CGColor]];
+    [background.layer insertSublayer:gradient atIndex:0];
+    [view addSubview:background];
 
     
-    [view addSubview:blurryBackground];
+    
+    CGFloat y = background.frame.size.height;
+    UIImageView *reflection = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, y, background.frame.size.width, background.frame.size.height)];
+    CAGradientLayer *gradient2 = [CAGradientLayer layer];
+    gradient2.frame = reflection.bounds;
+    gradient2.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.59f] CGColor], (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.75f] CGColor], (id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:1.0f] CGColor]];
+    [reflection.layer insertSublayer:gradient2 atIndex:0];
+    
+    reflection.image = [self.venue.iconData reflectedImage:[self.venue.iconData applyBlurOnImage:0.15f]
+                                                withBounds:reflection.bounds
+                                                withHeight:reflection.frame.size.height];
+    
+    [view addSubview:reflection];
+    
+    
     
     
     static CGFloat dimen = 120.0f;
-    UIImageView *venueIcon = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, dimen, dimen)];
+    UIImageView *venueIcon = [[UIImageView alloc] initWithFrame:CGRectMake(16.0f, 40.0f, dimen, dimen)];
     venueIcon.image = venueImage;
-    venueIcon.center = CGPointMake(0.25f*frame.size.width, 100.0f);
+//    venueIcon.center = CGPointMake(0.20f*frame.size.width, 100.0f);
     venueIcon.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     
     venueIcon.layer.shadowColor = [[UIColor blackColor] CGColor];
@@ -68,24 +78,6 @@
     venueIcon.layer.shadowPath = [UIBezierPath bezierPathWithRect:venueIcon.bounds].CGPath;
     [view addSubview:venueIcon];
     
-    
-//    CGFloat y = venueIcon.frame.origin.y+venueIcon.frame.size.height+64.0f;
-//
-//    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 0.5f)];
-//    double rgb = 0.35f;
-//    line.backgroundColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:1.0f];
-//    [view addSubview:line];
-//    y += line.frame.size.height;
-//
-//    self.postsTable = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, frame.size.height-y-20.0f) style:UITableViewStylePlain];
-//    self.postsTable.autoresizingMask = (UIViewAutoresizingFlexibleHeight);
-//    rgb = 0.10f;
-//    self.postsTable.backgroundColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:1.0f];
-//    self.postsTable.separatorStyle = UITableViewCellSeparatorStyleNone;
-//    self.postsTable.showsVerticalScrollIndicator = NO;
-//    self.postsTable.dataSource = self;
-//    self.postsTable.delegate = self;
-//    [view addSubview:self.postsTable];
     
     
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(exit:)];
