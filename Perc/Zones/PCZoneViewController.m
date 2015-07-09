@@ -360,6 +360,7 @@ static NSString *cellId = @"cellId";
                 PCPostView *postView = [[PCPostView alloc] initWithFrame:CGRectMake(i*dimen, -64.0f, dimen, dimen)];
                 postView.tag = 1000+i;
                 postView.lblTitle.text = post.title;
+                postView.lblDate.text = post.formattedDate;
                 [postView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewPost:)]];
                 [self.bulletinBoardScroll addSubview:postView];
                 

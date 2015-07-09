@@ -78,7 +78,6 @@
         self.lblDate = [[UILabel alloc] initWithFrame:CGRectMake(16.0f, y, frame.size.width, 16.0f)];
         self.lblDate.textColor = [UIColor whiteColor];
         self.lblDate.font = [UIFont fontWithName:@"Arial" size:14.0f];
-        self.lblDate.text = @"January 7th, 2015";
         [self addSubview:self.lblDate];
 
     }
