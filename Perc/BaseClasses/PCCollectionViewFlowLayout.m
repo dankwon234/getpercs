@@ -109,28 +109,5 @@
     return NO;
 }
 
-//- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
-//{
-//    //    NSLog(@"shouldInvalidateLayoutForBoundsChange:");
-//    UIScrollView *scrollView = self.collectionView;
-//    CGFloat delta = newBounds.origin.y - scrollView.bounds.origin.y;
-//    
-//    CGPoint touchLocation = [self.collectionView.panGestureRecognizer locationInView:self.collectionView];
-//    
-//    [self.dynamicAnimator.behaviors enumerateObjectsUsingBlock:^(UIAttachmentBehavior *springBehaviour, NSUInteger idx, BOOL *stop) {
-//        CGFloat yDistanceFromTouch = fabsf(touchLocation.y - springBehaviour.anchorPoint.y);
-//        CGFloat xDistanceFromTouch = fabsf(touchLocation.x - springBehaviour.anchorPoint.x);
-//        CGFloat scrollResistance = (yDistanceFromTouch + xDistanceFromTouch) / 1300.0f;
-//        
-//        UICollectionViewLayoutAttributes *item = springBehaviour.items.firstObject;
-//        CGPoint center = item.center;
-//        center.y += (delta < 0) ? MAX(delta, delta*scrollResistance) : MIN(delta, delta*scrollResistance);
-//        item.center = center;
-//        
-//        [self.dynamicAnimator updateItemUsingCurrentState:item];
-//    }];
-//    
-//    return NO;
-//}
 
 @end
