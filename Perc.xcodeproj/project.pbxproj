@@ -126,9 +126,8 @@
 		0CCA8A6A1B4E3A54004FF7D4 /* iconEye@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CCA8A691B4E3A54004FF7D4 /* iconEye@2x.png */; };
 		0CCA8A791B4E3F7C004FF7D4 /* background1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CCA8A741B4E3F7C004FF7D4 /* background1@2x.png */; };
 		0CCA8A7A1B4E3F7C004FF7D4 /* background1@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CCA8A751B4E3F7C004FF7D4 /* background1@3x.png */; };
-		0CCA8A7B1B4E3F7C004FF7D4 /* background3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CCA8A761B4E3F7C004FF7D4 /* background3@2x.png */; };
 		0CCA8A7C1B4E3F7C004FF7D4 /* background3@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CCA8A771B4E3F7C004FF7D4 /* background3@3x.png */; };
-		0CCA8A7D1B4E3F7C004FF7D4 /* background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CCA8A781B4E3F7C004FF7D4 /* background@2x.png */; };
+		0CCA8A7F1B4E459D004FF7D4 /* background3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CCA8A7E1B4E459D004FF7D4 /* background3@2x.png */; };
 		0CCF89451AE46E2300051244 /* PCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCF89441AE46E2300051244 /* PCMessage.m */; };
 		0CD16F131AE7533700B5F85B /* bgBklynBridge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CD16F121AE7533700B5F85B /* bgBklynBridge@2x.png */; };
 		0CD16F191AE75DB200B5F85B /* PCMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD16F181AE75DB200B5F85B /* PCMessagesViewController.m */; };
@@ -350,9 +349,8 @@
 		0CCA8A691B4E3A54004FF7D4 /* iconEye@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconEye@2x.png"; sourceTree = "<group>"; };
 		0CCA8A741B4E3F7C004FF7D4 /* background1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background1@2x.png"; sourceTree = "<group>"; };
 		0CCA8A751B4E3F7C004FF7D4 /* background1@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background1@3x.png"; sourceTree = "<group>"; };
-		0CCA8A761B4E3F7C004FF7D4 /* background3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background3@2x.png"; sourceTree = "<group>"; };
 		0CCA8A771B4E3F7C004FF7D4 /* background3@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background3@3x.png"; sourceTree = "<group>"; };
-		0CCA8A781B4E3F7C004FF7D4 /* background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background@2x.png"; sourceTree = "<group>"; };
+		0CCA8A7E1B4E459D004FF7D4 /* background3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background3@2x.png"; sourceTree = "<group>"; };
 		0CCF89431AE46E2300051244 /* PCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCMessage.h; sourceTree = "<group>"; };
 		0CCF89441AE46E2300051244 /* PCMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCMessage.m; sourceTree = "<group>"; };
 		0CD16F121AE7533700B5F85B /* bgBklynBridge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgBklynBridge@2x.png"; sourceTree = "<group>"; };
@@ -813,9 +811,8 @@
 			children = (
 				0CCA8A741B4E3F7C004FF7D4 /* background1@2x.png */,
 				0CCA8A751B4E3F7C004FF7D4 /* background1@3x.png */,
-				0CCA8A761B4E3F7C004FF7D4 /* background3@2x.png */,
+				0CCA8A7E1B4E459D004FF7D4 /* background3@2x.png */,
 				0CCA8A771B4E3F7C004FF7D4 /* background3@3x.png */,
-				0CCA8A781B4E3F7C004FF7D4 /* background@2x.png */,
 			);
 			path = backgrounds;
 			sourceTree = "<group>";
@@ -926,11 +923,11 @@
 				0CCA8A681B4E386E004FF7D4 /* iconChat@2x.png in Resources */,
 				0C8B61771ABD028800BC13C8 /* placeholder.png in Resources */,
 				0CBC22E61ABF88A9004722E1 /* bgBurger@2x.png in Resources */,
+				0CCA8A7F1B4E459D004FF7D4 /* background3@2x.png in Resources */,
 				0C8B616B1ABD028800BC13C8 /* cvc-amex.png in Resources */,
 				0C72328F1ABCD46700BD0920 /* icon@2x.png in Resources */,
 				0C8B616A1ABD028800BC13C8 /* amex@2x.png in Resources */,
 				0CD16F131AE7533700B5F85B /* bgBklynBridge@2x.png in Resources */,
-				0CCA8A7B1B4E3F7C004FF7D4 /* background3@2x.png in Resources */,
 				0CAE850E1AEC6B27007332A6 /* bgLights@2x.png in Resources */,
 				0C0F2F451ABCF55900DBFD8F /* Info.plist in Resources */,
 				0C6138CE1AB8E6A700D12C50 /* Images.xcassets in Resources */,
@@ -966,7 +963,6 @@
 				0C8B61701ABD028800BC13C8 /* diners@2x.png in Resources */,
 				0CE891CE1B3F529500CEC7D5 /* logo-white@2x.png in Resources */,
 				0C91E76C1AC11711006D7F1D /* bgDinner@2x.png in Resources */,
-				0CCA8A7D1B4E3F7C004FF7D4 /* background@2x.png in Resources */,
 				0C8B61741ABD028800BC13C8 /* jcb@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
