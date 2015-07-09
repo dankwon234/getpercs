@@ -369,6 +369,8 @@ static NSString *cellId = @"cellId";
                 postView.tag = 1000+i;
                 postView.lblTitle.text = post.title;
                 postView.lblDate.text = post.formattedDate;
+                postView.lblViews.text = [NSString stringWithFormat:@"%d", post.numViews];
+                postView.lblComments.text = [NSString stringWithFormat:@"%d", post.numComments];
                 [postView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewPost:)]];
                 [self.bulletinBoardScroll addSubview:postView];
                 
