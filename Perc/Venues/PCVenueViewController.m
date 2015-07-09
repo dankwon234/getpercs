@@ -11,7 +11,6 @@
 #import "UIImage+PQImageEffects.h"
 
 @interface PCVenueViewController ()
-@property (strong, nonatomic) UITableView *postsTable;
 @property (strong, nonatomic) NSMutableArray *venuePosts;
 @end
 
@@ -70,22 +69,23 @@
     [view addSubview:venueIcon];
     
     
-    CGFloat y = venueIcon.frame.origin.y+venueIcon.frame.size.height+64.0f;
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 0.5f)];
-    double rgb = 0.35f;
-    line.backgroundColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:1.0f];
-    [view addSubview:line];
-    y += line.frame.size.height;
-    
-    self.postsTable = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, frame.size.height-y-20.0f) style:UITableViewStylePlain];
-    self.postsTable.autoresizingMask = (UIViewAutoresizingFlexibleHeight);
-    rgb = 0.10f;
-    self.postsTable.backgroundColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:1.0f];
-    self.postsTable.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.postsTable.showsVerticalScrollIndicator = NO;
-    self.postsTable.dataSource = self;
-    self.postsTable.delegate = self;
-    [view addSubview:self.postsTable];
+//    CGFloat y = venueIcon.frame.origin.y+venueIcon.frame.size.height+64.0f;
+//
+//    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 0.5f)];
+//    double rgb = 0.35f;
+//    line.backgroundColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:1.0f];
+//    [view addSubview:line];
+//    y += line.frame.size.height;
+//
+//    self.postsTable = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, frame.size.height-y-20.0f) style:UITableViewStylePlain];
+//    self.postsTable.autoresizingMask = (UIViewAutoresizingFlexibleHeight);
+//    rgb = 0.10f;
+//    self.postsTable.backgroundColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:1.0f];
+//    self.postsTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    self.postsTable.showsVerticalScrollIndicator = NO;
+//    self.postsTable.dataSource = self;
+//    self.postsTable.delegate = self;
+//    [view addSubview:self.postsTable];
     
     
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(exit:)];
@@ -116,7 +116,7 @@
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.postsTable reloadData];
+            
         });
         
     }];
@@ -135,39 +135,7 @@
 
 
 
-#pragma mark - UITableViewDataSource
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return self.venuePosts.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *cellId = @"cellId";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-    if (cell==nil){
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        cell.backgroundColor = tableView.backgroundColor;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        static double rgb = 0.35f;
-        cell.textLabel.textColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:1.0f];
-    }
-    
-    PCPost *post = (PCPost *)self.venuePosts[indexPath.row];
-    
-    cell.textLabel.text = post.title;
-    return cell;
-}
-
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    PCPostViewController *postVc = [[PCPostViewController alloc] init];
-    postVc.post = (PCPost *)self.venuePosts[indexPath.row];
-    [self.navigationController pushViewController:postVc animated:YES];
-}
 
 
 @end
