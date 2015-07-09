@@ -66,17 +66,28 @@
     
     
     static CGFloat dimen = 120.0f;
-    UIImageView *venueIcon = [[UIImageView alloc] initWithFrame:CGRectMake(16.0f, 40.0f, dimen, dimen)];
+    y = 40.0f;
+    UIImageView *venueIcon = [[UIImageView alloc] initWithFrame:CGRectMake(16.0f, y, dimen, dimen)];
     venueIcon.image = venueImage;
-//    venueIcon.center = CGPointMake(0.20f*frame.size.width, 100.0f);
     venueIcon.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    
     venueIcon.layer.shadowColor = [[UIColor blackColor] CGColor];
     venueIcon.layer.shadowOffset = CGSizeMake(1.0f, 1.0f);
     venueIcon.layer.shadowOpacity = 0.5f;
     venueIcon.layer.shadowRadius = 2.0f;
     venueIcon.layer.shadowPath = [UIBezierPath bezierPathWithRect:venueIcon.bounds].CGPath;
     [view addSubview:venueIcon];
+    
+    CGFloat x = venueIcon.frame.origin.x+dimen+12.0f;
+    UILabel *lblVenueName = [[UILabel alloc] initWithFrame:CGRectMake(x, y, frame.size.width-x, 18.0f)];
+    lblVenueName.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    lblVenueName.numberOfLines = 0;
+    lblVenueName.lineBreakMode = NSLineBreakByWordWrapping;
+    lblVenueName.textColor = [UIColor whiteColor];
+    lblVenueName.text = self.venue.name;
+    lblVenueName.font = [UIFont boldSystemFontOfSize:18.0f];
+    [view addSubview:lblVenueName];
+    
+    
     
     
     
