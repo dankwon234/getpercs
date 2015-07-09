@@ -128,7 +128,6 @@
 		0CCF89451AE46E2300051244 /* PCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCF89441AE46E2300051244 /* PCMessage.m */; };
 		0CD16F131AE7533700B5F85B /* bgBklynBridge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CD16F121AE7533700B5F85B /* bgBklynBridge@2x.png */; };
 		0CD16F191AE75DB200B5F85B /* PCMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD16F181AE75DB200B5F85B /* PCMessagesViewController.m */; };
-		0CD16F1B1AE7654900B5F85B /* bgCityStreet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CD16F1A1AE7654900B5F85B /* bgCityStreet@2x.png */; };
 		0CD782D11AC1AAEA0072A0F3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD782CE1AC1AAEA0072A0F3 /* Reachability.m */; };
 		0CD782D21AC1AAEA0072A0F3 /* SignalCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD782D01AC1AAEA0072A0F3 /* SignalCheck.m */; };
 		0CD782D41AC1AB040072A0F3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CD782D31AC1AB040072A0F3 /* SystemConfiguration.framework */; };
@@ -351,7 +350,6 @@
 		0CD16F121AE7533700B5F85B /* bgBklynBridge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgBklynBridge@2x.png"; sourceTree = "<group>"; };
 		0CD16F171AE75DB200B5F85B /* PCMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCMessagesViewController.h; sourceTree = "<group>"; };
 		0CD16F181AE75DB200B5F85B /* PCMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCMessagesViewController.m; sourceTree = "<group>"; };
-		0CD16F1A1AE7654900B5F85B /* bgCityStreet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgCityStreet@2x.png"; sourceTree = "<group>"; };
 		0CD782CD1AC1AAEA0072A0F3 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		0CD782CE1AC1AAEA0072A0F3 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		0CD782CF1AC1AAEA0072A0F3 /* SignalCheck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignalCheck.h; sourceTree = "<group>"; };
@@ -672,7 +670,6 @@
 				0CAE850D1AEC6B27007332A6 /* bgLights@2x.png */,
 				0CD16F121AE7533700B5F85B /* bgBklynBridge@2x.png */,
 				0C676E141AE36271001B14B7 /* iconEnvelope@2x.png */,
-				0CD16F1A1AE7654900B5F85B /* bgCityStreet@2x.png */,
 				0C676E121AE32FB2001B14B7 /* bgPost@2x.png */,
 				0C5DC6661AE2E19800C4B38B /* iconComment@2x.png */,
 				0CCA8A671B4E386E004FF7D4 /* iconChat@2x.png */,
@@ -930,7 +927,6 @@
 				0C8B61751ABD028800BC13C8 /* mastercard.png in Resources */,
 				0C6A0A8B1B48F9300033CF93 /* dots@2x.png in Resources */,
 				0C5DC6691AE2E27500C4B38B /* iconView@2x.png in Resources */,
-				0CD16F1B1AE7654900B5F85B /* bgCityStreet@2x.png in Resources */,
 				0CA0DE671ABA22EE00537419 /* iconHamburger@2x.png in Resources */,
 				0C8B61731ABD028800BC13C8 /* jcb.png in Resources */,
 				0C8B61781ABD028800BC13C8 /* placeholder@2x.png in Resources */,
