@@ -13,6 +13,7 @@
 @property (strong, nonatomic) UIImageView *icon;
 @property (strong, nonatomic) UIView *base;
 @property (strong, nonatomic) UILabel *lblTitle;
+@property (strong, nonatomic) UILabel *lblDate;
 @property (strong, nonatomic) UILabel *lblNumComments;
 @property (strong, nonatomic) UILabel *lblNumViews;
 + (CGFloat)cellWidth;
