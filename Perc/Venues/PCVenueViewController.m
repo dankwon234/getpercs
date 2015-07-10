@@ -15,6 +15,7 @@
 @interface PCVenueViewController ()
 @property (strong, nonatomic) NSMutableArray *venuePosts;
 @property (strong, nonatomic) UICollectionView *postsTable;
+@property (strong, nonatomic) NSArray *fadeViews;
 @end
 
 static NSString *cellId = @"cellId";
@@ -27,11 +28,14 @@ static NSString *cellId = @"cellId";
     if (self){
         self.edgesForExtendedLayout = UIRectEdgeAll;
         self.venuePosts = [NSMutableArray array];
-
     }
     return self;
 }
 
+- (void)dealloc
+{
+    [self.postsTable removeObserver:self forKeyPath:@"contentOffset"];
+}
 
 - (void)loadView
 {
@@ -128,7 +132,7 @@ static NSString *cellId = @"cellId";
 //    [view addSubview:lblVenuePhone];
 //    y += lblVenuePhone.frame.size.height;
     
-    
+    self.fadeViews = @[venueIcon, lblVenueName, lblVenueTown, lblVenueAddress];
     
     
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(exit:)];
@@ -168,6 +172,29 @@ static NSString *cellId = @"cellId";
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
+    if ([keyPath isEqualToString:@"contentOffset"]){
+        CGFloat offset = self.postsTable.contentOffset.y;
+        CGFloat topInset = self.postsTable.contentInset.top;
+        if (offset < -topInset){
+            for (UIView *view in self.fadeViews) {
+                view.alpha = 1.0f;
+            }
+            
+            return;
+        }
+        
+        static double max = 150.0f;
+        double distance = offset+topInset;
+        
+        if (distance == max)
+            return;
+        
+        double alpha = 1.0f-(distance/max);
+        for (UIView *view in self.fadeViews)
+            view.alpha = alpha;
+    }
+    
+    
     if ([keyPath isEqualToString:@"imageData"]){
         PCPost *post = (PCPost *)object;
         [post removeObserver:self forKeyPath:@"imageData"];
@@ -211,6 +238,7 @@ static NSString *cellId = @"cellId";
                              
                          }
                          completion:^(BOOL finished){
+                             [self.postsTable removeObserver:self forKeyPath:@"contentOffset"];
                              self.postsTable.delegate = nil;
                              self.postsTable.dataSource = nil;
                              [self.postsTable removeFromSuperview];
@@ -226,14 +254,14 @@ static NSString *cellId = @"cellId";
     CGFloat height = [PCCollectionViewFlowLayout cellHeight]+6.0f;
     
     self.postsTable = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, height) collectionViewLayout:[[PCCollectionViewFlowLayout alloc] initVerticalFlowLayout]];
+    self.postsTable.dataSource = self;
+    self.postsTable.delegate = self;
     self.postsTable.backgroundColor = [UIColor clearColor];
-    
     [self.postsTable registerClass:[PCPostCell class] forCellWithReuseIdentifier:cellId];
     self.postsTable.contentInset = UIEdgeInsetsMake([PCCollectionViewFlowLayout verticalCellWidth]+96.0f, 16.0f, 24.0f, 16.0f);
     self.postsTable.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
     self.postsTable.showsHorizontalScrollIndicator = NO;
-    self.postsTable.dataSource = self;
-    self.postsTable.delegate = self;
+    [self.postsTable addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
     [self.view addSubview:self.postsTable];
     [self refreshVenuesCollectionView];
     
