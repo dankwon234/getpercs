@@ -38,6 +38,7 @@
 		0C34CB1C1B1914FE0056A0B3 /* PCContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C34CB1B1B1914FE0056A0B3 /* PCContactCell.m */; };
 		0C437C081B4F47DB0089F4FA /* background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C437C071B4F47DB0089F4FA /* background@2x.png */; };
 		0C4962C61B5066EE00E340E8 /* logoTransparent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C4962C51B5066EE00E340E8 /* logoTransparent@2x.png */; };
+		0C4962C91B506C3D00E340E8 /* Myanmar MN.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 0C4962C81B506C3D00E340E8 /* Myanmar MN.ttc */; };
 		0C5DC6671AE2E19800C4B38B /* iconComment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5DC6661AE2E19800C4B38B /* iconComment@2x.png */; };
 		0C5DC6691AE2E27500C4B38B /* iconView@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5DC6681AE2E27500C4B38B /* iconView@2x.png */; };
 		0C5DC66C1AE2EA9B00C4B38B /* PCPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5DC66B1AE2EA9B00C4B38B /* PCPostViewController.m */; };
@@ -210,6 +211,7 @@
 		0C34CB1B1B1914FE0056A0B3 /* PCContactCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCContactCell.m; sourceTree = "<group>"; };
 		0C437C071B4F47DB0089F4FA /* background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background@2x.png"; sourceTree = "<group>"; };
 		0C4962C51B5066EE00E340E8 /* logoTransparent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logoTransparent@2x.png"; sourceTree = "<group>"; };
+		0C4962C81B506C3D00E340E8 /* Myanmar MN.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Myanmar MN.ttc"; sourceTree = "<group>"; };
 		0C5DC6661AE2E19800C4B38B /* iconComment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconComment@2x.png"; sourceTree = "<group>"; };
 		0C5DC6681AE2E27500C4B38B /* iconView@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconView@2x.png"; sourceTree = "<group>"; };
 		0C5DC66A1AE2EA9B00C4B38B /* PCPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPostViewController.h; sourceTree = "<group>"; };
@@ -523,6 +525,14 @@
 			path = Posts;
 			sourceTree = "<group>";
 		};
+		0C4962C71B506C3D00E340E8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0C4962C81B506C3D00E340E8 /* Myanmar MN.ttc */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		0C6138B41AB8E6A700D12C50 = {
 			isa = PBXGroup;
 			children = (
@@ -550,6 +560,7 @@
 				0C6138C51AB8E6A700D12C50 /* AppDelegate.m */,
 				0C61390C1AB8EC7B00D12C50 /* PCContainerViewController.h */,
 				0C61390D1AB8EC7B00D12C50 /* PCContainerViewController.m */,
+				0C4962C71B506C3D00E340E8 /* Resources */,
 				0C6139191AB8F60E00D12C50 /* Images */,
 				0C6138E61AB8E83900D12C50 /* BaseClasses */,
 				0C89E26B1ABAA39D00077ABD /* Profile */,
@@ -940,6 +951,7 @@
 				0C91E7641AC0DBD9006D7F1D /* bgCoffeeLarge@2x.png in Resources */,
 				0C8B617D1ABD028800BC13C8 /* textfield@2x.png in Resources */,
 				0C5DC6671AE2E19800C4B38B /* iconComment@2x.png in Resources */,
+				0C4962C91B506C3D00E340E8 /* Myanmar MN.ttc in Resources */,
 				0C8B61751ABD028800BC13C8 /* mastercard.png in Resources */,
 				0C6A0A8B1B48F9300033CF93 /* dots@2x.png in Resources */,
 				0C5DC6691AE2E27500C4B38B /* iconView@2x.png in Resources */,
