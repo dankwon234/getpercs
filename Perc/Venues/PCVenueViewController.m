@@ -314,6 +314,7 @@ static NSString *cellId = @"cellId";
     PCPost *post = (PCPost *)self.venuePosts[indexPath.row];
     cell.lblTitle.text = post.title;
     cell.lblDate.text = post.formattedDate;
+    cell.lblNumComments.text = [NSString stringWithFormat:@"%d", post.numComments];
     cell.tag = indexPath.row+1000;
     
 //    cell.lblLocation.text = [NSString stringWithFormat:@"%@, %@", [venue.city capitalizedString], [venue.state uppercaseString]];
