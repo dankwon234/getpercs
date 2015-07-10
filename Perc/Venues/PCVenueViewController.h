@@ -9,7 +9,7 @@
 #import "PCViewController.h"
 #import "PCVenue.h"
 
-@interface PCVenueViewController : PCViewController
+@interface PCVenueViewController : PCViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (strong, nonatomic) PCVenue *venue;
 @property (nonatomic) int mode;

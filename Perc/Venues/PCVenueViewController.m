@@ -9,10 +9,15 @@
 #import "PCVenueViewController.h"
 #import "PCPostViewController.h"
 #import "UIImage+PQImageEffects.h"
+#import "PCCollectionViewFlowLayout.h"
+#import "PCPostCell.h"
 
 @interface PCVenueViewController ()
 @property (strong, nonatomic) NSMutableArray *venuePosts;
+@property (strong, nonatomic) UICollectionView *postsTable;
 @end
+
+static NSString *cellId = @"cellId";
 
 @implementation PCVenueViewController
 
@@ -65,7 +70,7 @@
     
     
     
-    static CGFloat dimen = 140.0f;
+    CGFloat dimen = [PCCollectionViewFlowLayout verticalCellWidth];
     y = 36.0f;
     UIImageView *venueIcon = [[UIImageView alloc] initWithFrame:CGRectMake(16.0f, y, dimen, dimen)];
     venueIcon.image = venueImage;
@@ -78,7 +83,7 @@
     [view addSubview:venueIcon];
     y += 4.0f;
     
-    CGFloat x = venueIcon.frame.origin.x+dimen+12.0f;
+    CGFloat x = venueIcon.frame.origin.x+dimen+14.0f;
     CGFloat width = frame.size.width-x;
     UIFont *bold = [UIFont boldSystemFontOfSize:18.0f];
     
@@ -138,6 +143,7 @@
     [super viewDidLoad];
     [self addCustomBackButton];
     
+    [self.loadingIndicator startLoading];
     [[PCWebServices sharedInstance] fetchPosts:@{@"zone":self.currentZone.uniqueId} completion:^(id result, NSError *error){
         if (error){
             [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
@@ -154,11 +160,31 @@
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+            [self layoutListsCollectionView];
         });
         
     }];
 }
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"imageData"]){
+        PCPost *post = (PCPost *)object;
+        [post removeObserver:self forKeyPath:@"imageData"];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            int index = (int)[self.venuePosts indexOfObject:post];
+            PCPostCell *cell = (PCPostCell *)[self.postsTable cellForItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+            
+            if (!cell)
+                return;
+            
+            cell.icon.image = post.imageData;
+        });
+    }
+    
+}
+
 
 
 - (void)exit:(UIGestureRecognizer *)gesture
@@ -170,6 +196,133 @@
 {
     // override because we actually don't want it in this view
 }
+
+
+- (void)layoutListsCollectionView
+{
+    if (self.postsTable){
+        [self.loadingIndicator startLoading];
+        [UIView animateWithDuration:0.40f
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             CGRect frame = self.postsTable.frame;
+                             self.postsTable.frame = CGRectMake(frame.origin.x, self.view.frame.size.height, frame.size.width, frame.size.height);
+                             
+                         }
+                         completion:^(BOOL finished){
+                             self.postsTable.delegate = nil;
+                             self.postsTable.dataSource = nil;
+                             [self.postsTable removeFromSuperview];
+                             self.postsTable = nil;
+                             [self layoutListsCollectionView];
+                         }];
+        
+        return;
+    }
+    
+    CGRect frame = self.view.frame;
+    
+    CGFloat height = [PCCollectionViewFlowLayout cellHeight]+6.0f;
+    
+    self.postsTable = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, height) collectionViewLayout:[[PCCollectionViewFlowLayout alloc] initVerticalFlowLayout]];
+    self.postsTable.backgroundColor = [UIColor clearColor];
+    
+    [self.postsTable registerClass:[PCPostCell class] forCellWithReuseIdentifier:cellId];
+    self.postsTable.contentInset = UIEdgeInsetsMake([PCCollectionViewFlowLayout verticalCellWidth]+96.0f, 16.0f, 24.0f, 16.0f);
+    self.postsTable.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
+    self.postsTable.showsHorizontalScrollIndicator = NO;
+    self.postsTable.dataSource = self;
+    self.postsTable.delegate = self;
+    [self.view addSubview:self.postsTable];
+    [self refreshVenuesCollectionView];
+    
+    
+    [UIView animateWithDuration:1.25f
+                          delay:0.75f // delay gives collection view time to 'set up' and therefore not intefere with animation
+         usingSpringWithDamping:0.6f
+          initialSpringVelocity:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         [self.loadingIndicator stopLoading];
+                         self.postsTable.frame = CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
+
+- (void)refreshVenuesCollectionView
+{
+    // IMPORTANT: Have to call this on main thread! Otherwise, data models in array might not be synced, and reload acts funky
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.postsTable.collectionViewLayout invalidateLayout];
+        [self.postsTable reloadData];
+        
+        NSMutableArray *indexPaths = [NSMutableArray array];
+        for (int i=0; i<self.currentZone.venues.count; i++)
+            [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+        
+        [self.postsTable reloadItemsAtIndexPaths:indexPaths];
+    });
+}
+
+
+#pragma mark - UICollectionViewDataSource
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return self.venuePosts.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    PCPostCell *cell = (PCPostCell *)[collectionView dequeueReusableCellWithReuseIdentifier:cellId forIndexPath:indexPath];
+    
+    PCPost *post = (PCPost *)self.venuePosts[indexPath.row];
+    cell.lblTitle.text = post.title;
+    cell.lblDate.text = post.formattedDate;
+    cell.tag = indexPath.row+1000;
+    
+//    cell.lblLocation.text = [NSString stringWithFormat:@"%@, %@", [venue.city capitalizedString], [venue.state uppercaseString]];
+//    cell.lblDetails.text = [NSString stringWithFormat:@"%.1f miles", venue.distance];
+    
+    if ([post.image isEqualToString:@"none"]){
+        cell.icon.image = [UIImage imageNamed:@"logo.png"];
+        return cell;
+    }
+
+    if (post.imageData){
+        cell.icon.image = post.imageData;
+        return cell;
+    }
+
+    cell.icon.image = [UIImage imageNamed:@"icon.png"];
+    [post addObserver:self forKeyPath:@"imageData" options:0 context:nil];
+    [post fetchImage];
+    
+    return cell;
+}
+
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CGSizeMake([PCCollectionViewFlowLayout verticalCellWidth], [PCCollectionViewFlowLayout cellHeight]);
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    PCPostViewController *postVc = [[PCPostViewController alloc] init];
+    postVc.post = self.venuePosts[indexPath.row];
+    [self.navigationController pushViewController:postVc animated:YES];
+}
+
+
+
 
 
 
