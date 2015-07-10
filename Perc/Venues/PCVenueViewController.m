@@ -89,7 +89,7 @@ static NSString *cellId = @"cellId";
     
     CGFloat x = venueIcon.frame.origin.x+dimen+14.0f;
     CGFloat width = frame.size.width-x;
-    UIFont *bold = [UIFont boldSystemFontOfSize:18.0f];
+    UIFont *bold = [UIFont fontWithName:kBaseBoldFont size:18.0f];
     
     bounds = [self.venue.name boundingRectWithSize:CGSizeMake(width, 100.0f)
                                            options:NSStringDrawingUsesLineFragmentOrigin
@@ -111,7 +111,7 @@ static NSString *cellId = @"cellId";
     lblVenueAddress.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     lblVenueAddress.textColor = [UIColor whiteColor];
     lblVenueAddress.text = [self.venue.address capitalizedString];
-    lblVenueAddress.font = [UIFont systemFontOfSize:14.0f];
+    lblVenueAddress.font = [UIFont fontWithName:kBaseFontName size:14.0f];
     [view addSubview:lblVenueAddress];
     y += lblVenueAddress.frame.size.height;
 
