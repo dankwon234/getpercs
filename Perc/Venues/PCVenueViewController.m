@@ -315,10 +315,9 @@ static NSString *cellId = @"cellId";
     cell.lblTitle.text = post.title;
     cell.lblDate.text = post.formattedDate;
     cell.lblNumComments.text = [NSString stringWithFormat:@"%d", post.numComments];
+    cell.lblNumViews.text = [NSString stringWithFormat:@"%d", post.numViews];
     cell.tag = indexPath.row+1000;
     
-//    cell.lblLocation.text = [NSString stringWithFormat:@"%@, %@", [venue.city capitalizedString], [venue.state uppercaseString]];
-//    cell.lblDetails.text = [NSString stringWithFormat:@"%.1f miles", venue.distance];
     
     if ([post.image isEqualToString:@"none"]){
         cell.icon.image = [UIImage imageNamed:@"logo.png"];
