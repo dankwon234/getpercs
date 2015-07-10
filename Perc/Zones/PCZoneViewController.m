@@ -58,10 +58,16 @@ static NSString *cellId = @"cellId";
 - (void)loadView
 {
     UIView *view = [self baseView];
-    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background3.png"]];
+    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
     CGRect frame = view.frame;
     
     CGFloat width = frame.size.width;
+    
+    
+    UIImageView *transparentLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logoTransparent.png"]];
+    transparentLogo.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    transparentLogo.center = CGPointMake(0.5f*frame.size.width, 0.25f*frame.size.height);
+    [view addSubview:transparentLogo];
     
     self.bulletinBoardScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, width, width)];
     self.bulletinBoardScroll.delegate = self;
@@ -365,7 +371,7 @@ static NSString *cellId = @"cellId";
             CGFloat dimen = self.bulletinBoardScroll.frame.size.width;
             for (int i=0; i<self.currentZone.posts.count; i++) {
                 PCPost *post = self.currentZone.posts[i];
-                PCPostView *postView = [[PCPostView alloc] initWithFrame:CGRectMake(i*dimen, -64.0f, dimen, dimen)];
+                PCPostView *postView = [[PCPostView alloc] initWithFrame:CGRectMake(i*dimen, 0.0f, dimen, dimen)];
                 postView.tag = 1000+i;
                 postView.lblTitle.text = post.title;
                 postView.lblDate.text = post.formattedDate;
