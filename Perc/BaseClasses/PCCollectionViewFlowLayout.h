@@ -12,7 +12,10 @@
 
 @interface PCCollectionViewFlowLayout : UICollectionViewFlowLayout
 
+@property (nonatomic) BOOL isHorizontal;
 + (CGFloat)cellPadding;
++ (CGFloat)verticalCellWidth;
 + (CGFloat)cellWidth;
 + (CGFloat)cellHeight;
+- (id)initVerticalFlowLayout;
 @end
