@@ -86,21 +86,26 @@
 
         self.lblNumComments = [[UILabel alloc] initWithFrame:CGRectMake(x, y-2.0f, 20.0f, 18.0f)];
         self.lblNumComments.textAlignment = NSTextAlignmentRight;
-        self.lblNumComments.text = @"88";
         self.lblNumComments.textColor = [UIColor whiteColor];
         self.lblNumComments.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:14.0f];
         [self.base addSubview:self.lblNumComments];
+        x -= self.lblNumComments.frame.size.width+12.0f;
+        
+        UIImage *iconEye = [UIImage imageNamed:@"iconEye.png"];
+        UIImageView *iconView = [[UIImageView alloc] initWithImage:iconEye];
+        iconView.frame = CGRectMake(x, y, iconEye.size.width, iconEye.size.height);
+        [self.base addSubview:iconView];
+        x -= iconView.frame.size.width+6.0f;
         
         
-//
-//        self.lblNumViews = [[UILabel alloc] initWithFrame:CGRectMake(self.base.frame.size.width-65.0f, 8.0f, 50.0f, 18.0f)];
-//        self.lblNumViews.text = @"8 Views";
-//        self.lblNumViews.textAlignment = NSTextAlignmentRight;
-//        self.lblNumViews.textColor = gray;
-//        self.lblNumViews.font = self.lblNumComments.font;
-//        UIImageView *iconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconView.png"]];
-//        [self.lblNumViews addSubview:iconView];
-//        [self.base addSubview:self.lblNumViews];
+        self.lblNumViews = [[UILabel alloc] initWithFrame:CGRectMake(x, y-2.0f, 24.0f, 18.0f)];
+        self.lblNumViews.textAlignment = NSTextAlignmentRight;
+        self.lblNumViews.textColor = [UIColor whiteColor];
+        self.lblNumViews.font = self.lblNumComments.font;
+
+        
+        [self.base addSubview:self.lblNumViews];
+
 
         
         
