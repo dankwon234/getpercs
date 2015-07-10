@@ -74,17 +74,24 @@
         self.lblDate.font = [UIFont systemFontOfSize:12.0f];
         [self.base addSubview:self.lblDate];
         y += self.lblDate.frame.size.height;
-
         
-//        UIColor *gray = [UIColor grayColor];
-//        self.lblNumComments = [[UILabel alloc] initWithFrame:CGRectMake(x, 8.0f, 68.0f, 18.0f)];
-//        self.lblNumComments.textAlignment = NSTextAlignmentRight;
-//        self.lblNumComments.text = @"8 Comments";
-//        self.lblNumComments.textColor = gray;
-//        self.lblNumComments.font = [UIFont systemFontOfSize:8.0f];
-//        UIImageView *iconComment = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconComment.png"]];
-//        [self.lblNumComments addSubview:iconComment];
-//        [self.base addSubview:self.lblNumComments];
+        UIImage *chatBubble = [UIImage imageNamed:@"iconChat.png"];
+        y = frame.size.height-chatBubble.size.height-6.0f;
+        CGFloat x = frame.size.width-chatBubble.size.width-padding;
+        
+        UIImageView *iconComment = [[UIImageView alloc] initWithImage:chatBubble];
+        iconComment.frame = CGRectMake(x, y, chatBubble.size.width, chatBubble.size.height);
+        [self.base addSubview:iconComment];
+        x -= 24.0f;
+
+        self.lblNumComments = [[UILabel alloc] initWithFrame:CGRectMake(x, y-2.0f, 20.0f, 18.0f)];
+        self.lblNumComments.textAlignment = NSTextAlignmentRight;
+        self.lblNumComments.text = @"88";
+        self.lblNumComments.textColor = [UIColor whiteColor];
+        self.lblNumComments.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:14.0f];
+        [self.base addSubview:self.lblNumComments];
+        
+        
 //
 //        self.lblNumViews = [[UILabel alloc] initWithFrame:CGRectMake(self.base.frame.size.width-65.0f, 8.0f, 50.0f, 18.0f)];
 //        self.lblNumViews.text = @"8 Views";
