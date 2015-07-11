@@ -7,7 +7,6 @@
 
 
 #import "PCZoneViewController.h"
-#import "PCVenuesViewController.h"
 #import "PCVenueViewController.h"
 #import "PCPostsViewController.h"
 #import "PCPostViewController.h"
@@ -262,26 +261,6 @@ static NSString *cellId = @"cellId";
     }];
 }
 
-
-- (void)selectSection:(UIGestureRecognizer *)tap
-{
-    int tag = (int)tap.view.tag;
-    NSLog(@"selectSection: %d", tag);
-    
-    if (tag==1000){ // order food
-        PCVenuesViewController *venuesVc = [[PCVenuesViewController alloc] init];
-        [self.navigationController pushViewController:venuesVc animated:YES];
-    }
-
-    if (tag==1001){ // view bulletin board posts
-        PCPostsViewController *postsVc = [[PCPostsViewController alloc] init];
-        [self.navigationController pushViewController:postsVc animated:YES];
-    }
-
-    if (tag==1002){ // update location
-        [self updateLocation];
-    }
-}
 
 - (void)nextPage
 {
