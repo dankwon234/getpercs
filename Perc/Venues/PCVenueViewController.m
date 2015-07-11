@@ -171,11 +171,8 @@ static NSString *cellId = @"cellId";
     
     [self.loadingIndicator startLoading];
     
-    if (self.currentZone.uniqueId==nil)
-        return;
     
-    
-    [[PCWebServices sharedInstance] fetchPosts:@{@"zone":self.currentZone.uniqueId} completion:^(id result, NSError *error){
+    [[PCWebServices sharedInstance] fetchPosts:@{@"venue":self.venue.uniqueId} completion:^(id result, NSError *error){
         if (error){
             [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
             return;
@@ -191,7 +188,13 @@ static NSString *cellId = @"cellId";
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self layoutListsCollectionView];
+            if (self.venuePosts.count > 0)
+                [self layoutListsCollectionView];
+            
+            else{
+                [self.loadingIndicator stopLoading];
+            }
+            
         });
         
     }];
