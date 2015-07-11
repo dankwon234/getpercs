@@ -219,12 +219,6 @@ static NSString *cellId = @"cellId";
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)addNavigationTitleView
-{
-    // override because we actually don't want it in this view
-}
-
-
 - (void)layoutListsCollectionView
 {
     if (self.postsTable){
