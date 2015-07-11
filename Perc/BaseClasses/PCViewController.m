@@ -92,7 +92,7 @@
     titleView.backgroundColor = [UIColor clearColor];
     UIImage *imgLogo = [UIImage imageNamed:@"logoTransparent.png"];
     UIImageView *logo = [[UIImageView alloc] initWithImage:imgLogo];
-    static double scale = 0.5f;
+    static double scale = 0.45f;
     CGRect frame = logo.frame;
     frame.size.width = scale*imgLogo.size.width;
     frame.size.height = scale*imgLogo.size.height;
