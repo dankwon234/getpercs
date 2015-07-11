@@ -77,53 +77,57 @@
     gradient.frame = bounds;
     gradient.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.7f] CGColor], (id)[[UIColor clearColor] CGColor]];
     [self.backgroundImage.layer insertSublayer:gradient atIndex:0];
-    
     [view addSubview:self.backgroundImage];
 
-    UIFont *boldFont = [UIFont fontWithName:kBaseFontName size:22.0f];
-    CGFloat w = frame.size.width-40.0f;
-    CGRect boundingRect = [self.post.title boundingRectWithSize:CGSizeMake(w, 60)
-                                                        options:NSStringDrawingUsesLineFragmentOrigin
-                                                     attributes:@{NSFontAttributeName:boldFont}
-                                                        context:nil];
-    
-    self.lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, 64.0f, w, boundingRect.size.height)];
-    self.lblTitle.textColor = [UIColor whiteColor];
-    self.lblTitle.numberOfLines = 2;
-    self.lblTitle.lineBreakMode = NSLineBreakByWordWrapping;
-    self.lblTitle.textAlignment = NSTextAlignmentCenter;
-    self.lblTitle.font = boldFont;
-    self.lblTitle.text = self.post.title;
-    [view addSubview:self.lblTitle];
-    
     self.theTableview = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height-20.0f)];
     self.theTableview.dataSource = self;
     self.theTableview.delegate = self;
     self.theTableview.backgroundColor = [UIColor clearColor];
+    self.theTableview.showsVerticalScrollIndicator = NO;
     self.theTableview.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
     self.theTableview.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.theTableview addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
     
-    
     width = frame.size.width-40.0f;
     UIFont *baseFont = [UIFont fontWithName:kBaseFontName size:16.0f];
-    boundingRect = [self.post.content boundingRectWithSize:CGSizeMake(width, 800.0f)
-                                                   options:NSStringDrawingUsesLineFragmentOrigin
-                                                attributes:@{NSFontAttributeName:baseFont}
-                                                   context:nil];
+    CGRect contentRect = [self.post.content boundingRectWithSize:CGSizeMake(width, 800.0f)
+                                                         options:NSStringDrawingUsesLineFragmentOrigin
+                                                      attributes:@{NSFontAttributeName:baseFont}
+                                                         context:nil];
     
-    CGFloat h = (boundingRect.size.height < 98.0f) ? 428.0f : boundingRect.size.height+302.0f;
-    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, h)];
+    CGFloat h = (contentRect.size.height < 98.0f) ? 478.0f : contentRect.size.height+352.0f;
+    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 175.0f, frame.size.width, h)];
     header.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgPost.png"]];
     
-    self.lblDate = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 175.0f, frame.size.width-20.0f, 22.0f)];
+    
+    CGFloat y = 175.0f;
+    self.lblDate = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width-20.0f, 22.0f)];
     self.lblDate.textColor = kOrange;
     self.lblDate.font = [UIFont fontWithName:kBaseFontName size:14.0f];
     self.lblDate.textAlignment = NSTextAlignmentRight;
     self.lblDate.text = self.post.formattedDate;
     [header addSubview:self.lblDate];
     
-    self.lblContent = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, 220.0f, width, boundingRect.size.height)];
+    
+    UIFont *boldFont = [UIFont fontWithName:kBaseFontName size:22.0f];
+    CGFloat w = frame.size.width-40.0f;
+    CGRect titleRect = [self.post.title boundingRectWithSize:CGSizeMake(w, 160)
+                                                     options:NSStringDrawingUsesLineFragmentOrigin
+                                                  attributes:@{NSFontAttributeName:boldFont}
+                                                     context:nil];
+    
+    y = 220.0f;
+    self.lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, y, w, titleRect.size.height)];
+    self.lblTitle.textColor = [UIColor darkGrayColor];
+    self.lblTitle.numberOfLines = 2;
+    self.lblTitle.lineBreakMode = NSLineBreakByWordWrapping;
+    self.lblTitle.font = boldFont;
+    self.lblTitle.text = self.post.title;
+    [header addSubview:self.lblTitle];
+
+    
+    y += self.lblTitle.frame.size.height+24.0f;
+    self.lblContent = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, y, width, contentRect.size.height)];
     self.lblContent.numberOfLines = 0;
     self.lblContent.lineBreakMode = NSLineBreakByWordWrapping;
     self.lblContent.font = baseFont;
