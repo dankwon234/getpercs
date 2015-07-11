@@ -308,13 +308,13 @@
 {
 //    NSLog(@"keyboardAppearNotification: %@", [note.userInfo description]);
     CGRect keyboardFrame = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    [self shiftUp:keyboardFrame.size.height-kNavBarHeight];
+    [self shiftUp:keyboardFrame.size.height];
 }
 
 - (void)keyboardHideNotification:(NSNotification *)note
 {
 //    NSLog(@"keyboardHideNotification: %@", [note.userInfo description]);
-    [self shiftBack:kNavBarHeight];
+    [self shiftBack:0.0f];
 }
 
 - (void)submitComment:(UIButton *)btn
