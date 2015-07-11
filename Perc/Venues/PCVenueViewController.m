@@ -210,7 +210,7 @@ static NSString *cellId = @"cellId";
             return;
         }
         
-        static double max = 150.0f;
+        static double max = 120.0f;
         double distance = offset+topInset;
         
         if (distance == max)
