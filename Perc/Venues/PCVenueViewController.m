@@ -148,6 +148,11 @@ static NSString *cellId = @"cellId";
     [self addCustomBackButton];
     
     [self.loadingIndicator startLoading];
+    
+    if (self.currentZone.uniqueId==nil)
+        return;
+    
+    
     [[PCWebServices sharedInstance] fetchPosts:@{@"zone":self.currentZone.uniqueId} completion:^(id result, NSError *error){
         if (error){
             [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
