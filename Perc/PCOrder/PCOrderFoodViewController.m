@@ -50,7 +50,7 @@ static NSString *placeholder = @"Type your order here.";
     
     
     UIView *view = [self baseView];
-    UIImage *imgBackground = [UIImage imageNamed:@"hopper.png"];
+    UIImage *imgBackground = [UIImage imageNamed:@"backgroundBlue.png"];
     view.backgroundColor = [UIColor colorWithPatternImage:imgBackground];
     CGRect frame = view.frame;
     
@@ -80,10 +80,11 @@ static NSString *placeholder = @"Type your order here.";
     
     self.theScrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
     self.theScrollview.delegate = self;
-    self.theScrollview.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    self.theScrollview.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     self.theScrollview.showsVerticalScrollIndicator = NO;
     [self.theScrollview addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
     
+    y += 36.0f;
     UIView *orderBackground = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 240.0f)];
     orderBackground.backgroundColor = [UIColor whiteColor];
     orderBackground.alpha = 0.8f;
@@ -189,13 +190,14 @@ static NSString *placeholder = @"Type your order here.";
     btnOrder.layer.cornerRadius = 0.5f*h;
     btnOrder.layer.masksToBounds = YES;
     btnOrder.layer.borderColor = [[UIColor whiteColor] CGColor];
-    btnOrder.layer.borderWidth = 1.0f;
+    btnOrder.layer.borderWidth = 2.0f;
+    btnOrder.titleLabel.font = [UIFont fontWithName:kBaseBoldFont size:18.0f];
     [btnOrder setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [btnOrder setTitle:@"SUBMIT ORDER" forState:UIControlStateNormal];
     [btnOrder addTarget:self action:@selector(submitOrder:) forControlEvents:UIControlEventTouchUpInside];
     [bgOrder addSubview:btnOrder];
     [self.theScrollview addSubview:bgOrder];
-    y += bgOrder.frame.size.height+44.0f;
+    y += bgOrder.frame.size.height+20.0f;
     
     [view addSubview:self.theScrollview];
     self.theScrollview.contentSize = CGSizeMake(0, y);
@@ -419,7 +421,6 @@ static NSString *placeholder = @"Type your order here.";
 {
     self.theScrollview.delegate = nil;
     [self.theScrollview setContentOffset:CGPointMake(0, 280.0f) animated:YES];
-    //    [self.theScrollview setContentOffset:CGPointMake(0, textField.frame.origin.y+self.orderForm.frame.origin.y+88.0f) animated:YES];
     [self performSelector:@selector(resetDelegate) withObject:nil afterDelay:0.6f];
     
     return YES;
@@ -434,7 +435,7 @@ static NSString *placeholder = @"Type your order here.";
     }
     
     self.theScrollview.delegate = nil;
-    [self.theScrollview setContentOffset:CGPointMake(0, 80.0f) animated:YES];
+    [self.theScrollview setContentOffset:CGPointMake(0, 144.0f) animated:YES];
     [self performSelector:@selector(resetDelegate) withObject:nil afterDelay:0.6f];
     
     return YES;
