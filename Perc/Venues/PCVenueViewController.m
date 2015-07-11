@@ -293,10 +293,11 @@ static NSString *cellId = @"cellId";
           initialSpringVelocity:0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         [self.loadingIndicator stopLoading];
+                         self.loadingIndicator.alpha = 0.0f;
                          self.postsTable.frame = CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height);
                      }
                      completion:^(BOOL finished){
+                         [self.loadingIndicator stopLoading];
                          [self.view bringSubviewToFront:self.btnOrder];
                      }];
 }
