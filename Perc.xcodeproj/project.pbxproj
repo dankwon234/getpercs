@@ -39,6 +39,7 @@
 		0C437C081B4F47DB0089F4FA /* background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C437C071B4F47DB0089F4FA /* background@2x.png */; };
 		0C4962C61B5066EE00E340E8 /* logoTransparent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C4962C51B5066EE00E340E8 /* logoTransparent@2x.png */; };
 		0C4962C91B506C3D00E340E8 /* Myanmar MN.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 0C4962C81B506C3D00E340E8 /* Myanmar MN.ttc */; };
+		0C5819D31B51A32D001410B2 /* backgroundBlue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5819D21B51A32D001410B2 /* backgroundBlue@2x.png */; };
 		0C5DC6671AE2E19800C4B38B /* iconComment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5DC6661AE2E19800C4B38B /* iconComment@2x.png */; };
 		0C5DC6691AE2E27500C4B38B /* iconView@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5DC6681AE2E27500C4B38B /* iconView@2x.png */; };
 		0C5DC66C1AE2EA9B00C4B38B /* PCPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5DC66B1AE2EA9B00C4B38B /* PCPostViewController.m */; };
@@ -212,6 +213,7 @@
 		0C437C071B4F47DB0089F4FA /* background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background@2x.png"; sourceTree = "<group>"; };
 		0C4962C51B5066EE00E340E8 /* logoTransparent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logoTransparent@2x.png"; sourceTree = "<group>"; };
 		0C4962C81B506C3D00E340E8 /* Myanmar MN.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Myanmar MN.ttc"; sourceTree = "<group>"; };
+		0C5819D21B51A32D001410B2 /* backgroundBlue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backgroundBlue@2x.png"; sourceTree = "<group>"; };
 		0C5DC6661AE2E19800C4B38B /* iconComment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconComment@2x.png"; sourceTree = "<group>"; };
 		0C5DC6681AE2E27500C4B38B /* iconView@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconView@2x.png"; sourceTree = "<group>"; };
 		0C5DC66A1AE2EA9B00C4B38B /* PCPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPostViewController.h; sourceTree = "<group>"; };
@@ -822,6 +824,7 @@
 			isa = PBXGroup;
 			children = (
 				0C437C071B4F47DB0089F4FA /* background@2x.png */,
+				0C5819D21B51A32D001410B2 /* backgroundBlue@2x.png */,
 				0CCA8A741B4E3F7C004FF7D4 /* background1@2x.png */,
 				0CCA8A751B4E3F7C004FF7D4 /* background1@3x.png */,
 			);
@@ -948,6 +951,7 @@
 				0CBC22E81ABF8C53004722E1 /* bgCoffee@2x.png in Resources */,
 				0CA0DE7F1ABA515400537419 /* backArrow@2x.png in Resources */,
 				0C8B617B1ABD028800BC13C8 /* gradient@2x.png in Resources */,
+				0C5819D31B51A32D001410B2 /* backgroundBlue@2x.png in Resources */,
 				0C91E7641AC0DBD9006D7F1D /* bgCoffeeLarge@2x.png in Resources */,
 				0C8B617D1ABD028800BC13C8 /* textfield@2x.png in Resources */,
 				0C5DC6671AE2E19800C4B38B /* iconComment@2x.png in Resources */,
