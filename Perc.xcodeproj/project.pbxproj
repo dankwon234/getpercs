@@ -60,7 +60,6 @@
 		0C6139071AB8EADC00D12C50 /* PCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6139061AB8EADC00D12C50 /* PCViewController.m */; };
 		0C61390A1AB8EAFC00D12C50 /* PCLoadingIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6139091AB8EAFC00D12C50 /* PCLoadingIndicator.m */; };
 		0C61390E1AB8EC7B00D12C50 /* PCContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C61390D1AB8EC7B00D12C50 /* PCContainerViewController.m */; };
-		0C6139121AB8F29D00D12C50 /* PCVenuesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6139111AB8F29D00D12C50 /* PCVenuesViewController.m */; };
 		0C6139151AB8F2CA00D12C50 /* PCVenue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6139141AB8F2CA00D12C50 /* PCVenue.m */; };
 		0C6139181AB8F36000D12C50 /* PCLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6139171AB8F36000D12C50 /* PCLocationManager.m */; };
 		0C676E131AE32FB2001B14B7 /* bgPost@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C676E121AE32FB2001B14B7 /* bgPost@2x.png */; };
@@ -255,8 +254,6 @@
 		0C61390B1AB8EB4000D12C50 /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		0C61390C1AB8EC7B00D12C50 /* PCContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCContainerViewController.h; sourceTree = "<group>"; };
 		0C61390D1AB8EC7B00D12C50 /* PCContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCContainerViewController.m; sourceTree = "<group>"; };
-		0C6139101AB8F29D00D12C50 /* PCVenuesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCVenuesViewController.h; sourceTree = "<group>"; };
-		0C6139111AB8F29D00D12C50 /* PCVenuesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCVenuesViewController.m; sourceTree = "<group>"; };
 		0C6139131AB8F2CA00D12C50 /* PCVenue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCVenue.h; sourceTree = "<group>"; };
 		0C6139141AB8F2CA00D12C50 /* PCVenue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCVenue.m; sourceTree = "<group>"; };
 		0C6139161AB8F36000D12C50 /* PCLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCLocationManager.h; sourceTree = "<group>"; };
@@ -671,8 +668,6 @@
 			children = (
 				0C6139131AB8F2CA00D12C50 /* PCVenue.h */,
 				0C6139141AB8F2CA00D12C50 /* PCVenue.m */,
-				0C6139101AB8F29D00D12C50 /* PCVenuesViewController.h */,
-				0C6139111AB8F29D00D12C50 /* PCVenuesViewController.m */,
 				0CA0DE7B1ABA4EB500537419 /* PCVenueViewController.h */,
 				0CA0DE7C1ABA4EB500537419 /* PCVenueViewController.m */,
 				0CA0DE6B1ABA253600537419 /* PCVenueCell.h */,
@@ -1035,7 +1030,6 @@
 				0C6139071AB8EADC00D12C50 /* PCViewController.m in Sources */,
 				0C333F571ADFA0F30005DD84 /* PCPostsViewController.m in Sources */,
 				0C0F2F481ABCF55900DBFD8F /* STPBankAccount.m in Sources */,
-				0C6139121AB8F29D00D12C50 /* PCVenuesViewController.m in Sources */,
 				0C8B61661ABD028800BC13C8 /* PTKTextField.m in Sources */,
 				0C7F11201AEB68E60068D367 /* PCMessageViewController.m in Sources */,
 				0CDD96DC1B16F3520026E052 /* PCInviteViewController.m in Sources */,
