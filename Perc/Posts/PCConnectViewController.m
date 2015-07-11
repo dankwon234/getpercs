@@ -28,6 +28,7 @@ static NSString *placeholder = @"Reply";
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
+        self.edgesForExtendedLayout = UIRectEdgeAll;
         self.message = [[PCMessage alloc] init];
         
     }
@@ -60,13 +61,13 @@ static NSString *placeholder = @"Reply";
         CGFloat height = scale*postImage.size.height;
         
         self.backgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, y, width, height)];
-        self.backgroundImage.image = [postImage applyBlurOnImage:0.50f];
+        UIImage *croped = [UIImage crop:postImage rect:CGRectMake(0.0f, 0.0f, 0.75f*postImage.size.width, 0.75f*postImage.size.height)];
+        self.backgroundImage.image = [croped applyBlurOnImage:0.80f];
         
         CAGradientLayer *gradient = [CAGradientLayer layer];
         CGRect bounds = self.backgroundImage.bounds;
-        bounds.size.height *= 0.6f;
         gradient.frame = bounds;
-        gradient.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.7f] CGColor], (id)[[UIColor clearColor] CGColor]];
+        gradient.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.70f] CGColor], (id)[[UIColor clearColor] CGColor]];
         [self.backgroundImage.layer insertSublayer:gradient atIndex:0];
         
         [view addSubview:self.backgroundImage];
@@ -106,12 +107,12 @@ static NSString *placeholder = @"Reply";
     }
     
 
-    self.theScrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
+    self.theScrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, kNavBarHeight, frame.size.width, frame.size.height)];
     self.theScrollview.delegate = self;
     self.theScrollview.showsVerticalScrollIndicator = NO;
     [self.theScrollview addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
     
-    CGFloat h = frame.size.height-y-96.0f-44.0f;
+    CGFloat h = frame.size.height-y-140.0f;
     UIView *replyBackground = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
     replyBackground.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     replyBackground.backgroundColor = [UIColor whiteColor];
@@ -148,7 +149,7 @@ static NSString *placeholder = @"Reply";
     [btnReply addTarget:self action:@selector(submitReply:) forControlEvents:UIControlEventTouchUpInside];
     [bgReply addSubview:btnReply];
     [self.theScrollview addSubview:bgReply];
-    y += bgReply.frame.size.height+44.0f;
+    y += bgReply.frame.size.height+h;
 
     
     
@@ -208,6 +209,8 @@ static NSString *placeholder = @"Reply";
 }
 
 
+
+
 - (void)submitReply:(UIButton *)btn
 {
     if (self.replyForm.text.length==0){
@@ -265,7 +268,8 @@ static NSString *placeholder = @"Reply";
     }
     
     self.theScrollview.delegate = nil;
-    [self.theScrollview setContentOffset:CGPointMake(0, 80.0f) animated:YES];
+//    [self.theScrollview setContentOffset:CGPointMake(0, 80.0f) animated:YES];
+    [self.theScrollview setContentOffset:CGPointMake(0, 144.0f) animated:YES];
     [self performSelector:@selector(resetDelegate) withObject:nil afterDelay:0.6f];
     
     return YES;
