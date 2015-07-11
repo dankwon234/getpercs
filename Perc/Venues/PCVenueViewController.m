@@ -11,11 +11,13 @@
 #import "UIImage+PQImageEffects.h"
 #import "PCCollectionViewFlowLayout.h"
 #import "PCPostCell.h"
+#import "PCOrderFoodViewController.h"
 
 @interface PCVenueViewController ()
 @property (strong, nonatomic) NSMutableArray *venuePosts;
 @property (strong, nonatomic) UICollectionView *postsTable;
 @property (strong, nonatomic) NSArray *fadeViews;
+@property (strong, nonatomic) UIButton *btnOrder;
 @end
 
 static NSString *cellId = @"cellId";
@@ -132,7 +134,27 @@ static NSString *cellId = @"cellId";
 //    [view addSubview:lblVenuePhone];
 //    y += lblVenuePhone.frame.size.height;
     
-    self.fadeViews = @[venueIcon, lblVenueName, lblVenueTown, lblVenueAddress];
+    
+    if ([self.venue.category isEqualToString:@"food"]){
+        y = venueIcon.frame.size.height+venueIcon.frame.origin.y-36.0f;
+        self.btnOrder = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.btnOrder.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        self.btnOrder.frame = CGRectMake(x, y, [PCCollectionViewFlowLayout verticalCellWidth], 36.0f);
+        self.btnOrder.backgroundColor = [UIColor clearColor];
+        self.btnOrder.layer.borderWidth = 2.0f;
+        self.btnOrder.layer.borderColor = [[UIColor whiteColor] CGColor];
+        self.btnOrder.layer.cornerRadius = 0.5f*self.btnOrder.frame.size.height;
+        [self.btnOrder setTitle:@"Order" forState:UIControlStateNormal];
+        [self.btnOrder setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        self.btnOrder.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+        [self.btnOrder addTarget:self action:@selector(orderFood:) forControlEvents:UIControlEventTouchUpInside];
+        [view addSubview:self.btnOrder];
+        self.fadeViews = @[venueIcon, lblVenueName, lblVenueTown, lblVenueAddress, self.btnOrder];
+    }
+    else{
+        self.fadeViews = @[venueIcon, lblVenueName, lblVenueTown, lblVenueAddress];
+    }
+    
     
     
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(exit:)];
@@ -275,7 +297,7 @@ static NSString *cellId = @"cellId";
                          self.postsTable.frame = CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height);
                      }
                      completion:^(BOOL finished){
-                         
+                         [self.view bringSubviewToFront:self.btnOrder];
                      }];
 }
 
@@ -294,6 +316,14 @@ static NSString *cellId = @"cellId";
     });
 }
 
+
+- (void)orderFood:(UIButton *)btn
+{
+    NSLog(@"orderFood: ");
+    PCOrderFoodViewController *orderFoodVc = [[PCOrderFoodViewController alloc] init];
+    orderFoodVc.venue = self.venue;
+    [self.navigationController pushViewController:orderFoodVc animated:YES];
+}
 
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -350,7 +380,23 @@ static NSString *cellId = @"cellId";
 
 
 
+#pragma mark - ScrollViewDelegate
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    NSLog(@"scrollViewWillBeginDragging");
+    NSArray *subviews = self.view.subviews;
+    if ([subviews indexOfObject:scrollView]==subviews.count-1)
+        return;
+    
+    [self.view bringSubviewToFront:scrollView];
+}
 
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [self.view bringSubviewToFront:self.btnOrder];
+
+    
+}
 
 
 
