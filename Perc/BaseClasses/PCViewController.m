@@ -200,7 +200,14 @@
     
     PCAccountViewController *accountVc = [[PCAccountViewController alloc] init];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:accountVc];
-    navController.navigationBar.barTintColor = kGreen;
+    
+    // makes nav bar clear:
+    [navController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    navController.view.backgroundColor = [UIColor clearColor];
+    navController.navigationBar.shadowImage = [UIImage new];
+    navController.navigationBar.translucent = YES;
+
+    
     [self presentViewController:navController animated:YES completion:^{
         
     }];
