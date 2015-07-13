@@ -236,7 +236,7 @@ static NSString *cellId = @"cellId";
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         self.optionsView.alpha = 0.80f;
+                         self.optionsView.alpha = 0.85f;
                      }
                      completion:^(BOOL finished){
                          
