@@ -317,7 +317,6 @@ static NSString *cellId = @"cellId";
         
         NSMutableArray *indexPaths = [NSMutableArray array];
         for (int i=0; i<self.venuePosts.count; i++){
-            NSLog(@"row = %d", i);
             [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
         }
         
@@ -392,7 +391,7 @@ static NSString *cellId = @"cellId";
 #pragma mark - ScrollViewDelegate
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    NSLog(@"scrollViewWillBeginDragging");
+//    NSLog(@"scrollViewWillBeginDragging");
     NSArray *subviews = self.view.subviews;
     if ([subviews indexOfObject:scrollView]==subviews.count-1)
         return;
