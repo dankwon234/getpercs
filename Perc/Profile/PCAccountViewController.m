@@ -219,6 +219,7 @@ static NSString *placeholder = @"Bio";
             self.icon.alpha = 1.0f;
             self.lblName.alpha = self.icon.alpha;
             self.lblTapToChange.alpha = self.icon.alpha;
+            self.btnMessages.alpha = self.icon.alpha;
             return;
         }
         
@@ -226,6 +227,7 @@ static NSString *placeholder = @"Bio";
         self.icon.alpha = 1.0f-(distance/100.0f);
         self.lblName.alpha = self.icon.alpha;
         self.lblTapToChange.alpha = self.icon.alpha;
+        self.btnMessages.alpha = self.icon.alpha;
     }
     
 }
