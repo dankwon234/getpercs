@@ -193,6 +193,11 @@
 
 - (void)showAccountView
 {
+    if (self.profile.isPopulated==NO){
+        [self showLoginView:YES];
+        return;
+    }
+    
     PCAccountViewController *accountVc = [[PCAccountViewController alloc] init];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:accountVc];
     navController.navigationBar.barTintColor = kGreen;
