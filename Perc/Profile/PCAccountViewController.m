@@ -10,6 +10,8 @@
 #import "PCCollectionViewFlowLayout.h"
 #import "PCOrderViewController.h"
 #import "PCVenueCell.h"
+#import "PCMessagesViewController.h"
+
 
 @interface PCAccountViewController ()
 @property (strong, nonatomic) UIImageView *icon;
@@ -19,6 +21,7 @@
 @property (strong, nonatomic) UITextField *firstNameField;
 @property (strong, nonatomic) UITextField *lastNameField;
 @property (strong, nonatomic) UITextView *bioTextView;
+@property (strong, nonatomic) UIButton *btnMessages;
 @end
 
 #define kTopInset 0.0f
@@ -30,7 +33,7 @@ static NSString *placeholder = @"Bio";
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
-        self.edgesForExtendedLayout = UIRectEdgeNone;
+        self.edgesForExtendedLayout = UIRectEdgeAll;
         
     }
     return self;
@@ -72,18 +75,28 @@ static NSString *placeholder = @"Bio";
     self.lblName.textColor = [UIColor whiteColor];
     self.lblName.text = [NSString stringWithFormat:@"%@ %@", [self.profile.firstName uppercaseString], [self.profile.lastName uppercaseString]];
     [view addSubview:self.lblName];
-    y += self.lblName.frame.size.height+24.0f;
+    y += self.lblName.frame.size.height+12.0f;
     
+    
+    self.btnMessages = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.btnMessages.frame = CGRectMake(12.0f, y, 36.0f, 36.0f);
+    self.btnMessages.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    self.btnMessages.backgroundColor = [UIColor redColor];
+    [self.btnMessages addTarget:self action:@selector(viewMessages:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:self.btnMessages];
+    y += self.btnMessages.frame.size.height+36.0f;
     
     self.theScrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
+    self.theScrollview.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     self.theScrollview.delegate = self;
     self.theScrollview.showsVerticalScrollIndicator = NO;
     [self.theScrollview addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
     
     static CGFloat h = 44.0f;
     self.firstNameField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
+    self.firstNameField.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     self.firstNameField.delegate = self;
-    self.firstNameField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20.0f, 44.0f)];
+    self.firstNameField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20.0f, h)];
     self.firstNameField.leftViewMode = UITextFieldViewModeAlways;
     self.firstNameField.backgroundColor = [UIColor whiteColor];
     self.firstNameField.alpha = 0.8f;
@@ -95,8 +108,9 @@ static NSString *placeholder = @"Bio";
     y += h+1.0f;
 
     self.lastNameField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
+    self.lastNameField.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     self.lastNameField.delegate = self;
-    self.lastNameField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20.0f, 44.0f)];
+    self.lastNameField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20.0f, h)];
     self.lastNameField.leftViewMode = UITextFieldViewModeAlways;
     self.lastNameField.backgroundColor = [UIColor whiteColor];
     self.lastNameField.alpha = 0.8f;
@@ -109,7 +123,8 @@ static NSString *placeholder = @"Bio";
 
     
     
-    UIView *bgBio = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 260.0f)];
+    UIView *bgBio = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 360.0f)];
+    bgBio.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     bgBio.backgroundColor = [UIColor whiteColor];
     bgBio.alpha = 0.8f;
     
@@ -117,6 +132,7 @@ static NSString *placeholder = @"Bio";
     CGFloat width = frame.size.width-2*x;
 
     self.bioTextView = [[UITextView alloc] initWithFrame:CGRectMake(x, 10.0f, width, bgBio.frame.size.height-20.0f)];
+    self.bioTextView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     self.bioTextView.delegate = self;
     self.bioTextView.font = [UIFont fontWithName:kBaseFontName size:16.0f];
     self.bioTextView.backgroundColor = [UIColor clearColor];
@@ -149,7 +165,7 @@ static NSString *placeholder = @"Bio";
     [btnUpdate addTarget:self action:@selector(updateProfile:) forControlEvents:UIControlEventTouchUpInside];
     [bgUpdate addSubview:btnUpdate];
     [self.theScrollview addSubview:bgUpdate];
-    y += bgUpdate.frame.size.height+h;
+    y += bgUpdate.frame.size.height;
 
     self.theScrollview.contentSize = CGSizeMake(0, y);
     
@@ -295,7 +311,11 @@ static NSString *placeholder = @"Bio";
     }];
 }
 
-
+- (void)viewMessages:(UIButton *)btn
+{
+    PCMessagesViewController *messagesVc = [[PCMessagesViewController alloc] init];
+    [self.navigationController pushViewController:messagesVc animated:YES];
+}
 
 #pragma mark - UITextViewDelegate
 
@@ -336,7 +356,20 @@ static NSString *placeholder = @"Bio";
     [self dismissKeyboard];
 }
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [self.view bringSubviewToFront:scrollView];
 
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    NSLog(@"scrollViewDidEndDecelerating: %.2f", scrollView.contentOffset.y);
+    if (scrollView.contentOffset.y==0.0f){
+        [self.view bringSubviewToFront:self.btnMessages];
+    }
+        
+}
 
 #pragma mark - UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
