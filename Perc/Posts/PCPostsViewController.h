@@ -8,7 +8,6 @@
 
 #import "PCViewController.h"
 
-@interface PCPostsViewController : PCViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface PCPostsViewController : PCViewController <UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic) int mode;
 @end
