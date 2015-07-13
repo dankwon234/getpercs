@@ -42,6 +42,7 @@
 		0C34CB1C1B1914FE0056A0B3 /* PCContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C34CB1B1B1914FE0056A0B3 /* PCContactCell.m */; };
 		0C3B25491B546B9600EBD436 /* PCPostTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C3B25481B546B9600EBD436 /* PCPostTableCell.m */; };
 		0C3B254D1B54720A00EBD436 /* dropShadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C3B254C1B54720A00EBD436 /* dropShadow@2x.png */; };
+		0C3B254F1B54836100EBD436 /* iconCamera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C3B254E1B54836100EBD436 /* iconCamera@2x.png */; };
 		0C437C081B4F47DB0089F4FA /* background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C437C071B4F47DB0089F4FA /* background@2x.png */; };
 		0C4962C61B5066EE00E340E8 /* logoTransparent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C4962C51B5066EE00E340E8 /* logoTransparent@2x.png */; };
 		0C4962C91B506C3D00E340E8 /* Myanmar MN.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 0C4962C81B506C3D00E340E8 /* Myanmar MN.ttc */; };
@@ -212,6 +213,7 @@
 		0C3B25471B546B9600EBD436 /* PCPostTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPostTableCell.h; sourceTree = "<group>"; };
 		0C3B25481B546B9600EBD436 /* PCPostTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCPostTableCell.m; sourceTree = "<group>"; };
 		0C3B254C1B54720A00EBD436 /* dropShadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropShadow@2x.png"; sourceTree = "<group>"; };
+		0C3B254E1B54836100EBD436 /* iconCamera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconCamera@2x.png"; sourceTree = "<group>"; };
 		0C437C071B4F47DB0089F4FA /* background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background@2x.png"; sourceTree = "<group>"; };
 		0C4962C51B5066EE00E340E8 /* logoTransparent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logoTransparent@2x.png"; sourceTree = "<group>"; };
 		0C4962C81B506C3D00E340E8 /* Myanmar MN.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Myanmar MN.ttc"; sourceTree = "<group>"; };
@@ -692,6 +694,7 @@
 				0C5DC6681AE2E27500C4B38B /* iconView@2x.png */,
 				0CA0DE661ABA22EE00537419 /* iconHamburger@2x.png */,
 				0CA0DE7E1ABA515400537419 /* backArrow@2x.png */,
+				0C3B254E1B54836100EBD436 /* iconCamera@2x.png */,
 				0C72328E1ABCD46700BD0920 /* icon@2x.png */,
 			);
 			path = Images;
@@ -939,6 +942,7 @@
 				0C8B61751ABD028800BC13C8 /* mastercard.png in Resources */,
 				0C25B2F71B54241A007E7514 /* iconCar@2x.png in Resources */,
 				0C6A0A8B1B48F9300033CF93 /* dots@2x.png in Resources */,
+				0C3B254F1B54836100EBD436 /* iconCamera@2x.png in Resources */,
 				0C5DC6691AE2E27500C4B38B /* iconView@2x.png in Resources */,
 				0C4962C61B5066EE00E340E8 /* logoTransparent@2x.png in Resources */,
 				0C3B254D1B54720A00EBD436 /* dropShadow@2x.png in Resources */,
