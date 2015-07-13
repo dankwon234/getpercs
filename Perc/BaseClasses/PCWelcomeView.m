@@ -28,7 +28,7 @@
         self.imgEating.alpha = 0.0f;
         [self addSubview:self.imgEating];
 
-        self.logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo-white.png"]];
+        self.logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logoTransparent.png"]];
         self.logo.center = CGPointMake(0.5f*frame.size.width, 0.5f*frame.size.height);
         self.logo.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         self.logo.alpha = 0.0f;
