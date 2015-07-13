@@ -44,7 +44,7 @@ static NSString *placeholder = @"Bio";
 - (void)loadView
 {
     UIView *view = [self baseView];
-    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgBurger.png"]];
+    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundBlue.png"]];
     CGRect frame = view.frame;
     
     self.icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon.png"]];
@@ -369,6 +369,7 @@ static NSString *placeholder = @"Bio";
     NSLog(@"scrollViewDidEndDecelerating: %.2f", scrollView.contentOffset.y);
     if (scrollView.contentOffset.y==0.0f){
         [self.view bringSubviewToFront:self.btnMessages];
+        [self.view bringSubviewToFront:self.icon];
     }
         
 }
