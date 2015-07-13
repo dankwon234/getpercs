@@ -264,7 +264,8 @@ static NSString *cellId = @"cellId";
         [self.locationMgr reverseGeocode:self.locationMgr.currentLocation completion:^{
             NSLog(@"%@", [self.locationMgr.cities description]);
             NSString *townState = self.locationMgr.cities[0];
-            [self.btnLocation setTitle:[townState uppercaseString] forState:UIControlStateNormal];
+            NSString *locationString = [NSString stringWithFormat:@"%@ (tap to change)", [townState uppercaseString]];
+            [self.btnLocation setTitle:locationString forState:UIControlStateNormal];
             
             
             NSArray *parts = [townState componentsSeparatedByString:@", "];
