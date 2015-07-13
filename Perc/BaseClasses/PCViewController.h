@@ -32,6 +32,7 @@
 - (void)addCustomBackButton;
 - (void)addMenuButton;
 - (void)addOptionsButton;
+- (void)toggleOptionsView:(UIButton *)btn;
 - (void)showLoginView:(BOOL)animated;
 - (void)showAccountView;
 - (void)viewMenu:(id)sender;
