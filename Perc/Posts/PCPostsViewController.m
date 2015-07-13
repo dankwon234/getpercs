@@ -118,6 +118,12 @@ static NSString *cellId = @"cellId";
     }];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.postsTable deselectRowAtIndexPath:[self.postsTable indexPathForSelectedRow] animated:YES];
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"imageData"]){
