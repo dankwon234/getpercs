@@ -23,7 +23,7 @@
 {
     self = [super initWithFrame:frame];
     if (self){
-        self.imgEating = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bgBklynBridge.png"]];
+        self.imgEating = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bgLosAngeles.png"]];
         self.imgEating.center = CGPointMake(0.75f*frame.size.width, 0.5f*frame.size.height);
         self.imgEating.alpha = 0.0f;
         [self addSubview:self.imgEating];
