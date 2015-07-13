@@ -172,7 +172,8 @@ static NSString *cellId = @"cellId";
     [self.loadingIndicator startLoading];
     
     
-    [[PCWebServices sharedInstance] fetchPosts:@{@"venue":self.venue.uniqueId} completion:^(id result, NSError *error){
+//    [[PCWebServices sharedInstance] fetchPosts:@{@"venue":self.venue.uniqueId} completion:^(id result, NSError *error){
+    [[PCWebServices sharedInstance] fetchPosts:@{@"zone":self.currentZone.uniqueId} completion:^(id result, NSError *error){
         if (error){
             [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
             return;
@@ -307,14 +308,18 @@ static NSString *cellId = @"cellId";
 
 - (void)refreshVenuesCollectionView
 {
-    // IMPORTANT: Have to call this on main thread! Otherwise, data models in array might not be synced, and reload acts funky
+    // IMPORTANT: Have to call this on main thread! Otherwise, data models in
+    // array might not be synced, and reload acts funky
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.postsTable.collectionViewLayout invalidateLayout];
         [self.postsTable reloadData];
         
         NSMutableArray *indexPaths = [NSMutableArray array];
-        for (int i=0; i<self.currentZone.venues.count; i++)
+        for (int i=0; i<self.venuePosts.count; i++){
+            NSLog(@"row = %d", i);
             [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+        }
         
         [self.postsTable reloadItemsAtIndexPaths:indexPaths];
     });
