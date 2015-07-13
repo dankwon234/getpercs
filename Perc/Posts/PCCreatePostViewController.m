@@ -32,6 +32,7 @@ static NSString *placeholder = @"Content";
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
+        self.edgesForExtendedLayout = UIRectEdgeAll;
         self.fees = [NSMutableArray array];
         for (int i=0; i<101; i++)
             [self.fees addObject:[NSString stringWithFormat:@"$%d.00", i]];
@@ -53,13 +54,14 @@ static NSString *placeholder = @"Content";
     }
     
     UIView *view = [self baseView];
-    view.backgroundColor = [UIColor blackColor];
+    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundBlue.png"]];
     CGRect frame = view.frame;
     
     CGFloat dimen = 88.0f;
     self.icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon.png"]];
+    self.icon.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     self.icon.frame = CGRectMake(0.0f, 0.0f, dimen, dimen);
-    self.icon.center = CGPointMake(0.5f*frame.size.width, 0.5f*dimen+20.0f);
+    self.icon.center = CGPointMake(0.5f*frame.size.width, 0.5f*dimen+84.0f);
     self.icon.layer.cornerRadius = 0.5f*dimen;
     self.icon.layer.masksToBounds = YES;
     self.icon.layer.borderColor = [[UIColor whiteColor] CGColor];
@@ -72,15 +74,17 @@ static NSString *placeholder = @"Content";
     CGFloat width = frame.size.width-2*x;
     
     self.lblCreatePost = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, 20.0f)];
+    self.lblCreatePost.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     self.lblCreatePost.textColor = [UIColor whiteColor];
     self.lblCreatePost.textAlignment = NSTextAlignmentCenter;
     self.lblCreatePost.font = [UIFont fontWithName:kBaseFontName size:14.0f];
     self.lblCreatePost.text = (self.isEditMode) ? @"UPDATE POST" : @"CREATE POST";
     [view addSubview:self.lblCreatePost];
-    y += self.lblCreatePost.frame.size.height+20.0f;
+    y += self.lblCreatePost.frame.size.height+36.0f;
     
     
     self.theScrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
+    self.theScrollview.autoresizingMask = (UIViewAutoresizingFlexibleHeight);
     self.theScrollview.delegate = self;
     self.theScrollview.showsVerticalScrollIndicator = NO;
     [self.theScrollview addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
@@ -183,7 +187,8 @@ static NSString *placeholder = @"Content";
     self.postImage = [[UIImageView alloc] initWithFrame:CGRectMake(10.0f, 10.0f, dimen, dimen)];
     self.postImage.layer.borderWidth = 1.0f;
     self.postImage.layer.borderColor = [[UIColor darkGrayColor] CGColor];
-    self.postImage.image = (self.post.imageData) ? self.post.imageData : [UIImage imageNamed:@"icon.png"];
+    self.postImage.backgroundColor = [UIColor lightGrayColor];
+    self.postImage.image = (self.post.imageData) ? self.post.imageData : [UIImage imageNamed:@"iconCamera.png"];
     self.post.imageData = nil; // have to nil this out so the update function won't upload image unnecesarily
     [bgImage addSubview:self.postImage];
     
@@ -251,13 +256,14 @@ static NSString *placeholder = @"Content";
     [btnCreate addTarget:self action:@selector(createPost:) forControlEvents:UIControlEventTouchUpInside];
     [bgCreate addSubview:btnCreate];
     [self.theScrollview addSubview:bgCreate];
-    y += bgCreate.frame.size.height+h;
+    y += bgCreate.frame.size.height;
     
     
     [view addSubview:self.theScrollview];
     self.theScrollview.contentSize = CGSizeMake(0, y);
     
     self.feePicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, 180.0f)];
+    self.feePicker.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     self.feePicker.dataSource = self;
     self.feePicker.delegate = self;
     self.feePicker.backgroundColor = [UIColor whiteColor];
@@ -435,7 +441,6 @@ static NSString *placeholder = @"Content";
 - (void)changeFee:(UIGestureRecognizer *)tap
 {
     NSLog(@"changeFee: ");
-    
     [UIView animateWithDuration:0.3f
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
@@ -448,9 +453,8 @@ static NSString *placeholder = @"Content";
                      completion:^(BOOL finished){
                          
                      }];
-
-    
 }
+
 
 - (void)selectImage:(UIGestureRecognizer *)tap
 {
