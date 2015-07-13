@@ -18,6 +18,18 @@
 @implementation PCMessageViewController
 @synthesize message;
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self){
+        self.edgesForExtendedLayout = UIRectEdgeAll;
+        
+    }
+    return self;
+}
+
+
+
 
 - (void)loadView
 {
@@ -26,6 +38,7 @@
     CGRect frame = view.frame;
     
     self.theScrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
+    self.theScrollview.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     
     
     CGFloat h = 44.0f;
@@ -74,7 +87,7 @@
     [view addSubview:self.theScrollview];
     
     
-    UIView *bgReply = [[UIView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height-84.0f, frame.size.width, 64.0f)];
+    UIView *bgReply = [[UIView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height-64.0f, frame.size.width, 64.0f)];
     bgReply.backgroundColor = [UIColor grayColor];
     bgReply.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     
@@ -92,7 +105,10 @@
     
     [view addSubview:bgReply];
     
-    
+    UIView *topBar = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, kNavBarHeight)];
+    topBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundBlue.png"]];
+    [view addSubview:topBar];
+
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
     swipe.direction = UISwipeGestureRecognizerDirectionRight;
     [view addGestureRecognizer:swipe];
