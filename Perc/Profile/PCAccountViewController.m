@@ -7,6 +7,7 @@
 
 
 #import "PCAccountViewController.h"
+#import "PCPostsViewController.h"
 #import "PCCollectionViewFlowLayout.h"
 #import "PCOrderViewController.h"
 #import "PCVenueCell.h"
@@ -22,6 +23,8 @@
 @property (strong, nonatomic) UITextField *lastNameField;
 @property (strong, nonatomic) UITextView *bioTextView;
 @property (strong, nonatomic) UIButton *btnMessages;
+@property (strong, nonatomic) UIButton *btnPosts;
+@property (strong, nonatomic) NSArray *fadeViews;
 @end
 
 #define kTopInset 0.0f
@@ -77,14 +80,40 @@ static NSString *placeholder = @"Bio";
     [view addSubview:self.lblName];
     y += self.lblName.frame.size.height+12.0f;
     
-    
+    CGFloat x = 12.0f;
     self.btnMessages = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.btnMessages.frame = CGRectMake(12.0f, y, 36.0f, 36.0f);
-    self.btnMessages.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    self.btnMessages.backgroundColor = [UIColor redColor];
-    [self.btnMessages addTarget:self action:@selector(viewMessages:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:self.btnMessages];
-    y += self.btnMessages.frame.size.height+36.0f;
+    self.btnPosts = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    CGFloat dimen = 36.0f;
+    NSArray *buttons = @[self.btnMessages, self.btnPosts];
+    CGFloat offset = frame.size.width/((double)buttons.count+1.0f);
+    for (int i=0; i<buttons.count; i++) {
+        UIButton *btn = buttons[i];
+        btn.frame = CGRectMake(0, y, dimen, dimen);
+        btn.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        btn.backgroundColor = [UIColor redColor];
+        [btn addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+        btn.center = CGPointMake((i+1)*offset, btn.center.y);
+        [view addSubview:btn];
+    }
+
+    
+//    self.btnMessages.frame = CGRectMake(x, y, 36.0f, 36.0f);
+//    self.btnMessages.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+//    self.btnMessages.backgroundColor = [UIColor redColor];
+//    [self.btnMessages addTarget:self action:@selector(viewMessages:) forControlEvents:UIControlEventTouchUpInside];
+//    [view addSubview:self.btnMessages];
+//    
+//    x += self.btnMessages.frame.size.width+12.0f;
+//    self.btnPosts = [UIButton buttonWithType:UIButtonTypeCustom];
+//    self.btnPosts.frame = CGRectMake(x, y, 36.0f, 36.0f);
+//    self.btnPosts.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+//    self.btnPosts.backgroundColor = [UIColor redColor];
+//    [self.btnPosts addTarget:self action:@selector(viewPosts:) forControlEvents:UIControlEventTouchUpInside];
+//    [view addSubview:self.btnPosts];
+
+    
+    y += self.btnMessages.frame.size.height+12.0f;
     
     self.theScrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
     self.theScrollview.autoresizingMask = UIViewAutoresizingFlexibleHeight;
@@ -128,7 +157,7 @@ static NSString *placeholder = @"Bio";
     bgBio.backgroundColor = [UIColor whiteColor];
     bgBio.alpha = 0.8f;
     
-    CGFloat x = 12.0f;
+    x = 12.0f;
     CGFloat width = frame.size.width-2*x;
 
     self.bioTextView = [[UITextView alloc] initWithFrame:CGRectMake(x, 10.0f, width, bgBio.frame.size.height-20.0f)];
@@ -172,6 +201,8 @@ static NSString *placeholder = @"Bio";
     [view addSubview:self.theScrollview];
     [view bringSubviewToFront:self.icon];
     
+    self.fadeViews = @[self.icon, self.btnMessages, self.btnPosts, self.lblTapToChange, self.lblName];
+    
     self.view = view;
 }
 
@@ -191,9 +222,8 @@ static NSString *placeholder = @"Bio";
                                                                  action:@selector(logout:)];
     self.navigationItem.rightBarButtonItem = btnLogout;
     
-    [self.view bringSubviewToFront:self.btnMessages];
-    [self.view bringSubviewToFront:self.icon];
-
+    for (UIView *view in self.fadeViews)
+        [self.view bringSubviewToFront:view];
     
     if ([self.profile.image isEqualToString:@"none"])
         return;
@@ -220,18 +250,16 @@ static NSString *placeholder = @"Bio";
     if ([keyPath isEqualToString:@"contentOffset"]){
         CGFloat offset = self.theScrollview.contentOffset.y;
         if (offset < -kTopInset){
-            self.icon.alpha = 1.0f;
-            self.lblName.alpha = self.icon.alpha;
-            self.lblTapToChange.alpha = self.icon.alpha;
-            self.btnMessages.alpha = self.icon.alpha;
+            for (UIView *view in self.fadeViews)
+                view.alpha = 1.0f;
+
             return;
         }
         
         double distance = offset+kTopInset;
-        self.icon.alpha = 1.0f-(distance/100.0f);
-        self.lblName.alpha = self.icon.alpha;
-        self.lblTapToChange.alpha = self.icon.alpha;
-        self.btnMessages.alpha = self.icon.alpha;
+        double alpha = 1.0f-(distance/100.0f);
+        for (UIView *view in self.fadeViews)
+            view.alpha = alpha;
     }
     
 }
@@ -317,10 +345,28 @@ static NSString *placeholder = @"Bio";
     }];
 }
 
+- (void)buttonAction:(UIButton *)btn
+{
+    if ([btn isEqual:self.btnMessages]){
+        [self viewMessages:btn];
+    }
+    
+    if ([btn isEqual:self.btnPosts]){
+        [self viewPosts:btn];
+    }
+    
+}
+
 - (void)viewMessages:(UIButton *)btn
 {
     PCMessagesViewController *messagesVc = [[PCMessagesViewController alloc] init];
     [self.navigationController pushViewController:messagesVc animated:YES];
+}
+
+- (void)viewPosts:(UIButton *)btn
+{
+    PCPostsViewController *postsVc = [[PCPostsViewController alloc] init];
+    [self.navigationController pushViewController:postsVc animated:YES];
 }
 
 #pragma mark - UITextViewDelegate
@@ -371,11 +417,12 @@ static NSString *placeholder = @"Bio";
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     NSLog(@"scrollViewDidEndDecelerating: %.2f", scrollView.contentOffset.y);
-    if (scrollView.contentOffset.y==0.0f){
-        [self.view bringSubviewToFront:self.btnMessages];
-        [self.view bringSubviewToFront:self.icon];
-    }
-        
+    if (scrollView.contentOffset.y > 0.0f)
+        return;
+    
+    
+    for (UIView *view in self.fadeViews)
+        [self.view bringSubviewToFront:view];
 }
 
 #pragma mark - UIActionSheetDelegate
