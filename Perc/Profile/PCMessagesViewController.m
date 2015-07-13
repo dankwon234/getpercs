@@ -19,14 +19,24 @@
 
 @implementation PCMessagesViewController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self){
+        self.edgesForExtendedLayout = UIRectEdgeAll;
+        
+    }
+    return self;
+}
+
+
 
 - (void)loadView
 {
     UIView *view = [self baseView];
-    view.backgroundColor = kLightGray;
     CGRect frame = view.frame;
     
-    self.messagesTable = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height-20.0f) style:UITableViewStylePlain];
+    self.messagesTable = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 0, frame.size.width, frame.size.height) style:UITableViewStylePlain];
     self.messagesTable.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
     self.messagesTable.dataSource = self;
     self.messagesTable.delegate = self;
@@ -42,6 +52,10 @@
     [self.messagesTable addSubview:self.refreshControl];
 
     [view addSubview:self.messagesTable];
+
+    UIView *topBar = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, kNavBarHeight)];
+    topBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
+    [view addSubview:topBar];
 
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
     swipe.direction = UISwipeGestureRecognizerDirectionRight;
