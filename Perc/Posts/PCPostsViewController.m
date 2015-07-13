@@ -81,12 +81,9 @@ static NSString *cellId = @"cellId";
     [super viewDidLoad];
     [self addCustomBackButton];
     
-    UIImage *imgDots = [UIImage imageNamed:@"dots"];
-    UIButton *btnDots = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnDots.frame = CGRectMake(0.0f, 0.0f, 0.6f*imgDots.size.width, 0.6f*imgDots.size.height);
-    [btnDots setBackgroundImage:imgDots forState:UIControlStateNormal];
-    [btnDots addTarget:self action:@selector(toggleOptionsView:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnDots];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                                           target:self
+                                                                                           action:@selector(createPost:)];
 
     
     if (self.profile.posts!=nil)
