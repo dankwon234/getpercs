@@ -21,6 +21,7 @@
 @synthesize venues;
 @synthesize posts;
 @synthesize isPopulated;
+@synthesize admins;
 
 - (id)init
 {
@@ -29,6 +30,7 @@
         self.venues = nil;
         self.posts = nil;
         self.isPopulated = NO;
+        self.admins = [NSMutableArray array];
         
     }
     return self;
@@ -55,6 +57,7 @@
     self.state = zoneInfo[@"state"];
     self.status = zoneInfo[@"status"];
     self.message = zoneInfo[@"message"];
+    self.admins = zoneInfo[@"admins"];
     self.latitude = [zoneInfo[@"latitude"] doubleValue];
     self.longitude = [zoneInfo[@"longitude"] doubleValue];
     self.baseFee = [zoneInfo[@"baseFee"] intValue];
