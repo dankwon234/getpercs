@@ -191,6 +191,10 @@ static NSString *placeholder = @"Bio";
                                                                  action:@selector(logout:)];
     self.navigationItem.rightBarButtonItem = btnLogout;
     
+    [self.view bringSubviewToFront:self.btnMessages];
+    [self.view bringSubviewToFront:self.icon];
+
+    
     if ([self.profile.image isEqualToString:@"none"])
         return;
     
