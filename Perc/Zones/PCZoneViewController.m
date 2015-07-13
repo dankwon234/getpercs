@@ -23,12 +23,12 @@
 @interface PCZoneViewController ()
 @property (strong, nonatomic) UIScrollView *bulletinBoardScroll;
 @property (strong, nonatomic) UIImageView *reflection;
-@property (strong, nonatomic) UIView *locationView;
-@property (strong, nonatomic) UILabel *lblLocation;
 @property (strong, nonatomic) UICollectionView *venuesTable;
 @property (strong, nonatomic) UIPageControl *pageControl;
+@property (strong, nonatomic) UIView *optionsView;
+@property (strong, nonatomic) UIButton *btnLocation;
 @property (nonatomic) int currentPage;
-@property (nonatomic) int showNextPage;
+@property (nonatomic) BOOL showNextPage;
 @end
 
 #define kPadding 12.0f
@@ -91,21 +91,46 @@ static NSString *cellId = @"cellId";
 
     
 
-//    CGFloat h = 24.0f;
-//    self.locationView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height-h-20.0f, width, h)];
-//    self.locationView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-//    self.locationView.backgroundColor = [UIColor blackColor];
-//    self.locationView.alpha = 0.75f;
-//    [view addSubview:self.locationView];
-//
-//    
-//    self.lblLocation = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, width, 22.0f)];
-//    self.lblLocation.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-//    self.lblLocation.textAlignment = NSTextAlignmentCenter;
-//    self.lblLocation.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-//    self.lblLocation.textColor = [UIColor whiteColor];
-//    [view addSubview:self.lblLocation];
+    self.optionsView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
+    self.optionsView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    self.optionsView.backgroundColor = [UIColor blackColor];
+    self.optionsView.alpha = 0.0f;
+    
+    y = 0.60f*frame.size.height;
+    CGFloat x = 24.0f;
+    CGFloat h = 44.0f;
+    
+    UIButton *btnAccount = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnAccount.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    btnAccount.frame = CGRectMake(x, y, frame.size.width-2*x, h);
+    [btnAccount setTitle:@"Account" forState:UIControlStateNormal];
+    [btnAccount setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    btnAccount.titleLabel.font = [UIFont fontWithName:kBaseBoldFont size:16.0f];
+    btnAccount.layer.cornerRadius = 3.0f;
+    btnAccount.layer.masksToBounds = YES;
+    [btnAccount addTarget:self action:@selector(showAccountView) forControlEvents:UIControlEventTouchUpInside];
+    [self.optionsView addSubview:btnAccount];
+    y += btnAccount.frame.size.height+12.0f;
 
+    
+    self.btnLocation = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.btnLocation.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    self.btnLocation.frame = CGRectMake(x, y, frame.size.width-2*x, h);
+    [self.btnLocation setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.btnLocation.titleLabel.font = btnAccount.titleLabel.font;
+    self.btnLocation.backgroundColor = btnAccount.backgroundColor;
+    self.btnLocation.layer.cornerRadius = 3.0f;
+    self.btnLocation.layer.masksToBounds = YES;
+    [self.btnLocation addTarget:self action:@selector(updateLocation) forControlEvents:UIControlEventTouchUpInside];
+    [self.optionsView addSubview:self.btnLocation];
+
+    
+    
+    
+    
+    [self.optionsView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideOptionsView:)]];
+    [view addSubview:self.optionsView];
+    
     
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(viewMenu:)];
     swipe.direction = UISwipeGestureRecognizerDirectionRight;
@@ -174,10 +199,52 @@ static NSString *cellId = @"cellId";
     [self updateLocation];
 }
 
+#pragma mark -
+- (void)toggleOptionsView:(id)sender
+{
+    if (self.optionsView.alpha == 0.0f){
+        [self showOptionsView:nil];
+        return;
+    }
+    
+    [self hideOptionsView:nil];
+}
+
+- (void)hideOptionsView:(UIGestureRecognizer *)tap
+{
+    [UIView animateWithDuration:0.35f
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         self.optionsView.alpha = 0.0f;
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
+
+
+- (void)showOptionsView:(UIButton *)btn
+{
+    [self.view bringSubviewToFront:self.optionsView];
+    [UIView animateWithDuration:0.35f
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         self.optionsView.alpha = 0.80f;
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
+
+
+
+
 - (void)updateLocation
 {
+    [self hideOptionsView:nil];
     [self.loadingIndicator startLoading];
-    self.lblLocation.text = @"Finding Location...";
     [self.locationMgr findLocation:^(NSError *error){
         
         if (error) {
@@ -192,17 +259,7 @@ static NSString *cellId = @"cellId";
         [self.locationMgr reverseGeocode:self.locationMgr.currentLocation completion:^{
             NSLog(@"%@", [self.locationMgr.cities description]);
             NSString *townState = self.locationMgr.cities[0];
-            self.lblLocation.text = [NSString stringWithFormat:@"Currently in %@", [townState uppercaseString]];
-            [UIView animateWithDuration:0.3f
-                                  delay:0
-                                options:UIViewAnimationOptionCurveLinear
-                             animations:^{
-                                 CGRect frame = self.lblLocation.frame;
-                                 frame.origin.y = self.locationView.frame.origin.y+2.0f;
-                                 self.lblLocation.frame = frame;
-                                 
-                             }
-                             completion:NULL];
+            [self.btnLocation setTitle:[townState uppercaseString] forState:UIControlStateNormal];
             
             
             NSArray *parts = [townState componentsSeparatedByString:@", "];
