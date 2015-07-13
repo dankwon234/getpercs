@@ -26,7 +26,9 @@
 @property (strong, nonatomic) UICollectionView *venuesTable;
 @property (strong, nonatomic) UIPageControl *pageControl;
 @property (strong, nonatomic) UIView *optionsView;
+@property (strong, nonatomic) UIButton *btnAccount;
 @property (strong, nonatomic) UIButton *btnLocation;
+@property (strong, nonatomic) UIButton *btnDrivers;
 @property (nonatomic) int currentPage;
 @property (nonatomic) BOOL showNextPage;
 @end
@@ -100,41 +102,32 @@ static NSString *cellId = @"cellId";
     CGFloat x = 24.0f;
     CGFloat h = 44.0f;
     
-    UIButton *btnAccount = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnAccount.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    btnAccount.frame = CGRectMake(x, y, frame.size.width-2*x, h);
-    [btnAccount setTitle:@"Account" forState:UIControlStateNormal];
-    [btnAccount setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    btnAccount.titleLabel.font = [UIFont fontWithName:kBaseBoldFont size:16.0f];
-    btnAccount.layer.cornerRadius = 3.0f;
-    btnAccount.layer.masksToBounds = YES;
-    [btnAccount addTarget:self action:@selector(showAccountView) forControlEvents:UIControlEventTouchUpInside];
-    [self.optionsView addSubview:btnAccount];
-    y += btnAccount.frame.size.height+12.0f;
-
-    
+    self.btnAccount = [UIButton buttonWithType:UIButtonTypeCustom];
     self.btnLocation = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.btnLocation.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    self.btnLocation.frame = CGRectMake(x, y, frame.size.width-2*x, h);
-    [self.btnLocation setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.btnLocation.titleLabel.font = btnAccount.titleLabel.font;
-    self.btnLocation.backgroundColor = btnAccount.backgroundColor;
-    self.btnLocation.layer.cornerRadius = 3.0f;
-    self.btnLocation.layer.masksToBounds = YES;
-    [self.btnLocation addTarget:self action:@selector(updateLocation) forControlEvents:UIControlEventTouchUpInside];
-    [self.optionsView addSubview:self.btnLocation];
+    self.btnDrivers = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    NSArray *buttons = @[self.btnAccount, self.btnLocation, self.btnDrivers];
+    NSArray *icons = @[@"iconInfo.png", @"iconLocation.png", @"iconCar.png"];
+    for (int i=0; i<buttons.count; i++){
+        UIButton *button = buttons[i];
+        button.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        button.frame = CGRectMake(x, y, frame.size.width-2*x, h);
+        [button setTitle:@"Account" forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        button.titleLabel.font = [UIFont fontWithName:kBaseFontName size:18.0f];
+        button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        button.layer.cornerRadius = 3.0f;
+        button.layer.masksToBounds = YES;
+        [button setImage:[UIImage imageNamed:icons[i]] forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+        [self.optionsView addSubview:button];
+        y += button.frame.size.height+12.0f;
+    }
+    
 
-    
-    
-    
-    
     [self.optionsView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideOptionsView:)]];
     [view addSubview:self.optionsView];
     
-    
-    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(viewMenu:)];
-    swipe.direction = UISwipeGestureRecognizerDirectionRight;
-    [view addGestureRecognizer:swipe];
 
 
     self.view = view;
@@ -179,7 +172,6 @@ static NSString *cellId = @"cellId";
                 [self fadeReflectionImage:post.imageData];
         });
     }
-
 }
 
 
@@ -189,6 +181,10 @@ static NSString *cellId = @"cellId";
     [super viewDidLoad];
     [self addOptionsButton];
     
+    if (self.profile.isPopulated)
+        [self.btnAccount setTitle:@"Account" forState:UIControlStateNormal];
+    else
+        [self.btnAccount setTitle:@"Log In" forState:UIControlStateNormal];
 
     BOOL connected = [[PCWebServices sharedInstance] checkConnection];
     if (connected==NO){
@@ -200,6 +196,15 @@ static NSString *cellId = @"cellId";
 }
 
 #pragma mark -
+- (void)buttonAction:(UIButton *)btn
+{
+    if ([btn isEqual:self.btnAccount])
+        [self showAccountView];
+    
+    if ([btn isEqual:self.btnLocation])
+        [self updateLocation];
+}
+
 - (void)toggleOptionsView:(id)sender
 {
     if (self.optionsView.alpha == 0.0f){
@@ -294,23 +299,10 @@ static NSString *cellId = @"cellId";
                     self.profile.lastZone = self.currentZone.uniqueId;
                     [self.profile updateProfile]; // update profile with last zone info on backend
                     [self.loadingIndicator stopLoading];
+                    [self.btnDrivers setTitle:[NSString stringWithFormat:@"%d Drivers on Standby", (int)self.currentZone.admins.count] forState:UIControlStateNormal];
                     
                     [self fetchPostsForCurrentLocation];
                     
-                    if ([self.currentZone.status isEqualToString:@"open"]==NO){
-                        //                        NSString *message = self.currentZone.message;
-                        //                        CGRect boundingRect = [message boundingRectWithSize:CGSizeMake(self.lblMessage.frame.size.width, 250.0f)
-                        //                                                                    options:NSStringDrawingUsesLineFragmentOrigin
-                        //                                                                 attributes:@{NSFontAttributeName:self.lblMessage.font}
-                        //                                                                    context:nil];
-                        //
-                        //                        CGRect frame = self.lblMessage.frame;
-                        //                        frame.size.height = boundingRect.size.height;
-                        //                        self.lblMessage.frame = frame;
-                        //                        self.lblMessage.text = message;
-                        //                        self.lblMessage.alpha = 1.0f;
-                        return;
-                    }
                     
                 });
             }];
