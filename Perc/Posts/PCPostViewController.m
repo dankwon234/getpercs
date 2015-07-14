@@ -134,6 +134,20 @@
     self.lblContent.text = self.post.content;
     [header addSubview:self.lblContent];
     
+    if ([self.post.type isEqualToString:@"event"]){
+        UIButton *btnRsvp = [UIButton buttonWithType:UIButtonTypeCustom];
+        btnRsvp.frame = CGRectMake(20.0f, h-64.0f, frame.size.width-40.0f, 44.0f);
+        btnRsvp.backgroundColor = [UIColor clearColor];
+        btnRsvp.layer.cornerRadius = 0.5f*btnRsvp.frame.size.height;
+        btnRsvp.layer.masksToBounds = YES;
+        btnRsvp.layer.borderColor = [[UIColor grayColor] CGColor];
+        btnRsvp.layer.borderWidth = 2.0f;
+        [btnRsvp setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [btnRsvp setTitle:@"RSVP" forState:UIControlStateNormal];
+        btnRsvp.titleLabel.font = boldFont;
+        [header addSubview:btnRsvp];
+    }
+    
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0.0f, h-0.5f, frame.size.width, 0.5f)];
     line.backgroundColor = [UIColor lightGrayColor];
     [header addSubview:line];
