@@ -7,6 +7,7 @@
 
 
 #import "PCContactCell.h"
+#import "Config.h"
 
 @implementation PCContactCell
 @synthesize lblName;
@@ -29,6 +30,7 @@
         
         
         self.lblName = [[UILabel alloc] initWithFrame:CGRectMake(checkmark.size.width+24.0f, 12.0f, frame.size.width-24.0f, 24.0f)];
+        self.lblName.font = [UIFont fontWithName:kBaseFontName size:16.0];
         [self.contentView addSubview:self.lblName];
         
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0.0f, kCellHeight-1.0f, frame.size.width, 0.5f)];
