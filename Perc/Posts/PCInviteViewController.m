@@ -122,6 +122,7 @@
     NSDictionary *host = @{@"fullName":[NSString stringWithFormat:@"%@ %@", self.profile.firstName, self.profile.lastName] , @"firstName":self.profile.firstName, @"lastName":self.profile.lastName, @"phoneNumber":self.profile.phone};
     [self.post.invited addObject:host];
     [self.post.confirmed addObject:self.profile.phone];
+    self.post.type = @"event"; // private posts default as events for now
     
     NSLog(@"createPost: %@", [self.post jsonRepresentation]);
 
