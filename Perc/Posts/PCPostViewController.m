@@ -58,7 +58,6 @@
 {
     UIView *view = [self baseView];
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgBlurry.png"]];
-//    view.backgroundColor = [UIColor whiteColor];
     CGRect frame = view.frame;
     
     CGFloat width = frame.size.width;
@@ -95,7 +94,7 @@
                                                       attributes:@{NSFontAttributeName:baseFont}
                                                          context:nil];
     
-    CGFloat h = (contentRect.size.height < 98.0f) ? 478.0f : contentRect.size.height+352.0f;
+    CGFloat h = (contentRect.size.height < 98.0f) ? 508.0f : contentRect.size.height+382.0f;
     UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 175.0f, frame.size.width, h)];
     header.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgPost.png"]];
     
