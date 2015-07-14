@@ -21,12 +21,14 @@ static NSString *cellId = @"cellId";
 #define kTopInset 220.0f
 
 @implementation PCPostsViewController
+@synthesize mode;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
+        self.mode = 0;
         self.edgesForExtendedLayout = UIRectEdgeAll;
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(postAdded:)
@@ -81,16 +83,27 @@ static NSString *cellId = @"cellId";
     [super viewDidLoad];
     [self addCustomBackButton];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                                                                           target:self
-                                                                                           action:@selector(createPost:)];
+    NSDictionary *params = nil;
+    if (self.mode==0){
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                                               target:self
+                                                                                               action:@selector(createPost:)];
+        
+        if (self.profile.posts != nil)
+            return;
+        
+        params = @{@"profile":self.profile.uniqueId};
+    }
+    else {
+        if (self.profile.invited != nil)
+            return;
 
+        params = @{@"invited":self.profile.phone};
+    }
     
-    if (self.profile.posts!=nil)
-        return;
-    
+
     [self.loadingIndicator startLoading];
-    [[PCWebServices sharedInstance] fetchPosts:@{@"profile":self.profile.uniqueId} completion:^(id result, NSError *error){
+    [[PCWebServices sharedInstance] fetchPosts:params completion:^(id result, NSError *error){
         [self.loadingIndicator stopLoading];
         if (error){
             [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
@@ -101,10 +114,16 @@ static NSString *cellId = @"cellId";
         NSLog(@"%@", [results description]);
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.profile.posts = [NSMutableArray array];
+            NSMutableArray *array = [NSMutableArray array];
             NSArray *a = results[@"posts"];
             for (NSDictionary *postInfo in a)
-                [self.profile.posts addObject:[PCPost postWithInfo:postInfo]];
+                [array addObject:[PCPost postWithInfo:postInfo]];
+            
+            if (self.mode==0)
+                self.profile.posts = array;
+            else
+                self.profile.invited = array;
+            
             
             [self.postsTable reloadData];
             
@@ -129,8 +148,7 @@ static NSString *cellId = @"cellId";
         
         //this is smoother than a conventional reload. it doesn't stutter the UI:
         dispatch_async(dispatch_get_main_queue(), ^{
-//            NSArray *dataArray = (self.mode==0) ? self.currentZone.posts : self.profile.posts;
-            int index = (int)[self.profile.posts indexOfObject:post];
+            int index = (self.mode==0) ? (int)[self.profile.posts indexOfObject:post] : (int)[self.profile.invited indexOfObject:post];
             PCPostTableCell *cell = (PCPostTableCell *)[self.postsTable cellForRowAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
             
             if (!cell)
@@ -194,7 +212,7 @@ static NSString *cellId = @"cellId";
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.profile.posts.count;
+    return (self.mode==0) ? self.profile.posts.count : self.profile.invited.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -205,7 +223,7 @@ static NSString *cellId = @"cellId";
         cell = [[PCPostTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     }
     
-    PCPost *post = (PCPost *)self.profile.posts[indexPath.row];
+    PCPost *post = (self.mode==0) ? (PCPost *)self.profile.posts[indexPath.row] : (PCPost *)self.profile.invited[indexPath.row];
     cell.tag = indexPath.row+1000;
     cell.lblTitle.text = post.title;
     cell.lblDate.text = post.formattedDate;
@@ -227,9 +245,16 @@ static NSString *cellId = @"cellId";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    PCCreatePostViewController *editPostVc = [[PCCreatePostViewController alloc] init];
-    editPostVc.post = (PCPost *)self.profile.posts[indexPath.row];
-    [self.navigationController pushViewController:editPostVc animated:YES];
+    if (self.mode==0){
+        PCCreatePostViewController *editPostVc = [[PCCreatePostViewController alloc] init];
+        editPostVc.post = (PCPost *)self.profile.posts[indexPath.row];
+        [self.navigationController pushViewController:editPostVc animated:YES];
+        return;
+    }
+    
+    PCPostViewController *postVc = [[PCPostViewController alloc] init];
+    postVc.post = (PCPost *)self.profile.invited[indexPath.row];
+    [self.navigationController pushViewController:postVc animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
