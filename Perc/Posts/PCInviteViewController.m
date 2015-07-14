@@ -101,6 +101,10 @@
 
 - (void)createPost:(UIButton *)btn
 {
+    NSDictionary *host = @{@"fullName":[NSString stringWithFormat:@"%@ %@", self.profile.firstName, self.profile.lastName] , @"firstName":self.profile.firstName, @"lastName":self.profile.lastName, @"phoneNumber":self.profile.phone};
+    [self.post.invited addObject:host];
+    [self.post.confirmed addObject:self.profile.phone];
+    
     NSLog(@"createPost: %@", [self.post jsonRepresentation]);
     
     [self.loadingIndicator startLoading];
@@ -129,8 +133,12 @@
         }
         
         NSDictionary *results = (NSDictionary *)result;
-//        NSLog(@"%@", [results description]);
         [self.post populate:results[@"post"]];
+        
+        if (self.profile.invited==nil)
+            self.profile.invited = [NSMutableArray array];
+        
+        [self.profile.invited insertObject:self.post atIndex:0];
         
         dispatch_async(dispatch_get_main_queue(), ^{
 //            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kPostCreatedNotification object:nil userInfo:@{@"post":self.post}]];
