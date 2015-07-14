@@ -101,12 +101,6 @@
 
 - (void)createPost:(UIButton *)btn
 {
-    NSDictionary *host = @{@"fullName":[NSString stringWithFormat:@"%@ %@", self.profile.firstName, self.profile.lastName] , @"firstName":self.profile.firstName, @"lastName":self.profile.lastName, @"phoneNumber":self.profile.phone};
-    [self.post.invited addObject:host];
-    [self.post.confirmed addObject:self.profile.phone];
-    
-    NSLog(@"createPost: %@", [self.post jsonRepresentation]);
-    
     [self.loadingIndicator startLoading];
     if (self.post.imageData){
         [[PCWebServices sharedInstance] fetchUploadString:^(id result, NSError *error){
@@ -125,6 +119,13 @@
         return;
     }
 
+    NSDictionary *host = @{@"fullName":[NSString stringWithFormat:@"%@ %@", self.profile.firstName, self.profile.lastName] , @"firstName":self.profile.firstName, @"lastName":self.profile.lastName, @"phoneNumber":self.profile.phone};
+    [self.post.invited addObject:host];
+    [self.post.confirmed addObject:self.profile.phone];
+    
+    NSLog(@"createPost: %@", [self.post jsonRepresentation]);
+
+    
     [[PCWebServices sharedInstance] createPost:self.post completion:^(id result, NSError *error){
         [self.loadingIndicator stopLoading];
         if (error){
@@ -139,20 +140,14 @@
             self.profile.invited = [NSMutableArray array];
         
         [self.profile.invited insertObject:self.post atIndex:0];
-        
+
         dispatch_async(dispatch_get_main_queue(), ^{
-//            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kPostCreatedNotification object:nil userInfo:@{@"post":self.post}]];
-//            [self.navigationController popViewControllerAnimated:YES];
-//            [self.navigationController popToRootViewControllerAnimated:YES];
+            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kPostCreatedNotification object:nil userInfo:@{@"post":self.post}]];
             
-            NSArray *array = [self.navigationController viewControllers];
-            [self.navigationController popToViewController:array[1] animated:YES];
+            NSArray *viewControllers = [self.navigationController viewControllers];
+            [self.navigationController popToViewController:viewControllers[1] animated:YES];
         });
     }];
-    
-    
-
-
 }
 
 
