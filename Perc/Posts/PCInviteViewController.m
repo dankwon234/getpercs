@@ -25,6 +25,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
+        self.edgesForExtendedLayout = UIRectEdgeAll;
         self.contactList = [NSMutableArray array];
         
     }
@@ -36,21 +37,23 @@
 - (void)loadView
 {
     UIView *view = [self baseView];
-    view.backgroundColor = [UIColor greenColor];
+    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
     CGRect frame = view.frame;
     
-    self.contactsTable = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height-20.0f) style:UITableViewStylePlain];
+    self.contactsTable = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height) style:UITableViewStylePlain];
+    self.contactsTable.dataSource = self;
+    self.contactsTable.delegate = self;
     self.contactsTable.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
     self.contactsTable.showsVerticalScrollIndicator = NO;
     self.contactsTable.separatorStyle = UITableViewCellSelectionStyleNone;
-    self.contactsTable.dataSource = self;
-    self.contactsTable.delegate = self;
     self.contactsTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, 96.0f)];
+    self.contactsTable.contentInset = UIEdgeInsetsMake(180.0f, 0, 0, 0);
+    self.contactsTable.backgroundColor = [UIColor clearColor];
     [view addSubview:self.contactsTable];
     
     
     
-    CGFloat y = frame.size.height-116.f;
+    CGFloat y = frame.size.height-96.f;
     CGFloat h = 44.0f;
     CGFloat x = 16.0f;
     CGFloat width = frame.size.width-2*x;
