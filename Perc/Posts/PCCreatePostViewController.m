@@ -138,7 +138,7 @@ static NSString *placeholder = @"Content";
     [bgPublic addSubview:lblPublic];
     
     UISwitch *togglePublic = [[UISwitch alloc] initWithFrame:CGRectMake(frame.size.width-63.0f, 6.5f, 51.0f, 31.0)];
-    togglePublic.on = YES;
+    togglePublic.on = (self.isEditMode) ? self.post.isPublic : YES;
     [togglePublic addTarget:self action:@selector(togglePublic:) forControlEvents:UIControlEventValueChanged];
     [bgPublic addSubview:togglePublic];
     
