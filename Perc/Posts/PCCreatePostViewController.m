@@ -90,6 +90,7 @@ static NSString *placeholder = @"Content";
     [self.theScrollview addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
     
 
+    UIFont *baseFont = [UIFont fontWithName:kBaseFontName size:16.0f];
     static CGFloat h = 44.0f;
     self.titleField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
     self.titleField.delegate = self;
@@ -98,7 +99,7 @@ static NSString *placeholder = @"Content";
     self.titleField.backgroundColor = [UIColor whiteColor];
     self.titleField.alpha = 0.8f;
     self.titleField.placeholder = @"Title";
-    self.titleField.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    self.titleField.font = baseFont;
     if ([self.post.title isEqualToString:@"none"]==NO && self.post.title.length > 0)
         self.titleField.text = self.post.title;
     
@@ -112,7 +113,7 @@ static NSString *placeholder = @"Content";
     
     self.contentForm = [[UITextView alloc] initWithFrame:CGRectMake(x, 10.0f, width, 220.0f)];
     self.contentForm.delegate = self;
-    self.contentForm.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    self.contentForm.font = baseFont;
     self.contentForm.backgroundColor = [UIColor clearColor];
     self.contentForm.text = (self.post.content.length > 1) ? self.post.content : placeholder;
     if (self.post.content.length > 4){
@@ -133,7 +134,7 @@ static NSString *placeholder = @"Content";
     bgPublic.alpha = 0.8f;
     
     UILabel *lblPublic = [[UILabel alloc] initWithFrame:CGRectMake(12.0f, 0.0f, frame.size.width-24.0f, h)];
-    lblPublic.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    lblPublic.font = baseFont;
     lblPublic.text = @"Public";
     [bgPublic addSubview:lblPublic];
     
@@ -145,27 +146,14 @@ static NSString *placeholder = @"Content";
     [self.theScrollview addSubview:bgPublic];
     y += bgPublic.frame.size.height+1.0f;
 
-    UIView *bgFee = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
-    bgFee.backgroundColor = [UIColor whiteColor];
-    [bgFee addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeFee:)]];
-    bgFee.alpha = 0.8f;
-    
-    self.lblFee = [[UILabel alloc] initWithFrame:CGRectMake(12.0f, 0.0f, frame.size.width-24.0f, 44.0f)];
-    self.lblFee.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    self.lblFee.text = @"Fee: FREE";
-    [bgFee addSubview:self.lblFee];
-
-    [self.theScrollview addSubview:bgFee];
-    y += bgFee.frame.size.height+1.0f;
-    
     if (self.isEditMode){
         UIView *bgVisible = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
         bgVisible.backgroundColor = [UIColor whiteColor];
         bgVisible.alpha = 0.8f;
         
         UILabel *lblVisible = [[UILabel alloc] initWithFrame:CGRectMake(12.0f, 0.0f, frame.size.width-24.0f, h)];
-        lblVisible.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-        lblVisible.text = @"Visible";
+        lblVisible.font = baseFont;
+        lblVisible.text = @"Visible (if NO, this post will not be seen)";
         [bgVisible addSubview:lblVisible];
         
         UISwitch *toggleVisible = [[UISwitch alloc] initWithFrame:CGRectMake(frame.size.width-63.0f, 6.5f, 51.0f, 31.0)];
@@ -176,6 +164,21 @@ static NSString *placeholder = @"Content";
         [self.theScrollview addSubview:bgVisible];
         y += bgVisible.frame.size.height+1.0f;
     }
+    
+    UIView *bgFee = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
+    bgFee.backgroundColor = [UIColor whiteColor];
+    [bgFee addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeFee:)]];
+    bgFee.alpha = 0.8f;
+    
+    self.lblFee = [[UILabel alloc] initWithFrame:CGRectMake(12.0f, 0.0f, frame.size.width-24.0f, 44.0f)];
+    self.lblFee.font = baseFont;
+    self.lblFee.text = @"Fee: FREE";
+    [bgFee addSubview:self.lblFee];
+    
+    [self.theScrollview addSubview:bgFee];
+    y += bgFee.frame.size.height+1.0f;
+    
+
 
 
     UIView *bgImage = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 2*h)];
@@ -200,8 +203,8 @@ static NSString *placeholder = @"Content";
         lblZone.backgroundColor = [UIColor grayColor];
         lblZone.textAlignment = NSTextAlignmentCenter;
         lblZone.textColor = [UIColor whiteColor];
-        lblZone.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-        lblZone.text = @"This Post Will Show In";
+        lblZone.font = baseFont;
+        lblZone.text = @"If Public, This Post Will Show In";
         [self.theScrollview addSubview:lblZone];
         y += lblZone.frame.size.height;
         
@@ -216,7 +219,7 @@ static NSString *placeholder = @"Content";
         
         CGRect boundingRect = [towns boundingRectWithSize:CGSizeMake(width, 200.0f)
                                                   options:NSStringDrawingUsesLineFragmentOrigin
-                                               attributes:@{NSFontAttributeName:[UIFont fontWithName:kBaseFontName size:16.0f]}
+                                               attributes:@{NSFontAttributeName:baseFont}
                                                   context:nil];
         
         CGFloat height = (boundingRect.size.height > h) ? boundingRect.size.height+24.0f : h;
@@ -227,7 +230,7 @@ static NSString *placeholder = @"Content";
         UILabel *lblTowns = [[UILabel alloc] initWithFrame:CGRectMake(x, 0.0f, width, height)];
         lblTowns.text = towns;
         lblTowns.textColor = [UIColor grayColor];
-        lblTowns.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+        lblTowns.font = baseFont;
         lblTowns.lineBreakMode = NSLineBreakByWordWrapping;
         lblTowns.numberOfLines = 0;
         [bgTowns addSubview:lblTowns];
@@ -373,7 +376,7 @@ static NSString *placeholder = @"Content";
     }
     
     
-    if (self.isEditMode){
+    if (self.isEditMode){ // update the post
         [[PCWebServices sharedInstance] updatePost:self.post incrementView:NO completion:^(id result, NSError *error){
             [self.loadingIndicator stopLoading];
             if (error){
@@ -394,6 +397,7 @@ static NSString *placeholder = @"Content";
         return;
     }
 
+    // create the post
     [[PCWebServices sharedInstance] createPost:self.post completion:^(id result, NSError *error){
         [self.loadingIndicator stopLoading];
         if (error){
