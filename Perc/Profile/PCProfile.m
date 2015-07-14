@@ -33,7 +33,7 @@
 @synthesize promoCode;
 @synthesize bio;
 @synthesize referral;
-
+@synthesize invited;
 
 - (id)init
 {
@@ -91,6 +91,7 @@
     self.orderHistory = nil;
     self.messages = nil;
     self.posts = nil;
+    self.invited = nil;
     self.isPopulated = NO;
     self.hasCreditCard = NO;
     self.isPublic = NO;

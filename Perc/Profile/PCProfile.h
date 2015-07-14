@@ -27,6 +27,7 @@
 @property (strong, nonatomic) NSMutableArray *orderHistory;
 @property (strong, nonatomic) NSMutableArray *messages;
 @property (strong, nonatomic) NSMutableArray *posts;
+@property (strong, nonatomic) NSMutableArray *invited; // posts that the user has been invited to
 @property (strong, nonatomic) UIImage *imageData;
 @property (nonatomic) BOOL isPopulated;
 @property (nonatomic) BOOL isPublic;
