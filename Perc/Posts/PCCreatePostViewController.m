@@ -541,7 +541,7 @@ static NSString *placeholder = @"Content";
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     self.post.fee = (int)row;
-    self.lblFee.text = [NSString stringWithFormat:@"Fee: %@", self.fees[row]];
+    self.lblFee.text = (row==0) ? @"Fee: FREE" : [NSString stringWithFormat:@"Fee: %@", self.fees[row]];
     [UIView animateWithDuration:0.3f
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
