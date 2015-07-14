@@ -18,6 +18,7 @@
 @property (copy, nonatomic) NSString *content;
 @property (copy, nonatomic) NSString *image;
 @property (copy, nonatomic) NSString *formattedDate;
+@property (copy, nonatomic) NSString *type;
 @property (strong, nonatomic) PCProfile *profile;
 @property (strong, nonatomic) NSMutableArray *zones;
 @property (strong, nonatomic) NSMutableArray *tags;

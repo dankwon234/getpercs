@@ -35,6 +35,8 @@
 @synthesize fee;
 @synthesize invited;
 @synthesize confirmed;
+@synthesize type;
+
 
 - (id)init
 {
@@ -47,6 +49,7 @@
         self.image = @"none";
         self.title = @"none";
         self.content = @"none";
+        self.type = @"general";
         self.zones = [NSMutableArray array];
         self.tags = [NSMutableArray array];
         self.invited = [NSMutableArray array];
@@ -82,6 +85,7 @@
     self.image = info[@"image"];
     self.title = info[@"title"];
     self.content = info[@"content"];
+    self.type = info[@"type"];
     self.invited = [NSMutableArray arrayWithArray:info[@"invited"]];
     self.confirmed = [NSMutableArray arrayWithArray:info[@"confirmed"]];
     self.tags = [NSMutableArray arrayWithArray:info[@"tags"]];
@@ -138,7 +142,10 @@
 
     if (self.tags)
         params[@"tags"] = self.tags;
-    
+
+    if (self.type)
+        params[@"type"] = self.type;
+
     
 
 
