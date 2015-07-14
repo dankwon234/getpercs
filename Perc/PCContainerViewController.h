@@ -9,6 +9,6 @@
 #import "PCViewController.h"
 #import "PCWelcomeView.h"
 
-@interface PCContainerViewController : PCViewController <UITableViewDataSource, UITableViewDelegate, PCWelcomeViewDelegate>
+@interface PCContainerViewController : PCViewController <PCWelcomeViewDelegate>
 
 @end
