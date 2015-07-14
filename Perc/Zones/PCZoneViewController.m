@@ -29,6 +29,7 @@
 @property (strong, nonatomic) UIButton *btnAccount;
 @property (strong, nonatomic) UIButton *btnLocation;
 @property (strong, nonatomic) UIButton *btnDrivers;
+@property (strong, nonatomic) UIButton *btnInvited;
 @property (nonatomic) int currentPage;
 @property (nonatomic) BOOL showNextPage;
 @end
@@ -98,21 +99,23 @@ static NSString *cellId = @"cellId";
     self.optionsView.backgroundColor = [UIColor blackColor];
     self.optionsView.alpha = 0.0f;
     
-    y = 0.60f*frame.size.height;
+    y = 0.50f*frame.size.height;
     CGFloat x = 24.0f;
     CGFloat h = 44.0f;
     
     self.btnAccount = [UIButton buttonWithType:UIButtonTypeCustom];
     self.btnLocation = [UIButton buttonWithType:UIButtonTypeCustom];
     self.btnDrivers = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.btnInvited = [UIButton buttonWithType:UIButtonTypeCustom];
     
-    NSArray *buttons = @[self.btnAccount, self.btnLocation, self.btnDrivers];
-    NSArray *icons = @[@"iconInfo.png", @"iconLocation.png", @"iconCar.png"];
+    NSArray *buttons = @[self.btnAccount, self.btnLocation, self.btnDrivers, self.btnInvited];
+    NSArray *icons = @[@"iconInfo.png", @"iconLocation.png", @"iconCar.png", @"iconCar.png"];
+    NSArray *titles = @[@"Account", @"Location", @"Drivers", @"Invitations"];
     for (int i=0; i<buttons.count; i++){
         UIButton *button = buttons[i];
         button.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         button.frame = CGRectMake(x, y, frame.size.width-2*x, h);
-        [button setTitle:@"Account" forState:UIControlStateNormal];
+        [button setTitle:titles[i] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont fontWithName:kBaseFontName size:18.0f];
         button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
