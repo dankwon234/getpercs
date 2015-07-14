@@ -11,13 +11,9 @@
 #import "PCPostsViewController.h"
 #import "PCPostViewController.h"
 #import "PCCollectionViewFlowLayout.h"
-#import "PCOrderViewController.h"
-#import "PCVenue.h"
-#import "PCOrder.h"
 #import "PCVenueCell.h"
 #import "PCPostView.h"
 #import "UIImage+PQImageEffects.h"
-#import "PCOrderFoodViewController.h"
 
 
 @interface PCZoneViewController ()
@@ -206,6 +202,14 @@ static NSString *cellId = @"cellId";
     
     if ([btn isEqual:self.btnLocation])
         [self updateLocation];
+
+    if ([btn isEqual:self.btnInvited]){
+        PCPostsViewController *postsVc = [[PCPostsViewController alloc] init];
+        postsVc.mode = 1;
+        [self.navigationController pushViewController:postsVc animated:YES];
+    }
+
+    
 }
 
 - (void)toggleOptionsView:(id)sender
