@@ -123,6 +123,7 @@
     [self.post.invited addObject:host];
     [self.post.confirmed addObject:self.profile.phone];
     self.post.type = @"event"; // private posts default as events for now
+    self.post.isVisible = NO; // private posts are not visible to everyone
     
     NSLog(@"createPost: %@", [self.post jsonRepresentation]);
 
