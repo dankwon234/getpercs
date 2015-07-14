@@ -30,6 +30,7 @@
 @property (nonatomic) int numComments;
 @property (nonatomic) int numViews;
 @property (nonatomic) int fee;
+@property (nonatomic) int adjustedFee;
 @property (nonatomic) BOOL isVisible;
 @property (nonatomic) BOOL isPublic;
 + (PCPost *)postWithInfo:(NSDictionary *)info;

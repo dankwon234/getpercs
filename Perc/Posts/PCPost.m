@@ -36,6 +36,7 @@
 @synthesize invited;
 @synthesize confirmed;
 @synthesize type;
+@synthesize adjustedFee;
 
 
 - (id)init
@@ -58,6 +59,7 @@
         self.numViews = 0;
         self.numComments = 0;
         self.fee = 0;
+        self.adjustedFee = 0.0f;
         self.isVisible = YES;
         self.isPublic = YES;
         
@@ -94,6 +96,7 @@
     self.numComments = [info[@"numComments"] intValue];
     self.numViews = [info[@"numViews"] intValue];
     self.fee = [info[@"fee"] intValue];
+    self.adjustedFee = [info[@"adjustedFee"] doubleValue];
     self.timestamp = [self.dateFormatter dateFromString:info[@"timestamp"]];
     self.formattedDate = [self formatTimestamp];
     
