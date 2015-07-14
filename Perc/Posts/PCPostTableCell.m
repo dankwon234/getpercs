@@ -12,6 +12,7 @@
 @implementation PCPostTableCell
 @synthesize postIcon;
 @synthesize lblTitle;
+@synthesize lblDetails;
 
 #define kCellHeight 84.0f
 
@@ -30,7 +31,6 @@
         CGFloat x = 2*padding+dimen;
         CGFloat y = padding;
         self.lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(x, y, frame.size.width-2*x, 18.0f)];
-//        self.lblTitle.backgroundColor = [UIColor blueColor];
         self.lblTitle.font = [UIFont fontWithName:kBaseFontName size:16.0f];
         [self.contentView addSubview:self.lblTitle];
         y += self.lblTitle.frame.size.height;
@@ -40,9 +40,12 @@
         self.lblDate.textColor = kOrange;
         [self.contentView addSubview:self.lblDate];
         y += self.lblDate.frame.size.height+16.0f;
-
         
         
+        self.lblDetails = [[UILabel alloc] initWithFrame:CGRectMake(x, y, self.lblTitle.frame.size.width, 14.0f)];
+        self.lblDetails.font = [UIFont fontWithName:kBaseFontName size:12.0f];
+        self.lblDetails.textColor = [UIColor lightGrayColor];
+        [self.contentView addSubview:self.lblDetails];
     }
     
     return self;

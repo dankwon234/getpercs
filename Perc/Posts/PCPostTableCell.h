@@ -14,5 +14,6 @@
 @property (strong, nonatomic) UIImageView *postIcon;
 @property (strong, nonatomic) UILabel *lblTitle;
 @property (strong, nonatomic) UILabel *lblDate;
+@property (strong, nonatomic) UILabel *lblDetails;
 + (CGFloat)standardCellHeight;
 @end
