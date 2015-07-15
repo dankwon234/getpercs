@@ -227,6 +227,7 @@ static NSString *cellId = @"cellId";
     cell.tag = indexPath.row+1000;
     cell.lblTitle.text = post.title;
     cell.lblDate.text = post.formattedDate;
+    cell.lblDetails.text = (post.adjustedFee > 0) ? [NSString stringWithFormat:@"Fee: %.2f", post.adjustedFee] : @"FREE";
     
     if (post.imageData){
         cell.postIcon.image = post.imageData;
