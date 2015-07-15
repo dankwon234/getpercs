@@ -37,7 +37,7 @@ NSString * const StripePublishableKey = @"pk_live_8ftaqUCg4JwMMzw0NK6xl3H2";
     [Stripe setDefaultPublishableKey:StripePublishableKey];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.backgroundColor = [UIColor redColor];
+    self.window.backgroundColor = [UIColor blackColor];
     
 //    PCContainerViewController *containerVc = [[PCContainerViewController alloc] init];
     self.window.rootViewController = [[PCContainerViewController alloc] init];
