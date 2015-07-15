@@ -144,6 +144,7 @@
         btnRsvp.layer.borderWidth = 2.0f;
         [btnRsvp setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [btnRsvp setTitle:@"RSVP" forState:UIControlStateNormal];
+        [btnRsvp addTarget:self action:@selector(rsvpEvent:) forControlEvents:UIControlEventTouchUpInside];
         btnRsvp.titleLabel.font = boldFont;
         [header addSubview:btnRsvp];
     }
@@ -299,7 +300,6 @@
         return;
     }
     
-    
     [UIView animateWithDuration:0.25f
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
@@ -384,6 +384,12 @@
                      completion:^(BOOL finished){
                          
                      }];
+}
+
+- (void)rsvpEvent:(UIButton *)btn
+{
+    NSLog(@"rsvpEvent: ");
+    
     
 }
 
