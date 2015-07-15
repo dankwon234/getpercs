@@ -552,33 +552,6 @@
 
 }
 
-- (void)submitDriverApplication:(NSDictionary *)application completionBlock:(PCWebServiceRequestCompletionBlock)completionBlock
-{
-    AFHTTPRequestOperationManager *manager = [self requestManagerForJSONSerializiation];
-    [manager POST:kPathApplication
-       parameters:application
-          success:^(AFHTTPRequestOperation *operation, id responseObject) {
-              NSLog(@"JSON: %@", responseObject);
-              
-              NSDictionary *responseDictionary = (NSDictionary *)responseObject;
-              NSDictionary *results = responseDictionary[@"results"];
-              
-              if ([results[@"confirmation"] isEqualToString:@"success"]==NO){
-                  if (completionBlock){
-                      completionBlock(nil, [NSError errorWithDomain:kErrorDomain code:0 userInfo:@{NSLocalizedDescriptionKey:results[@"message"]}]);
-                  }
-                  return;
-              }
-              
-              if (completionBlock)
-                  completionBlock(results, nil);
-          }
-          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-              NSLog(@"FAILURE BLOCK: %@", [error localizedDescription]);
-              if (completionBlock)
-                  completionBlock(nil, error);
-          }];
-}
 
 
 #pragma mark - Images

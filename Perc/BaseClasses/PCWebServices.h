@@ -65,7 +65,6 @@ typedef void (^PCWebServiceRequestCompletionBlock)(id result, NSError *error);
 - (void)uploadImage:(NSDictionary *)image toUrl:(NSString *)uploadUrl completion:(PCWebServiceRequestCompletionBlock)completionBlock;
 
 
-// Driver Application
-- (void)submitDriverApplication:(NSDictionary *)application completionBlock:(PCWebServiceRequestCompletionBlock)completionBlock;
+// Venmo
 
 @end
