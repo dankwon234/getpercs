@@ -23,6 +23,7 @@
 @property (strong, nonatomic) UIView *optionsView;
 @property (strong, nonatomic) UIButton *btnAccept;
 @property (strong, nonatomic) UIButton *btnDecline;
+@property (strong, nonatomic) UIWebView *venmoWebview;
 @end
 
 @implementation PCPostViewController
@@ -357,13 +358,20 @@
 
 - (void)keyboardAppearNotification:(NSNotification *)note
 {
-//    NSLog(@"keyboardAppearNotification: %@", [note.userInfo description]);
+    if (self.venmoWebview)
+        return;
+    
+    NSLog(@"keyboardAppearNotification: %@", [note.userInfo description]);
     CGRect keyboardFrame = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     [self shiftUp:keyboardFrame.size.height];
 }
 
 - (void)keyboardHideNotification:(NSNotification *)note
 {
+    if (self.venmoWebview)
+        return;
+    
+
 //    NSLog(@"keyboardHideNotification: %@", [note.userInfo description]);
     [self shiftBack:0.0f];
 }
@@ -546,17 +554,17 @@
         
         NSString *authUrl = @"https://api.venmo.com/v1/oauth/authorize?client_id=2765&scope=make_payments%20access_profile";
         CGRect frame = self.view.frame;
-        UIWebView *venmoWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, frame.size.height-kNavBarHeight-20.0f)];
-        venmoWebView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-        venmoWebView.delegate = self;
-        [venmoWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:authUrl]]];
-        [self.view addSubview:venmoWebView];
+        self.venmoWebview = [[UIWebView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, frame.size.height)];
+        self.venmoWebview.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        self.venmoWebview.delegate = self;
+        [self.venmoWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:authUrl]]];
+        [self.view addSubview:self.venmoWebview];
         
         [UIView animateWithDuration:0.5f
                               delay:0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
-                             venmoWebView.frame = CGRectMake(0.0f, kNavBarHeight, venmoWebView.frame.size.width, venmoWebView.frame.size.height);
+                             self.venmoWebview.frame = CGRectMake(0.0f, 0.0f, self.venmoWebview.frame.size.width, self.venmoWebview.frame.size.height);
                          }
                          completion:^(BOOL finished){
                              
@@ -734,8 +742,9 @@
                              webView.frame = frame;
                          }
                          completion:^(BOOL finished){
-                             webView.delegate = nil;
-                             [webView removeFromSuperview];
+                             self.venmoWebview.delegate = nil;
+                             [self.venmoWebview removeFromSuperview];
+                             self.venmoWebview = nil;
                              
                              dispatch_async(dispatch_get_main_queue(), ^{
                                  [self sendVenmoPayment:accessToken toRecipient:@""];
