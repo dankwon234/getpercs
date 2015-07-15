@@ -24,6 +24,8 @@
 @property (strong, nonatomic) UITextView *bioTextView;
 @property (strong, nonatomic) UIButton *btnMessages;
 @property (strong, nonatomic) UIButton *btnPosts;
+@property (strong, nonatomic) UIButton *btnInvitations;
+@property (strong, nonatomic) UIButton *btnOrderHistory;
 @property (strong, nonatomic) NSArray *fadeViews;
 @end
 
@@ -39,6 +41,7 @@ static NSString *placeholder = @"Bio";
         self.edgesForExtendedLayout = UIRectEdgeAll;
         
     }
+    
     return self;
 }
 
@@ -83,16 +86,19 @@ static NSString *placeholder = @"Bio";
     CGFloat x = 12.0f;
     self.btnMessages = [UIButton buttonWithType:UIButtonTypeCustom];
     self.btnPosts = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.btnInvitations = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.btnOrderHistory = [UIButton buttonWithType:UIButtonTypeCustom];
     
-    CGFloat dimen = 36.0f;
-    NSArray *buttons = @[self.btnMessages, self.btnPosts];
-    NSArray *icons = @[@"iconEnvelope.png", @"iconEnvelope.png"];
+//    NSArray *buttons = @[self.btnMessages, self.btnPosts, self.btnInvitations, self.btnOrderHistory];
+    NSArray *buttons = @[self.btnMessages, self.btnPosts, self.btnInvitations];
+    NSArray *icons = @[@"messages.png", @"posts.png", @"invitations.png", @"orderHistory.png"];
     CGFloat offset = frame.size.width/((double)buttons.count+1.0f);
     for (int i=0; i<buttons.count; i++) {
         UIButton *btn = buttons[i];
-        btn.frame = CGRectMake(0, y, dimen, dimen);
+        UIImage *icon = [UIImage imageNamed:icons[i]];
+        btn.frame = CGRectMake(0, y, icon.size.width, icon.size.height);
         btn.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-        [btn setBackgroundImage:[UIImage imageNamed:icons[i]] forState:UIControlStateNormal];
+        [btn setBackgroundImage:icon forState:UIControlStateNormal];
         [btn addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
         btn.center = CGPointMake((i+1)*offset, btn.center.y);
         [view addSubview:btn];
@@ -186,7 +192,7 @@ static NSString *placeholder = @"Bio";
     [view addSubview:self.theScrollview];
     [view bringSubviewToFront:self.icon];
     
-    self.fadeViews = @[self.icon, self.btnMessages, self.btnPosts, self.lblTapToChange, self.lblName];
+    self.fadeViews = @[self.icon, self.btnMessages, self.btnPosts, self.lblTapToChange, self.lblName, self.btnOrderHistory, self.btnInvitations];
     
     self.view = view;
 }
@@ -339,6 +345,13 @@ static NSString *placeholder = @"Bio";
     if ([btn isEqual:self.btnPosts]){
         [self viewPosts:btn];
     }
+    
+    if ([btn isEqual:self.btnInvitations]){
+        PCPostsViewController *postsVc = [[PCPostsViewController alloc] init];
+        postsVc.mode = 1;
+        [self.navigationController pushViewController:postsVc animated:YES];
+    }
+
     
 }
 
