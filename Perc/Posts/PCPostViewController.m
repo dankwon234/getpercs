@@ -20,7 +20,9 @@
 @property (strong, nonatomic) PCComment *nextComment;
 @property (strong, nonatomic) UIImageView *fullImage;
 @property (strong, nonatomic) UIScrollView *fullImageView;
-
+@property (strong, nonatomic) UIView *optionsView;
+@property (strong, nonatomic) UIButton *btnAccept;
+@property (strong, nonatomic) UIButton *btnDecline;
 @end
 
 @implementation PCPostViewController
@@ -78,12 +80,15 @@
     [self.backgroundImage.layer insertSublayer:gradient atIndex:0];
     [view addSubview:self.backgroundImage];
 
-    self.theTableview = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height-20.0f)];
+//    NSLog(@"INDEX = %d", (int)[self.navigationController.viewControllers indexOfObject:self]);
+//    self.theTableview = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height-20.0f)];
+    self.theTableview = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
+    
     self.theTableview.dataSource = self;
     self.theTableview.delegate = self;
+    self.theTableview.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
     self.theTableview.backgroundColor = [UIColor clearColor];
     self.theTableview.showsVerticalScrollIndicator = NO;
-    self.theTableview.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
     self.theTableview.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.theTableview addObserver:self forKeyPath:@"contentOffset" options:0 context:nil];
     
@@ -180,6 +185,7 @@
     [footer addSubview:btnSend];
     self.theTableview.tableFooterView = footer;
     
+    self.theTableview.contentInset = UIEdgeInsetsMake(0.0f, 0.0f, 20.0f, 0.0f);
     
     [view addSubview:self.theTableview];
 
@@ -200,6 +206,43 @@
     [self.fullImageView addSubview:self.fullImage];
     [view addSubview:self.fullImageView];
 
+    
+    self.optionsView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
+    self.optionsView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    self.optionsView.backgroundColor = [UIColor blackColor];
+    self.optionsView.alpha = 0.0f;
+    
+    y = 0.40f*frame.size.height;
+    CGFloat x = 24.0f;
+    h = 44.0f;
+
+    self.btnAccept = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.btnDecline = [UIButton buttonWithType:UIButtonTypeCustom];
+
+    NSArray *buttons = @[self.btnAccept, self.btnDecline];
+    NSArray *icons = @[@"iconInfo.png", @"iconLocation.png"];
+    NSArray *titles = @[@"Accept", @"Decline"];
+    for (int i=0; i<buttons.count; i++){
+        UIButton *button = buttons[i];
+        button.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        button.frame = CGRectMake(x, y, frame.size.width-2*x, h);
+        [button setTitle:titles[i] forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        button.titleLabel.font = [UIFont fontWithName:kBaseFontName size:18.0f];
+        button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+        button.layer.cornerRadius = 3.0f;
+        button.layer.masksToBounds = YES;
+        [button setImage:[UIImage imageNamed:icons[i]] forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+        [self.optionsView addSubview:button];
+        y += button.frame.size.height+12.0f;
+    }
+
+
+    [self.optionsView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideOptionsView:)]];
+    [view addSubview:self.optionsView];
+
+    
     
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
     swipe.direction = UISwipeGestureRecognizerDirectionRight;
@@ -247,7 +290,6 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             NSDictionary *results = (NSDictionary *)result;
-//            NSLog(@"%@", [results description]);
             NSArray *c = results[@"comments"];
             self.post.comments = [NSMutableArray array];
             for (NSDictionary *commentInfo in c)
@@ -389,15 +431,140 @@
 - (void)rsvpEvent:(UIButton *)btn
 {
     NSLog(@"rsvpEvent: ");
+    [self showOptionsView:btn];
     
     
 }
 
 
+- (void)toggleOptionsView:(id)sender
+{
+    if (self.optionsView.alpha == 0.0f){
+        [self showOptionsView:nil];
+        return;
+    }
+    
+    [self hideOptionsView:nil];
+}
+
+- (void)hideOptionsView:(UIGestureRecognizer *)tap
+{
+    [UIView animateWithDuration:0.35f
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         self.optionsView.alpha = 0.0f;
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
+
+
+- (void)showOptionsView:(UIButton *)btn
+{
+    [self.view bringSubviewToFront:self.optionsView];
+    [UIView animateWithDuration:0.35f
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         self.optionsView.alpha = 0.85f;
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
+
+- (void)buttonAction:(UIButton *)btn
+{
+    if ([btn isEqual:self.btnAccept]){
+        if (self.post.adjustedFee==0){
+            [self hideOptionsView:nil];
+            return;
+        }
+        
+        NSString *msg = [NSString stringWithFormat:@"This event costs $%.2f to attend. Do you want to continue?", post.adjustedFee];
+        UIAlertView *alert = [self showAlertWithTitle:@"Fee" message:msg buttons:@"NO"];
+        alert.delegate = self;
+        alert.tag = 1000;
+        return;
+    }
+    
+    if ([btn isEqual:self.btnDecline]){
+        [self hideOptionsView:nil];
+        
+        NSString *phone = self.profile.phone;
+        NSDictionary *invitee = nil;
+        for (NSDictionary *invited in self.post.invited) {
+            if ([invited[@"phoneNumber"] isEqualToString:phone]){
+                invitee = invited;
+                break;
+            }
+        }
+        
+        if (invitee==nil){
+            [self.navigationController popViewControllerAnimated:YES];
+            return;
+        }
+        
+        [self.post.invited removeObject:invitee];
+        [self.profile.invited removeObject:self.post];
+        
+        [self.loadingIndicator startLoading];
+        [[PCWebServices sharedInstance] replyInvitation:self.post profile:self.profile reply:NO completion:^(id result, NSError *error){
+            [self.loadingIndicator stopLoading];
+            
+            if (error){
+                [self.navigationController popViewControllerAnimated:YES];
+                return;
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.navigationController popViewControllerAnimated:YES];
+            });
+        }];
+        
+        
+    }
+
+}
+
 #pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSLog(@"buttonIndex == %ld", (long)buttonIndex);
+    if (alertView.tag==1000){
+        if (buttonIndex != 0){ // decline
+            [self hideOptionsView:nil];
+            return;
+        }
+        
+        // show venmo login
+        
+        
+        // https://api.venmo.com/v1/oauth/authorize?client_id=2765&scope=make_payments%20access_profile
+        
+        NSString *authUrl = @"https://api.venmo.com/v1/oauth/authorize?client_id=2765&scope=make_payments%20access_profile";
+        CGRect frame = self.view.frame;
+        UIWebView *venmoWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, frame.size.height-kNavBarHeight-20.0f)];
+        venmoWebView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        venmoWebView.delegate = self;
+        [venmoWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:authUrl]]];
+        [self.view addSubview:venmoWebView];
+        
+        [UIView animateWithDuration:0.5f
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             venmoWebView.frame = CGRectMake(0.0f, kNavBarHeight, venmoWebView.frame.size.width, venmoWebView.frame.size.height);
+                         }
+                         completion:^(BOOL finished){
+                             
+                         }];
+        
+        return;
+    }
+    
     [self showLoginView:YES]; // not logged in - go to log in / register view controller
 }
 
@@ -433,13 +600,6 @@
     
     return self.fullImage;
 }
-
-
-- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale
-{
-    
-}
-
 
 
 
@@ -553,6 +713,67 @@
     return bounds.size.height+54.0f;
 }
 
+
+#pragma mark - UIWebViewDelegate
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    NSString *urlString = request.URL.absoluteString;
+    NSLog(@"webView shouldStartLoadWithRequest: %@", urlString);
+    
+    if ([urlString hasPrefix:@"http://www.getpercs.com"]){
+        NSArray *parts = [urlString componentsSeparatedByString:@"="];
+        NSString *accessToken = [parts lastObject];
+        NSLog(@"ACCESS TOKEN: %@", accessToken);
+        
+        [UIView animateWithDuration:0.35f
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             CGRect frame = webView.frame;
+                             frame.origin.y = self.view.frame.size.height;
+                             webView.frame = frame;
+                         }
+                         completion:^(BOOL finished){
+                             webView.delegate = nil;
+                             [webView removeFromSuperview];
+                             
+                             dispatch_async(dispatch_get_main_queue(), ^{
+                                 [self sendVenmoPayment:accessToken toRecipient:@""];
+                             });
+                         }];
+        
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
+    NSLog(@"webViewDidStartLoad: ");
+    
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    NSLog(@"webViewDidFinishLoad: ");
+    
+}
+
+- (void)sendVenmoPayment:(NSString *)accessToken toRecipient:(NSString *)rec
+{
+    [[PCWebServices sharedInstance] submitVenmoPayment:accessToken
+                                                amount:5.0f
+                                             recipient:rec
+                                            completion:^(id result, NSError *error){
+                                                if (error) {
+                                                    NSLog(@"ERROR: %@", [error localizedDescription]);
+                                                    return;
+                                                }
+                                                
+                                                NSLog(@"%@", [result description]);
+                                            }];
+}
 
 
 - (void)didReceiveMemoryWarning
