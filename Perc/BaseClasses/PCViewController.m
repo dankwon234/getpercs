@@ -223,7 +223,15 @@
 #pragma mark - Alert
 - (UIAlertView *)showAlertWithTitle:(NSString *)title message:(NSString *)msg
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+     return [self showAlertWithTitle:title message:msg buttons:nil];
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//    [alert show];
+//    return alert;
+}
+
+- (UIAlertView *)showAlertWithTitle:(NSString *)title message:(NSString *)msg buttons:(NSString *)btns
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:btns, nil];
     [alert show];
     return alert;
 }

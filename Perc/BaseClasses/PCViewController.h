@@ -25,6 +25,7 @@
 @property (strong, nonatomic) PCLocationManager *locationMgr;
 - (UIView *)baseView;
 - (UIView *)baseViewWithNavBar;
+- (UIAlertView *)showAlertWithTitle:(NSString *)title message:(NSString *)msg buttons:(NSString *)btns;
 - (UIAlertView *)showAlertWithTitle:(NSString *)title message:(NSString *)msg;
 - (void)shiftUp:(CGFloat)distance;
 - (void)shiftBack:(CGFloat)origin;
