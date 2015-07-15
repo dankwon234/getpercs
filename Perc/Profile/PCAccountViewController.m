@@ -86,33 +86,18 @@ static NSString *placeholder = @"Bio";
     
     CGFloat dimen = 36.0f;
     NSArray *buttons = @[self.btnMessages, self.btnPosts];
+    NSArray *icons = @[@"iconEnvelope.png", @"iconEnvelope.png"];
     CGFloat offset = frame.size.width/((double)buttons.count+1.0f);
     for (int i=0; i<buttons.count; i++) {
         UIButton *btn = buttons[i];
         btn.frame = CGRectMake(0, y, dimen, dimen);
         btn.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-        btn.backgroundColor = [UIColor redColor];
+        [btn setBackgroundImage:[UIImage imageNamed:icons[i]] forState:UIControlStateNormal];
         [btn addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
         btn.center = CGPointMake((i+1)*offset, btn.center.y);
         [view addSubview:btn];
     }
 
-    
-//    self.btnMessages.frame = CGRectMake(x, y, 36.0f, 36.0f);
-//    self.btnMessages.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-//    self.btnMessages.backgroundColor = [UIColor redColor];
-//    [self.btnMessages addTarget:self action:@selector(viewMessages:) forControlEvents:UIControlEventTouchUpInside];
-//    [view addSubview:self.btnMessages];
-//    
-//    x += self.btnMessages.frame.size.width+12.0f;
-//    self.btnPosts = [UIButton buttonWithType:UIButtonTypeCustom];
-//    self.btnPosts.frame = CGRectMake(x, y, 36.0f, 36.0f);
-//    self.btnPosts.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-//    self.btnPosts.backgroundColor = [UIColor redColor];
-//    [self.btnPosts addTarget:self action:@selector(viewPosts:) forControlEvents:UIControlEventTouchUpInside];
-//    [view addSubview:self.btnPosts];
-
-    
     y += self.btnMessages.frame.size.height+12.0f;
     
     self.theScrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
