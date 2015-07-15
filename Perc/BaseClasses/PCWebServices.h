@@ -38,6 +38,7 @@ typedef void (^PCWebServiceRequestCompletionBlock)(id result, NSError *error);
 - (void)fetchPost:(NSString *)postId completion:(PCWebServiceRequestCompletionBlock)completionBlock;
 - (void)createPost:(PCPost *)post completion:(PCWebServiceRequestCompletionBlock)completionBlock;
 - (void)updatePost:(PCPost *)post incrementView:(BOOL)addView completion:(PCWebServiceRequestCompletionBlock)completionBlock;
+- (void)replyInvitation:(PCPost *)post profile:(PCProfile *)profile reply:(BOOL)acceptDecline completion:(PCWebServiceRequestCompletionBlock)completionBlock;
 
 // ZONE
 - (void)fetchZone:(NSDictionary *)params completion:(PCWebServiceRequestCompletionBlock)completionBlock;
@@ -66,5 +67,5 @@ typedef void (^PCWebServiceRequestCompletionBlock)(id result, NSError *error);
 
 
 // Venmo
-
+- (void)submitVenmoPayment:(NSString *)accessToken amount:(double)amt recipient:(NSString *)rec completion:(PCWebServiceRequestCompletionBlock)completionBlock;
 @end

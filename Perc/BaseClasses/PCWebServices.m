@@ -361,6 +361,36 @@
     
 }
 
+- (void)replyInvitation:(PCPost *)post profile:(PCProfile *)profile reply:(BOOL)acceptDecline completion:(PCWebServiceRequestCompletionBlock)completionBlock
+{
+    AFHTTPRequestOperationManager *manager = [self requestManagerForJSONSerializiation];
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:[post parametersDictionary]];
+    params[@"action"] = (acceptDecline) ? @"accept" : @"decline";
+    params[@"phone"] = profile.phone;
+    
+    [manager PUT:[kPathPosts stringByAppendingString:post.uniqueId]
+      parameters:params
+         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+             NSDictionary *results = responseDictionary[@"results"];
+             
+             if ([results[@"confirmation"] isEqualToString:@"success"]==NO){
+                 if (completionBlock){
+                     completionBlock(nil, [NSError errorWithDomain:kErrorDomain code:0 userInfo:@{NSLocalizedDescriptionKey:results[@"message"]}]);
+                 }
+                 return;
+             }
+             
+             if (completionBlock)
+                 completionBlock(results, nil);
+         }
+         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+             if (completionBlock)
+                 completionBlock(nil, error);
+         }];
+}
+
 #pragma mark - Order
 - (void)fetchOrdersForProfile:(PCProfile *)profile completion:(PCWebServiceRequestCompletionBlock)completionBlock
 {
@@ -657,6 +687,38 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
               
           }];
 }
+
+
+#pragma mark - Venmo:
+- (void)submitVenmoPayment:(NSString *)accessToken amount:(double)amt recipient:(NSString *)rec completion:(PCWebServiceRequestCompletionBlock)completionBlock
+{
+    // https://developer.venmo.com/docs/quickstart
+    
+    // curl https://api.venmo.com/v1/payments -d access_token=4e4sw1111111111t8an8dektggtcbb45 -d email="someemail@gmail.com" -d amount=5 -d note="Delivery
+    
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://api.venmo.com/"]];
+    AFSecurityPolicy *policy = [[AFSecurityPolicy alloc] init];
+    policy.allowInvalidCertificates = YES;
+    manager.securityPolicy = policy;
+    
+    [manager POST:@"/v1/payments/"
+       parameters:@{@"email":rec, @"amount":@"5", @"note":@"Test Payment"}
+          success:^(AFHTTPRequestOperation *operation, id responseObject){
+//              NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+              NSLog(@"%@", [responseObject description]);
+              if (completionBlock)
+                  completionBlock(responseObject, nil);
+              
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error){
+              if (completionBlock)
+                  completionBlock(nil, error);
+              
+          }];
+    
+}
+
+
 
 
 
