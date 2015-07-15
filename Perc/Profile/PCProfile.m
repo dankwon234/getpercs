@@ -248,6 +248,16 @@
     return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 }
 
+- (NSDictionary *)contactInfoDict
+{
+    NSString *fullName = self.firstName;
+    if ([self.lastName isEqualToString:@"none"]==NO)
+        fullName = [fullName stringByAppendingString:[NSString stringWithFormat:@"%@", self.lastName]];
+    
+    NSDictionary *contactInfo = @{@"firstName":self.firstName, @"lastName":self.lastName, @"phoneNumber":self.phone, @"fullName":fullName};
+    return contactInfo;
+}
+
 
 
 

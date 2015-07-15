@@ -35,6 +35,7 @@
 @property (nonatomic) int points;
 + (PCProfile *)sharedProfile;
 + (PCProfile *)profileWithInfo:(NSDictionary *)info;
+- (NSDictionary *)contactInfoDict;
 - (void)populate:(NSDictionary *)profileInfo;
 - (NSDictionary *)parametersDictionary;
 - (NSString *)jsonRepresentation;
