@@ -25,10 +25,8 @@
 #define kProfileUpdatedNotification @"ProfileUpdatedNotification"
 
 
-
-
-#define kBaseFontName       @"MyanmarMN"
-#define kBaseBoldFont   @"MyanmarMN-Bold"
+#define kBaseFontName       @"Montserrat"
+#define kBaseBoldFont       @"Montserrat-Bold"
 
 #define kLightBlue  [UIColor colorWithRed:109.0f/255.0f green:132.0f/255.0f blue:167.0f/255.0f alpha:1.0f]
 #define kOrange     [UIColor colorWithRed:215.0f/255.0f green:122.0f/255.0f blue:68.0f/255.0f alpha:1.0f]
