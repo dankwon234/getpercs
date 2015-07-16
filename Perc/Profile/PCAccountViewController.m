@@ -81,7 +81,7 @@ static NSString *placeholder = @"Bio";
     self.lblName.textColor = [UIColor whiteColor];
     self.lblName.text = [NSString stringWithFormat:@"%@ %@", [self.profile.firstName uppercaseString], [self.profile.lastName uppercaseString]];
     [view addSubview:self.lblName];
-    y += self.lblName.frame.size.height+12.0f;
+    y += self.lblName.frame.size.height+36.0f;
     
     CGFloat x = 12.0f;
     self.btnMessages = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -104,7 +104,7 @@ static NSString *placeholder = @"Bio";
         [view addSubview:btn];
     }
 
-    y += self.btnMessages.frame.size.height+12.0f;
+    y += self.btnMessages.frame.size.height-36.0f;
     
     self.theScrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
     self.theScrollview.autoresizingMask = UIViewAutoresizingFlexibleHeight;
