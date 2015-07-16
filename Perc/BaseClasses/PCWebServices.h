@@ -67,5 +67,5 @@ typedef void (^PCWebServiceRequestCompletionBlock)(id result, NSError *error);
 
 
 // Venmo
-- (void)submitVenmoPayment:(NSString *)accessToken amount:(double)amt recipient:(NSString *)rec completion:(PCWebServiceRequestCompletionBlock)completionBlock;
+- (void)submitVenmoPayment:(NSString *)accessToken amount:(double)amt recipient:(NSString *)rec note:(NSString *)note completion:(PCWebServiceRequestCompletionBlock)completionBlock;
 @end

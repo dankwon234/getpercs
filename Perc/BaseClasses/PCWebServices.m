@@ -690,47 +690,50 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
 
 
 #pragma mark - Venmo:
-- (void)submitVenmoPayment:(NSString *)accessToken amount:(double)amt recipient:(NSString *)rec completion:(PCWebServiceRequestCompletionBlock)completionBlock
+- (void)submitVenmoPayment:(NSString *)accessToken amount:(double)amt recipient:(NSString *)rec note:(NSString *)note completion:(PCWebServiceRequestCompletionBlock)completionBlock
 {
     // https://developer.venmo.com/docs/quickstart
-    
     // curl https://api.venmo.com/v1/payments -d access_token=4e4sw1111111111t8an8dektggtcbb45 -d email="someemail@gmail.com" -d amount=5 -d note="Delivery
+
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    AFHTTPRequestSerializer *serializer = [AFHTTPRequestSerializer serializer];
+    [serializer setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    manager.requestSerializer = serializer;
     
-    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://api.venmo.com/"]];
-    AFSecurityPolicy *policy = [[AFSecurityPolicy alloc] init];
-    policy.allowInvalidCertificates = YES;
-    manager.securityPolicy = policy;
-    
-    [manager POST:@"/v1/payments/"
-       parameters:@{@"email":rec, @"amount":@"5", @"note":@"Test Payment"}
+    NSDictionary *params = @{@"access_token":accessToken, @"amount":[NSString stringWithFormat:@"%.2f", amt], @"note":note, @"email":rec};
+    [manager POST:@"https://api.venmo.com/v1/payments"
+       parameters:params
           success:^(AFHTTPRequestOperation *operation, id responseObject){
-//              NSDictionary *responseDictionary = (NSDictionary *)responseObject;
               NSLog(@"%@", [responseObject description]);
+              
               if (completionBlock)
                   completionBlock(responseObject, nil);
-              
+
           }
           failure:^(AFHTTPRequestOperation *operation, NSError *error){
               if (completionBlock)
                   completionBlock(nil, error);
-              
           }];
-    
 }
 
 
 
 
-
-- (AFHTTPRequestOperationManager *)requestManagerForJSONSerializiation
+- (AFHTTPRequestOperationManager *)requestManagerForJSONSerializiation:(NSString *)baseUrl
 {
-    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:baseUrl]];
     AFSecurityPolicy *policy = [[AFSecurityPolicy alloc] init];
     policy.allowInvalidCertificates = YES;
     manager.securityPolicy = policy;
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     return manager;
+}
+
+
+- (AFHTTPRequestOperationManager *)requestManagerForJSONSerializiation
+{
+    return [self requestManagerForJSONSerializiation:kBaseUrl];
 }
 
 
