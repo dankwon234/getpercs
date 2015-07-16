@@ -118,6 +118,7 @@
 		0C8D7D041B5797D200038E3A /* posts@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C8D7D011B5797D200038E3A /* posts@2x.png */; };
 		0C8D7D051B5797D200038E3A /* invitations@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C8D7D021B5797D200038E3A /* invitations@2x.png */; };
 		0C8D7D061B5797D200038E3A /* messages@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C8D7D031B5797D200038E3A /* messages@2x.png */; };
+		0C8D7D081B579F0600038E3A /* iconPeople@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C8D7D071B579F0600038E3A /* iconPeople@2x.png */; };
 		0C91E7671AC0EB19006D7F1D /* PCDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C91E7661AC0EB19006D7F1D /* PCDateFormatter.m */; };
 		0C91E76A1AC111D6006D7F1D /* PCOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C91E7691AC111D6006D7F1D /* PCOrderViewController.m */; };
 		0CA0DE671ABA22EE00537419 /* iconHamburger@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CA0DE661ABA22EE00537419 /* iconHamburger@2x.png */; };
@@ -337,6 +338,7 @@
 		0C8D7D011B5797D200038E3A /* posts@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "posts@2x.png"; sourceTree = "<group>"; };
 		0C8D7D021B5797D200038E3A /* invitations@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "invitations@2x.png"; sourceTree = "<group>"; };
 		0C8D7D031B5797D200038E3A /* messages@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "messages@2x.png"; sourceTree = "<group>"; };
+		0C8D7D071B579F0600038E3A /* iconPeople@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconPeople@2x.png"; sourceTree = "<group>"; };
 		0C91E7651AC0EB19006D7F1D /* PCDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCDateFormatter.h; sourceTree = "<group>"; };
 		0C91E7661AC0EB19006D7F1D /* PCDateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCDateFormatter.m; sourceTree = "<group>"; };
 		0C91E7681AC111D6006D7F1D /* PCOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCOrderViewController.h; sourceTree = "<group>"; };
@@ -709,6 +711,7 @@
 				0CCA8A671B4E386E004FF7D4 /* iconChat@2x.png */,
 				0CCA8A691B4E3A54004FF7D4 /* iconEye@2x.png */,
 				0CE891CD1B3F529500CEC7D5 /* logo-white@2x.png */,
+				0C8D7D071B579F0600038E3A /* iconPeople@2x.png */,
 				0C5DC6681AE2E27500C4B38B /* iconView@2x.png */,
 				0CA0DE661ABA22EE00537419 /* iconHamburger@2x.png */,
 				0CA0DE7E1ABA515400537419 /* backArrow@2x.png */,
@@ -977,6 +980,7 @@
 				0CCA8A6A1B4E3A54004FF7D4 /* iconEye@2x.png in Resources */,
 				0C8B616F1ABD028800BC13C8 /* diners.png in Resources */,
 				0C8B61691ABD028800BC13C8 /* amex.png in Resources */,
+				0C8D7D081B579F0600038E3A /* iconPeople@2x.png in Resources */,
 				0C8B616C1ABD028800BC13C8 /* cvc-amex@2x.png in Resources */,
 				0CADEF631B575AD800F9262E /* Montserrat-Bold.ttf in Resources */,
 				0C676E151AE36271001B14B7 /* iconEnvelope@2x.png in Resources */,
