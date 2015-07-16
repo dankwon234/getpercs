@@ -64,13 +64,13 @@
         self.lblTitle.textColor = [UIColor whiteColor];
         self.lblTitle.numberOfLines = 2;
         self.lblTitle.lineBreakMode = NSLineBreakByWordWrapping;
-        self.lblTitle.font = [UIFont fontWithName:kBaseBoldFont size:14.0f];
+        self.lblTitle.font = [UIFont fontWithName:kBaseFontName size:14.0f];
         [self.base addSubview:self.lblTitle];
         y += self.lblTitle.frame.size.height+2.0f;
 
         
         self.lblDate = [[UILabel alloc] initWithFrame:CGRectMake(padding+2.0f, y, width, 12.0f)];
-        self.lblDate.textColor = self.lblTitle.textColor;
+        self.lblDate.textColor = [UIColor lightGrayColor];
         self.lblDate.font = [UIFont fontWithName:kBaseFontName size:12.0f];
         [self.base addSubview:self.lblDate];
         y += self.lblDate.frame.size.height;
@@ -87,7 +87,7 @@
         self.lblNumComments = [[UILabel alloc] initWithFrame:CGRectMake(x, y-2.0f, 20.0f, 18.0f)];
         self.lblNumComments.textAlignment = NSTextAlignmentRight;
         self.lblNumComments.textColor = [UIColor whiteColor];
-        self.lblNumComments.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:14.0f];
+        self.lblNumComments.font = [UIFont fontWithName:kBaseFontName size:14.0f];
         [self.base addSubview:self.lblNumComments];
         x -= self.lblNumComments.frame.size.width+12.0f;
         
