@@ -55,6 +55,7 @@ static NSString *placeholder = @"Bio";
     
     self.icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon.png"]];
     self.icon.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    self.icon.frame = CGRectMake(0, 0, 0.6f*self.icon.frame.size.width, 0.6f*self.icon.frame.size.height); // shrink the icon
     self.icon.center = CGPointMake(0.5f*frame.size.width, 88.0f);
     self.icon.layer.cornerRadius = 0.5f*self.icon.frame.size.height;
     self.icon.layer.masksToBounds = YES;
