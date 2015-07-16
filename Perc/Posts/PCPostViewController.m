@@ -24,6 +24,7 @@
 @property (strong, nonatomic) UIButton *btnAccept;
 @property (strong, nonatomic) UIButton *btnDecline;
 @property (strong, nonatomic) UIWebView *venmoWebview;
+@property (nonatomic) BOOL isEvent;
 @end
 
 @implementation PCPostViewController
@@ -59,7 +60,7 @@
 
 - (void)loadView
 {
-    BOOL isEvent = [self.post.type isEqualToString:@"event"];
+    self.isEvent = [self.post.type isEqualToString:@"event"];
     UIView *view = [self baseView];
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgBlurry.png"]];
     CGRect frame = view.frame;
@@ -129,7 +130,7 @@
     [header addSubview:self.lblTitle];
     y += self.lblTitle.frame.size.height;
     
-    if (isEvent){
+    if (self.isEvent){
         y += 2.0f;
         UILabel *lblFee = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, y, w, 16.0f)];
         lblFee.font = [UIFont fontWithName:kBaseFontName size:14.0f];
@@ -151,7 +152,7 @@
     self.lblContent.text = self.post.content;
     [header addSubview:self.lblContent];
     
-    if (isEvent){
+    if (self.isEvent){
         BOOL isAttending = NO;
         for (NSDictionary *attendee in self.post.confirmed) {
             if ([attendee[@"phoneNumber"] isEqualToString:self.profile.phone]){
@@ -665,7 +666,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section==0)
-        return 3;
+        return (self.isEvent) ? 4 : 3;
     
     return self.post.comments.count;
 }
@@ -679,21 +680,20 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.backgroundColor = kLightGray;
+            cell.textLabel.textColor = kLightBlue;
+            cell.textLabel.font = [UIFont fontWithName:kBaseFontName size:14.0f];
         }
         
         // Reply Cell
         if (indexPath.row==0){
-            cell.textLabel.textColor = kOrange;
-            cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0f];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.imageView.image = [UIImage imageNamed:@"iconEnvelope.png"];
             cell.textLabel.text = @"DIRECT MESSAGE";
             return cell;
 
         }
-        
-        cell.textLabel.textColor = kLightBlue;
-        cell.textLabel.font = [UIFont fontWithName:kBaseFontName size:14.0f];
+
+
         cell.accessoryType = UITableViewCellAccessoryNone;
         
         if (indexPath.row==1){ // views cell:
@@ -701,10 +701,17 @@
             cell.textLabel.text = [NSString stringWithFormat:@"%d Views", self.post.numViews];
             return cell;
         }
-        
-        // comments cell:
-        cell.imageView.image = [UIImage imageNamed:@"iconComment.png"];
-        cell.textLabel.text = [NSString stringWithFormat:@"%d Comments", self.post.numComments];
+
+        if (indexPath.row==2){ // comments cell:
+            cell.imageView.image = [UIImage imageNamed:@"iconComment.png"];
+            cell.textLabel.text = [NSString stringWithFormat:@"%d Comments", self.post.numComments];
+            return cell;
+        }
+
+        // guest list cell:
+        cell.imageView.image = [UIImage imageNamed:@"iconPeople.png"];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.textLabel.text = [NSString stringWithFormat:@"%d People Attending", (int)self.post.confirmed.count];
         return cell;
     }
     
@@ -737,18 +744,25 @@
     if (indexPath.section != 0)
         return;
     
-    if (indexPath.row != 0)
-        return;
-    
-    if (self.profile.isPopulated==NO){
-        UIAlertView *alert = [self showAlertWithTitle:@"Log In" message:@"Please log in or register to send a direct message."];
-        alert.delegate = self;
+    if (indexPath.row == 0){
+        if (self.profile.isPopulated==NO){
+            UIAlertView *alert = [self showAlertWithTitle:@"Log In" message:@"Please log in or register to send a direct message."];
+            alert.delegate = self;
+            return;
+        }
+        
+        PCConnectViewController *connectVc = [[PCConnectViewController alloc] init];
+        connectVc.post = self.post;
+        [self.navigationController pushViewController:connectVc animated:YES];
         return;
     }
     
-    PCConnectViewController *connectVc = [[PCConnectViewController alloc] init];
-    connectVc.post = self.post;
-    [self.navigationController pushViewController:connectVc animated:YES];
+    if (indexPath.row == 3){
+        NSLog(@"Show Guest List");
+
+        
+    }
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
