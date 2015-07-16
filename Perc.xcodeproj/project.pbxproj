@@ -36,6 +36,7 @@
 		0C20C2201B57F91800E6952A /* iconCheckmarkWhite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C20C21F1B57F91800E6952A /* iconCheckmarkWhite@2x.png */; };
 		0C20C2221B57F9A400E6952A /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C20C2211B57F9A400E6952A /* icon@2x.png */; };
 		0C20C2241B57FD2100E6952A /* iconCalendar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C20C2231B57FD2100E6952A /* iconCalendar@2x.png */; };
+		0C20C2271B57FDAB00E6952A /* PCGuestsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C20C2261B57FDAB00E6952A /* PCGuestsViewController.m */; };
 		0C25B2EF1B540A9C007E7514 /* bgLosAngeles@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C25B2EE1B540A9C007E7514 /* bgLosAngeles@2x.png */; };
 		0C25B2F31B5422A5007E7514 /* iconInfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C25B2F21B5422A5007E7514 /* iconInfo@2x.png */; };
 		0C25B2F51B542354007E7514 /* iconLocation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C25B2F41B542354007E7514 /* iconLocation@2x.png */; };
@@ -211,6 +212,8 @@
 		0C20C21F1B57F91800E6952A /* iconCheckmarkWhite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconCheckmarkWhite@2x.png"; sourceTree = "<group>"; };
 		0C20C2211B57F9A400E6952A /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 		0C20C2231B57FD2100E6952A /* iconCalendar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconCalendar@2x.png"; sourceTree = "<group>"; };
+		0C20C2251B57FDAB00E6952A /* PCGuestsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCGuestsViewController.h; sourceTree = "<group>"; };
+		0C20C2261B57FDAB00E6952A /* PCGuestsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCGuestsViewController.m; sourceTree = "<group>"; };
 		0C25B2EE1B540A9C007E7514 /* bgLosAngeles@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgLosAngeles@2x.png"; sourceTree = "<group>"; };
 		0C25B2F21B5422A5007E7514 /* iconInfo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconInfo@2x.png"; sourceTree = "<group>"; };
 		0C25B2F41B542354007E7514 /* iconLocation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconLocation@2x.png"; sourceTree = "<group>"; };
@@ -521,6 +524,8 @@
 				0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */,
 				0CDD96DA1B16F3520026E052 /* PCInviteViewController.h */,
 				0CDD96DB1B16F3520026E052 /* PCInviteViewController.m */,
+				0C20C2251B57FDAB00E6952A /* PCGuestsViewController.h */,
+				0C20C2261B57FDAB00E6952A /* PCGuestsViewController.m */,
 				0C34CB1A1B1914FE0056A0B3 /* PCContactCell.h */,
 				0C34CB1B1B1914FE0056A0B3 /* PCContactCell.m */,
 				0CAC7F421AE2265C00D42BB7 /* PCPostCell.h */,
@@ -1029,6 +1034,7 @@
 				0CD16F191AE75DB200B5F85B /* PCMessagesViewController.m in Sources */,
 				0C5E38011B124B7A0028F9A6 /* PCSession.m in Sources */,
 				0C8B61601ABD028800BC13C8 /* PTKAddressZip.m in Sources */,
+				0C20C2271B57FDAB00E6952A /* PCGuestsViewController.m in Sources */,
 				0C1BC8951ABBFD9F000E9EDB /* PCRegisterViewController.m in Sources */,
 				0C8B61681ABD028800BC13C8 /* PTKView.m in Sources */,
 				0C61390A1AB8EAFC00D12C50 /* PCLoadingIndicator.m in Sources */,

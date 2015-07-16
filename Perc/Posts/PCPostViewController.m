@@ -8,6 +8,7 @@
 
 #import "PCPostViewController.h"
 #import "PCConnectViewController.h"
+#import "PCGuestsViewController.h"
 #import "PCComment.h"
 
 @interface PCPostViewController ()
@@ -759,6 +760,10 @@
     
     if (indexPath.row == 3){
         NSLog(@"Show Guest List");
+        PCGuestsViewController *guestsVc = [[PCGuestsViewController alloc] init];
+        guestsVc.post = self.post;
+        [self.navigationController pushViewController:guestsVc animated:YES];
+
 
         
     }
