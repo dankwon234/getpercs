@@ -50,9 +50,6 @@ static NSString *cellId = @"cellId";
     
 }
 
-
-
-
 - (void)loadView
 {
     UIView *view = [self baseView];
@@ -127,10 +124,33 @@ static NSString *cellId = @"cellId";
     [self.optionsView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideOptionsView:)]];
     [view addSubview:self.optionsView];
     
-
-
     self.view = view;
 }
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self addOptionsButton];
+    
+    CGPoint center = self.loadingIndicator.center;
+    center.y += 120.0f;
+    self.loadingIndicator.center = center;
+    
+    
+    if (self.profile.isPopulated)
+        [self.btnAccount setTitle:@"Account" forState:UIControlStateNormal];
+    else
+        [self.btnAccount setTitle:@"Log In" forState:UIControlStateNormal];
+    
+    BOOL connected = [[PCWebServices sharedInstance] checkConnection];
+    if (connected==NO){
+        [self showAlertWithTitle:@"No Connection" message:@"Please find an internet connection."];
+        return;
+    }
+    
+    [self updateLocation];
+}
+
 
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -173,26 +193,6 @@ static NSString *cellId = @"cellId";
     }
 }
 
-
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    [self addOptionsButton];
-    
-    if (self.profile.isPopulated)
-        [self.btnAccount setTitle:@"Account" forState:UIControlStateNormal];
-    else
-        [self.btnAccount setTitle:@"Log In" forState:UIControlStateNormal];
-
-    BOOL connected = [[PCWebServices sharedInstance] checkConnection];
-    if (connected==NO){
-        [self showAlertWithTitle:@"No Connection" message:@"Please find an internet connection."];
-        return;
-    }
-
-    [self updateLocation];
-}
 
 #pragma mark -
 - (void)buttonAction:(UIButton *)btn
