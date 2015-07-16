@@ -59,6 +59,7 @@
 
 - (void)loadView
 {
+    BOOL isEvent = [self.post.type isEqualToString:@"event"];
     UIView *view = [self baseView];
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgBlurry.png"]];
     CGRect frame = view.frame;
@@ -81,10 +82,7 @@
     [self.backgroundImage.layer insertSublayer:gradient atIndex:0];
     [view addSubview:self.backgroundImage];
 
-//    NSLog(@"INDEX = %d", (int)[self.navigationController.viewControllers indexOfObject:self]);
-//    self.theTableview = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height-20.0f)];
     self.theTableview = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
-    
     self.theTableview.dataSource = self;
     self.theTableview.delegate = self;
     self.theTableview.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
@@ -129,9 +127,22 @@
     self.lblTitle.font = boldFont;
     self.lblTitle.text = self.post.title;
     [header addSubview:self.lblTitle];
+    y += self.lblTitle.frame.size.height;
+    
+    if (isEvent){
+        y += 2.0f;
+        UILabel *lblFee = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, y, w, 16.0f)];
+        lblFee.font = [UIFont fontWithName:kBaseFontName size:14.0f];
+        lblFee.text = (self.post.adjustedFee==0.0f) ? @"Free" : [NSString stringWithFormat:@"$%.2f", self.post.adjustedFee];
+        lblFee.textColor = [UIColor lightGrayColor];
+        [header addSubview:lblFee];
+        y += lblFee.frame.size.height+24.0f;
+    }
+    else{
+        y += 24.0f;
+    }
 
     
-    y += self.lblTitle.frame.size.height+24.0f;
     self.lblContent = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, y, width, contentRect.size.height)];
     self.lblContent.numberOfLines = 0;
     self.lblContent.lineBreakMode = NSLineBreakByWordWrapping;
@@ -140,19 +151,40 @@
     self.lblContent.text = self.post.content;
     [header addSubview:self.lblContent];
     
-    if ([self.post.type isEqualToString:@"event"]){
-        UIButton *btnRsvp = [UIButton buttonWithType:UIButtonTypeCustom];
-        btnRsvp.frame = CGRectMake(20.0f, h-64.0f, frame.size.width-40.0f, 44.0f);
-        btnRsvp.backgroundColor = [UIColor clearColor];
-        btnRsvp.layer.cornerRadius = 0.5f*btnRsvp.frame.size.height;
-        btnRsvp.layer.masksToBounds = YES;
-        btnRsvp.layer.borderColor = [[UIColor grayColor] CGColor];
-        btnRsvp.layer.borderWidth = 2.0f;
-        [btnRsvp setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-        [btnRsvp setTitle:@"RSVP" forState:UIControlStateNormal];
-        [btnRsvp addTarget:self action:@selector(rsvpEvent:) forControlEvents:UIControlEventTouchUpInside];
-        btnRsvp.titleLabel.font = boldFont;
-        [header addSubview:btnRsvp];
+    if (isEvent){
+        BOOL isAttending = NO;
+        for (NSDictionary *attendee in self.post.confirmed) {
+            if ([attendee[@"phoneNumber"] isEqualToString:self.profile.phone]){
+                isAttending = YES;
+                break;
+            }
+        }
+        
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        btn.frame = CGRectMake(20.0f, h-64.0f, frame.size.width-40.0f, 44.0f);
+        btn.backgroundColor = [UIColor clearColor];
+        btn.layer.cornerRadius = 0.5f*btn.frame.size.height;
+        btn.layer.masksToBounds = YES;
+        btn.layer.borderWidth = 2.0f;
+        btn.titleLabel.font = boldFont;
+        
+        if (isAttending){
+            btn.layer.borderColor = [kGreen CGColor];
+            [btn setTitleColor:kGreen forState:UIControlStateNormal];
+            [btn setTitle:@"Attending" forState:UIControlStateNormal];
+            UIImageView *checkmark = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconCheckmark.png"]];
+            checkmark.center = CGPointMake(60.0f, 0.5f*btn.frame.size.height);
+            [btn addSubview:checkmark];
+        }
+        else {
+            btn.layer.borderColor = [[UIColor grayColor] CGColor];
+            [btn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+            [btn setTitle:@"RSVP" forState:UIControlStateNormal];
+            [btn addTarget:self action:@selector(rsvpEvent:) forControlEvents:UIControlEventTouchUpInside];
+        }
+        
+        [header addSubview:btn];
+
     }
     
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0.0f, h-0.5f, frame.size.width, 0.5f)];
@@ -199,7 +231,6 @@
     self.fullImageView.minimumZoomScale = 1.0f;
     self.fullImageView.maximumZoomScale = 3.0f;
     self.fullImageView.alpha = 0.0f;
-//    self.fullImageView.contentSize = CGSizeMake(self.post.frame.size.width, self.postImage.frame.size.height);
     
     self.fullImage = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, view.frame.size.width, view.frame.size.width)];
     self.fullImage.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
@@ -361,7 +392,6 @@
     if (self.venmoWebview)
         return;
     
-    NSLog(@"keyboardAppearNotification: %@", [note.userInfo description]);
     CGRect keyboardFrame = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     [self shiftUp:keyboardFrame.size.height];
 }
@@ -388,7 +418,6 @@
     self.nextComment.thread = self.post.uniqueId;
     [self.commentField resignFirstResponder];
     
-    NSLog(@"submitComment: %@", [self.nextComment jsonRepresentation]);
     
     [self.loadingIndicator startLoading];
     [[PCWebServices sharedInstance] submitComment:self.nextComment completion:^(id result, NSError *error){
@@ -420,9 +449,6 @@
 
 - (void)viewFullImage
 {
-//    CGPoint location = [tap locationInView:self.threadTable];
-//    NSLog(@"viewImage: %.2f, %.2f", location.x, location.y);
-    
     self.fullImage.image = self.post.imageData;
     [UIView animateWithDuration:0.25f
                           delay:0
@@ -440,10 +466,7 @@
 {
     NSLog(@"rsvpEvent: ");
     [self showOptionsView:btn];
-    
-    
 }
-
 
 - (void)toggleOptionsView:(id)sender
 {
@@ -483,11 +506,31 @@
                      }];
 }
 
+- (void)updatePostWithReply:(BOOL)acceptDecline
+{
+    [[PCWebServices sharedInstance] replyInvitation:self.post profile:self.profile reply:acceptDecline completion:^(id result, NSError *error){
+        if (error){
+            [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
+            return;
+        }
+        
+        NSDictionary *results = (NSDictionary *)result;
+        [self.post populate:results[@"post"]];
+
+        if (acceptDecline)
+            [self showAlertWithTitle:@"Thanks!" message:@"You have confirmed your invitation."];
+
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+}
+
 - (void)buttonAction:(UIButton *)btn
 {
     if ([btn isEqual:self.btnAccept]){
+        
         if (self.post.adjustedFee==0){
-            [self hideOptionsView:nil];
+            [self.post.confirmed addObject:[self.profile contactInfoDict]];
+            [self updatePostWithReply:YES];
             return;
         }
         
@@ -519,37 +562,42 @@
         [self.profile.invited removeObject:self.post];
         
         [self.loadingIndicator startLoading];
-        [[PCWebServices sharedInstance] replyInvitation:self.post profile:self.profile reply:NO completion:^(id result, NSError *error){
-            [self.loadingIndicator stopLoading];
-            
-            if (error){
-                [self.navigationController popViewControllerAnimated:YES];
-                return;
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.navigationController popViewControllerAnimated:YES];
-            });
-        }];
-        
-        
+        [self updatePostWithReply:NO];
     }
+}
 
+
+- (void)sendVenmoPayment:(NSString *)accessToken toRecipient:(NSString *)rec
+{
+    [[PCWebServices sharedInstance] submitVenmoPayment:accessToken
+                                                amount:4.0f
+                                             recipient:@"bkarpinos@gmail.com"
+                                                  note:[NSString stringWithFormat:@"PAYMENT: %@", self.post.title]
+                                            completion:^(id result, NSError *error){
+                                                if (error) {
+                                                    NSLog(@"ERROR: %@", [error localizedDescription]);
+                                                    [self showAlertWithTitle:@"Error" message:@"Payment could not be completed."];
+                                                    [self hideOptionsView:nil];
+                                                    return;
+                                                }
+                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                    NSLog(@"%@", [result description]);
+                                                    [self.post.confirmed addObject:[self.profile contactInfoDict]];
+                                                    [self updatePostWithReply:YES];
+                                                });
+                                            }];
 }
 
 #pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSLog(@"buttonIndex == %ld", (long)buttonIndex);
     if (alertView.tag==1000){
         if (buttonIndex != 0){ // decline
             [self hideOptionsView:nil];
             return;
         }
         
-        // show venmo login
-        
-        
+        // show venmo login:
         // https://api.venmo.com/v1/oauth/authorize?client_id=2765&scope=make_payments%20access_profile
         
         NSString *authUrl = @"https://api.venmo.com/v1/oauth/authorize?client_id=2765&scope=make_payments%20access_profile";
@@ -583,19 +631,16 @@
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-//    NSLog(@"scrollViewDidScroll: %.2f", scrollView.contentOffset.y);
     if (self.commentField.isFirstResponder)
         [self.commentField resignFirstResponder];
     
     if ([scrollView isEqual:self.fullImageView]) // ingore this guy
         return;
-
 }
 
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-//    NSLog(@"scrollViewDidEndDragging: %.2f", scrollView.contentOffset.y);
     if (scrollView.contentOffset.y < -80.0f)
         [self viewFullImage];
 }
@@ -691,7 +736,6 @@
 {
     if (indexPath.section != 0)
         return;
-
     
     if (indexPath.row != 0)
         return;
@@ -731,7 +775,6 @@
     if ([urlString hasPrefix:@"http://www.getpercs.com"]){
         NSArray *parts = [urlString componentsSeparatedByString:@"="];
         NSString *accessToken = [parts lastObject];
-        NSLog(@"ACCESS TOKEN: %@", accessToken);
         
         [UIView animateWithDuration:0.35f
                               delay:0
@@ -747,7 +790,7 @@
                              self.venmoWebview = nil;
                              
                              dispatch_async(dispatch_get_main_queue(), ^{
-                                 [self sendVenmoPayment:accessToken toRecipient:@""];
+                                 [self sendVenmoPayment:accessToken toRecipient:@"bkarpinos@gmail.com"];
                              });
                          }];
         
@@ -757,32 +800,8 @@
     return YES;
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView
-{
-    NSLog(@"webViewDidStartLoad: ");
-    
-}
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView
-{
-    NSLog(@"webViewDidFinishLoad: ");
-    
-}
 
-- (void)sendVenmoPayment:(NSString *)accessToken toRecipient:(NSString *)rec
-{
-    [[PCWebServices sharedInstance] submitVenmoPayment:accessToken
-                                                amount:5.0f
-                                             recipient:rec
-                                            completion:^(id result, NSError *error){
-                                                if (error) {
-                                                    NSLog(@"ERROR: %@", [error localizedDescription]);
-                                                    return;
-                                                }
-                                                
-                                                NSLog(@"%@", [result description]);
-                                            }];
-}
 
 
 - (void)didReceiveMemoryWarning
