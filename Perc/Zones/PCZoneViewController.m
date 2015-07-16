@@ -113,7 +113,7 @@ static NSString *cellId = @"cellId";
         button.frame = CGRectMake(x, y, frame.size.width-2*x, h);
         [button setTitle:titles[i] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        button.titleLabel.font = [UIFont fontWithName:kBaseFontName size:18.0f];
+        button.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
         button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         button.layer.cornerRadius = 3.0f;
         button.layer.masksToBounds = YES;
