@@ -123,6 +123,8 @@
 		0CA0DE7D1ABA4EB500537419 /* PCVenueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA0DE7C1ABA4EB500537419 /* PCVenueViewController.m */; };
 		0CA0DE7F1ABA515400537419 /* backArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CA0DE7E1ABA515400537419 /* backArrow@2x.png */; };
 		0CAC7F441AE2265C00D42BB7 /* PCPostCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAC7F431AE2265C00D42BB7 /* PCPostCell.m */; };
+		0CADEF631B575AD800F9262E /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CADEF611B575AD800F9262E /* Montserrat-Bold.ttf */; };
+		0CADEF641B575AD800F9262E /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CADEF621B575AD800F9262E /* Montserrat-Regular.ttf */; };
 		0CB419F01B56021300F678BB /* invitations@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CB419EF1B56021300F678BB /* invitations@2x.png */; };
 		0CB419F21B56025A00F678BB /* messages@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CB419F11B56025A00F678BB /* messages@2x.png */; };
 		0CB419F51B56036000F678BB /* posts@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CB419F31B56036000F678BB /* posts@2x.png */; };
@@ -346,6 +348,8 @@
 		0CA0DE7E1ABA515400537419 /* backArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backArrow@2x.png"; sourceTree = "<group>"; };
 		0CAC7F421AE2265C00D42BB7 /* PCPostCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPostCell.h; sourceTree = "<group>"; };
 		0CAC7F431AE2265C00D42BB7 /* PCPostCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCPostCell.m; sourceTree = "<group>"; };
+		0CADEF611B575AD800F9262E /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
+		0CADEF621B575AD800F9262E /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		0CB419EF1B56021300F678BB /* invitations@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "invitations@2x.png"; sourceTree = "<group>"; };
 		0CB419F11B56025A00F678BB /* messages@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "messages@2x.png"; sourceTree = "<group>"; };
 		0CB419F31B56036000F678BB /* posts@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "posts@2x.png"; sourceTree = "<group>"; };
@@ -532,6 +536,8 @@
 		0C4962C71B506C3D00E340E8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0CADEF611B575AD800F9262E /* Montserrat-Bold.ttf */,
+				0CADEF621B575AD800F9262E /* Montserrat-Regular.ttf */,
 				0C4962C81B506C3D00E340E8 /* Myanmar MN.ttc */,
 			);
 			path = Resources;
@@ -967,10 +973,12 @@
 				0C8B61781ABD028800BC13C8 /* placeholder@2x.png in Resources */,
 				0C1E4EC11B197B09001B840E /* iconCheckmark@2x.png in Resources */,
 				0CB419F51B56036000F678BB /* posts@2x.png in Resources */,
+				0CADEF641B575AD800F9262E /* Montserrat-Regular.ttf in Resources */,
 				0CCA8A6A1B4E3A54004FF7D4 /* iconEye@2x.png in Resources */,
 				0C8B616F1ABD028800BC13C8 /* diners.png in Resources */,
 				0C8B61691ABD028800BC13C8 /* amex.png in Resources */,
 				0C8B616C1ABD028800BC13C8 /* cvc-amex@2x.png in Resources */,
+				0CADEF631B575AD800F9262E /* Montserrat-Bold.ttf in Resources */,
 				0C676E151AE36271001B14B7 /* iconEnvelope@2x.png in Resources */,
 				0C8B616D1ABD028800BC13C8 /* cvc.png in Resources */,
 				0C8B61791ABD028800BC13C8 /* visa.png in Resources */,

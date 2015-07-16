@@ -43,6 +43,8 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Myanmar MN.ttc</string>
+		<string>Montserrat-Bold.ttf</string>
+		<string>Montserrat-Regular.ttf</string>
 	</array>
 </dict>
 </plist>
