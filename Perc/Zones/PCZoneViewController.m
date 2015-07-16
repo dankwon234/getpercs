@@ -102,7 +102,7 @@ static NSString *cellId = @"cellId";
     self.btnInvited = [UIButton buttonWithType:UIButtonTypeCustom];
     
     NSArray *buttons = @[self.btnAccount, self.btnLocation, self.btnDrivers, self.btnInvited];
-    NSArray *icons = @[@"iconInfo.png", @"iconLocation.png", @"iconCar.png", @"iconCar.png"];
+    NSArray *icons = @[@"iconInfo.png", @"iconLocation.png", @"iconCar.png", @"iconCalendar.png"];
     NSArray *titles = @[@"Account", @"Location", @"Drivers", @"Invitations"];
     for (int i=0; i<buttons.count; i++){
         UIButton *button = buttons[i];
