@@ -298,7 +298,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellId = @"";
+    static NSString *cellId = @"cellId";
     PCContactCell *cell = (PCContactCell *)[tableView dequeueReusableCellWithIdentifier:cellId];
     if (cell==nil){
         cell = [[PCContactCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
