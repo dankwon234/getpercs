@@ -35,6 +35,7 @@
 		0C1FBA431ADE2DE20079BD74 /* PCZoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C1FBA421ADE2DE20079BD74 /* PCZoneViewController.m */; };
 		0C20C2201B57F91800E6952A /* iconCheckmarkWhite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C20C21F1B57F91800E6952A /* iconCheckmarkWhite@2x.png */; };
 		0C20C2221B57F9A400E6952A /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C20C2211B57F9A400E6952A /* icon@2x.png */; };
+		0C20C2241B57FD2100E6952A /* iconCalendar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C20C2231B57FD2100E6952A /* iconCalendar@2x.png */; };
 		0C25B2EF1B540A9C007E7514 /* bgLosAngeles@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C25B2EE1B540A9C007E7514 /* bgLosAngeles@2x.png */; };
 		0C25B2F31B5422A5007E7514 /* iconInfo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C25B2F21B5422A5007E7514 /* iconInfo@2x.png */; };
 		0C25B2F51B542354007E7514 /* iconLocation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C25B2F41B542354007E7514 /* iconLocation@2x.png */; };
@@ -209,6 +210,7 @@
 		0C1FBA421ADE2DE20079BD74 /* PCZoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCZoneViewController.m; sourceTree = "<group>"; };
 		0C20C21F1B57F91800E6952A /* iconCheckmarkWhite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconCheckmarkWhite@2x.png"; sourceTree = "<group>"; };
 		0C20C2211B57F9A400E6952A /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
+		0C20C2231B57FD2100E6952A /* iconCalendar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconCalendar@2x.png"; sourceTree = "<group>"; };
 		0C25B2EE1B540A9C007E7514 /* bgLosAngeles@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgLosAngeles@2x.png"; sourceTree = "<group>"; };
 		0C25B2F21B5422A5007E7514 /* iconInfo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconInfo@2x.png"; sourceTree = "<group>"; };
 		0C25B2F41B542354007E7514 /* iconLocation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconLocation@2x.png"; sourceTree = "<group>"; };
@@ -702,6 +704,7 @@
 				0C25B2EE1B540A9C007E7514 /* bgLosAngeles@2x.png */,
 				0C3B254C1B54720A00EBD436 /* dropShadow@2x.png */,
 				0C25B2F41B542354007E7514 /* iconLocation@2x.png */,
+				0C20C2231B57FD2100E6952A /* iconCalendar@2x.png */,
 				0C25B2F21B5422A5007E7514 /* iconInfo@2x.png */,
 				0C25B2F61B54241A007E7514 /* iconCar@2x.png */,
 				0C4962C51B5066EE00E340E8 /* logoTransparent@2x.png */,
@@ -955,6 +958,7 @@
 				0C8B61761ABD028800BC13C8 /* mastercard@2x.png in Resources */,
 				0C8B616E1ABD028800BC13C8 /* cvc@2x.png in Resources */,
 				0CA0DE7F1ABA515400537419 /* backArrow@2x.png in Resources */,
+				0C20C2241B57FD2100E6952A /* iconCalendar@2x.png in Resources */,
 				0C8B617B1ABD028800BC13C8 /* gradient@2x.png in Resources */,
 				0C5819D31B51A32D001410B2 /* backgroundBlue@2x.png in Resources */,
 				0C8B617D1ABD028800BC13C8 /* textfield@2x.png in Resources */,
