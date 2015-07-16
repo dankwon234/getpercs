@@ -204,6 +204,12 @@ static NSString *cellId = @"cellId";
         [self updateLocation];
 
     if ([btn isEqual:self.btnInvited]){
+        if (self.profile.isPopulated==NO){
+            [self showLoginView:YES];
+            return;
+        }
+        
+        
         PCPostsViewController *postsVc = [[PCPostsViewController alloc] init];
         postsVc.mode = 1;
         [self.navigationController pushViewController:postsVc animated:YES];
