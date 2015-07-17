@@ -15,6 +15,7 @@
 @interface PCMessagesViewController ()
 @property (strong, nonatomic) UITableView *messagesTable;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) UIImageView *tutorialView;
 @end
 
 @implementation PCMessagesViewController
@@ -34,6 +35,7 @@
 - (void)loadView
 {
     UIView *view = [self baseView];
+    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
     CGRect frame = view.frame;
     
     self.messagesTable = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 0, frame.size.width, frame.size.height) style:UITableViewStylePlain];
@@ -50,7 +52,7 @@
                   forControlEvents:UIControlEventValueChanged];
     
     [self.messagesTable addSubview:self.refreshControl];
-
+    self.messagesTable.alpha = 0.0f;
     [view addSubview:self.messagesTable];
 
     UIView *topBar = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, kNavBarHeight)];
@@ -60,6 +62,18 @@
     UIImageView *dropShadow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dropShadow.png"]];
     dropShadow.frame = CGRectMake(0.0f, kNavBarHeight, dropShadow.frame.size.width, dropShadow.frame.size.height);
     [view addSubview:dropShadow];
+    
+    UIImage *tutorialImage = [UIImage imageNamed:@"messagesTutorial.png"];
+    self.tutorialView = [[UIImageView alloc] initWithImage:tutorialImage];
+    
+    CGFloat w = frame.size.width;
+    double scale = w/tutorialImage.size.width;
+    CGFloat h = scale*tutorialImage.size.height;
+    
+    self.tutorialView.frame = CGRectMake(0, 0, w, h);
+    self.tutorialView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    self.tutorialView.alpha = 0.0f;
+    [view addSubview:self.tutorialView];
     
 
 
@@ -76,8 +90,10 @@
     [super viewDidLoad];
     [self addCustomBackButton];
     
-    if (self.profile.messages)
+    if (self.profile.messages){
+        self.messagesTable.alpha = 1.0f;
         return;
+    }
     
     [self fetchProfileMessages:YES];
 }
@@ -92,7 +108,6 @@
 {
     if ([keyPath isEqualToString:@"imageData"]){
         PCProfile *profile = (PCProfile *)object;
-        
         [profile removeObserver:self forKeyPath:@"imageData"];
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -138,10 +153,30 @@
 
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.messagesTable reloadData];
             
-            if (self.profile.messages.count==0)
-                [self showAlertWithTitle:@"No Messages" message:@"You have no direct messages yet."];
+            if (self.profile.messages.count==0){ // no messages
+                [UIView animateWithDuration:0.35f
+                                      delay:0
+                                    options:UIViewAnimationOptionCurveEaseInOut
+                                 animations:^{
+                                     self.tutorialView.alpha = 1.0f;
+                                 }
+                                 completion:^(BOOL finished){
+                                     
+                                 }];
+                return;
+            }
+            
+            [self.messagesTable reloadData];
+            [UIView animateWithDuration:0.35f
+                                  delay:0
+                                options:UIViewAnimationOptionCurveEaseInOut
+                             animations:^{
+                                 self.messagesTable.alpha = 1.0f;
+                             }
+                             completion:^(BOOL finished){
+                                 
+                             }];
 
         });
         

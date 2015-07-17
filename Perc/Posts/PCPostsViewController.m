@@ -15,6 +15,7 @@
 
 @interface PCPostsViewController ()
 @property (strong, nonatomic) UITableView *postsTable;
+@property (strong, nonatomic) UIImageView *tutorialView;
 @end
 
 static NSString *cellId = @"cellId";
@@ -62,7 +63,7 @@ static NSString *cellId = @"cellId";
     self.postsTable.separatorStyle = UITableViewCellSeparatorStyleNone;
 
     static CGFloat x = 24.0f;
-    static CGFloat h = 44.0f;
+    CGFloat h = 44.0f;
     UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0, frame.size.width, h+60.0f)];
     footer.backgroundColor = [UIColor whiteColor];
 
@@ -100,6 +101,20 @@ static NSString *cellId = @"cellId";
     UIImageView *dropShadow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dropShadow.png"]];
     dropShadow.frame = CGRectMake(0.0f, kNavBarHeight, dropShadow.frame.size.width, dropShadow.frame.size.height);
     [view addSubview:dropShadow];
+    
+    UIImage *tutorialImage = (self.mode==0) ? [UIImage imageNamed:@"messagesTutorial.png"] : [UIImage imageNamed:@"messagesTutorial.png"];
+
+    self.tutorialView = [[UIImageView alloc] initWithImage:tutorialImage];
+    
+    CGFloat w = frame.size.width;
+    double scale = w/tutorialImage.size.width;
+    h = scale*tutorialImage.size.height;
+    
+    self.tutorialView.frame = CGRectMake(0, 0, w, h);
+    self.tutorialView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    self.tutorialView.alpha = 0.0f;
+    [view addSubview:self.tutorialView];
+
 
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
     swipe.direction = UISwipeGestureRecognizerDirectionRight;
@@ -177,12 +192,18 @@ static NSString *cellId = @"cellId";
                                      
                                  }];
             }
-
-            
-//            if (self.profile.posts.count==0)
-//                [self showAlertWithTitle:@"No Posts" message:@"This area has no posts. To add one, tap the icon in the upper right corner."];
+            else{
+                [UIView animateWithDuration:0.35f
+                                      delay:0
+                                    options:UIViewAnimationOptionCurveEaseInOut
+                                 animations:^{
+                                     self.tutorialView.alpha = 1.0f;
+                                 }
+                                 completion:^(BOOL finished){
+                                     
+                                 }];
+            }
         });
-        
     }];
 }
 
