@@ -63,7 +63,7 @@
 {
     self.isEvent = [self.post.type isEqualToString:@"event"];
     UIView *view = [self baseView];
-    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgBlurry.png"]];
+    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundBlue.png"]];
     CGRect frame = view.frame;
     
     CGFloat width = frame.size.width;
@@ -71,19 +71,19 @@
     if (self.post.imageData){
         double scale = width/self.post.imageData.size.width;
         height = scale*self.post.imageData.size.height;
+        self.backgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, width, height)];
+        self.backgroundImage.image = self.post.imageData;
+        
+        CAGradientLayer *gradient = [CAGradientLayer layer];
+        CGRect bounds = self.backgroundImage.bounds;
+        bounds.size.height *= 0.6f;
+        gradient.frame = bounds;
+        gradient.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.7f] CGColor], (id)[[UIColor clearColor] CGColor]];
+        [self.backgroundImage.layer insertSublayer:gradient atIndex:0];
+        [view addSubview:self.backgroundImage];
+
     }
     
-    self.backgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, width, height)];
-    self.backgroundImage.image = self.post.imageData;
-    
-    CAGradientLayer *gradient = [CAGradientLayer layer];
-    CGRect bounds = self.backgroundImage.bounds;
-    bounds.size.height *= 0.6f;
-    gradient.frame = bounds;
-    gradient.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.7f] CGColor], (id)[[UIColor clearColor] CGColor]];
-    [self.backgroundImage.layer insertSublayer:gradient atIndex:0];
-    [view addSubview:self.backgroundImage];
-
     self.theTableview = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
     self.theTableview.dataSource = self;
     self.theTableview.delegate = self;
@@ -452,6 +452,9 @@
 
 - (void)viewFullImage
 {
+    if (self.post.imageData==nil)
+        return;
+    
     self.fullImage.image = self.post.imageData;
     [UIView animateWithDuration:0.25f
                           delay:0
