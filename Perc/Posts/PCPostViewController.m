@@ -254,7 +254,7 @@
     self.btnDecline = [UIButton buttonWithType:UIButtonTypeCustom];
 
     NSArray *buttons = @[self.btnAccept, self.btnDecline];
-    NSArray *icons = @[@"iconInfo.png", @"iconLocation.png"];
+    NSArray *icons = @[@"iconCheckmarkWhite", @"iconDecline.png"];
     NSArray *titles = @[@"Accept", @"Decline"];
     for (int i=0; i<buttons.count; i++){
         UIButton *button = buttons[i];
@@ -263,13 +263,14 @@
         [button setTitle:titles[i] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont fontWithName:kBaseFontName size:18.0f];
+        button.titleEdgeInsets = UIEdgeInsetsMake(0.0f, 20.0f, 0.0f, 0.0f);
         button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
         button.layer.cornerRadius = 3.0f;
         button.layer.masksToBounds = YES;
         [button setImage:[UIImage imageNamed:icons[i]] forState:UIControlStateNormal];
         [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
         [self.optionsView addSubview:button];
-        y += button.frame.size.height+12.0f;
+        y += button.frame.size.height+24.0f;
     }
 
 
