@@ -18,14 +18,25 @@
 @implementation PCRegisterViewController
 
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self){
+        self.edgesForExtendedLayout = UIRectEdgeAll;
+        
+    }
+    
+    return self;
+}
+
 - (void)loadView
 {
     UIView *view = [self baseView];
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgCoffee.png"]];
     CGRect frame = view.frame;
     
-    static CGFloat x = 20.0f;
-    CGFloat y = 0.12f*frame.size.height;
+    static CGFloat x = 24.0f;
+    CGFloat y = 110.0f;
     CGFloat width = frame.size.width;
     
     UILabel *lblSignup = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width-2*x, 32.0f)];
@@ -37,69 +48,49 @@
     y += lblSignup.frame.size.height+32.0f;
 
 
-    CGFloat h = 44.0f;
-    self.nameField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, y, width, h)];
-    self.nameField.delegate = self;
-    self.nameField.placeholder = @"Full Name";
-    self.nameField.returnKeyType = UIReturnKeyNext;
-    self.nameField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 20.0f, 44.0f)];;
-    self.nameField.leftViewMode = UITextFieldViewModeAlways;
-    self.nameField.backgroundColor = [UIColor whiteColor];
-    self.nameField.alpha = 0.8f;
-    self.nameField.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    self.nameField.textColor = [UIColor darkGrayColor];
-    [view addSubview:self.nameField];
-    y += self.nameField.frame.size.height+1.0f;
-
-    self.emailField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, y, width, h)];
-    self.emailField.delegate = self;
-    self.emailField.placeholder = @"Email";
-    self.emailField.returnKeyType = UIReturnKeyNext;
-    self.emailField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 20.0f, 44.0f)];;
-    self.emailField.leftViewMode = UITextFieldViewModeAlways;
-    self.emailField.backgroundColor = [UIColor whiteColor];
-    self.emailField.alpha = 0.8f;
-    self.emailField.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    self.emailField.textColor = [UIColor darkGrayColor];
-    [view addSubview:self.emailField];
-    y += self.emailField.frame.size.height+1.0f;
-
-    self.phoneField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, y, width, h)];
-    self.phoneField.delegate = self;
-    self.phoneField.placeholder = @"Phone (We text you when your order is ready)";
-    self.phoneField.returnKeyType = UIReturnKeyNext;
-    self.phoneField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 20.0f, 44.0f)];;
-    self.phoneField.leftViewMode = UITextFieldViewModeAlways;
-    self.phoneField.backgroundColor = [UIColor whiteColor];
-    self.phoneField.alpha = 0.8f;
-    self.phoneField.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    self.phoneField.textColor = [UIColor darkGrayColor];
-    [view addSubview:self.phoneField];
-    y += self.phoneField.frame.size.height+1.0f;
-
-
-    self.passwordField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, y, width, h)];
-    self.passwordField.delegate = self;
-    self.passwordField.placeholder = @"Password";
+    static CGFloat h = 44.0f;
+    self.nameField = [[UITextField alloc] init];
+    self.emailField = [[UITextField alloc] init];
+    self.phoneField = [[UITextField alloc] init];
+    self.passwordField = [[UITextField alloc] init];
+    
+    NSArray *fields = @[self.nameField, self.emailField, self.phoneField, self.passwordField];
+    NSArray *placeholders = @[@"Full Name", @"Email", @"Phone (We text you when your order is ready)", @"Password"];
+    UIFont *font = [UIFont fontWithName:kBaseFontName size:14.0];
+    UIColor *white = [UIColor whiteColor];
+    for (int i=0; i<fields.count; i++) {
+        UITextField *field = fields[i];
+        field.frame = CGRectMake(12.0f, y, width-2*x, h);
+        field.delegate = self;
+        field.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholders[i] attributes:@{ NSForegroundColorAttributeName : white }];
+        field.returnKeyType = UIReturnKeyNext;
+        field.leftView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 24.0f, h)];;
+        field.leftViewMode = UITextFieldViewModeAlways;
+        field.backgroundColor = [UIColor clearColor];
+        field.alpha = 0.8f;
+        field.font = font;
+        field.textColor = white;
+        
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(x, h-6.0f, width-2*x, 1.0f)];
+        line.backgroundColor = white;
+        [field addSubview:line];
+        
+        [view addSubview:field];
+        y += field.frame.size.height+4.0f;
+    }
+    
     self.passwordField.secureTextEntry = YES;
-    self.passwordField.returnKeyType = UIReturnKeyNext;
-    self.passwordField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 20.0f, 44.0f)];;
-    self.passwordField.leftViewMode = UITextFieldViewModeAlways;
-    self.passwordField.backgroundColor = [UIColor whiteColor];
-    self.passwordField.alpha = 0.8f;
-    self.passwordField.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    self.passwordField.textColor = [UIColor darkGrayColor];
-    [view addSubview:self.passwordField];
-    y += self.passwordField.frame.size.height+1.0f;
-
+    y += 36.0f;
+    
+    x = 36.0f;
     UIButton *btnRegister = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnRegister.frame = CGRectMake(x, y, width-2*x, 44.0f);
+    btnRegister.frame = CGRectMake(x, y, width-2*x, h);
     btnRegister.backgroundColor = [UIColor clearColor];
     [btnRegister addTarget:self action:@selector(registerProfile:) forControlEvents:UIControlEventTouchUpInside];
     [btnRegister setTitle:@"REGISTER" forState:UIControlStateNormal];
     [btnRegister setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    btnRegister.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    btnRegister.layer.cornerRadius = 22.0f;
+    btnRegister.titleLabel.font = [UIFont fontWithName:kBaseBoldFont size:18.0f];
+    btnRegister.layer.cornerRadius = 0.5f*h;
     btnRegister.layer.masksToBounds = YES;
     btnRegister.layer.borderWidth = 1.0f;
     btnRegister.layer.borderColor = [[UIColor whiteColor] CGColor];
@@ -132,7 +123,7 @@
     [self.emailField resignFirstResponder];
     [self.passwordField resignFirstResponder];
     
-    [self shiftBack:64.0f];
+    [self shiftBack:0.0f];
 
 }
 
