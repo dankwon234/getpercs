@@ -19,6 +19,8 @@
 @interface PCZoneViewController ()
 @property (strong, nonatomic) UIScrollView *bulletinBoardScroll;
 @property (strong, nonatomic) UIImageView *reflection;
+@property (strong, nonatomic) UIImageView *icon;
+@property (strong, nonatomic) UIImageView *blurryScreenshot;
 @property (strong, nonatomic) UICollectionView *venuesTable;
 @property (strong, nonatomic) UIPageControl *pageControl;
 @property (strong, nonatomic) UIView *optionsView;
@@ -59,10 +61,10 @@ static NSString *cellId = @"cellId";
     CGFloat width = frame.size.width;
     
     
-    UIImageView *transparentLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logoTransparent.png"]];
-    transparentLogo.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    transparentLogo.center = CGPointMake(0.5f*frame.size.width, 0.25f*frame.size.height);
-    [view addSubview:transparentLogo];
+    self.icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logoTransparent.png"]];
+    self.icon.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    self.icon.center = CGPointMake(0.5f*frame.size.width, 0.25f*frame.size.height);
+    [view addSubview:self.icon];
     
     self.bulletinBoardScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, width, width)];
     self.bulletinBoardScroll.delegate = self;
@@ -85,7 +87,10 @@ static NSString *cellId = @"cellId";
     self.pageControl.numberOfPages = 0;
     [view addSubview:self.pageControl];
 
-    
+    self.blurryScreenshot = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+    self.blurryScreenshot.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    self.blurryScreenshot.alpha = 0.0f;
+    [view addSubview:self.blurryScreenshot];
 
     self.optionsView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
     self.optionsView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
@@ -234,21 +239,36 @@ static NSString *cellId = @"cellId";
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
+                         self.icon.alpha = 0.0f;
                          self.optionsView.alpha = 0.0f;
+                         self.blurryScreenshot.alpha = 0.0f;
                      }
                      completion:^(BOOL finished){
-                         
+                         [self.view bringSubviewToFront:self.bulletinBoardScroll];
+                         self.icon.alpha = 1.0f;
+                         self.blurryScreenshot.image = nil;
                      }];
 }
 
 
 - (void)showOptionsView:(UIButton *)btn
 {
+    UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, 0);
+    [self.view drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:YES];
+    UIImage *copied = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    self.blurryScreenshot.image = [copied applyBlurOnImage:0.75f];
+
+    [self.view bringSubviewToFront:self.blurryScreenshot];
     [self.view bringSubviewToFront:self.optionsView];
+    [self.view bringSubviewToFront:self.icon];
+    self.icon.alpha = 0.0f;
     [UIView animateWithDuration:0.35f
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
+                         self.blurryScreenshot.alpha = 1.0f;
+                         self.icon.alpha = 1.0f;
                          self.optionsView.alpha = 0.85f;
                      }
                      completion:^(BOOL finished){
@@ -332,7 +352,13 @@ static NSString *cellId = @"cellId";
         self.showNextPage = YES;
         return;
     }
-        
+    
+    if (self.optionsView.alpha  > 0.0f){
+        [self performSelector:@selector(nextPage) withObject:nil afterDelay:kPageDuration];
+        return;
+    }
+    
+    
     if (self.currentPage == self.currentZone.posts.count-1)
         self.currentPage = 0;
     else
