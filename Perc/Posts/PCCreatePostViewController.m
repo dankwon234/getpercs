@@ -23,7 +23,7 @@
 @property (nonatomic) BOOL isEditMode;
 @end
 
-static NSString *placeholder = @"Content";
+static NSString *placeholder = @"Description";
 
 @implementation PCCreatePostViewController
 @synthesize post;
