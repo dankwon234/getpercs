@@ -145,6 +145,7 @@
 		0CDCBB9F1AC1B3050034DAB0 /* PCAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDCBB9E1AC1B3050034DAB0 /* PCAboutViewController.m */; };
 		0CDD96DC1B16F3520026E052 /* PCInviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDD96DB1B16F3520026E052 /* PCInviteViewController.m */; };
 		0CDF620B1AE0BE97006B3C94 /* PCCreatePostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */; };
+		0CE06F961B58B89A00E344DB /* iconDecline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CE06F951B58B89A00E344DB /* iconDecline@2x.png */; };
 		0CFC9D001AE89DED00D2A923 /* PCMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFC9CFF1AE89DED00D2A923 /* PCMessageCell.m */; };
 /* End PBXBuildFile section */
 
@@ -383,6 +384,7 @@
 		0CDD96DB1B16F3520026E052 /* PCInviteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCInviteViewController.m; sourceTree = "<group>"; };
 		0CDF62091AE0BE97006B3C94 /* PCCreatePostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCreatePostViewController.h; sourceTree = "<group>"; };
 		0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCreatePostViewController.m; sourceTree = "<group>"; };
+		0CE06F951B58B89A00E344DB /* iconDecline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconDecline@2x.png"; sourceTree = "<group>"; };
 		0CFC9CFE1AE89DED00D2A923 /* PCMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCMessageCell.h; sourceTree = "<group>"; };
 		0CFC9CFF1AE89DED00D2A923 /* PCMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCMessageCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -702,6 +704,7 @@
 				0CCA8A731B4E3F7C004FF7D4 /* backgrounds */,
 				0C1E4EC01B197B09001B840E /* iconCheckmark@2x.png */,
 				0C20C21F1B57F91800E6952A /* iconCheckmarkWhite@2x.png */,
+				0CE06F951B58B89A00E344DB /* iconDecline@2x.png */,
 				0C8D7D011B5797D200038E3A /* posts@2x.png */,
 				0C8D7D021B5797D200038E3A /* invitations@2x.png */,
 				0C8D7D031B5797D200038E3A /* messages@2x.png */,
@@ -974,6 +977,7 @@
 				0C8D7D051B5797D200038E3A /* invitations@2x.png in Resources */,
 				0CB419F61B56036000F678BB /* orderHistory@2x.png in Resources */,
 				0C25B2F71B54241A007E7514 /* iconCar@2x.png in Resources */,
+				0CE06F961B58B89A00E344DB /* iconDecline@2x.png in Resources */,
 				0C6A0A8B1B48F9300033CF93 /* dots@2x.png in Resources */,
 				0C8D7D061B5797D200038E3A /* messages@2x.png in Resources */,
 				0C3B254F1B54836100EBD436 /* iconCamera@2x.png in Resources */,
