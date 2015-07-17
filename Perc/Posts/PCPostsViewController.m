@@ -58,16 +58,17 @@ static NSString *cellId = @"cellId";
     self.postsTable.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
     self.postsTable.dataSource = self;
     self.postsTable.delegate = self;
+    self.postsTable.showsVerticalScrollIndicator = NO;
     self.postsTable.separatorStyle = UITableViewCellSeparatorStyleNone;
 
     static CGFloat x = 24.0f;
     static CGFloat h = 44.0f;
-    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0, frame.size.width, h+20.0f)];
+    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0, frame.size.width, h+60.0f)];
     footer.backgroundColor = [UIColor whiteColor];
 
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    btn.frame = CGRectMake(x, 0.5f*(footer.frame.size.height-h), frame.size.width-2*x, h);
+    btn.frame = CGRectMake(x, 12.0f, frame.size.width-2*x, h);
     btn.backgroundColor = [UIColor clearColor];
     btn.layer.cornerRadius = 0.5f*h;
     btn.layer.masksToBounds = YES;
