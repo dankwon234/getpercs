@@ -577,7 +577,7 @@
 {
     [[PCWebServices sharedInstance] submitVenmoPayment:accessToken
                                                 amount:self.post.fee
-                                             recipient:self.post.profile.email
+                                             recipient:rec
                                                   note:[NSString stringWithFormat:@"PAYMENT: %@", self.post.title]
                                             completion:^(id result, NSError *error){
                                                 if (error) {
@@ -813,7 +813,7 @@
                              self.venmoWebview = nil;
                              
                              dispatch_async(dispatch_get_main_queue(), ^{
-                                 [self sendVenmoPayment:accessToken toRecipient:@"bkarpinos@gmail.com"];
+                                 [self sendVenmoPayment:accessToken toRecipient:self.post.profile.email];
                              });
                          }];
         
