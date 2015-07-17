@@ -318,6 +318,9 @@ static NSString *cellId = @"cellId";
                     if (z.count == 0){
                         [self.loadingIndicator stopLoading];
                         [self showAlertWithTitle:@"No Service" message:@"Sorry, Perc is not in your area yet. Hopefully we will be in your town soon!"];
+                        
+                        if (self.optionsView.alpha == 0.0f)
+                            [self showOptionsView:nil];
                         return;
                     }
                     
