@@ -35,7 +35,7 @@
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgCoffee.png"]];
     CGRect frame = view.frame;
     
-    static CGFloat x = 24.0f;
+    CGFloat x = 24.0f;
     CGFloat y = 110.0f;
     CGFloat width = frame.size.width;
     
