@@ -28,6 +28,7 @@
 @synthesize orderZone;
 @synthesize category;
 @synthesize profile;
+@synthesize posts;
 
 
 - (id)init
@@ -36,6 +37,7 @@
     if (self) {
         self.isFetching = NO;
         self.distance = 0.0f;
+        self.posts = nil;
     }
     
     return self;

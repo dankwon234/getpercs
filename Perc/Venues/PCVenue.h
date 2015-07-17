@@ -23,6 +23,7 @@
 @property (copy, nonatomic) NSString *orderZone;
 @property (copy, nonatomic) NSString *state;
 @property (strong, nonatomic) UIImage *iconData;
+@property (strong, nonatomic) NSMutableArray *posts;
 @property (nonatomic) int fee; // in cents
 @property (nonatomic) double latitude;
 @property (nonatomic) double longitude;
