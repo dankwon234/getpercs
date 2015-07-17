@@ -134,6 +134,8 @@
 		0CB419F61B56036000F678BB /* orderHistory@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CB419F41B56036000F678BB /* orderHistory@2x.png */; };
 		0CB6E1A61AE4BB610010982C /* PCComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CB6E1A51AE4BB610010982C /* PCComment.m */; };
 		0CB937971B4736FD00F28DD3 /* PCPostView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CB937961B4736FD00F28DD3 /* PCPostView.m */; };
+		0CC94F741B59C3F5000203FB /* invitationsTutorial@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CC94F731B59C3F5000203FB /* invitationsTutorial@2x.png */; };
+		0CC94F761B59C549000203FB /* postsTutorial@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CC94F751B59C549000203FB /* postsTutorial@2x.png */; };
 		0CCA8A681B4E386E004FF7D4 /* iconChat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CCA8A671B4E386E004FF7D4 /* iconChat@2x.png */; };
 		0CCA8A6A1B4E3A54004FF7D4 /* iconEye@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CCA8A691B4E3A54004FF7D4 /* iconEye@2x.png */; };
 		0CCF89451AE46E2300051244 /* PCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCF89441AE46E2300051244 /* PCMessage.m */; };
@@ -146,6 +148,7 @@
 		0CDEF4CB1B59786100E9D705 /* bgLosAngeles@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CDEF4CA1B59786100E9D705 /* bgLosAngeles@2x.png */; };
 		0CDEF4CF1B59A58E00E9D705 /* backgroundLights@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CDEF4CE1B59A58E00E9D705 /* backgroundLights@2x.png */; };
 		0CDEF4D11B59B25600E9D705 /* bgCoffee@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CDEF4D01B59B25600E9D705 /* bgCoffee@2x.png */; };
+		0CDEF4D71B59B90900E9D705 /* messagesTutorial@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CDEF4D41B59B90900E9D705 /* messagesTutorial@2x.png */; };
 		0CDF620B1AE0BE97006B3C94 /* PCCreatePostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */; };
 		0CE06F961B58B89A00E344DB /* iconDecline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CE06F951B58B89A00E344DB /* iconDecline@2x.png */; };
 		0CFC9D001AE89DED00D2A923 /* PCMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFC9CFF1AE89DED00D2A923 /* PCMessageCell.m */; };
@@ -368,6 +371,8 @@
 		0CB6E1A51AE4BB610010982C /* PCComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCComment.m; sourceTree = "<group>"; };
 		0CB937951B4736FD00F28DD3 /* PCPostView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPostView.h; sourceTree = "<group>"; };
 		0CB937961B4736FD00F28DD3 /* PCPostView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCPostView.m; sourceTree = "<group>"; };
+		0CC94F731B59C3F5000203FB /* invitationsTutorial@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "invitationsTutorial@2x.png"; sourceTree = "<group>"; };
+		0CC94F751B59C549000203FB /* postsTutorial@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "postsTutorial@2x.png"; sourceTree = "<group>"; };
 		0CCA8A671B4E386E004FF7D4 /* iconChat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconChat@2x.png"; sourceTree = "<group>"; };
 		0CCA8A691B4E3A54004FF7D4 /* iconEye@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconEye@2x.png"; sourceTree = "<group>"; };
 		0CCF89431AE46E2300051244 /* PCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCMessage.h; sourceTree = "<group>"; };
@@ -386,6 +391,7 @@
 		0CDEF4CA1B59786100E9D705 /* bgLosAngeles@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgLosAngeles@2x.png"; sourceTree = "<group>"; };
 		0CDEF4CE1B59A58E00E9D705 /* backgroundLights@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backgroundLights@2x.png"; sourceTree = "<group>"; };
 		0CDEF4D01B59B25600E9D705 /* bgCoffee@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgCoffee@2x.png"; sourceTree = "<group>"; };
+		0CDEF4D41B59B90900E9D705 /* messagesTutorial@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "messagesTutorial@2x.png"; sourceTree = "<group>"; };
 		0CDF62091AE0BE97006B3C94 /* PCCreatePostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCreatePostViewController.h; sourceTree = "<group>"; };
 		0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCreatePostViewController.m; sourceTree = "<group>"; };
 		0CE06F951B58B89A00E344DB /* iconDecline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconDecline@2x.png"; sourceTree = "<group>"; };
@@ -706,9 +712,10 @@
 			isa = PBXGroup;
 			children = (
 				0CCA8A731B4E3F7C004FF7D4 /* backgrounds */,
-				0C1E4EC01B197B09001B840E /* iconCheckmark@2x.png */,
+				0CDEF4D21B59B90900E9D705 /* tutorials */,
 				0C20C21F1B57F91800E6952A /* iconCheckmarkWhite@2x.png */,
 				0CE06F951B58B89A00E344DB /* iconDecline@2x.png */,
+				0C1E4EC01B197B09001B840E /* iconCheckmark@2x.png */,
 				0C8D7D011B5797D200038E3A /* posts@2x.png */,
 				0C8D7D021B5797D200038E3A /* invitations@2x.png */,
 				0C8D7D031B5797D200038E3A /* messages@2x.png */,
@@ -877,6 +884,16 @@
 			path = About;
 			sourceTree = "<group>";
 		};
+		0CDEF4D21B59B90900E9D705 /* tutorials */ = {
+			isa = PBXGroup;
+			children = (
+				0CDEF4D41B59B90900E9D705 /* messagesTutorial@2x.png */,
+				0CC94F751B59C549000203FB /* postsTutorial@2x.png */,
+				0CC94F731B59C3F5000203FB /* invitationsTutorial@2x.png */,
+			);
+			path = tutorials;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -965,6 +982,7 @@
 				0CDEF4D11B59B25600E9D705 /* bgCoffee@2x.png in Resources */,
 				0C8B61771ABD028800BC13C8 /* placeholder.png in Resources */,
 				0C8B616B1ABD028800BC13C8 /* cvc-amex.png in Resources */,
+				0CDEF4D71B59B90900E9D705 /* messagesTutorial@2x.png in Resources */,
 				0C8B616A1ABD028800BC13C8 /* amex@2x.png in Resources */,
 				0C0F2F451ABCF55900DBFD8F /* Info.plist in Resources */,
 				0C6138CE1AB8E6A700D12C50 /* Images.xcassets in Resources */,
@@ -980,6 +998,7 @@
 				0C5DC6671AE2E19800C4B38B /* iconComment@2x.png in Resources */,
 				0C4962C91B506C3D00E340E8 /* Myanmar MN.ttc in Resources */,
 				0C8B61751ABD028800BC13C8 /* mastercard.png in Resources */,
+				0CC94F761B59C549000203FB /* postsTutorial@2x.png in Resources */,
 				0C8D7D051B5797D200038E3A /* invitations@2x.png in Resources */,
 				0CB419F61B56036000F678BB /* orderHistory@2x.png in Resources */,
 				0C25B2F71B54241A007E7514 /* iconCar@2x.png in Resources */,
@@ -988,6 +1007,7 @@
 				0C8D7D061B5797D200038E3A /* messages@2x.png in Resources */,
 				0C3B254F1B54836100EBD436 /* iconCamera@2x.png in Resources */,
 				0C5DC6691AE2E27500C4B38B /* iconView@2x.png in Resources */,
+				0CC94F741B59C3F5000203FB /* invitationsTutorial@2x.png in Resources */,
 				0C4962C61B5066EE00E340E8 /* logoTransparent@2x.png in Resources */,
 				0C3B254D1B54720A00EBD436 /* dropShadow@2x.png in Resources */,
 				0C25B2F31B5422A5007E7514 /* iconInfo@2x.png in Resources */,
