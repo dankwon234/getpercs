@@ -184,8 +184,7 @@
 - (void)showLoginView:(BOOL)animated
 {
     PCLoginViewController *loginVc = [[PCLoginViewController alloc] init];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:loginVc];
-    navController.navigationBar.barTintColor = kLightBlue;
+    UINavigationController *navController = [self clearNavigationControllerWithRoot:loginVc];
     [self presentViewController:navController animated:animated completion:^{
         
     }];
@@ -199,14 +198,7 @@
     }
     
     PCAccountViewController *accountVc = [[PCAccountViewController alloc] init];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:accountVc];
-    
-    // makes nav bar clear:
-    [navController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    navController.view.backgroundColor = [UIColor clearColor];
-    navController.navigationBar.shadowImage = [UIImage new];
-    navController.navigationBar.translucent = YES;
-
+    UINavigationController *navController = [self clearNavigationControllerWithRoot:accountVc];
     
     [self presentViewController:navController animated:YES completion:^{
         
@@ -218,15 +210,23 @@
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kViewMenuNotification object:nil]];
 }
 
+- (UINavigationController *)clearNavigationControllerWithRoot:(UIViewController *)root
+{
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:root];
+    
+    // makes nav bar clear:
+    [navController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    navController.view.backgroundColor = [UIColor clearColor];
+    navController.navigationBar.shadowImage = [UIImage new];
+    navController.navigationBar.translucent = YES;
+    return navController;
+}
 
 
 #pragma mark - Alert
 - (UIAlertView *)showAlertWithTitle:(NSString *)title message:(NSString *)msg
 {
      return [self showAlertWithTitle:title message:msg buttons:nil];
-//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//    [alert show];
-//    return alert;
 }
 
 - (UIAlertView *)showAlertWithTitle:(NSString *)title message:(NSString *)msg buttons:(NSString *)btns
