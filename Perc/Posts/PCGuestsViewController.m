@@ -4,7 +4,7 @@
 //
 //  Created by Dan Kwon on 7/16/15.
 //  Copyright (c) 2015 Perc. All rights reserved.
-//
+
 
 #import "PCGuestsViewController.h"
 #import "PCContactCell.h"
@@ -30,7 +30,6 @@
 - (void)loadView
 {
     UIView *view = [self baseView];
-    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
     CGRect frame = view.frame;
     
     self.guestsTable = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height) style:UITableViewStylePlain];
@@ -40,35 +39,17 @@
     self.guestsTable.showsVerticalScrollIndicator = NO;
     self.guestsTable.separatorStyle = UITableViewCellSelectionStyleNone;
     self.guestsTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, 96.0f)];
-    self.guestsTable.contentInset = UIEdgeInsetsMake(180.0f, 0, 0, 0);
-    self.guestsTable.backgroundColor = [UIColor clearColor];
     [view addSubview:self.guestsTable];
     
+    UIView *topBar = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, kNavBarHeight)];
+    topBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundBlue.png"]];
+    [view addSubview:topBar];
     
+    UIImageView *dropShadow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dropShadow.png"]];
+    dropShadow.frame = CGRectMake(0.0f, kNavBarHeight, dropShadow.frame.size.width, dropShadow.frame.size.height);
+    [view addSubview:dropShadow];
+
     
-//    CGFloat y = frame.size.height-96.f;
-//    CGFloat h = 44.0f;
-//    CGFloat x = 16.0f;
-//    CGFloat width = frame.size.width-2*x;
-//    
-//    UIView *bgCreate = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 96.0f)];
-//    bgCreate.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-//    bgCreate.backgroundColor = [UIColor grayColor];
-//    
-//    UIButton *btnCreate = [UIButton buttonWithType:UIButtonTypeCustom];
-//    btnCreate.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-//    btnCreate.frame = CGRectMake(x, 0.5f*(bgCreate.frame.size.height-h), width, h);
-//    btnCreate.backgroundColor = [UIColor clearColor];
-//    btnCreate.layer.cornerRadius = 0.5f*h;
-//    btnCreate.layer.masksToBounds = YES;
-//    btnCreate.layer.borderColor = [[UIColor whiteColor] CGColor];
-//    btnCreate.layer.borderWidth = 1.0f;
-//    [btnCreate setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    //    NSString *btnTitle = (self.isEditMode) ? @"UPDATE POST" : @"CREATE POST";
-//    [btnCreate setTitle:@"CREATE POST" forState:UIControlStateNormal];
-//    [btnCreate addTarget:self action:@selector(createPost:) forControlEvents:UIControlEventTouchUpInside];
-//    [bgCreate addSubview:btnCreate];
-//    [view addSubview:bgCreate];
     
     
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
@@ -104,6 +85,12 @@
     cell.lblName.text = contactInfo[@"fullName"];
     cell.imgCheckmark.image = nil;
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [PCContactCell standardCellHeight];
+    
 }
 
 
