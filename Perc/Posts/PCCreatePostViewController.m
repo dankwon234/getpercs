@@ -83,7 +83,7 @@ static NSString *placeholder = @"Content";
     self.lblCreatePost.textAlignment = NSTextAlignmentCenter;
     self.lblCreatePost.font = [UIFont fontWithName:kBaseFontName size:14.0f];
     if (self.isEditMode)
-        self.lblCreatePost.text = @"UPDATE";
+        self.lblCreatePost.text = ([self.post.type isEqualToString:@"event"]) ? @"UPDATE EVENT" : @"UPDATE POST";
     else
         self.lblCreatePost.text = (self.isEvent) ? @"CREATE EVENT" : @"CREATE POST";
     
@@ -262,7 +262,7 @@ static NSString *placeholder = @"Content";
     btnCreate.layer.borderColor = [[UIColor whiteColor] CGColor];
     btnCreate.layer.borderWidth = 1.0f;
     [btnCreate setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    NSString *btnTitle = (self.isEditMode) ? @"UPDATE POST" : @"CREATE POST";
+    NSString *btnTitle = (self.isEditMode) ? @"UPDATE" : @"CREATE";
     [btnCreate setTitle:btnTitle forState:UIControlStateNormal];
     [btnCreate addTarget:self action:@selector(createPost:) forControlEvents:UIControlEventTouchUpInside];
     [bgCreate addSubview:btnCreate];
@@ -358,7 +358,7 @@ static NSString *placeholder = @"Content";
         [self.post.zones addObject:self.currentZone.uniqueId];
     
     
-    if (self.post.isPublic==NO){ // private post - segue to invite view controller
+    if (self.post.isPublic==NO || [self.post.type isEqualToString:@"event"]==YES){ // evnt post - segue to invite view controller
         PCInviteViewController *inviteVc = [[PCInviteViewController alloc] init];
         inviteVc.post = self.post;
         [self.navigationController pushViewController:inviteVc animated:YES];
