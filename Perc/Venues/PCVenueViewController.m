@@ -14,7 +14,6 @@
 #import "PCOrderFoodViewController.h"
 
 @interface PCVenueViewController ()
-@property (strong, nonatomic) NSMutableArray *venuePosts;
 @property (strong, nonatomic) UICollectionView *postsTable;
 @property (strong, nonatomic) NSArray *fadeViews;
 @property (strong, nonatomic) UIButton *btnOrder;
@@ -29,7 +28,6 @@ static NSString *cellId = @"cellId";
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
         self.edgesForExtendedLayout = UIRectEdgeAll;
-        self.venuePosts = [NSMutableArray array];
     }
     return self;
 }
@@ -169,9 +167,14 @@ static NSString *cellId = @"cellId";
     [super viewDidLoad];
     [self addCustomBackButton];
     
+    
+    if (self.venue.posts){
+        [self layoutListsCollectionView];
+        return;
+    }
+
     [self.loadingIndicator startLoading];
-    
-    
+
     [[PCWebServices sharedInstance] fetchPosts:@{@"venue":self.venue.uniqueId} completion:^(id result, NSError *error){
 //    [[PCWebServices sharedInstance] fetchPosts:@{@"zone":self.currentZone.uniqueId} completion:^(id result, NSError *error){
         if (error){
@@ -180,16 +183,15 @@ static NSString *cellId = @"cellId";
         }
         
         NSDictionary *results = (NSDictionary *)result;
-        NSLog(@"%@", [results description]);
-        
+        self.venue.posts = [NSMutableArray array];
         NSArray *posts = results[@"posts"];
         for (int i=0; i<posts.count; i++) {
             PCPost *post = [PCPost postWithInfo:posts[i]];
-            [self.venuePosts addObject:post];
+            [self.venue.posts addObject:post];
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (self.venuePosts.count > 0)
+            if (self.venue.posts.count > 0)
                 [self layoutListsCollectionView];
             else
                 [self.loadingIndicator stopLoading];
@@ -228,7 +230,7 @@ static NSString *cellId = @"cellId";
         [post removeObserver:self forKeyPath:@"imageData"];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            int index = (int)[self.venuePosts indexOfObject:post];
+            int index = (int)[self.venue.posts indexOfObject:post];
             PCPostCell *cell = (PCPostCell *)[self.postsTable cellForItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
             
             if (!cell)
@@ -313,7 +315,7 @@ static NSString *cellId = @"cellId";
         [self.postsTable reloadData];
         
         NSMutableArray *indexPaths = [NSMutableArray array];
-        for (int i=0; i<self.venuePosts.count; i++){
+        for (int i=0; i<self.venue.posts.count; i++){
             [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
         }
         
@@ -338,14 +340,14 @@ static NSString *cellId = @"cellId";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.venuePosts.count;
+    return self.venue.posts.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     PCPostCell *cell = (PCPostCell *)[collectionView dequeueReusableCellWithReuseIdentifier:cellId forIndexPath:indexPath];
     
-    PCPost *post = (PCPost *)self.venuePosts[indexPath.row];
+    PCPost *post = (PCPost *)self.venue.posts[indexPath.row];
     cell.lblTitle.text = post.title;
     cell.lblDate.text = post.formattedDate;
     cell.lblNumComments.text = [NSString stringWithFormat:@"%d", post.numComments];
@@ -379,7 +381,7 @@ static NSString *cellId = @"cellId";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     PCPostViewController *postVc = [[PCPostViewController alloc] init];
-    postVc.post = self.venuePosts[indexPath.row];
+    postVc.post = self.venue.posts[indexPath.row];
     [self.navigationController pushViewController:postVc animated:YES];
 }
 
