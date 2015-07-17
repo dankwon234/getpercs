@@ -577,12 +577,12 @@
 {
     [[PCWebServices sharedInstance] submitVenmoPayment:accessToken
                                                 amount:self.post.fee
-                                             recipient:@"bkarpinos@gmail.com"
+                                             recipient:self.post.profile.email
                                                   note:[NSString stringWithFormat:@"PAYMENT: %@", self.post.title]
                                             completion:^(id result, NSError *error){
                                                 if (error) {
                                                     NSLog(@"ERROR: %@", [error localizedDescription]);
-                                                    [self showAlertWithTitle:@"Error" message:@"Payment could not be completed."];
+                                                    [self showAlertWithTitle:@"Payment could not be completed" message:[error localizedDescription]];
                                                     [self hideOptionsView:nil];
                                                     return;
                                                 }
