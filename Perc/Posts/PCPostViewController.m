@@ -135,7 +135,7 @@
         y += 2.0f;
         UILabel *lblFee = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, y, w, 16.0f)];
         lblFee.font = [UIFont fontWithName:kBaseFontName size:14.0f];
-        lblFee.text = (self.post.adjustedFee==0.0f) ? @"Free" : [NSString stringWithFormat:@"$%.2f", self.post.adjustedFee];
+        lblFee.text = (self.post.fee==0.0f) ? @"Free" : [NSString stringWithFormat:@"$%d.00", self.post.fee];
         lblFee.textColor = [UIColor lightGrayColor];
         [header addSubview:lblFee];
         y += lblFee.frame.size.height+24.0f;
@@ -534,13 +534,13 @@
 {
     if ([btn isEqual:self.btnAccept]){
         
-        if (self.post.adjustedFee==0){
+        if (self.post.fee==0){
             [self.post.confirmed addObject:[self.profile contactInfoDict]];
             [self updatePostWithReply:YES];
             return;
         }
         
-        NSString *msg = [NSString stringWithFormat:@"This event costs $%.2f to attend. Do you want to continue?", post.adjustedFee];
+        NSString *msg = [NSString stringWithFormat:@"This event costs $%d to attend. Do you want to continue?", post.fee];
         UIAlertView *alert = [self showAlertWithTitle:@"Fee" message:msg buttons:@"NO"];
         alert.delegate = self;
         alert.tag = 1000;
@@ -576,7 +576,7 @@
 - (void)sendVenmoPayment:(NSString *)accessToken toRecipient:(NSString *)rec
 {
     [[PCWebServices sharedInstance] submitVenmoPayment:accessToken
-                                                amount:4.0f
+                                                amount:self.post.fee
                                              recipient:@"bkarpinos@gmail.com"
                                                   note:[NSString stringWithFormat:@"PAYMENT: %@", self.post.title]
                                             completion:^(id result, NSError *error){
