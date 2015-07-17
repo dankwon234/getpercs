@@ -191,11 +191,8 @@ static NSString *cellId = @"cellId";
         dispatch_async(dispatch_get_main_queue(), ^{
             if (self.venuePosts.count > 0)
                 [self layoutListsCollectionView];
-            
-            else{
+            else
                 [self.loadingIndicator stopLoading];
-            }
-            
         });
         
     }];
