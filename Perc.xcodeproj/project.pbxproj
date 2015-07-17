@@ -136,6 +136,7 @@
 		0CB937971B4736FD00F28DD3 /* PCPostView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CB937961B4736FD00F28DD3 /* PCPostView.m */; };
 		0CC94F741B59C3F5000203FB /* invitationsTutorial@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CC94F731B59C3F5000203FB /* invitationsTutorial@2x.png */; };
 		0CC94F761B59C549000203FB /* postsTutorial@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CC94F751B59C549000203FB /* postsTutorial@2x.png */; };
+		0CC94F781B59C7B8000203FB /* messagesTutorial@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CC94F771B59C7B8000203FB /* messagesTutorial@2x.png */; };
 		0CCA8A681B4E386E004FF7D4 /* iconChat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CCA8A671B4E386E004FF7D4 /* iconChat@2x.png */; };
 		0CCA8A6A1B4E3A54004FF7D4 /* iconEye@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CCA8A691B4E3A54004FF7D4 /* iconEye@2x.png */; };
 		0CCF89451AE46E2300051244 /* PCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCF89441AE46E2300051244 /* PCMessage.m */; };
@@ -148,7 +149,6 @@
 		0CDEF4CB1B59786100E9D705 /* bgLosAngeles@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CDEF4CA1B59786100E9D705 /* bgLosAngeles@2x.png */; };
 		0CDEF4CF1B59A58E00E9D705 /* backgroundLights@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CDEF4CE1B59A58E00E9D705 /* backgroundLights@2x.png */; };
 		0CDEF4D11B59B25600E9D705 /* bgCoffee@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CDEF4D01B59B25600E9D705 /* bgCoffee@2x.png */; };
-		0CDEF4D71B59B90900E9D705 /* messagesTutorial@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CDEF4D41B59B90900E9D705 /* messagesTutorial@2x.png */; };
 		0CDF620B1AE0BE97006B3C94 /* PCCreatePostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */; };
 		0CE06F961B58B89A00E344DB /* iconDecline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CE06F951B58B89A00E344DB /* iconDecline@2x.png */; };
 		0CFC9D001AE89DED00D2A923 /* PCMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFC9CFF1AE89DED00D2A923 /* PCMessageCell.m */; };
@@ -373,6 +373,7 @@
 		0CB937961B4736FD00F28DD3 /* PCPostView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCPostView.m; sourceTree = "<group>"; };
 		0CC94F731B59C3F5000203FB /* invitationsTutorial@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "invitationsTutorial@2x.png"; sourceTree = "<group>"; };
 		0CC94F751B59C549000203FB /* postsTutorial@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "postsTutorial@2x.png"; sourceTree = "<group>"; };
+		0CC94F771B59C7B8000203FB /* messagesTutorial@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "messagesTutorial@2x.png"; sourceTree = "<group>"; };
 		0CCA8A671B4E386E004FF7D4 /* iconChat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconChat@2x.png"; sourceTree = "<group>"; };
 		0CCA8A691B4E3A54004FF7D4 /* iconEye@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconEye@2x.png"; sourceTree = "<group>"; };
 		0CCF89431AE46E2300051244 /* PCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCMessage.h; sourceTree = "<group>"; };
@@ -391,7 +392,6 @@
 		0CDEF4CA1B59786100E9D705 /* bgLosAngeles@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgLosAngeles@2x.png"; sourceTree = "<group>"; };
 		0CDEF4CE1B59A58E00E9D705 /* backgroundLights@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backgroundLights@2x.png"; sourceTree = "<group>"; };
 		0CDEF4D01B59B25600E9D705 /* bgCoffee@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgCoffee@2x.png"; sourceTree = "<group>"; };
-		0CDEF4D41B59B90900E9D705 /* messagesTutorial@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "messagesTutorial@2x.png"; sourceTree = "<group>"; };
 		0CDF62091AE0BE97006B3C94 /* PCCreatePostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCreatePostViewController.h; sourceTree = "<group>"; };
 		0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCreatePostViewController.m; sourceTree = "<group>"; };
 		0CE06F951B58B89A00E344DB /* iconDecline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconDecline@2x.png"; sourceTree = "<group>"; };
@@ -887,8 +887,8 @@
 		0CDEF4D21B59B90900E9D705 /* tutorials */ = {
 			isa = PBXGroup;
 			children = (
-				0CDEF4D41B59B90900E9D705 /* messagesTutorial@2x.png */,
 				0CC94F751B59C549000203FB /* postsTutorial@2x.png */,
+				0CC94F771B59C7B8000203FB /* messagesTutorial@2x.png */,
 				0CC94F731B59C3F5000203FB /* invitationsTutorial@2x.png */,
 			);
 			path = tutorials;
@@ -976,13 +976,13 @@
 			files = (
 				0C8B61711ABD028800BC13C8 /* discover.png in Resources */,
 				0C20C2201B57F91800E6952A /* iconCheckmarkWhite@2x.png in Resources */,
+				0CC94F781B59C7B8000203FB /* messagesTutorial@2x.png in Resources */,
 				0C676E131AE32FB2001B14B7 /* bgPost@2x.png in Resources */,
 				0C8B617C1ABD028800BC13C8 /* textfield.png in Resources */,
 				0CCA8A681B4E386E004FF7D4 /* iconChat@2x.png in Resources */,
 				0CDEF4D11B59B25600E9D705 /* bgCoffee@2x.png in Resources */,
 				0C8B61771ABD028800BC13C8 /* placeholder.png in Resources */,
 				0C8B616B1ABD028800BC13C8 /* cvc-amex.png in Resources */,
-				0CDEF4D71B59B90900E9D705 /* messagesTutorial@2x.png in Resources */,
 				0C8B616A1ABD028800BC13C8 /* amex@2x.png in Resources */,
 				0C0F2F451ABCF55900DBFD8F /* Info.plist in Resources */,
 				0C6138CE1AB8E6A700D12C50 /* Images.xcassets in Resources */,
