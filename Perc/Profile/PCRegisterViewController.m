@@ -13,7 +13,6 @@
 @property (strong, nonatomic) UITextField *emailField;
 @property (strong, nonatomic) UITextField *phoneField;
 @property (strong, nonatomic) UITextField *passwordField;
-@property (strong, nonatomic) UITextField *promoCodeField;
 @end
 
 @implementation PCRegisterViewController
@@ -93,20 +92,6 @@
     [view addSubview:self.passwordField];
     y += self.passwordField.frame.size.height+1.0f;
 
-    self.promoCodeField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, y, width, h)];
-    self.promoCodeField.delegate = self;
-    self.promoCodeField.placeholder = @"Referral Code";
-    self.promoCodeField.returnKeyType = UIReturnKeyGo;
-    self.promoCodeField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 20.0f, 44.0f)];;
-    self.promoCodeField.leftViewMode = UITextFieldViewModeAlways;
-    self.promoCodeField.backgroundColor = [UIColor whiteColor];
-    self.promoCodeField.alpha = 0.8f;
-    self.promoCodeField.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    self.promoCodeField.textColor = [UIColor darkGrayColor];
-    [view addSubview:self.promoCodeField];
-    y += self.promoCodeField.frame.size.height+20.0f;
-
-    
     UIButton *btnRegister = [UIButton buttonWithType:UIButtonTypeCustom];
     btnRegister.frame = CGRectMake(x, y, width-2*x, 44.0f);
     btnRegister.backgroundColor = [UIColor clearColor];
@@ -189,10 +174,6 @@
     self.profile.email = self.emailField.text;
     self.profile.phone = self.phoneField.text;
     self.profile.password = self.passwordField.text;
-    if (self.promoCodeField.text.length > 0)
-        self.profile.referral = self.promoCodeField.text;
-    
-
 
 
     [self.loadingIndicator startLoading];
@@ -209,9 +190,7 @@
         [self.navigationController dismissViewControllerAnimated:YES completion:^{
             
         }];
-        
     }];
-
 }
 
 
@@ -226,10 +205,6 @@
     }
 
     if ([textField isEqual:self.passwordField]){
-        [self shiftUp:96.0f];
-    }
-
-    if ([textField isEqual:self.promoCodeField]){
         [self shiftUp:96.0f];
     }
 
@@ -255,11 +230,6 @@
         return YES;
     }
 
-    if ([textField isEqual:self.passwordField]){
-        [self.promoCodeField becomeFirstResponder];
-        [self shiftUp:96.0f];
-        return YES;
-    }
 
     [textField resignFirstResponder];
     [self registerProfile:nil];
