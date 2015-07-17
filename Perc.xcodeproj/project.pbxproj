@@ -145,6 +145,7 @@
 		0CDD96DC1B16F3520026E052 /* PCInviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDD96DB1B16F3520026E052 /* PCInviteViewController.m */; };
 		0CDEF4CB1B59786100E9D705 /* bgLosAngeles@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CDEF4CA1B59786100E9D705 /* bgLosAngeles@2x.png */; };
 		0CDEF4CD1B5978F500E9D705 /* bgCoffee@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CDEF4CC1B5978F500E9D705 /* bgCoffee@2x.png */; };
+		0CDEF4CF1B59A58E00E9D705 /* backgroundLights@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CDEF4CE1B59A58E00E9D705 /* backgroundLights@2x.png */; };
 		0CDF620B1AE0BE97006B3C94 /* PCCreatePostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */; };
 		0CE06F961B58B89A00E344DB /* iconDecline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CE06F951B58B89A00E344DB /* iconDecline@2x.png */; };
 		0CFC9D001AE89DED00D2A923 /* PCMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFC9CFF1AE89DED00D2A923 /* PCMessageCell.m */; };
@@ -384,6 +385,7 @@
 		0CDD96DB1B16F3520026E052 /* PCInviteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCInviteViewController.m; sourceTree = "<group>"; };
 		0CDEF4CA1B59786100E9D705 /* bgLosAngeles@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgLosAngeles@2x.png"; sourceTree = "<group>"; };
 		0CDEF4CC1B5978F500E9D705 /* bgCoffee@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgCoffee@2x.png"; sourceTree = "<group>"; };
+		0CDEF4CE1B59A58E00E9D705 /* backgroundLights@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backgroundLights@2x.png"; sourceTree = "<group>"; };
 		0CDF62091AE0BE97006B3C94 /* PCCreatePostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCreatePostViewController.h; sourceTree = "<group>"; };
 		0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCreatePostViewController.m; sourceTree = "<group>"; };
 		0CE06F951B58B89A00E344DB /* iconDecline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconDecline@2x.png"; sourceTree = "<group>"; };
@@ -849,6 +851,7 @@
 				0CDEF4CA1B59786100E9D705 /* bgLosAngeles@2x.png */,
 				0CDEF4CC1B5978F500E9D705 /* bgCoffee@2x.png */,
 				0C437C071B4F47DB0089F4FA /* background@2x.png */,
+				0CDEF4CE1B59A58E00E9D705 /* backgroundLights@2x.png */,
 				0C5819D21B51A32D001410B2 /* backgroundBlue@2x.png */,
 			);
 			path = backgrounds;
@@ -1001,6 +1004,7 @@
 				0C8D7D081B579F0600038E3A /* iconPeople@2x.png in Resources */,
 				0C8B616C1ABD028800BC13C8 /* cvc-amex@2x.png in Resources */,
 				0CADEF631B575AD800F9262E /* Montserrat-Bold.ttf in Resources */,
+				0CDEF4CF1B59A58E00E9D705 /* backgroundLights@2x.png in Resources */,
 				0C676E151AE36271001B14B7 /* iconEnvelope@2x.png in Resources */,
 				0C8B616D1ABD028800BC13C8 /* cvc.png in Resources */,
 				0C8B61791ABD028800BC13C8 /* visa.png in Resources */,
