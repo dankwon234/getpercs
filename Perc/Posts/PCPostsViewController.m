@@ -230,6 +230,22 @@ static NSString *cellId = @"cellId";
     [self.navigationController pushViewController:createPostVc animated:YES];
 }
 
+- (void)createEvent:(UIButton *)btn
+{
+    NSLog(@"createEvent: ");
+    if (self.profile.isPopulated==NO){
+        UIAlertView *alert = [self showAlertWithTitle:@"Log In" message:@"Please log in or register to create a post."];
+        alert.delegate = self;
+        return;
+    }
+    
+    PCCreatePostViewController *createPostVc = [[PCCreatePostViewController alloc] init];
+    createPostVc.isEvent = YES;
+    [self.navigationController pushViewController:createPostVc animated:YES];
+}
+
+
+
 - (void)postAdded:(NSNotification *)notfication
 {
     NSDictionary *userInfo = notfication.userInfo;
@@ -249,11 +265,6 @@ static NSString *cellId = @"cellId";
 //    [self layoutListsCollectionView];
     [self.postsTable reloadData];
 
-}
-
-- (void)createEvent:(UIButton *)btn
-{
-    NSLog(@"createEvent: ");
 }
 
 #pragma mark - UIAlertViewDelegate
