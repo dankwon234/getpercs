@@ -20,7 +20,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
-        self.edgesForExtendedLayout = UIRectEdgeNone;
+        self.edgesForExtendedLayout = UIRectEdgeAll;
         
     }
     return self;
@@ -32,10 +32,10 @@
 - (void)loadView
 {
     UIView *view = [self baseView];
-    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgBurger.png"]];
+    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundLights.png"]];
     CGRect frame = view.frame;
     
-    CGFloat y = 0.15f*frame.size.height;
+    CGFloat y = 110.0f;
     CGFloat width = frame.size.width;
     
     static CGFloat x = 20.0f;
@@ -47,62 +47,58 @@
     [view addSubview:lblLogin];
     y += lblLogin.frame.size.height+32.0f;
 
-    self.emailField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, y, width, 44.0f)];
-    self.emailField.delegate = self;
-    self.emailField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 20.0f, 44.0f)];;
-    self.emailField.leftViewMode = UITextFieldViewModeAlways;
-    self.emailField.backgroundColor = [UIColor whiteColor];
-    self.emailField.alpha = 0.8f;
-    self.emailField.textColor = [UIColor darkGrayColor];
-    self.emailField.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    self.emailField.placeholder = @"Email";
-    self.emailField.returnKeyType = UIReturnKeyNext;
-    [view addSubview:self.emailField];
-    y += self.emailField.frame.size.height+1.0f;
-
-    self.passwordField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, y, width, 44.0f)];
-    self.passwordField.delegate = self;
-    self.passwordField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 20.0f, 44.0f)];;
-    self.passwordField.leftViewMode = UITextFieldViewModeAlways;
-    self.passwordField.backgroundColor = [UIColor whiteColor];
-    self.passwordField.alpha = 0.8f;
-    self.passwordField.textColor = [UIColor darkGrayColor];
-    self.passwordField.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    self.emailField = [[UITextField alloc] init];
+    self.passwordField = [[UITextField alloc] init];
+    
+    NSArray *fields = @[self.emailField, self.passwordField];
+    NSArray *placeholders = @[@"Email", @"Password"];
+    UIFont *font = [UIFont fontWithName:kBaseFontName size:14.0];
+    UIColor *white = [UIColor whiteColor];
+    CGFloat h = 44.0f;
+    x = 36.0f;
+    for (int i=0; i<fields.count; i++) {
+        UITextField *field = fields[i];
+        field.frame = CGRectMake(0.0f, y, width, 44.0f);
+        field.delegate = self;
+        field.leftView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 36.0f, h)];
+        field.leftViewMode = UITextFieldViewModeAlways;
+        field.backgroundColor = [UIColor clearColor];
+        field.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholders[i] attributes:@{ NSForegroundColorAttributeName : [UIColor whiteColor] }];
+        field.alpha = 0.8f;
+        field.textColor = [UIColor darkGrayColor];
+        field.placeholder = placeholders[i];
+        field.returnKeyType = UIReturnKeyNext;
+        field.font = font;
+        field.textColor = white;
+        
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(x, h-6.0f, width-2*x, 1.0f)];
+        line.backgroundColor = white;
+        [field addSubview:line];
+        
+        [view addSubview:field];
+        y += field.frame.size.height+4.0f;
+    }
+    
     self.passwordField.secureTextEntry = YES;
-    self.passwordField.placeholder = @"Password";
     self.passwordField.returnKeyType = UIReturnKeyGo;
-    [view addSubview:self.passwordField];
-    y += self.passwordField.frame.size.height+20.0f;
-    
-    
+    y += 24.0f;
+
+
     UILabel *lblOr = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width-2*x, 32.0f)];
     lblOr.textColor = [UIColor whiteColor];
     lblOr.textAlignment = NSTextAlignmentCenter;
     lblOr.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    lblOr.text = @"OR";
+    lblOr.text = @"Don't have an account?";
     [view addSubview:lblOr];
-    
-    CGFloat w = 0.35f*width;
-    UIView *leftLine = [[UIView alloc] initWithFrame:CGRectMake(x, y+16.0f, w, 1.0f)];
-    leftLine.backgroundColor = [UIColor whiteColor];
-    [view addSubview:leftLine];
-
-    UIView *rightLine = [[UIView alloc] initWithFrame:CGRectMake(width-x-w, y+16.0f, w, 1.0f)];
-    rightLine.backgroundColor = [UIColor whiteColor];
-    [view addSubview:rightLine];
-    y += lblOr.frame.size.height+20.0f;
+    y += lblOr.frame.size.height;
     
     UIButton *btnRegister = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnRegister.frame = CGRectMake(x, y, width-2*x, 44.0f);
+    btnRegister.frame = CGRectMake(x, y, width-2*x, 24.0f);
     btnRegister.backgroundColor = [UIColor clearColor];
     [btnRegister addTarget:self action:@selector(signUp:) forControlEvents:UIControlEventTouchUpInside];
     [btnRegister setTitle:@"SIGN UP" forState:UIControlStateNormal];
     [btnRegister setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    btnRegister.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
-    btnRegister.layer.cornerRadius = 0.5f*btnRegister.frame.size.height;
-    btnRegister.layer.masksToBounds = YES;
-    btnRegister.layer.borderWidth = 1.0f;
-    btnRegister.layer.borderColor = [[UIColor whiteColor] CGColor];
+    btnRegister.titleLabel.font = lblOr.font;
     [view addSubview:btnRegister];
     
 
