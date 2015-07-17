@@ -253,16 +253,12 @@ static NSString *cellId = @"cellId";
 
 - (void)showOptionsView:(UIButton *)btn
 {
-    UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, 0);
-    [self.view drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:YES];
-    UIImage *copied = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    self.blurryScreenshot.image = [copied applyBlurOnImage:0.75f];
-
+    self.blurryScreenshot.image = [[UIImage screenshot:self.view] applyBlurOnImage:0.75f];
     [self.view bringSubviewToFront:self.blurryScreenshot];
     [self.view bringSubviewToFront:self.optionsView];
     [self.view bringSubviewToFront:self.icon];
     self.icon.alpha = 0.0f;
+    
     [UIView animateWithDuration:0.35f
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
