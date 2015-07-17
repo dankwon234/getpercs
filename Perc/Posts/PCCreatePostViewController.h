@@ -11,7 +11,6 @@
 
 @interface PCCreatePostViewController : PCViewController <UIScrollViewDelegate, UITextViewDelegate, UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 
-
+@property (nonatomic) BOOL isEvent;
 @property (strong, nonatomic) PCPost *post;
-
 @end

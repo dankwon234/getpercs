@@ -27,11 +27,13 @@ static NSString *placeholder = @"Content";
 
 @implementation PCCreatePostViewController
 @synthesize post;
+@synthesize isEvent;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
+        self.isEvent = NO;
         self.edgesForExtendedLayout = UIRectEdgeAll;
         self.fees = [NSMutableArray array];
         for (int i=0; i<101; i++)
@@ -53,13 +55,16 @@ static NSString *placeholder = @"Content";
         self.isEditMode = YES;
     }
     
+    if (self.isEvent)
+        self.post.type = @"event";
+    
+    
     UIView *view = [self baseView];
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundBlue.png"]];
     CGRect frame = view.frame;
     
     CGFloat dimen = 88.0f;
     self.icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon.png"]];
-    self.icon.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     self.icon.frame = CGRectMake(0.0f, 0.0f, dimen, dimen);
     self.icon.center = CGPointMake(0.5f*frame.size.width, 0.5f*dimen+84.0f);
     self.icon.layer.cornerRadius = 0.5f*dimen;
@@ -74,11 +79,14 @@ static NSString *placeholder = @"Content";
     CGFloat width = frame.size.width-2*x;
     
     self.lblCreatePost = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, 20.0f)];
-    self.lblCreatePost.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     self.lblCreatePost.textColor = [UIColor whiteColor];
     self.lblCreatePost.textAlignment = NSTextAlignmentCenter;
     self.lblCreatePost.font = [UIFont fontWithName:kBaseFontName size:14.0f];
-    self.lblCreatePost.text = (self.isEditMode) ? @"UPDATE POST" : @"CREATE POST";
+    if (self.isEditMode)
+        self.lblCreatePost.text = @"UPDATE";
+    else
+        self.lblCreatePost.text = (self.isEvent) ? @"CREATE EVENT" : @"CREATE POST";
+    
     [view addSubview:self.lblCreatePost];
     y += self.lblCreatePost.frame.size.height+36.0f;
     
