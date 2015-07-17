@@ -59,6 +59,36 @@ static NSString *cellId = @"cellId";
     self.postsTable.dataSource = self;
     self.postsTable.delegate = self;
     self.postsTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+
+    static CGFloat x = 24.0f;
+    static CGFloat h = 44.0f;
+    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0, frame.size.width, h+20.0f)];
+    footer.backgroundColor = [UIColor whiteColor];
+
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    btn.frame = CGRectMake(x, 0.5f*(footer.frame.size.height-h), frame.size.width-2*x, h);
+    btn.backgroundColor = [UIColor clearColor];
+    btn.layer.cornerRadius = 0.5f*h;
+    btn.layer.masksToBounds = YES;
+    btn.layer.borderColor = [[UIColor grayColor] CGColor];
+    btn.layer.borderWidth = 2.0f;
+    btn.titleLabel.font = [UIFont fontWithName:kBaseBoldFont size:16.0f];
+    [btn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+
+    if (self.mode==0){
+        [btn setTitle:@"CREATE POST" forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(createPost:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    else{
+        [btn setTitle:@"CREATE EVENT" forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(createEvent:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    [footer addSubview:btn];
+    self.postsTable.tableFooterView = footer;
+    
+    self.postsTable.alpha = 0.0f;
     [view addSubview:self.postsTable];
 
     
@@ -89,14 +119,22 @@ static NSString *cellId = @"cellId";
                                                                                                target:self
                                                                                                action:@selector(createPost:)];
         
-        if (self.profile.posts != nil)
+        if (self.profile.posts != nil){
+            self.postsTable.alpha = 1.0f;
             return;
+        }
         
         params = @{@"profile":self.profile.uniqueId};
     }
     else {
-        if (self.profile.invited != nil)
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                                               target:self
+                                                                                               action:@selector(createEvent:)];
+
+        if (self.profile.invited != nil){
+            self.postsTable.alpha = 1.0f;
             return;
+        }
 
         params = @{@"invited":self.profile.phone};
     }
@@ -126,6 +164,19 @@ static NSString *cellId = @"cellId";
             
             
             [self.postsTable reloadData];
+            
+            if (array.count > 0){
+                [UIView animateWithDuration:0.35f
+                                      delay:0
+                                    options:UIViewAnimationOptionCurveEaseInOut
+                                 animations:^{
+                                     self.postsTable.alpha = 1.0f;
+                                 }
+                                 completion:^(BOOL finished){
+                                     
+                                 }];
+            }
+
             
 //            if (self.profile.posts.count==0)
 //                [self showAlertWithTitle:@"No Posts" message:@"This area has no posts. To add one, tap the icon in the upper right corner."];
@@ -200,6 +251,10 @@ static NSString *cellId = @"cellId";
 
 }
 
+- (void)createEvent:(UIButton *)btn
+{
+    NSLog(@"createEvent: ");
+}
 
 #pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
