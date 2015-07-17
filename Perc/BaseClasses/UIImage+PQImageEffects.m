@@ -117,6 +117,15 @@
     return newImage;
 }
 
++ (UIImage *)screenshot:(UIView *)view
+{
+    UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, 0);
+    [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:YES];
+    UIImage *screenshot = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    return screenshot;
+}
 
 
 #pragma mark - Image Reflection

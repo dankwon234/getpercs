@@ -11,6 +11,7 @@
 @interface UIImage (PQImageEffects)
 
 + (UIImage *)crop:(UIImage *)originalImage rect:(CGRect)cropRect;
++ (UIImage *)screenshot:(UIView *)view;
 - (UIImage *)applyBlurOnImage:(CGFloat)blurRadius;
 - (UIImage *)convertImageToGrayScale;
 - (UIImage *)reflectedImage:(UIImage *)fromImage withBounds:(CGRect)bounds withHeight:(NSInteger)height;
