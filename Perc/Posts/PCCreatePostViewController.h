@@ -9,7 +9,7 @@
 #import "PCViewController.h"
 #import "PCPost.h"
 
-@interface PCCreatePostViewController : PCViewController <UIScrollViewDelegate, UITextViewDelegate, UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UIAlertViewDelegate>
+@interface PCCreatePostViewController : PCViewController <UIScrollViewDelegate, UITextViewDelegate, UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UIAlertViewDelegate, UIWebViewDelegate>
 
 @property (nonatomic) BOOL isEvent;
 @property (strong, nonatomic) PCPost *post;
