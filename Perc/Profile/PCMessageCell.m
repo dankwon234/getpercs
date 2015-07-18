@@ -76,11 +76,14 @@
 
 - (void)setConfiguration:(MessageCellConfiguration)configuration
 {
-    if (_configuration==configuration)
-        return;
+//    NSLog(@"CONFIGURATION = %@", (configuration==MessageCellConfigurationFrom) ? @"From" : @"To");
+    NSString *text = nil;
+    CGFloat width = 0.0f;
+    if (configuration==MessageCellConfigurationFrom){
+        text = @"FROM: ";
+        width = 50.0f;
+    }
     
-    NSString *text = @"FROM: ";
-    CGFloat width = 50.0f;
     if (configuration==MessageCellConfigurationTo){
         text = @"TO: ";
         width = 26.0f;
@@ -95,9 +98,8 @@
     frame = self.lblName.frame;
     frame.origin.x = x;
     self.lblName.frame = frame;
-
-    
 }
+
 
 
 - (void)awakeFromNib
