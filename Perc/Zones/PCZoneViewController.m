@@ -429,7 +429,7 @@ static NSString *cellId = @"cellId";
 
 - (void)fetchPostsForCurrentLocation
 {
-    [[PCWebServices sharedInstance] fetchPosts:@{@"zone":self.currentZone.uniqueId, @"limit":@"12"} completion:^(id result, NSError *error){
+    [[PCWebServices sharedInstance] fetchPosts:@{@"zone":self.currentZone.uniqueId, @"limit":@"12", @"featured":@"yes"} completion:^(id result, NSError *error){
         [self.loadingIndicator stopLoading];
         if (error){
             [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
