@@ -362,8 +362,9 @@ static NSString *placeholder = @"Description";
     self.post.title = self.titleField.text;
     self.post.content = self.contentForm.text;
     self.post.profile = self.profile;
-    if (self.isEditMode==NO && self.currentZone != nil)
+    if (self.isEditMode==NO && self.currentZone.uniqueId != nil){
         [self.post.zones addObject:self.currentZone.uniqueId];
+    }
     
     
     
