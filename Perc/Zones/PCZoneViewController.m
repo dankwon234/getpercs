@@ -408,9 +408,13 @@ static NSString *cellId = @"cellId";
             PCVenue *venue = [PCVenue venueWithInfo:venueInfo];
             venue.fee = self.currentZone.baseFee;
             venue.distance = [venue calculateDistanceFromLocation:self.locationMgr.clLocation];
+            NSLog(@"DIST == %.2f", venue.distance);
+            if (venue.distance >= 6.5f) // too far, ignore
+                continue;
             
             if ([self.currentZone.uniqueId isEqualToString:venue.orderZone]==NO){
                 double distance = [venue calculateDistanceFromLocation:zoneLocation];
+                
                 if (distance >= 2.0f)
                     distance -= 2.0f;
                 
@@ -418,6 +422,8 @@ static NSString *cellId = @"cellId";
             }
             
             [self.currentZone.venues addObject:venue];
+            NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"distance" ascending:YES];
+            [self.currentZone.venues sortUsingDescriptors:@[sort]];
         }
 
         dispatch_async(dispatch_get_main_queue(), ^{
