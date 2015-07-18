@@ -147,6 +147,8 @@ static NSString *cellId = @"cellId";
     else
         [self.btnAccount setTitle:@"Log In" forState:UIControlStateNormal];
     
+    [self.profile addObserver:self forKeyPath:@"isPopulated" options:0 context:nil];
+    
     BOOL connected = [[PCWebServices sharedInstance] checkConnection];
     if (connected==NO){
         [self showAlertWithTitle:@"No Connection" message:@"Please find an internet connection."];
@@ -160,6 +162,14 @@ static NSString *cellId = @"cellId";
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
+    if ([keyPath isEqualToString:@"isPopulated"]){
+        if (self.profile.isPopulated)
+            [self.btnAccount setTitle:@"Account" forState:UIControlStateNormal];
+        else
+            [self.btnAccount setTitle:@"Log In" forState:UIControlStateNormal];
+        
+    }
+    
     if ([keyPath isEqualToString:@"iconData"]){
         PCVenue *venue = (PCVenue *)object;
         [venue removeObserver:self forKeyPath:@"iconData"];
