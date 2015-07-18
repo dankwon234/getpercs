@@ -34,6 +34,7 @@
 @synthesize bio;
 @synthesize referral;
 @synthesize invited;
+@synthesize venmoId;
 
 - (id)init
 {
@@ -83,6 +84,7 @@
     self.bio = @"none";
     self.lastZone = @"none";
     self.promoCode = @"none";
+    self.venmoId = @"none";
     self.referral = @"none";
     if (self.deviceToken==nil)
         self.deviceToken = @"none";
@@ -120,6 +122,7 @@
     self.lastZone = profileInfo[@"lastZone"];
     self.lastZone = profileInfo[@"promoCode"];
     self.bio = profileInfo[@"bio"];
+    self.venmoId = profileInfo[@"venmoId"];
     self.points = [profileInfo[@"points"] intValue];
     if (profileInfo[@"creditCard"])
         self.hasCreditCard = [profileInfo[@"creditCard"] isEqualToString:@"yes"];
@@ -230,6 +233,9 @@
     
     if (self.referral)
         params[@"referral"] = self.referral;
+
+    if (self.venmoId)
+        params[@"venmoId"] = self.venmoId;
 
 
     return params;
