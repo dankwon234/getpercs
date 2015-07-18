@@ -725,7 +725,7 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
              NSDictionary *response = (NSDictionary *)responseObject;
              
-             if (response[@"data"]==nil)
+             if (response[@"data"] != nil)
                  response = response[@"data"];
 
              if (completionBlock)
