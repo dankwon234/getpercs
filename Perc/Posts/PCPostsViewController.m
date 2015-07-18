@@ -211,6 +211,12 @@ static NSString *cellId = @"cellId";
 {
     [super viewWillAppear:animated];
     [self.postsTable reloadData];
+    
+    NSArray *sourceArray = (self.mode==0) ? self.profile.posts : self.profile.invited;
+    if (sourceArray.count > 0){
+        self.tutorialView.alpha = 0.0f;
+        self.postsTable.alpha = 1.0f;
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
