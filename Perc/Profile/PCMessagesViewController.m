@@ -213,8 +213,10 @@
         
     }
     
-    if ([message.profile.image isEqualToString:@"none"])
+    if ([message.profile.image isEqualToString:@"none"]){
+        cell.icon.image = [UIImage imageNamed:@"icon.png"];
         return cell;
+    }
     
     if (message.profile.imageData){
         cell.icon.image = message.profile.imageData;
