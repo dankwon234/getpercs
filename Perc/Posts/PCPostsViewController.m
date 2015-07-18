@@ -102,7 +102,7 @@ static NSString *cellId = @"cellId";
     dropShadow.frame = CGRectMake(0.0f, kNavBarHeight, dropShadow.frame.size.width, dropShadow.frame.size.height);
     [view addSubview:dropShadow];
     
-    UIImage *tutorialImage = (self.mode==0) ? [UIImage imageNamed:@"messagesTutorial.png"] : [UIImage imageNamed:@"messagesTutorial.png"];
+    UIImage *tutorialImage = (self.mode==0) ? [UIImage imageNamed:@"postsTutorial.png"] : [UIImage imageNamed:@"invitationsTutorial.png"];
 
     self.tutorialView = [[UIImageView alloc] initWithImage:tutorialImage];
     
