@@ -465,6 +465,8 @@ static NSString *placeholder = @"Description";
                          
                      }
                      completion:^(BOOL finished){
+                         UIAlertView *alert = [self showAlertWithTitle:@"Venmo" message:@"PERC uses Venmo to facilitate payments between users. If you are charging for your event, please sign up for Venmo today." buttons:@"Sign Up"];
+                         alert.delegate = self;
                          
                      }];
 }
@@ -504,6 +506,18 @@ static NSString *placeholder = @"Description";
     NSLog(@"toggleVisibility: %@", (toggleSwitch.on) ? @"yes" : @"no");
     self.post.isVisible = toggleSwitch.on;
 }
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"alertView clickedButtonAtIndex: %d", (int)buttonIndex);
+    if (buttonIndex==0)
+        return;
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/us/app/venmo/id351727428?mt=8"]];
+}
+
+
 
 #pragma mark - UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
