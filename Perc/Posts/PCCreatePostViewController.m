@@ -261,17 +261,18 @@ static NSString *placeholder = @"Description";
     btnCreate.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     btnCreate.frame = CGRectMake(x, 0.5f*(bgCreate.frame.size.height-h), width, h);
     btnCreate.backgroundColor = [UIColor clearColor];
+    btnCreate.titleLabel.font = [UIFont fontWithName:kBaseBoldFont size:18.0f];
     btnCreate.layer.cornerRadius = 0.5f*h;
     btnCreate.layer.masksToBounds = YES;
     btnCreate.layer.borderColor = [[UIColor whiteColor] CGColor];
-    btnCreate.layer.borderWidth = 1.0f;
+    btnCreate.layer.borderWidth = 2.0f;
     [btnCreate setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     NSString *btnTitle = (self.isEditMode) ? @"UPDATE" : @"CREATE";
     [btnCreate setTitle:btnTitle forState:UIControlStateNormal];
     [btnCreate addTarget:self action:@selector(createPost:) forControlEvents:UIControlEventTouchUpInside];
     [bgCreate addSubview:btnCreate];
     [self.theScrollview addSubview:bgCreate];
-    y += bgCreate.frame.size.height;
+    y += bgCreate.frame.size.height+12.0f;
     
     
     [view addSubview:self.theScrollview];
@@ -503,6 +504,7 @@ static NSString *placeholder = @"Description";
 {
     NSLog(@"togglePublic: %@", (toggleSwitch.on) ? @"yes" : @"no");
     self.post.isPublic = toggleSwitch.on;
+    self.post.isVisible = self.post.isPublic;
 }
 
 - (void)toggleVisibility:(UISwitch *)toggleSwitch
