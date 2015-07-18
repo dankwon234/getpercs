@@ -315,7 +315,11 @@ static NSString *cellId = @"cellId";
     cell.tag = indexPath.row+1000;
     cell.lblTitle.text = post.title;
     cell.lblDate.text = post.formattedDate;
-    cell.lblDetails.text = (post.fee > 0) ? [NSString stringWithFormat:@"Fee: $%d.00", post.fee] : @"FREE";
+    if ([post.type isEqualToString:@"event"])
+        cell.lblDetails.text = (post.fee > 0) ? [NSString stringWithFormat:@"Event: $%d.00", post.fee] : @"Event: FREE";
+    else
+        cell.lblDetails.text = @"Announcement";
+    
     
     if (post.imageData){
         cell.postIcon.image = post.imageData;
