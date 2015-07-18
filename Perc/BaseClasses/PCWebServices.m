@@ -700,7 +700,7 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
     [serializer setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     manager.requestSerializer = serializer;
     
-    NSDictionary *params = @{@"access_token":accessToken, @"amount":[NSString stringWithFormat:@"%.2f", amt], @"note":note, @"email":rec};
+    NSDictionary *params = @{@"access_token":accessToken, @"amount":[NSString stringWithFormat:@"%.2f", amt], @"note":note, @"user_id":rec};
     [manager POST:@"https://api.venmo.com/v1/payments"
        parameters:params
           success:^(AFHTTPRequestOperation *operation, id responseObject){
