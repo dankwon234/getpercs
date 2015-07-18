@@ -61,6 +61,7 @@
     if (self.alpha > 0)
         return;
     
+    [self.superview bringSubviewToFront:self];
     [self.spinner startAnimating];
     [UIView animateWithDuration:0.4f
                           delay:0.0f
