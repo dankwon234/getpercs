@@ -50,13 +50,14 @@ static NSString *placeholder = @"Description";
     if (self.post==nil){
         self.isEditMode = NO;
         self.post = [[PCPost alloc] init];
+        if (self.isEvent)
+            self.post.type = @"event";
     }
     else{
         self.isEditMode = YES;
+        self.isEvent = [self.post.type isEqualToString:@"event"];
     }
     
-    if (self.isEvent)
-        self.post.type = @"event";
     
     
     UIView *view = [self baseView];
@@ -137,24 +138,27 @@ static NSString *placeholder = @"Description";
     [self.theScrollview addSubview:bgContent];
     y += bgContent.frame.size.height+1.0f;
     
-    UIView *bgPublic = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
-    bgPublic.backgroundColor = [UIColor whiteColor];
-    bgPublic.alpha = 0.8f;
     
-    UILabel *lblPublic = [[UILabel alloc] initWithFrame:CGRectMake(12.0f, 0.0f, frame.size.width-24.0f, h)];
-    lblPublic.font = baseFont;
-    lblPublic.text = @"Public";
-    [bgPublic addSubview:lblPublic];
+    if (self.isEvent==YES){ // creating or updating an event:
+        UIView *bgPublic = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
+        bgPublic.backgroundColor = [UIColor whiteColor];
+        bgPublic.alpha = 0.8f;
+        
+        UILabel *lblPublic = [[UILabel alloc] initWithFrame:CGRectMake(12.0f, 0.0f, frame.size.width-24.0f, h)];
+        lblPublic.font = baseFont;
+        lblPublic.text = @"Public";
+        [bgPublic addSubview:lblPublic];
+        
+        UISwitch *togglePublic = [[UISwitch alloc] initWithFrame:CGRectMake(frame.size.width-63.0f, 6.5f, 51.0f, 31.0)];
+        togglePublic.on = (self.isEditMode) ? self.post.isPublic : YES;
+        [togglePublic addTarget:self action:@selector(togglePublic:) forControlEvents:UIControlEventValueChanged];
+        [bgPublic addSubview:togglePublic];
+        
+        [self.theScrollview addSubview:bgPublic];
+        y += bgPublic.frame.size.height+1.0f;
+    }
     
-    UISwitch *togglePublic = [[UISwitch alloc] initWithFrame:CGRectMake(frame.size.width-63.0f, 6.5f, 51.0f, 31.0)];
-    togglePublic.on = (self.isEditMode) ? self.post.isPublic : YES;
-    [togglePublic addTarget:self action:@selector(togglePublic:) forControlEvents:UIControlEventValueChanged];
-    [bgPublic addSubview:togglePublic];
-    
-    [self.theScrollview addSubview:bgPublic];
-    y += bgPublic.frame.size.height+1.0f;
-
-    if (self.isEditMode){
+    if (self.isEditMode && self.isEvent==NO){ // editing a post
         UIView *bgVisible = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
         bgVisible.backgroundColor = [UIColor whiteColor];
         bgVisible.alpha = 0.8f;
@@ -173,18 +177,20 @@ static NSString *placeholder = @"Description";
         y += bgVisible.frame.size.height+1.0f;
     }
     
-    UIView *bgFee = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
-    bgFee.backgroundColor = [UIColor whiteColor];
-    [bgFee addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeFee:)]];
-    bgFee.alpha = 0.8f;
-    
-    self.lblFee = [[UILabel alloc] initWithFrame:CGRectMake(12.0f, 0.0f, frame.size.width-24.0f, 44.0f)];
-    self.lblFee.font = baseFont;
-    self.lblFee.text = @"Fee: FREE";
-    [bgFee addSubview:self.lblFee];
-    
-    [self.theScrollview addSubview:bgFee];
-    y += bgFee.frame.size.height+1.0f;
+    if (self.isEvent){
+        UIView *bgFee = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, h)];
+        bgFee.backgroundColor = [UIColor whiteColor];
+        [bgFee addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeFee:)]];
+        bgFee.alpha = 0.8f;
+        
+        self.lblFee = [[UILabel alloc] initWithFrame:CGRectMake(12.0f, 0.0f, frame.size.width-24.0f, 44.0f)];
+        self.lblFee.font = baseFont;
+        self.lblFee.text = @"Fee: FREE";
+        [bgFee addSubview:self.lblFee];
+        
+        [self.theScrollview addSubview:bgFee];
+        y += bgFee.frame.size.height+1.0f;
+    }
     
 
 
@@ -212,7 +218,7 @@ static NSString *placeholder = @"Description";
         lblZone.textAlignment = NSTextAlignmentCenter;
         lblZone.textColor = [UIColor whiteColor];
         lblZone.font = baseFont;
-        lblZone.text = @"If Public, This Post Will Show In";
+        lblZone.text = (self.isEvent) ? @"If Public, This Event Will Show In" : @"If Public, This Post Will Show In";
         [self.theScrollview addSubview:lblZone];
         y += lblZone.frame.size.height;
         
@@ -247,8 +253,6 @@ static NSString *placeholder = @"Description";
         y += bgTowns.frame.size.height;
     }
 
-
-    
 
     UIView *bgCreate = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 96.0f)];
     bgCreate.backgroundColor = [UIColor grayColor];
