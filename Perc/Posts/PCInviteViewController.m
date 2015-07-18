@@ -46,38 +46,37 @@
     self.contactsTable.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
     self.contactsTable.showsVerticalScrollIndicator = NO;
     self.contactsTable.separatorStyle = UITableViewCellSelectionStyleNone;
-    self.contactsTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, 96.0f)];
+    self.contactsTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, 110.0f)];
     self.contactsTable.contentInset = UIEdgeInsetsMake(180.0f, 0, 0, 0);
     self.contactsTable.backgroundColor = [UIColor clearColor];
     [view addSubview:self.contactsTable];
     
     
     
-    CGFloat y = frame.size.height-96.f;
+    CGFloat y = frame.size.height-110.f;
     CGFloat h = 44.0f;
     CGFloat x = 16.0f;
     CGFloat width = frame.size.width-2*x;
 
-    UIView *bgCreate = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 96.0f)];
+    UIView *bgCreate = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 110.0f)];
     bgCreate.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     bgCreate.backgroundColor = [UIColor grayColor];
     
     UIButton *btnCreate = [UIButton buttonWithType:UIButtonTypeCustom];
     btnCreate.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    btnCreate.frame = CGRectMake(x, 0.5f*(bgCreate.frame.size.height-h), width, h);
+    btnCreate.frame = CGRectMake(x, 24.0f, width, h);
     btnCreate.backgroundColor = [UIColor clearColor];
     btnCreate.layer.cornerRadius = 0.5f*h;
     btnCreate.layer.masksToBounds = YES;
     btnCreate.layer.borderColor = [[UIColor whiteColor] CGColor];
-    btnCreate.layer.borderWidth = 1.0f;
+    btnCreate.layer.borderWidth = 2.0f;
     [btnCreate setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    NSString *btnTitle = (self.isEditMode) ? @"UPDATE POST" : @"CREATE POST";
-    [btnCreate setTitle:@"CREATE POST" forState:UIControlStateNormal];
+    NSString *btnTitle = ([self.post.type isEqualToString:@"event"]) ? @"CREATE EVENT" : @" CREATE POST";
+    [btnCreate setTitle:btnTitle forState:UIControlStateNormal];
     [btnCreate addTarget:self action:@selector(createPost:) forControlEvents:UIControlEventTouchUpInside];
+    btnCreate.titleLabel.font = [UIFont fontWithName:kBaseBoldFont size:18.0f];
     [bgCreate addSubview:btnCreate];
     [view addSubview:bgCreate];
-    
-    
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
     swipe.direction = UISwipeGestureRecognizerDirectionRight;
     [view addGestureRecognizer:swipe];
@@ -112,7 +111,6 @@
             }
             
             NSDictionary *results = (NSDictionary *)result;
-//            NSLog(@"%@", [results description]);
             [self uploadImage:results[@"upload"]];
         }];
         
@@ -122,9 +120,7 @@
     NSDictionary *host = @{@"fullName":[NSString stringWithFormat:@"%@ %@", self.profile.firstName, self.profile.lastName] , @"firstName":self.profile.firstName, @"lastName":self.profile.lastName, @"phoneNumber":self.profile.phone};
     [self.post.invited addObject:host];
     [self.post.confirmed addObject:host];
-    
     self.post.type = @"event"; // private posts default as events for now
-    self.post.isVisible = NO; // private posts are not visible to everyone
     
     NSLog(@"createPost: %@", [self.post jsonRepresentation]);
 
@@ -175,9 +171,7 @@
             
             [self createPost:nil];
         });
-        
     }];
-    
 }
 
 
