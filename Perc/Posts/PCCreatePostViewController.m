@@ -362,8 +362,9 @@ static NSString *placeholder = @"Description";
     self.post.title = self.titleField.text;
     self.post.content = self.contentForm.text;
     self.post.profile = self.profile;
-    if (self.isEditMode==NO)
+    if (self.isEditMode==NO && self.currentZone != nil)
         [self.post.zones addObject:self.currentZone.uniqueId];
+    
     
     
     if (self.post.isPublic==NO || [self.post.type isEqualToString:@"event"]==YES){ // evnt post - segue to invite view controller
