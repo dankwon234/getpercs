@@ -135,7 +135,6 @@
 		0CB6E1A61AE4BB610010982C /* PCComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CB6E1A51AE4BB610010982C /* PCComment.m */; };
 		0CB937971B4736FD00F28DD3 /* PCPostView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CB937961B4736FD00F28DD3 /* PCPostView.m */; };
 		0CC94F741B59C3F5000203FB /* invitationsTutorial@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CC94F731B59C3F5000203FB /* invitationsTutorial@2x.png */; };
-		0CC94F761B59C549000203FB /* postsTutorial@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CC94F751B59C549000203FB /* postsTutorial@2x.png */; };
 		0CC94F781B59C7B8000203FB /* messagesTutorial@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CC94F771B59C7B8000203FB /* messagesTutorial@2x.png */; };
 		0CC94F7A1B59CAA7000203FB /* backgroundLights@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CC94F791B59CAA7000203FB /* backgroundLights@2x.png */; };
 		0CCA8A681B4E386E004FF7D4 /* iconChat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CCA8A671B4E386E004FF7D4 /* iconChat@2x.png */; };
@@ -151,6 +150,7 @@
 		0CDEF4D11B59B25600E9D705 /* bgCoffee@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CDEF4D01B59B25600E9D705 /* bgCoffee@2x.png */; };
 		0CDF620B1AE0BE97006B3C94 /* PCCreatePostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */; };
 		0CE06F961B58B89A00E344DB /* iconDecline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CE06F951B58B89A00E344DB /* iconDecline@2x.png */; };
+		0CF029111B59D090007BC0E1 /* postsTutorial@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CF029101B59D090007BC0E1 /* postsTutorial@2x.png */; };
 		0CFC9D001AE89DED00D2A923 /* PCMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFC9CFF1AE89DED00D2A923 /* PCMessageCell.m */; };
 /* End PBXBuildFile section */
 
@@ -372,7 +372,6 @@
 		0CB937951B4736FD00F28DD3 /* PCPostView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPostView.h; sourceTree = "<group>"; };
 		0CB937961B4736FD00F28DD3 /* PCPostView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCPostView.m; sourceTree = "<group>"; };
 		0CC94F731B59C3F5000203FB /* invitationsTutorial@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "invitationsTutorial@2x.png"; sourceTree = "<group>"; };
-		0CC94F751B59C549000203FB /* postsTutorial@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "postsTutorial@2x.png"; sourceTree = "<group>"; };
 		0CC94F771B59C7B8000203FB /* messagesTutorial@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "messagesTutorial@2x.png"; sourceTree = "<group>"; };
 		0CC94F791B59CAA7000203FB /* backgroundLights@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backgroundLights@2x.png"; sourceTree = "<group>"; };
 		0CCA8A671B4E386E004FF7D4 /* iconChat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconChat@2x.png"; sourceTree = "<group>"; };
@@ -395,6 +394,7 @@
 		0CDF62091AE0BE97006B3C94 /* PCCreatePostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCreatePostViewController.h; sourceTree = "<group>"; };
 		0CDF620A1AE0BE97006B3C94 /* PCCreatePostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCreatePostViewController.m; sourceTree = "<group>"; };
 		0CE06F951B58B89A00E344DB /* iconDecline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconDecline@2x.png"; sourceTree = "<group>"; };
+		0CF029101B59D090007BC0E1 /* postsTutorial@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "postsTutorial@2x.png"; sourceTree = "<group>"; };
 		0CFC9CFE1AE89DED00D2A923 /* PCMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCMessageCell.h; sourceTree = "<group>"; };
 		0CFC9CFF1AE89DED00D2A923 /* PCMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCMessageCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -887,8 +887,8 @@
 		0CDEF4D21B59B90900E9D705 /* tutorials */ = {
 			isa = PBXGroup;
 			children = (
-				0CC94F751B59C549000203FB /* postsTutorial@2x.png */,
 				0CC94F771B59C7B8000203FB /* messagesTutorial@2x.png */,
+				0CF029101B59D090007BC0E1 /* postsTutorial@2x.png */,
 				0CC94F731B59C3F5000203FB /* invitationsTutorial@2x.png */,
 			);
 			path = tutorials;
@@ -998,7 +998,7 @@
 				0C5DC6671AE2E19800C4B38B /* iconComment@2x.png in Resources */,
 				0C4962C91B506C3D00E340E8 /* Myanmar MN.ttc in Resources */,
 				0C8B61751ABD028800BC13C8 /* mastercard.png in Resources */,
-				0CC94F761B59C549000203FB /* postsTutorial@2x.png in Resources */,
+				0CF029111B59D090007BC0E1 /* postsTutorial@2x.png in Resources */,
 				0C8D7D051B5797D200038E3A /* invitations@2x.png in Resources */,
 				0CB419F61B56036000F678BB /* orderHistory@2x.png in Resources */,
 				0C25B2F71B54241A007E7514 /* iconCar@2x.png in Resources */,
