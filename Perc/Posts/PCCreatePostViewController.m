@@ -513,6 +513,23 @@ static NSString *placeholder = @"Description";
     self.post.isVisible = toggleSwitch.on;
 }
 
+- (void)hideFeePicker
+{
+    [UIView animateWithDuration:0.3f
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         CGRect frame = self.feePicker.frame;
+                         frame.origin.y = self.view.frame.size.height;
+                         self.feePicker.frame = frame;
+                         
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+
+}
+
 #pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -546,6 +563,8 @@ static NSString *placeholder = @"Description";
 {
     //    NSLog(@"scrollViewDidScroll: %.2f", scrollView.contentOffset.y);
     [self dismissKeyboard];
+    if (self.feePicker.frame.origin.y < self.view.frame.size.height)
+        [self hideFeePicker];
 }
 
 - (void)resetDelegate
@@ -576,18 +595,7 @@ static NSString *placeholder = @"Description";
 {
     self.post.fee = (int)row;
     self.lblFee.text = (row==0) ? @"Fee: FREE" : [NSString stringWithFormat:@"Fee: %@", self.fees[row]];
-    [UIView animateWithDuration:0.3f
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         CGRect frame = self.feePicker.frame;
-                         frame.origin.y = self.view.frame.size.height;
-                         self.feePicker.frame = frame;
-                         
-                     }
-                     completion:^(BOOL finished){
-                         
-                     }];
+    [self hideFeePicker];
 }
 
 #pragma mark - UITextFieldDelegate
