@@ -46,7 +46,7 @@ static NSString *placeholder = @"Reply";
 - (void)loadView
 {
     UIView *view = [self baseView];
-    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundBlue.png"]];
+    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
     CGRect frame = view.frame;
     
     CGFloat y = 0.0f;
@@ -54,7 +54,6 @@ static NSString *placeholder = @"Reply";
     
     if (self.post.imageData){
         UIImage *postImage = self.post.imageData;
-        
         
         CGFloat width = frame.size.height;
         double scale = width/postImage.size.width;
@@ -71,40 +70,40 @@ static NSString *placeholder = @"Reply";
         [self.backgroundImage.layer insertSublayer:gradient atIndex:0];
         
         [view addSubview:self.backgroundImage];
-        
-        
-        static CGFloat dimen = 88.0f;
-        self.postIcon = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, dimen, dimen)];
-        self.postIcon.image = postImage;
-        self.postIcon.center = CGPointMake(0.5f*frame.size.width, 88.0f);
-        self.postIcon.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-        self.postIcon.layer.cornerRadius = 0.5f*self.postIcon.frame.size.height;
-        self.postIcon.layer.masksToBounds = YES;
-        self.postIcon.layer.borderWidth = 1.0f;
-        self.postIcon.layer.borderColor = [[UIColor whiteColor] CGColor];
-        [view addSubview:self.postIcon];
-        
-        
-        y = self.postIcon.frame.origin.y+self.postIcon.frame.size.height+12.0f;
-        width = frame.size.width-2*x;
-        
-        bounds = [self.post.title boundingRectWithSize:CGSizeMake(width, 40.0f)
-                                               options:NSStringDrawingUsesLineFragmentOrigin
-                                            attributes:@{NSFontAttributeName:[UIFont fontWithName:kBaseFontName size:14.0f]}
-                                               context:nil];
-        
-        
-        self.lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, bounds.size.height)];
-        self.lblTitle.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-        self.lblTitle.numberOfLines = 2;
-        self.lblTitle.lineBreakMode = NSLineBreakByWordWrapping;
-        self.lblTitle.textColor = [UIColor whiteColor];
-        self.lblTitle.textAlignment = NSTextAlignmentCenter;
-        self.lblTitle.font = [UIFont fontWithName:kBaseFontName size:14.0f];
-        self.lblTitle.text = self.post.title;
-        [view addSubview:self.lblTitle];
-        y += self.lblTitle.frame.size.height+20.0f;
     }
+    
+    static CGFloat dimen = 88.0f;
+    self.postIcon = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, dimen, dimen)];
+    self.postIcon.image = (self.post.imageData) ? self.post.imageData : [UIImage imageNamed:@"icon.png"];
+    self.postIcon.center = CGPointMake(0.5f*frame.size.width, 88.0f);
+    self.postIcon.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    self.postIcon.layer.cornerRadius = 0.5f*self.postIcon.frame.size.height;
+    self.postIcon.layer.masksToBounds = YES;
+    self.postIcon.layer.borderWidth = 1.0f;
+    self.postIcon.layer.borderColor = [[UIColor whiteColor] CGColor];
+    [view addSubview:self.postIcon];
+    
+    
+    y = self.postIcon.frame.origin.y+self.postIcon.frame.size.height+12.0f;
+    CGFloat width = frame.size.width-2*x;
+    
+    CGRect bounds = [self.post.title boundingRectWithSize:CGSizeMake(width, 40.0f)
+                                           options:NSStringDrawingUsesLineFragmentOrigin
+                                        attributes:@{NSFontAttributeName:[UIFont fontWithName:kBaseFontName size:14.0f]}
+                                           context:nil];
+    
+    
+    self.lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, bounds.size.height)];
+    self.lblTitle.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    self.lblTitle.numberOfLines = 2;
+    self.lblTitle.lineBreakMode = NSLineBreakByWordWrapping;
+    self.lblTitle.textColor = [UIColor whiteColor];
+    self.lblTitle.textAlignment = NSTextAlignmentCenter;
+    self.lblTitle.font = [UIFont fontWithName:kBaseFontName size:14.0f];
+    self.lblTitle.text = self.post.title;
+    [view addSubview:self.lblTitle];
+    y += self.lblTitle.frame.size.height+20.0f;
+
     
 
     self.theScrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, kNavBarHeight, frame.size.width, frame.size.height)];
