@@ -46,7 +46,7 @@ static NSString *placeholder = @"Reply";
 - (void)loadView
 {
     UIView *view = [self baseView];
-    view.backgroundColor = [UIColor whiteColor];
+    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundBlue.png"]];
     CGRect frame = view.frame;
     
     CGFloat y = 0.0f;
