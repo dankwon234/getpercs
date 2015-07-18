@@ -63,7 +63,7 @@
     
     self.welcomeView = [[PCWelcomeView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
     self.welcomeView.delegate = self;
-    self.welcomeView.backgroundColor = kOrange;
+    self.welcomeView.backgroundColor = [UIColor blackColor];
     self.welcomeView.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
     if (self.profile.isPopulated)
         [self.welcomeView.btnProfile setTitle:@"Your Account" forState:UIControlStateNormal];
