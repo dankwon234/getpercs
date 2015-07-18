@@ -71,7 +71,7 @@
     btnCreate.layer.borderColor = [[UIColor whiteColor] CGColor];
     btnCreate.layer.borderWidth = 2.0f;
     [btnCreate setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    NSString *btnTitle = ([self.post.type isEqualToString:@"event"]) ? @"CREATE EVENT" : @" CREATE POST";
+    NSString *btnTitle = ([self.post.uniqueId isEqualToString:@"none"]) ? @"CREATE EVENT" : @" UPDATE EVENT";
     [btnCreate setTitle:btnTitle forState:UIControlStateNormal];
     [btnCreate addTarget:self action:@selector(createPost:) forControlEvents:UIControlEventTouchUpInside];
     btnCreate.titleLabel.font = [UIFont fontWithName:kBaseBoldFont size:18.0f];
@@ -117,15 +117,39 @@
         return;
     }
 
-    NSDictionary *host = @{@"fullName":[NSString stringWithFormat:@"%@ %@", self.profile.firstName, self.profile.lastName] , @"firstName":self.profile.firstName, @"lastName":self.profile.lastName, @"phoneNumber":self.profile.phone};
-    [self.post.invited addObject:host];
-    [self.post.confirmed addObject:host];
-    self.post.type = @"event"; // private posts default as events for now
-    
-    NSLog(@"createPost: %@", [self.post jsonRepresentation]);
+    if ([self.post.uniqueId isEqualToString:@"none"]){ // this is a new event - create:
+        NSDictionary *host = @{@"fullName":[NSString stringWithFormat:@"%@ %@", self.profile.firstName, self.profile.lastName] , @"firstName":self.profile.firstName, @"lastName":self.profile.lastName, @"phoneNumber":self.profile.phone};
+        [self.post.invited addObject:host];
+        [self.post.confirmed addObject:host];
 
+        NSLog(@"createPost: %@", [self.post jsonRepresentation]);
+        [[PCWebServices sharedInstance] createPost:self.post completion:^(id result, NSError *error){
+            [self.loadingIndicator stopLoading];
+            if (error){
+                [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
+                return;
+            }
+            
+            NSDictionary *results = (NSDictionary *)result;
+            [self.post populate:results[@"post"]];
+            
+            if (self.profile.invited==nil)
+                self.profile.invited = [NSMutableArray array];
+            
+            [self.profile.invited insertObject:self.post atIndex:0];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kPostCreatedNotification object:nil userInfo:@{@"post":self.post}]];
+                
+                NSArray *viewControllers = [self.navigationController viewControllers];
+                [self.navigationController popToViewController:viewControllers[1] animated:YES];
+            });
+        }];
+        return;
+    }
     
-    [[PCWebServices sharedInstance] createPost:self.post completion:^(id result, NSError *error){
+    [[PCWebServices sharedInstance] updatePost:self.post incrementView:NO completion:^(id result, NSError *error){
+        NSLog(@"update Post: %@", [self.post jsonRepresentation]);
         [self.loadingIndicator stopLoading];
         if (error){
             [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
@@ -135,18 +159,13 @@
         NSDictionary *results = (NSDictionary *)result;
         [self.post populate:results[@"post"]];
         
-        if (self.profile.invited==nil)
-            self.profile.invited = [NSMutableArray array];
-        
-        [self.profile.invited insertObject:self.post atIndex:0];
-
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kPostCreatedNotification object:nil userInfo:@{@"post":self.post}]];
-            
             NSArray *viewControllers = [self.navigationController viewControllers];
             [self.navigationController popToViewController:viewControllers[1] animated:YES];
         });
     }];
+
+    
 }
 
 
