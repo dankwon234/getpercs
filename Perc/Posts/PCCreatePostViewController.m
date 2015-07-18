@@ -21,6 +21,7 @@
 @property (strong, nonatomic) UIPickerView *feePicker;
 @property (strong, nonatomic) NSMutableArray *fees;
 @property (nonatomic) BOOL isEditMode;
+@property (strong, nonatomic) UIWebView *venmoWebview;
 @end
 
 static NSString *placeholder = @"Description";
@@ -470,9 +471,11 @@ static NSString *placeholder = @"Description";
                          
                      }
                      completion:^(BOOL finished){
-                         UIAlertView *alert = [self showAlertWithTitle:@"Venmo" message:@"PERC uses Venmo to facilitate payments between users. If you are charging for your event, please sign up for Venmo today." buttons:@"Sign Up"];
-                         alert.delegate = self;
-                         
+                         if ([self.profile.venmoId isEqualToString:@"none"]) {
+                             UIAlertView *alert = [self showAlertWithTitle:@"Venmo" message:@"PERC uses Venmo to facilitate payments between users. If you are charging for your event, please sign up for Venmo today." buttons:@"Log In"];
+                             alert.tag = 1000;
+                             alert.delegate = self;
+                         }
                      }];
 }
 
@@ -530,14 +533,71 @@ static NSString *placeholder = @"Description";
 
 }
 
+- (void)fetchVenmoProfileInformation:(NSString *)accessToken
+{
+    [[PCWebServices sharedInstance] fetchVenmoProfile:accessToken completion:^(id result, NSError *error){
+        if (error){
+            [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
+            return;
+        }
+        
+        
+        NSLog(@"%@", [result description]);
+        NSDictionary *user = result[@"user"];
+        self.profile.venmoId = user[@"id"];
+        [self.profile updateProfile];
+
+        if (self.venmoWebview==nil)
+            return;
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.loadingIndicator stopLoading];
+            [UIView animateWithDuration:0.35f
+                                  delay:0
+                                options:UIViewAnimationOptionCurveEaseInOut
+                             animations:^{
+                                 CGRect frame = self.venmoWebview.frame;
+                                 frame.origin.y = self.view.frame.size.height;
+                                 self.venmoWebview.frame = frame;
+                             }
+                             completion:^(BOOL finished){
+                                 self.venmoWebview.delegate = nil;
+                                 [self.venmoWebview removeFromSuperview];
+                                 self.venmoWebview = nil;
+                             }];
+            
+        });
+        
+    }];
+
+}
+
+
 #pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSLog(@"alertView clickedButtonAtIndex: %d", (int)buttonIndex);
-    if (buttonIndex==0)
-        return;
+    if (alertView.tag==1000){
+        // User HAS to login to Venmo from here:
+        NSString *authUrl = @"https://api.venmo.com/v1/oauth/authorize?client_id=2765&scope=make_payments%20access_profile";
+        CGRect frame = self.view.frame;
+        self.venmoWebview = [[UIWebView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, frame.size.height)];
+        self.venmoWebview.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        self.venmoWebview.delegate = self;
+        [self.venmoWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:authUrl]]];
+        [self.view addSubview:self.venmoWebview];
+        
+        [UIView animateWithDuration:0.5f
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             self.venmoWebview.frame = CGRectMake(0.0f, 0.0f, self.venmoWebview.frame.size.width, self.venmoWebview.frame.size.height);
+                         }
+                         completion:^(BOOL finished){
+                             
+                         }];
+    }
     
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/us/app/venmo/id351727428?mt=8"]];
 }
 
 
@@ -553,7 +613,6 @@ static NSString *placeholder = @"Description";
     if (buttonIndex==1){
         [self launchImageSelector:UIImagePickerControllerSourceTypeCamera];
     }
-    
 }
 
 
@@ -633,6 +692,31 @@ static NSString *placeholder = @"Description";
     }
     
     return YES;
+}
+
+
+#pragma mark - UIWebViewDelegate
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    NSString *urlString = request.URL.absoluteString;
+    NSLog(@"webView shouldStartLoadWithRequest: %@", urlString);
+    
+    [self.view bringSubviewToFront:self.loadingIndicator];
+    [self.loadingIndicator startLoading];
+    
+    if ([urlString hasPrefix:@"http://www.getpercs.com"]){
+        NSArray *parts = [urlString componentsSeparatedByString:@"="];
+        NSString *accessToken = [parts lastObject];
+        [self fetchVenmoProfileInformation:accessToken];
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    [self.loadingIndicator stopLoading];
 }
 
 
