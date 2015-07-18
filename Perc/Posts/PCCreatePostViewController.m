@@ -273,12 +273,14 @@ static NSString *placeholder = @"Description";
     [view addSubview:self.theScrollview];
     self.theScrollview.contentSize = CGSizeMake(0, y);
     
-    self.feePicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, 180.0f)];
-    self.feePicker.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    self.feePicker.dataSource = self;
-    self.feePicker.delegate = self;
-    self.feePicker.backgroundColor = [UIColor whiteColor];
-    [view addSubview:self.feePicker];
+    if (self.isEvent){
+        self.feePicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0.0f, frame.size.height, frame.size.width, 180.0f)];
+        self.feePicker.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        self.feePicker.dataSource = self;
+        self.feePicker.delegate = self;
+        self.feePicker.backgroundColor = [UIColor whiteColor];
+        [view addSubview:self.feePicker];
+    }
     
     
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
