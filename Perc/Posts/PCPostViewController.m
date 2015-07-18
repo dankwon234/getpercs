@@ -578,7 +578,7 @@
     [[PCWebServices sharedInstance] submitVenmoPayment:accessToken
                                                 amount:self.post.fee
                                              recipient:rec
-                                                  note:[NSString stringWithFormat:@"PAYMENT: %@", self.post.title]
+                                                  note:[NSString stringWithFormat:@"PERC: %@", self.post.title]
                                             completion:^(id result, NSError *error){
                                                 if (error) {
                                                     NSLog(@"ERROR: %@", [error localizedDescription]);
@@ -590,9 +590,31 @@
                                                     NSLog(@"%@", [result description]);
                                                     [self.post.confirmed addObject:[self.profile contactInfoDict]];
                                                     [self updatePostWithReply:YES];
+                                                    
+                                                    // add venmoId to user profile if not there already:
+                                                    if ([self.profile.venmoId isEqualToString:@"none"])
+                                                        [self fetchVenmoProfileInformation:accessToken];
                                                 });
                                             }];
 }
+
+- (void)fetchVenmoProfileInformation:(NSString *)accessToken
+{
+    [[PCWebServices sharedInstance] fetchVenmoProfile:accessToken completion:^(id result, NSError *error){
+        if (error){
+            [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
+            return;
+        }
+        
+//        NSLog(@"%@", [result description]);
+        NSDictionary *user = result[@"user"];
+        self.profile.venmoId = user[@"id"];
+        [self.profile updateProfile];
+    }];
+}
+
+
+
 
 #pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -813,7 +835,7 @@
                              self.venmoWebview = nil;
                              
                              dispatch_async(dispatch_get_main_queue(), ^{
-                                 [self sendVenmoPayment:accessToken toRecipient:self.post.profile.email];
+                                 [self sendVenmoPayment:accessToken toRecipient:self.post.profile.venmoId];
                              });
                          }];
         
