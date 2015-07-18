@@ -716,24 +716,29 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
           }];
 }
 
-
-
-
-- (AFHTTPRequestOperationManager *)requestManagerForJSONSerializiation:(NSString *)baseUrl
+- (void)fetchVenmoProfile:(NSString *)accessToken completion:(PCWebServiceRequestCompletionBlock)completionBlock;
 {
-    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:baseUrl]];
-    AFSecurityPolicy *policy = [[AFSecurityPolicy alloc] init];
-    policy.allowInvalidCertificates = YES;
-    manager.securityPolicy = policy;
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
-    return manager;
-}
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    [manager GET:@"https://api.venmo.com/v1/me"
+      parameters:@{@"access_token":accessToken}
+         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             NSDictionary *response = (NSDictionary *)responseObject;
+             
+             if (response[@"data"]==nil)
+                 response = response[@"data"];
 
+             if (completionBlock)
+                 completionBlock(response, nil);
+             return;
+             
+         }
+         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+             NSLog(@"FAILURE BLOCK: %@", [error localizedDescription]);
+             if (completionBlock)
+                 completionBlock(nil, error);
+         }];
 
-- (AFHTTPRequestOperationManager *)requestManagerForJSONSerializiation
-{
-    return [self requestManagerForJSONSerializiation:kBaseUrl];
 }
 
 
@@ -764,6 +769,26 @@ constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
     int result = setxattr(filePath, attrName, &attrValue, sizeof(attrValue), 0, 0);
     return result == 0;
 }
+
+
+#pragma mark - Misc
+- (AFHTTPRequestOperationManager *)requestManagerForJSONSerializiation:(NSString *)baseUrl
+{
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:baseUrl]];
+    AFSecurityPolicy *policy = [[AFSecurityPolicy alloc] init];
+    policy.allowInvalidCertificates = YES;
+    manager.securityPolicy = policy;
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    return manager;
+}
+
+
+- (AFHTTPRequestOperationManager *)requestManagerForJSONSerializiation
+{
+    return [self requestManagerForJSONSerializiation:kBaseUrl];
+}
+
 
 
 
