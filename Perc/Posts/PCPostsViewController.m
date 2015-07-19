@@ -210,8 +210,8 @@ static NSString *cellId = @"cellId";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.postsTable reloadData];
     
+    [self.postsTable reloadData];
     NSArray *sourceArray = (self.mode==0) ? self.profile.posts : self.profile.invited;
     if (sourceArray.count > 0){
         self.tutorialView.alpha = 0.0f;
