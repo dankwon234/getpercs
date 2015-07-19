@@ -79,11 +79,11 @@
     PCContactCell *cell = (PCContactCell *)[tableView dequeueReusableCellWithIdentifier:cellId];
     if (cell==nil){
         cell = [[PCContactCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell.imgCheckmark.image = nil;
     }
     
     NSDictionary *contactInfo = self.post.confirmed[indexPath.row];
     cell.lblName.text = contactInfo[@"fullName"];
-    cell.imgCheckmark.image = nil;
     return cell;
 }
 
