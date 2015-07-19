@@ -351,9 +351,10 @@ static NSString *cellId = @"cellId";
         return;
     }
     
-    PCPostViewController *postVc = [[PCPostViewController alloc] init];
-    postVc.post = (PCPost *)self.profile.invited[indexPath.row];
-    [self.navigationController pushViewController:postVc animated:YES];
+    // this is an event user was invited to:
+    PCPostViewController *eventVc = [[PCPostViewController alloc] init];
+    eventVc.post = (PCPost *)self.profile.invited[indexPath.row];
+    [self.navigationController pushViewController:eventVc animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
