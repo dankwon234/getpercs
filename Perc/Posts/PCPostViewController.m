@@ -306,6 +306,9 @@
     if (self.post.imageData)
         return;
     
+    if ([self.post.image isEqualToString:@"none"])
+        return;
+    
     [self.post addObserver:self forKeyPath:@"imageData" options:0 context:nil];
     [self.post fetchImage];
 
