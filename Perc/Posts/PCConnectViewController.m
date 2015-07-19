@@ -142,7 +142,8 @@ static NSString *placeholder = @"Reply";
     btnReply.layer.cornerRadius = 0.5f*h;
     btnReply.layer.masksToBounds = YES;
     btnReply.layer.borderColor = [[UIColor whiteColor] CGColor];
-    btnReply.layer.borderWidth = 1.0f;
+    btnReply.layer.borderWidth = 2.0f;
+    btnReply.titleLabel.font = [UIFont fontWithName:kBaseBoldFont size:18.0f];
     [btnReply setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [btnReply setTitle:@"SEND REPLY" forState:UIControlStateNormal];
     [btnReply addTarget:self action:@selector(submitReply:) forControlEvents:UIControlEventTouchUpInside];
@@ -267,7 +268,6 @@ static NSString *placeholder = @"Reply";
     }
     
     self.theScrollview.delegate = nil;
-//    [self.theScrollview setContentOffset:CGPointMake(0, 80.0f) animated:YES];
     [self.theScrollview setContentOffset:CGPointMake(0, 144.0f) animated:YES];
     [self performSelector:@selector(resetDelegate) withObject:nil afterDelay:0.6f];
     
