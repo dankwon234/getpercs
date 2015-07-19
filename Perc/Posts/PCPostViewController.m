@@ -525,6 +525,7 @@
             return;
         }
         
+        [self.loadingIndicator stopLoading];
         NSDictionary *results = (NSDictionary *)result;
         [self.post populate:results[@"post"]];
 
@@ -819,6 +820,7 @@
     NSString *urlString = request.URL.absoluteString;
     NSLog(@"webView shouldStartLoadWithRequest: %@", urlString);
     
+    [self.loadingIndicator startLoading];
     if ([urlString hasPrefix:@"http://www.getpercs.com"]){
         NSArray *parts = [urlString componentsSeparatedByString:@"="];
         NSString *accessToken = [parts lastObject];
@@ -845,6 +847,12 @@
     }
     
     return YES;
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    [self.loadingIndicator stopLoading];
+    
 }
 
 
