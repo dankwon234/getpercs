@@ -100,6 +100,9 @@
     self.timestamp = [self.dateFormatter dateFromString:info[@"timestamp"]];
     self.formattedDate = [self formatTimestamp];
     
+    if ([self.image isEqualToString:@"none"])
+        self.imageData = [UIImage imageNamed:@"placeholder.png"];
+    
     NSArray *z = info[@"zones"];
     for (int i=0; i<z.count; i++)
         [self.zones addObject:z[i]];
