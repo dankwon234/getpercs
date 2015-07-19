@@ -309,6 +309,8 @@
     if ([self.post.image isEqualToString:@"none"])
         return;
     
+    NSLog(@"FETCH POST IAMGE: %@", self.post.image);
+    
     [self.post addObserver:self forKeyPath:@"imageData" options:0 context:nil];
     [self.post fetchImage];
 
@@ -792,9 +794,6 @@
         PCGuestsViewController *guestsVc = [[PCGuestsViewController alloc] init];
         guestsVc.post = self.post;
         [self.navigationController pushViewController:guestsVc animated:YES];
-
-
-        
     }
     
 }
