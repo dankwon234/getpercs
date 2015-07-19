@@ -26,6 +26,11 @@
         CGFloat dimen = kCellHeight-2*padding;
         self.postIcon = [[UIImageView alloc] initWithFrame:CGRectMake(padding, padding, dimen, dimen)];
         self.postIcon.backgroundColor = [UIColor redColor];
+        self.postIcon.layer.shadowColor = [[UIColor blackColor] CGColor];
+        self.postIcon.layer.shadowOffset = CGSizeMake(1.0f, 1.0f);
+        self.postIcon.layer.shadowOpacity = 0.85f;
+        self.postIcon.layer.shadowRadius = 1.0f;
+        self.postIcon.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.postIcon.bounds].CGPath;
         [self.contentView addSubview:self.postIcon];
         
         CGFloat x = 2*padding+dimen;
