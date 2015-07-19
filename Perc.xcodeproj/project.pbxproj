@@ -49,6 +49,7 @@
 		0C437C081B4F47DB0089F4FA /* background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C437C071B4F47DB0089F4FA /* background@2x.png */; };
 		0C4962C61B5066EE00E340E8 /* logoTransparent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C4962C51B5066EE00E340E8 /* logoTransparent@2x.png */; };
 		0C4962C91B506C3D00E340E8 /* Myanmar MN.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 0C4962C81B506C3D00E340E8 /* Myanmar MN.ttc */; };
+		0C4C969F1B5B5C6100F90AB5 /* placeholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C4C969E1B5B5C6100F90AB5 /* placeholder@2x.png */; };
 		0C5819D31B51A32D001410B2 /* backgroundBlue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5819D21B51A32D001410B2 /* backgroundBlue@2x.png */; };
 		0C5DC6671AE2E19800C4B38B /* iconComment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5DC6661AE2E19800C4B38B /* iconComment@2x.png */; };
 		0C5DC6691AE2E27500C4B38B /* iconView@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5DC6681AE2E27500C4B38B /* iconView@2x.png */; };
@@ -236,6 +237,7 @@
 		0C437C071B4F47DB0089F4FA /* background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background@2x.png"; sourceTree = "<group>"; };
 		0C4962C51B5066EE00E340E8 /* logoTransparent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logoTransparent@2x.png"; sourceTree = "<group>"; };
 		0C4962C81B506C3D00E340E8 /* Myanmar MN.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Myanmar MN.ttc"; sourceTree = "<group>"; };
+		0C4C969E1B5B5C6100F90AB5 /* placeholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder@2x.png"; sourceTree = "<group>"; };
 		0C5819D21B51A32D001410B2 /* backgroundBlue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backgroundBlue@2x.png"; sourceTree = "<group>"; };
 		0C5DC6661AE2E19800C4B38B /* iconComment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconComment@2x.png"; sourceTree = "<group>"; };
 		0C5DC6681AE2E27500C4B38B /* iconView@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconView@2x.png"; sourceTree = "<group>"; };
@@ -727,6 +729,7 @@
 				0C25B2F61B54241A007E7514 /* iconCar@2x.png */,
 				0C4962C51B5066EE00E340E8 /* logoTransparent@2x.png */,
 				0C6A0A8A1B48F9300033CF93 /* dots@2x.png */,
+				0C4C969E1B5B5C6100F90AB5 /* placeholder@2x.png */,
 				0C676E141AE36271001B14B7 /* iconEnvelope@2x.png */,
 				0C676E121AE32FB2001B14B7 /* bgPost@2x.png */,
 				0C5DC6661AE2E19800C4B38B /* iconComment@2x.png */,
@@ -1024,6 +1027,7 @@
 				0C8B61691ABD028800BC13C8 /* amex.png in Resources */,
 				0C8D7D081B579F0600038E3A /* iconPeople@2x.png in Resources */,
 				0C8B616C1ABD028800BC13C8 /* cvc-amex@2x.png in Resources */,
+				0C4C969F1B5B5C6100F90AB5 /* placeholder@2x.png in Resources */,
 				0CADEF631B575AD800F9262E /* Montserrat-Bold.ttf in Resources */,
 				0C676E151AE36271001B14B7 /* iconEnvelope@2x.png in Resources */,
 				0C8B616D1ABD028800BC13C8 /* cvc.png in Resources */,
