@@ -56,6 +56,7 @@
 
 - (void)dealloc
 {
+    [self clearObserved:@"imageData"];
     [self.theTableview removeObserver:self forKeyPath:@"contentOffset"];
 }
 
@@ -310,6 +311,7 @@
     NSLog(@"FETCH POST IAMGE: %@", self.post.image);
     
     [self.post addObserver:self forKeyPath:@"imageData" options:0 context:nil];
+    [self.observed addObject:self.post];
     [self.post fetchImage];
 
 }
@@ -343,6 +345,8 @@
 {
     if ([keyPath isEqualToString:@"imageData"]){
         [object removeObserver:self forKeyPath:@"imageData"];
+        [self.observed removeObject:object];
+
         
         CGFloat width = self.view.frame.size.width;
         CGFloat height = self.view.frame.size.width;
