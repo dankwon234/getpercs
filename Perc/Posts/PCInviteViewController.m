@@ -40,6 +40,12 @@
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
     CGRect frame = view.frame;
     
+    UIImageView *inviteMessage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"inviteMessage.png"]];
+    inviteMessage.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    inviteMessage.center = CGPointMake(0.5f*frame.size.width, 110.0f);
+    [view addSubview:inviteMessage];
+    
+    
     self.contactsTable = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height) style:UITableViewStylePlain];
     self.contactsTable.dataSource = self;
     self.contactsTable.delegate = self;
@@ -47,18 +53,19 @@
     self.contactsTable.showsVerticalScrollIndicator = NO;
     self.contactsTable.separatorStyle = UITableViewCellSelectionStyleNone;
     self.contactsTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, 110.0f)];
-    self.contactsTable.contentInset = UIEdgeInsetsMake(180.0f, 0, 0, 0);
+    self.contactsTable.contentInset = UIEdgeInsetsMake(220.0f, 0, 0, 0);
     self.contactsTable.backgroundColor = [UIColor clearColor];
+    self.contactsTable.alpha = 0.0f;
     [view addSubview:self.contactsTable];
     
     
     
-    CGFloat y = frame.size.height-110.f;
+    CGFloat y = frame.size.height-100.f;
     CGFloat h = 44.0f;
     CGFloat x = 16.0f;
     CGFloat width = frame.size.width-2*x;
 
-    UIView *bgCreate = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 110.0f)];
+    UIView *bgCreate = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, frame.size.width, 100.0f)];
     bgCreate.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     bgCreate.backgroundColor = [UIColor grayColor];
     
@@ -300,6 +307,16 @@
     [self.contactList sortUsingDescriptors:@[descriptor]];
     
     [self.contactsTable reloadData];
+    
+    [UIView animateWithDuration:0.35f
+                          delay:0
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         self.contactsTable.alpha = 1.0f;
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
 }
 
 
