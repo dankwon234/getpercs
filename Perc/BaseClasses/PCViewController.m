@@ -16,6 +16,7 @@
 @synthesize currentZone;
 @synthesize locationMgr;
 @synthesize session;
+@synthesize observed;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -28,6 +29,7 @@
         self.currentZone = [PCZone sharedZone];
         self.session = [PCSession sharedSession];
         self.locationMgr = [PCLocationManager sharedLocationManager];
+        self.observed = [NSMutableArray array];
     }
     
     return self;
@@ -58,6 +60,17 @@
     view.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
     
     return view;
+}
+
+- (void)clearObserved:(NSString *)keyPath
+{
+    if (self.observed.count==0)
+        return;
+    
+    for (id object in self.observed)
+        [object removeObserver:self forKeyPath:keyPath];
+    
+    self.observed = [NSMutableArray array];
 }
 
 //- (void)addNavigationTitleView

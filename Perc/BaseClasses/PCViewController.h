@@ -23,6 +23,7 @@
 @property (strong, nonatomic) PCZone *currentZone;
 @property (strong, nonatomic) PCSession *session;
 @property (strong, nonatomic) PCLocationManager *locationMgr;
+@property (strong, nonatomic) NSMutableArray *observed;
 - (UIView *)baseView;
 - (UIView *)baseViewWithNavBar;
 - (UIAlertView *)showAlertWithTitle:(NSString *)title message:(NSString *)msg buttons:(NSString *)btns;
@@ -38,4 +39,5 @@
 - (void)showAccountView;
 - (void)viewMenu:(id)sender;
 - (void)back:(UIButton *)btn;
+- (void)clearObserved:(NSString *)keyPath;
 @end
