@@ -68,21 +68,19 @@
     
     CGFloat width = frame.size.width;
     CGFloat height = frame.size.width;
-    if (self.post.imageData){
-        double scale = width/self.post.imageData.size.width;
-        height = scale*self.post.imageData.size.height;
-        self.backgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, width, height)];
+    self.backgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, width, height)];
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    CGRect bounds = self.backgroundImage.bounds;
+    bounds.size.height *= 0.6f;
+    gradient.frame = bounds;
+    gradient.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.7f] CGColor], (id)[[UIColor clearColor] CGColor]];
+    [self.backgroundImage.layer insertSublayer:gradient atIndex:0];
+    
+    if (self.post.imageData)
         self.backgroundImage.image = self.post.imageData;
-        
-        CAGradientLayer *gradient = [CAGradientLayer layer];
-        CGRect bounds = self.backgroundImage.bounds;
-        bounds.size.height *= 0.6f;
-        gradient.frame = bounds;
-        gradient.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.7f] CGColor], (id)[[UIColor clearColor] CGColor]];
-        [self.backgroundImage.layer insertSublayer:gradient atIndex:0];
-        [view addSubview:self.backgroundImage];
 
-    }
+    [view addSubview:self.backgroundImage];
+
     
     self.theTableview = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
     self.theTableview.dataSource = self;
@@ -345,6 +343,19 @@
 {
     if ([keyPath isEqualToString:@"imageData"]){
         [object removeObserver:self forKeyPath:@"imageData"];
+        
+        CGFloat width = self.view.frame.size.width;
+        CGFloat height = self.view.frame.size.width;
+
+        double scale = width/self.post.imageData.size.width;
+        height = scale*self.post.imageData.size.height;
+        
+        CGRect frame = self.backgroundImage.frame;
+        frame.size.height = height;
+        self.backgroundImage.frame = frame;
+
+        
+        
         self.backgroundImage.image = self.post.imageData;
     }
     
