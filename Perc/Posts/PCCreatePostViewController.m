@@ -186,7 +186,7 @@ static NSString *placeholder = @"Description";
         
         self.lblFee = [[UILabel alloc] initWithFrame:CGRectMake(12.0f, 0.0f, frame.size.width-24.0f, 44.0f)];
         self.lblFee.font = baseFont;
-        self.lblFee.text = @"Fee: FREE";
+        self.lblFee.text = (self.post.fee==0.0f) ? @"Fee: FREE" : [NSString stringWithFormat:@"$%d.00", self.post.fee];
         [bgFee addSubview:self.lblFee];
         
         [self.theScrollview addSubview:bgFee];
