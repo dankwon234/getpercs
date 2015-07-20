@@ -43,6 +43,8 @@
 		0C333F541ADF9A280005DD84 /* PCPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C333F531ADF9A280005DD84 /* PCPost.m */; };
 		0C333F571ADFA0F30005DD84 /* PCPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C333F561ADFA0F30005DD84 /* PCPostsViewController.m */; };
 		0C34CB1C1B1914FE0056A0B3 /* PCContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C34CB1B1B1914FE0056A0B3 /* PCContactCell.m */; };
+		0C39AD661B5DA69E003860DB /* posts@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C39AD651B5DA69E003860DB /* posts@2x.png */; };
+		0C39AD681B5DA6CF003860DB /* events@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C39AD671B5DA6CF003860DB /* events@2x.png */; };
 		0C3B25491B546B9600EBD436 /* PCPostTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C3B25481B546B9600EBD436 /* PCPostTableCell.m */; };
 		0C3B254D1B54720A00EBD436 /* dropShadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C3B254C1B54720A00EBD436 /* dropShadow@2x.png */; };
 		0C3B254F1B54836100EBD436 /* iconCamera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C3B254E1B54836100EBD436 /* iconCamera@2x.png */; };
@@ -118,8 +120,6 @@
 		0C8B617D1ABD028800BC13C8 /* textfield@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C8B615F1ABD028800BC13C8 /* textfield@2x.png */; };
 		0C8B617F1ABD034400BC13C8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C8B617E1ABD034400BC13C8 /* QuartzCore.framework */; };
 		0C8B61881ABD20F000BC13C8 /* PCCreditCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B61871ABD20F000BC13C8 /* PCCreditCardViewController.m */; };
-		0C8D7D041B5797D200038E3A /* posts@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C8D7D011B5797D200038E3A /* posts@2x.png */; };
-		0C8D7D051B5797D200038E3A /* invitations@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C8D7D021B5797D200038E3A /* invitations@2x.png */; };
 		0C8D7D061B5797D200038E3A /* messages@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C8D7D031B5797D200038E3A /* messages@2x.png */; };
 		0C8D7D081B579F0600038E3A /* iconPeople@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C8D7D071B579F0600038E3A /* iconPeople@2x.png */; };
 		0C91E7671AC0EB19006D7F1D /* PCDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C91E7661AC0EB19006D7F1D /* PCDateFormatter.m */; };
@@ -230,6 +230,8 @@
 		0C333F561ADFA0F30005DD84 /* PCPostsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCPostsViewController.m; sourceTree = "<group>"; };
 		0C34CB1A1B1914FE0056A0B3 /* PCContactCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCContactCell.h; sourceTree = "<group>"; };
 		0C34CB1B1B1914FE0056A0B3 /* PCContactCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCContactCell.m; sourceTree = "<group>"; };
+		0C39AD651B5DA69E003860DB /* posts@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "posts@2x.png"; sourceTree = "<group>"; };
+		0C39AD671B5DA6CF003860DB /* events@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "events@2x.png"; sourceTree = "<group>"; };
 		0C3B25471B546B9600EBD436 /* PCPostTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPostTableCell.h; sourceTree = "<group>"; };
 		0C3B25481B546B9600EBD436 /* PCPostTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCPostTableCell.m; sourceTree = "<group>"; };
 		0C3B254C1B54720A00EBD436 /* dropShadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropShadow@2x.png"; sourceTree = "<group>"; };
@@ -348,8 +350,6 @@
 		0C8B617E1ABD034400BC13C8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0C8B61861ABD20F000BC13C8 /* PCCreditCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCreditCardViewController.h; sourceTree = "<group>"; };
 		0C8B61871ABD20F000BC13C8 /* PCCreditCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCreditCardViewController.m; sourceTree = "<group>"; };
-		0C8D7D011B5797D200038E3A /* posts@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "posts@2x.png"; sourceTree = "<group>"; };
-		0C8D7D021B5797D200038E3A /* invitations@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "invitations@2x.png"; sourceTree = "<group>"; };
 		0C8D7D031B5797D200038E3A /* messages@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "messages@2x.png"; sourceTree = "<group>"; };
 		0C8D7D071B579F0600038E3A /* iconPeople@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconPeople@2x.png"; sourceTree = "<group>"; };
 		0C91E7651AC0EB19006D7F1D /* PCDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCDateFormatter.h; sourceTree = "<group>"; };
@@ -718,8 +718,8 @@
 				0C20C21F1B57F91800E6952A /* iconCheckmarkWhite@2x.png */,
 				0CE06F951B58B89A00E344DB /* iconDecline@2x.png */,
 				0C1E4EC01B197B09001B840E /* iconCheckmark@2x.png */,
-				0C8D7D011B5797D200038E3A /* posts@2x.png */,
-				0C8D7D021B5797D200038E3A /* invitations@2x.png */,
+				0C39AD651B5DA69E003860DB /* posts@2x.png */,
+				0C39AD671B5DA6CF003860DB /* events@2x.png */,
 				0C8D7D031B5797D200038E3A /* messages@2x.png */,
 				0CB419F41B56036000F678BB /* orderHistory@2x.png */,
 				0C3B254C1B54720A00EBD436 /* dropShadow@2x.png */,
@@ -999,10 +999,10 @@
 				0C8B617D1ABD028800BC13C8 /* textfield@2x.png in Resources */,
 				0C20C2221B57F9A400E6952A /* icon@2x.png in Resources */,
 				0C5DC6671AE2E19800C4B38B /* iconComment@2x.png in Resources */,
+				0C39AD661B5DA69E003860DB /* posts@2x.png in Resources */,
 				0C4962C91B506C3D00E340E8 /* Myanmar MN.ttc in Resources */,
 				0C8B61751ABD028800BC13C8 /* mastercard.png in Resources */,
 				0CF029111B59D090007BC0E1 /* postsTutorial@2x.png in Resources */,
-				0C8D7D051B5797D200038E3A /* invitations@2x.png in Resources */,
 				0CB419F61B56036000F678BB /* orderHistory@2x.png in Resources */,
 				0C25B2F71B54241A007E7514 /* iconCar@2x.png in Resources */,
 				0CE06F961B58B89A00E344DB /* iconDecline@2x.png in Resources */,
@@ -1012,13 +1012,13 @@
 				0C5DC6691AE2E27500C4B38B /* iconView@2x.png in Resources */,
 				0CC94F741B59C3F5000203FB /* invitationsTutorial@2x.png in Resources */,
 				0C4962C61B5066EE00E340E8 /* logoTransparent@2x.png in Resources */,
+				0C39AD681B5DA6CF003860DB /* events@2x.png in Resources */,
 				0C3B254D1B54720A00EBD436 /* dropShadow@2x.png in Resources */,
 				0C25B2F31B5422A5007E7514 /* iconInfo@2x.png in Resources */,
 				0CA0DE671ABA22EE00537419 /* iconHamburger@2x.png in Resources */,
 				0CDEF4CB1B59786100E9D705 /* bgLosAngeles@2x.png in Resources */,
 				0C8B61731ABD028800BC13C8 /* jcb.png in Resources */,
 				0CC94F7A1B59CAA7000203FB /* backgroundLights@2x.png in Resources */,
-				0C8D7D041B5797D200038E3A /* posts@2x.png in Resources */,
 				0C8B61781ABD028800BC13C8 /* placeholder@2x.png in Resources */,
 				0C1E4EC11B197B09001B840E /* iconCheckmark@2x.png in Resources */,
 				0CADEF641B575AD800F9262E /* Montserrat-Regular.ttf in Resources */,

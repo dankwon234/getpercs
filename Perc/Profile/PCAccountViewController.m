@@ -90,9 +90,8 @@ static NSString *placeholder = @"Bio";
     self.btnInvitations = [UIButton buttonWithType:UIButtonTypeCustom];
     self.btnOrderHistory = [UIButton buttonWithType:UIButtonTypeCustom];
     
-//    NSArray *buttons = @[self.btnMessages, self.btnPosts, self.btnInvitations, self.btnOrderHistory];
     NSArray *buttons = @[self.btnMessages, self.btnPosts, self.btnInvitations];
-    NSArray *icons = @[@"messages.png", @"posts.png", @"invitations.png", @"orderHistory.png"];
+    NSArray *icons = @[@"messages.png", @"posts.png", @"events.png", @"orderHistory.png"];
     CGFloat offset = frame.size.width/((double)buttons.count+1.0f);
     for (int i=0; i<buttons.count; i++) {
         UIButton *btn = buttons[i];
