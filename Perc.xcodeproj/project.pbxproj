@@ -45,6 +45,7 @@
 		0C34CB1C1B1914FE0056A0B3 /* PCContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C34CB1B1B1914FE0056A0B3 /* PCContactCell.m */; };
 		0C39AD661B5DA69E003860DB /* posts@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C39AD651B5DA69E003860DB /* posts@2x.png */; };
 		0C39AD681B5DA6CF003860DB /* events@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C39AD671B5DA6CF003860DB /* events@2x.png */; };
+		0C39AD6C1B5DBEC9003860DB /* inviteMessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C39AD6B1B5DBEC9003860DB /* inviteMessage@2x.png */; };
 		0C3B25491B546B9600EBD436 /* PCPostTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C3B25481B546B9600EBD436 /* PCPostTableCell.m */; };
 		0C3B254D1B54720A00EBD436 /* dropShadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C3B254C1B54720A00EBD436 /* dropShadow@2x.png */; };
 		0C3B254F1B54836100EBD436 /* iconCamera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C3B254E1B54836100EBD436 /* iconCamera@2x.png */; };
@@ -232,6 +233,7 @@
 		0C34CB1B1B1914FE0056A0B3 /* PCContactCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCContactCell.m; sourceTree = "<group>"; };
 		0C39AD651B5DA69E003860DB /* posts@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "posts@2x.png"; sourceTree = "<group>"; };
 		0C39AD671B5DA6CF003860DB /* events@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "events@2x.png"; sourceTree = "<group>"; };
+		0C39AD6B1B5DBEC9003860DB /* inviteMessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "inviteMessage@2x.png"; sourceTree = "<group>"; };
 		0C3B25471B546B9600EBD436 /* PCPostTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPostTableCell.h; sourceTree = "<group>"; };
 		0C3B25481B546B9600EBD436 /* PCPostTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCPostTableCell.m; sourceTree = "<group>"; };
 		0C3B254C1B54720A00EBD436 /* dropShadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropShadow@2x.png"; sourceTree = "<group>"; };
@@ -718,6 +720,7 @@
 				0C20C21F1B57F91800E6952A /* iconCheckmarkWhite@2x.png */,
 				0CE06F951B58B89A00E344DB /* iconDecline@2x.png */,
 				0C1E4EC01B197B09001B840E /* iconCheckmark@2x.png */,
+				0C39AD6B1B5DBEC9003860DB /* inviteMessage@2x.png */,
 				0C39AD651B5DA69E003860DB /* posts@2x.png */,
 				0C39AD671B5DA6CF003860DB /* events@2x.png */,
 				0C8D7D031B5797D200038E3A /* messages@2x.png */,
@@ -990,6 +993,7 @@
 				0C0F2F451ABCF55900DBFD8F /* Info.plist in Resources */,
 				0C6138CE1AB8E6A700D12C50 /* Images.xcassets in Resources */,
 				0C8B61721ABD028800BC13C8 /* discover@2x.png in Resources */,
+				0C39AD6C1B5DBEC9003860DB /* inviteMessage@2x.png in Resources */,
 				0C8B61761ABD028800BC13C8 /* mastercard@2x.png in Resources */,
 				0C8B616E1ABD028800BC13C8 /* cvc@2x.png in Resources */,
 				0CA0DE7F1ABA515400537419 /* backArrow@2x.png in Resources */,
