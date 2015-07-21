@@ -54,10 +54,10 @@
     [self.navCtr willMoveToParentViewController:self];
     [view addSubview:self.navCtr.view];
     
-    if (self.profile.isPopulated){
-        self.view = view;
-        return;
-    }
+//    if (self.profile.isPopulated){
+//        self.view = view;
+//        return;
+//    }
     
     [self.profile addObserver:self forKeyPath:@"isPopulated" options:0 context:nil];
     
