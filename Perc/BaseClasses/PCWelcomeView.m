@@ -45,7 +45,7 @@
         self.btnEnter.layer.cornerRadius = 0.5f*h;
         self.btnEnter.layer.masksToBounds = YES;
         self.btnEnter.layer.borderColor = [[UIColor whiteColor] CGColor];
-        self.btnEnter.layer.borderWidth = 1.0f;
+        self.btnEnter.layer.borderWidth = 2.0f;
         self.btnEnter.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
         [self.btnEnter setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self.btnEnter setTitle:@"Enter" forState:UIControlStateNormal];
@@ -62,7 +62,7 @@
         self.btnProfile.layer.cornerRadius = 0.5f*h;
         self.btnProfile.layer.masksToBounds = YES;
         self.btnProfile.layer.borderColor = [[UIColor whiteColor] CGColor];
-        self.btnProfile.layer.borderWidth = 1.0f;
+        self.btnProfile.layer.borderWidth = 2.0f;
         self.btnProfile.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
         [self.btnProfile setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self.btnProfile setTitle:@"Log In" forState:UIControlStateNormal];
