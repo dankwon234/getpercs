@@ -10,6 +10,11 @@
 #import "UIImage+PQImageEffects.h"
 
 
+@interface PCPostView ()
+@property (strong, nonatomic) UIImageView *iconChat;
+@property (strong, nonatomic) UIImageView *iconViews;
+@end
+
 @implementation PCPostView
 @synthesize postImage;
 @synthesize lblTitle;
@@ -47,32 +52,33 @@
         self.lblTitle.lineBreakMode = NSLineBreakByWordWrapping;
         self.lblTitle.textAlignment = NSTextAlignmentLeft;
         self.lblTitle.textColor = [UIColor whiteColor];
-        self.lblTitle.text = @"Post Title";
         self.lblTitle.font = [UIFont boldSystemFontOfSize:20.0f];
         [self.lblTitle addObserver:self forKeyPath:@"text" options:0 context:nil];
         [self addSubview:self.lblTitle];
         
-        UIImageView *iconChat = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconChat.png"]];
-        iconChat.center = CGPointMake(frame.size.width-34.0f, self.lblTitle.center.y+22.0f);
-        [self addSubview:iconChat];
+        self.iconChat = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconChat.png"]];
+        self.iconChat.center = CGPointMake(frame.size.width-34.0f, self.lblTitle.center.y+22.0f);
+        self.iconChat.alpha = 0.0f;
+        [self addSubview:self.iconChat];
         
-        self.lblComments = [[UILabel alloc] initWithFrame:CGRectMake(frame.size.width-92.0f, iconChat.frame.origin.y-2.0f, 40.0f, 18.0f)];
+        self.lblComments = [[UILabel alloc] initWithFrame:CGRectMake(frame.size.width-92.0f, self.iconChat.frame.origin.y-2.0f, 40.0f, 18.0f)];
         self.lblComments.textAlignment = NSTextAlignmentRight;
         self.lblComments.textColor = [UIColor whiteColor];
         self.lblComments.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:14.0f];
-        self.lblComments.text = @"5";
+        self.lblComments.alpha = 0;
         [self addSubview:self.lblComments];
         
         
-        UIImageView *iconViews = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconEye.png"]];
-        iconViews.center = CGPointMake(frame.size.width-34.0f, self.lblTitle.center.y+iconChat.frame.size.height+26.0f);
-        [self addSubview:iconViews];
+        self.iconViews = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iconEye.png"]];
+        self.iconViews.center = CGPointMake(frame.size.width-34.0f, self.lblTitle.center.y+self.iconChat.frame.size.height+26.0f);
+        self.iconViews.alpha = 0.0f;
+        [self addSubview:self.iconViews];
 
-        self.lblViews = [[UILabel alloc] initWithFrame:CGRectMake(frame.size.width-92.0f, iconViews.frame.origin.y-2.0f, 40.0f, 18.0f)];
+        self.lblViews = [[UILabel alloc] initWithFrame:CGRectMake(frame.size.width-92.0f, self.iconViews.frame.origin.y-2.0f, 40.0f, 18.0f)];
         self.lblViews.textAlignment = NSTextAlignmentRight;
         self.lblViews.textColor = [UIColor whiteColor];
         self.lblViews.font = self.lblComments.font;
-        self.lblViews.text = @"20";
+        self.lblViews.alpha = 0;
         [self addSubview:self.lblViews];
         
         self.lblDate = [[UILabel alloc] initWithFrame:CGRectMake(16.0f, y, frame.size.width, 16.0f)];
@@ -94,9 +100,38 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"image"]){
+        
         [UIView animateWithDuration:0.3f
+                              delay:0
+                            options:UIViewAnimationOptionCurveLinear
                          animations:^{
                              self.postImage.alpha = 1.0f;
+                         }
+                         completion:^(BOOL finished){
+                             if (self.iconChat.alpha > 0)
+                                 return;
+                             
+                             [UIView animateWithDuration:0.3f
+                                                   delay:0
+                                                 options:UIViewAnimationOptionCurveLinear
+                                              animations:^{
+                                                  self.iconChat.alpha = 1.0f;
+                                                  self.lblComments.alpha = 1.0f;
+                                              }
+                                              completion:^(BOOL finished){
+                                                  [UIView animateWithDuration:0.3f
+                                                                        delay:0
+                                                                      options:UIViewAnimationOptionCurveLinear
+                                                                   animations:^{
+                                                                       self.iconViews.alpha = 1.0f;
+                                                                       self.lblViews.alpha = 1.0f;
+                                                                   }
+                                                                   completion:^(BOOL finished){
+                                                                       
+                                                                   }];
+                                                  
+                                              }];
+
                          }];
 
     }
