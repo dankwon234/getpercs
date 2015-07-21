@@ -47,6 +47,7 @@
 		0C39AD681B5DA6CF003860DB /* events@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C39AD671B5DA6CF003860DB /* events@2x.png */; };
 		0C39AD6C1B5DBEC9003860DB /* inviteMessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C39AD6B1B5DBEC9003860DB /* inviteMessage@2x.png */; };
 		0C39AD701B5DC2DB003860DB /* dots@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C39AD6F1B5DC2DB003860DB /* dots@2x.png */; };
+		0C39AD761B5DC510003860DB /* iconProfile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C39AD751B5DC510003860DB /* iconProfile@2x.png */; };
 		0C3B25491B546B9600EBD436 /* PCPostTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C3B25481B546B9600EBD436 /* PCPostTableCell.m */; };
 		0C3B254D1B54720A00EBD436 /* dropShadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C3B254C1B54720A00EBD436 /* dropShadow@2x.png */; };
 		0C3B254F1B54836100EBD436 /* iconCamera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C3B254E1B54836100EBD436 /* iconCamera@2x.png */; };
@@ -235,6 +236,7 @@
 		0C39AD671B5DA6CF003860DB /* events@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "events@2x.png"; sourceTree = "<group>"; };
 		0C39AD6B1B5DBEC9003860DB /* inviteMessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "inviteMessage@2x.png"; sourceTree = "<group>"; };
 		0C39AD6F1B5DC2DB003860DB /* dots@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dots@2x.png"; sourceTree = "<group>"; };
+		0C39AD751B5DC510003860DB /* iconProfile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconProfile@2x.png"; sourceTree = "<group>"; };
 		0C3B25471B546B9600EBD436 /* PCPostTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPostTableCell.h; sourceTree = "<group>"; };
 		0C3B25481B546B9600EBD436 /* PCPostTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCPostTableCell.m; sourceTree = "<group>"; };
 		0C3B254C1B54720A00EBD436 /* dropShadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropShadow@2x.png"; sourceTree = "<group>"; };
@@ -722,6 +724,7 @@
 				0C1E4EC01B197B09001B840E /* iconCheckmark@2x.png */,
 				0C39AD6B1B5DBEC9003860DB /* inviteMessage@2x.png */,
 				0C39AD651B5DA69E003860DB /* posts@2x.png */,
+				0C39AD751B5DC510003860DB /* iconProfile@2x.png */,
 				0C39AD671B5DA6CF003860DB /* events@2x.png */,
 				0C8D7D031B5797D200038E3A /* messages@2x.png */,
 				0CB419F41B56036000F678BB /* orderHistory@2x.png */,
@@ -983,6 +986,7 @@
 				0C8B61711ABD028800BC13C8 /* discover.png in Resources */,
 				0C20C2201B57F91800E6952A /* iconCheckmarkWhite@2x.png in Resources */,
 				0CC94F781B59C7B8000203FB /* messagesTutorial@2x.png in Resources */,
+				0C39AD761B5DC510003860DB /* iconProfile@2x.png in Resources */,
 				0C676E131AE32FB2001B14B7 /* bgPost@2x.png in Resources */,
 				0C8B617C1ABD028800BC13C8 /* textfield.png in Resources */,
 				0CCA8A681B4E386E004FF7D4 /* iconChat@2x.png in Resources */,
