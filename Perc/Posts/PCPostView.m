@@ -35,13 +35,13 @@
         CGRect bounds = self.postImage.bounds;
         bounds.size.height *= 0.6f;
         gradient.frame = bounds;
-        gradient.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.80f] CGColor], (id)[[UIColor clearColor] CGColor]];
+        gradient.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.95f] CGColor], (id)[[UIColor clearColor] CGColor]];
         [self.postImage.layer insertSublayer:gradient atIndex:0];
         self.postImage.alpha = 0;
         [self.postImage addObserver:self forKeyPath:@"image" options:0 context:0];
         [self addSubview:self.postImage];
         
-        CGFloat y = 42.0f;
+        CGFloat y = 48.0f;
         self.lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(16.0f, y, 0.6f*frame.size.width, 22.0f)];
         self.lblTitle.numberOfLines = 0;
         self.lblTitle.lineBreakMode = NSLineBreakByWordWrapping;
