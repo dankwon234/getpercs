@@ -177,7 +177,7 @@
 {
     UIImage *imgDots = [UIImage imageNamed:@"dots.png"];
     UIButton *btnDots = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnDots.frame = CGRectMake(0.0f, 0.0f, 0.6f*imgDots.size.width, 0.6f*imgDots.size.height);
+    btnDots.frame = CGRectMake(0.0f, 0.0f, 0.75f*imgDots.size.width, 0.75f*imgDots.size.height);
 //    btnDots.frame = CGRectMake(0.0f, 0.0f, imgDots.size.width, imgDots.size.height);
     [btnDots setBackgroundImage:imgDots forState:UIControlStateNormal];
     [btnDots addTarget:self action:@selector(toggleOptionsView:) forControlEvents:UIControlEventTouchUpInside];
