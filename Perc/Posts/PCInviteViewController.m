@@ -293,8 +293,13 @@
         
         NSString *lastName = (__bridge NSString *)ABRecordCopyValue(contact, kABPersonLastNameProperty);
         if (lastName != nil){
-            contactInfo[@"lastName"] = [lastName lowercaseString];
-            contactInfo[@"fullName"] = [[[NSString stringWithFormat:@"%@ %@", firstName, lastName] lowercaseString] capitalizedString];
+            if ([lastName isEqualToString:firstName]==NO){
+                contactInfo[@"lastName"] = [lastName lowercaseString];
+                contactInfo[@"fullName"] = [[[NSString stringWithFormat:@"%@ %@", firstName, lastName] lowercaseString] capitalizedString];
+            }
+            else{
+                contactInfo[@"fullName"] = [[firstName lowercaseString] capitalizedString];
+            }
         }
         else{
             contactInfo[@"fullName"] = [[firstName lowercaseString] capitalizedString];
