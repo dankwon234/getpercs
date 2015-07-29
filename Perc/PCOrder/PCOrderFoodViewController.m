@@ -74,7 +74,7 @@ static NSString *placeholder = @"Type your order here.";
     self.lblLocation.textColor = [UIColor whiteColor];
     self.lblLocation.textAlignment = NSTextAlignmentCenter;
     self.lblLocation.font = [UIFont fontWithName:kBaseFontName size:14.0f];
-    self.lblLocation.text = [NSString stringWithFormat:@"%@ \u00b7 Min Delivery Fee: $%d", [venue.city capitalizedString], venue.fee];
+    self.lblLocation.text = (self.venue.fee == 0) ? [venue.city capitalizedString] : [NSString stringWithFormat:@"%@ \u00b7 Min Delivery Fee: $%d", [venue.city capitalizedString], venue.fee];
     [view addSubview:self.lblLocation];
     y += self.lblLocation.frame.size.height+20.0f;
     
