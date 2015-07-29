@@ -124,12 +124,12 @@
     NSLog(@"buttonPressed: %@", btnTitle);
     
     if ([btnTitle isEqualToString:@"enter"]){
-        [UIView animateWithDuration:0.20f
+        [UIView animateWithDuration:0.25f
                               delay:0
                             options:UIViewAnimationOptionCurveLinear
                          animations:^{
                              CGRect frame = self.welcomeView.frame;
-                             frame.origin.y = self.welcomeView.frame.size.height;
+                             frame.origin.y = self.view.frame.size.height+200.0f; // get it all the way off the screen
                              self.welcomeView.frame = frame;
                          }
                          completion:^(BOOL finished){
