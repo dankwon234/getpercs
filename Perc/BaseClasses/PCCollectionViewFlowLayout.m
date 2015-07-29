@@ -22,12 +22,11 @@
     if (self){
         self.isHorizontal = YES;
         self.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        self.minimumInteritemSpacing = 0; // horizontal gap between columns
-        self.minimumLineSpacing = 6.0f; // vertical gap between rows
-        
+        self.minimumInteritemSpacing = 0;
+        self.minimumLineSpacing = 6.0f;
         self.itemSize = CGSizeMake([PCCollectionViewFlowLayout cellWidth], [PCCollectionViewFlowLayout cellHeight]);
-        self.sectionInset = UIEdgeInsetsMake(0.0f, kCellPadding, 0.0f, kCellPadding);
-        self.dynamicAnimator = [[UIDynamicAnimator alloc] initWithCollectionViewLayout:self];
+        
+        [self setup];
     }
     
     
@@ -42,14 +41,19 @@
         self.scrollDirection = UICollectionViewScrollDirectionVertical;
         self.minimumInteritemSpacing = 10; // horizontal gap between columns
         self.minimumLineSpacing = 12.0f; // vertical gap between rows
-        
         self.itemSize = CGSizeMake([PCCollectionViewFlowLayout verticalCellWidth], [PCCollectionViewFlowLayout cellHeight]);
-        self.sectionInset = UIEdgeInsetsMake(0.0f, kCellPadding, 0.0f, kCellPadding);
-        self.dynamicAnimator = [[UIDynamicAnimator alloc] initWithCollectionViewLayout:self];
+        
+        [self setup];
     }
     return self;
 }
 
+- (void)setup
+{
+    self.itemSize = CGSizeMake([PCCollectionViewFlowLayout verticalCellWidth], [PCCollectionViewFlowLayout cellHeight]);
+    self.sectionInset = UIEdgeInsetsMake(0.0f, kCellPadding, 0.0f, kCellPadding);
+    self.dynamicAnimator = [[UIDynamicAnimator alloc] initWithCollectionViewLayout:self];
+}
 
 
 + (CGFloat)cellPadding
