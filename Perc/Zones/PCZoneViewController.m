@@ -408,7 +408,7 @@ static NSString *cellId = @"cellId";
             PCVenue *venue = [PCVenue venueWithInfo:venueInfo];
             venue.fee = self.currentZone.baseFee;
             venue.distance = [venue calculateDistanceFromLocation:self.locationMgr.clLocation];
-            NSLog(@"%@: DIST == %.2f", venue.name, venue.distance);
+//            NSLog(@"%@: DIST == %.2f", venue.name, venue.distance);
             
             if ([self.currentZone.uniqueId isEqualToString:venue.orderZone]==NO){
                 double distance = [venue calculateDistanceFromLocation:zoneLocation];
@@ -417,6 +417,9 @@ static NSString *cellId = @"cellId";
                     distance -= 2.0f;
                 
                 venue.fee += (int)lround(distance);
+                if (venue.fee < self.currentZone.baseFee)
+                    venue.fee = self.currentZone.baseFee;
+                
                 if (venue.fee > 15) // this is to prevent fees of $5,000 if user does not have location turned on
                     venue.fee = 0;
             }
