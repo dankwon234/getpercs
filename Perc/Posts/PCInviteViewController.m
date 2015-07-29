@@ -247,13 +247,21 @@
         // phone:
         ABMultiValueRef phones = ABRecordCopyValue(contact, kABPersonPhoneProperty);
         NSString *phoneNumber = (__bridge NSString *)ABMultiValueCopyValueAtIndex(phones, 0);
-        
+
         BOOL enoughInfo = NO;
         if (firstName != nil && phoneNumber != nil)
             enoughInfo = YES;
+        else{ // check if person has last name listed only:
+            NSString *lastName = (__bridge NSString *)ABRecordCopyValue(contact, kABPersonLastNameProperty);
+            if (lastName != nil && phoneNumber != nil){
+                firstName = lastName;
+                enoughInfo = YES;
+            }
+        }
         
         if (enoughInfo==NO)
             continue;
+        
         
         
         NSMutableDictionary *contactInfo = [NSMutableDictionary dictionary];
@@ -284,7 +292,7 @@
             contactInfo[@"email"] = email;
         
         NSString *lastName = (__bridge NSString *)ABRecordCopyValue(contact, kABPersonLastNameProperty);
-        if (lastName){
+        if (lastName != nil){
             contactInfo[@"lastName"] = [lastName lowercaseString];
             contactInfo[@"fullName"] = [[[NSString stringWithFormat:@"%@ %@", firstName, lastName] lowercaseString] capitalizedString];
         }
