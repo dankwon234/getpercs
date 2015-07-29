@@ -25,7 +25,7 @@
 		0C0F2F4B1ABCF55900DBFD8F /* STPToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0F2F3A1ABCF55900DBFD8F /* STPToken.m */; };
 		0C0F2F4C1ABCF55900DBFD8F /* StripeError.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0F2F3B1ABCF55900DBFD8F /* StripeError.m */; };
 		0C0F2F501ABCF59100DBFD8F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C0F2F4D1ABCF59100DBFD8F /* Foundation.framework */; };
-		0C0F2F511ABCF59100DBFD8F /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C0F2F4E1ABCF59100DBFD8F /* PassKit.framework */; };
+		0C0F2F511ABCF59100DBFD8F /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C0F2F4E1ABCF59100DBFD8F /* PassKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0C0F2F521ABCF59100DBFD8F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C0F2F4F1ABCF59100DBFD8F /* Security.framework */; };
 		0C13AC2C1AE41E4B003B1F0D /* PCConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C13AC2B1AE41E4B003B1F0D /* PCConnectViewController.m */; };
 		0C13AC2F1AE41FC2003B1F0D /* UIImage+PQImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C13AC2E1AE41FC2003B1F0D /* UIImage+PQImageEffects.m */; };
