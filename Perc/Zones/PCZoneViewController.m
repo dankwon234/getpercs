@@ -408,9 +408,7 @@ static NSString *cellId = @"cellId";
             PCVenue *venue = [PCVenue venueWithInfo:venueInfo];
             venue.fee = self.currentZone.baseFee;
             venue.distance = [venue calculateDistanceFromLocation:self.locationMgr.clLocation];
-            NSLog(@"DIST == %.2f", venue.distance);
-            if (venue.distance >= 6.5f) // too far, ignore
-                continue;
+            NSLog(@"%@: DIST == %.2f", venue.name, venue.distance);
             
             if ([self.currentZone.uniqueId isEqualToString:venue.orderZone]==NO){
                 double distance = [venue calculateDistanceFromLocation:zoneLocation];
@@ -422,9 +420,12 @@ static NSString *cellId = @"cellId";
             }
             
             [self.currentZone.venues addObject:venue];
-            NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"distance" ascending:YES];
-            [self.currentZone.venues sortUsingDescriptors:@[sort]];
         }
+        
+
+        NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"distance" ascending:YES];
+        [self.currentZone.venues sortUsingDescriptors:@[sort]];
+        NSLog(@"%d VENUES ! ! !", (int)self.currentZone.venues.count);
 
         dispatch_async(dispatch_get_main_queue(), ^{
             [self layoutListsCollectionView];
@@ -527,6 +528,7 @@ static NSString *cellId = @"cellId";
           initialSpringVelocity:0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
+                         CGRect frame = self.venuesTable.frame;
                          self.venuesTable.frame = CGRectMake(0.0f, y, frame.size.width, frame.size.height);
                      }
                      completion:^(BOOL finished){
@@ -593,11 +595,6 @@ static NSString *cellId = @"cellId";
 
 
 #pragma mark - UICollectionViewDataSource
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-    return 1;
-}
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return self.currentZone.venues.count;
