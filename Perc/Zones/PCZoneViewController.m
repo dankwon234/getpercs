@@ -417,6 +417,8 @@ static NSString *cellId = @"cellId";
                     distance -= 2.0f;
                 
                 venue.fee += (int)lround(distance);
+                if (venue.fee > 15) // this is to prevent fees of $5,000 if user does not have location turned on
+                    venue.fee = 0;
             }
             
             [self.currentZone.venues addObject:venue];
