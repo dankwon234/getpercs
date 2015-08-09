@@ -14,6 +14,7 @@
 
 @property (copy, nonatomic) NSString *uniqueId;
 @property (copy, nonatomic) NSString *name;
+@property (copy, nonatomic) NSString *zone;
 @property (copy, nonatomic) NSString *image;
 @property (strong, nonatomic) NSMutableArray *posts;
 @property (strong, nonatomic) NSMutableArray *moderators;

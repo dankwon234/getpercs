@@ -20,6 +20,7 @@
 @synthesize moderators;
 @synthesize image;
 @synthesize imageData;
+@synthesize zone;
 
 - (id)init
 {
@@ -27,6 +28,7 @@
     if (self){
         self.image = @"none";
         self.name = @"none";
+        self.zone = @"none";
         self.moderators = [NSMutableArray array];
         self.imageData = nil;
         self.posts = nil;
@@ -40,6 +42,7 @@
     self.uniqueId = info[@"id"];
     self.name = info[@"name"];
     self.image = info[@"image"];
+    self.zone = info[@"zone"];
     self.moderators = [NSMutableArray arrayWithArray:info[@"moderators"]];
 }
 
@@ -72,6 +75,9 @@
 
     if (self.image)
         self.image = self.image;
+
+    if (self.zone)
+        self.zone = self.zone;
 
     return params;
 
