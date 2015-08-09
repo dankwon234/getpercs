@@ -109,13 +109,15 @@ static NSString *cellId = @"cellId";
     NSArray *buttons = @[self.btnAccount, self.btnLocation, self.btnDrivers, self.btnInvited];
     NSArray *icons = @[@"iconInfo.png", @"iconLocation.png", @"iconCar.png", @"iconCalendar.png"];
     NSArray *titles = @[@"Account", @"Location", @"Drivers", @"Events"];
+    UIFont *font = [UIFont fontWithName:kBaseFontName size:16.0f];
+    UIColor *white = [UIColor whiteColor];
     for (int i=0; i<buttons.count; i++){
         UIButton *button = buttons[i];
         button.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         button.frame = CGRectMake(x, y, frame.size.width-2*x, h);
         [button setTitle:titles[i] forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        button.titleLabel.font = [UIFont fontWithName:kBaseFontName size:16.0f];
+        [button setTitleColor:white forState:UIControlStateNormal];
+        button.titleLabel.font = font;
         button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         button.layer.cornerRadius = 3.0f;
         button.layer.masksToBounds = YES;
@@ -477,7 +479,7 @@ static NSString *cellId = @"cellId";
             self.pageControl.numberOfPages = self.currentZone.posts.count;
             self.bulletinBoardScroll.contentSize = CGSizeMake(self.currentZone.posts.count*dimen, 0);
             [self performSelector:@selector(nextPage) withObject:nil afterDelay:kPageDuration];
-            [self fetchVenuesForCurrentLocation];
+//            [self fetchVenuesForCurrentLocation];
 
         });
         
@@ -597,6 +599,7 @@ static NSString *cellId = @"cellId";
     if (self.reflection.alpha==0)
         self.reflection.alpha = 1.0f;
 }
+
 
 
 #pragma mark - UICollectionViewDataSource
