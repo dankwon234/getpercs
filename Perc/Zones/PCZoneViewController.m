@@ -78,13 +78,14 @@ static NSString *cellId = @"cellId";
     self.reflection.alpha = 0;
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = self.reflection.bounds;
-    gradient.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.50f] CGColor], (id)[[UIColor clearColor] CGColor]];
+    gradient.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.60f] CGColor], (id)[[UIColor clearColor] CGColor]];
     [self.reflection.layer insertSublayer:gradient atIndex:0];
 
     [view addSubview:self.reflection];
     
     self.pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0.0f, y+4.0f, width, 20.0)];
     self.pageControl.numberOfPages = 0;
+    self.pageControl.userInteractionEnabled = NO;
     [view addSubview:self.pageControl];
 
     self.blurryScreenshot = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
@@ -111,6 +112,7 @@ static NSString *cellId = @"cellId";
     NSArray *titles = @[@"Account", @"Location", @"Drivers", @"Events"];
     UIFont *font = [UIFont fontWithName:kBaseFontName size:16.0f];
     UIColor *white = [UIColor whiteColor];
+    
     for (int i=0; i<buttons.count; i++){
         UIButton *button = buttons[i];
         button.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
