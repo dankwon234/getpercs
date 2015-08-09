@@ -22,6 +22,7 @@
 @synthesize posts;
 @synthesize isPopulated;
 @synthesize admins;
+@synthesize sections;
 
 - (id)init
 {
@@ -31,6 +32,7 @@
         self.posts = nil;
         self.isPopulated = NO;
         self.admins = [NSMutableArray array];
+        self.sections = nil;
         
     }
     return self;
