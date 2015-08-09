@@ -11,8 +11,11 @@
 #import "Reachability.h"
 #include <sys/xattr.h>
 
-#define kErrorDomain @"com.getpercs"
+
 #define kBaseUrl @"https://get-percs.appspot.com/"
+//#define kBaseUrl  @"http://193.get-percs.appspot.com/"
+
+#define kErrorDomain @"com.getpercs"
 #define kPathUpload @"/api/upload/"
 #define kPathLogin @"/api/login/"
 #define kPathStripe @"/stripe/card/"
