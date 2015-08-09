@@ -143,6 +143,9 @@
 		0CCA8A681B4E386E004FF7D4 /* iconChat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CCA8A671B4E386E004FF7D4 /* iconChat@2x.png */; };
 		0CCA8A6A1B4E3A54004FF7D4 /* iconEye@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CCA8A691B4E3A54004FF7D4 /* iconEye@2x.png */; };
 		0CCD39001B77DBD0005C2102 /* PCSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCD38FF1B77DBD0005C2102 /* PCSection.m */; };
+		0CCD39031B77DE85005C2102 /* PCSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCD39021B77DE85005C2102 /* PCSectionView.m */; };
+		0CCD39061B77E798005C2102 /* PCCreateSectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCD39051B77E798005C2102 /* PCCreateSectionViewController.m */; };
+		0CCD39091B77ED06005C2102 /* PCSectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCD39081B77ED06005C2102 /* PCSectionsViewController.m */; };
 		0CCF89451AE46E2300051244 /* PCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCF89441AE46E2300051244 /* PCMessage.m */; };
 		0CD16F191AE75DB200B5F85B /* PCMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD16F181AE75DB200B5F85B /* PCMessagesViewController.m */; };
 		0CD782D11AC1AAEA0072A0F3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD782CE1AC1AAEA0072A0F3 /* Reachability.m */; };
@@ -385,6 +388,12 @@
 		0CCA8A691B4E3A54004FF7D4 /* iconEye@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconEye@2x.png"; sourceTree = "<group>"; };
 		0CCD38FE1B77DBD0005C2102 /* PCSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCSection.h; sourceTree = "<group>"; };
 		0CCD38FF1B77DBD0005C2102 /* PCSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCSection.m; sourceTree = "<group>"; };
+		0CCD39011B77DE85005C2102 /* PCSectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCSectionView.h; sourceTree = "<group>"; };
+		0CCD39021B77DE85005C2102 /* PCSectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCSectionView.m; sourceTree = "<group>"; };
+		0CCD39041B77E798005C2102 /* PCCreateSectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCCreateSectionViewController.h; sourceTree = "<group>"; };
+		0CCD39051B77E798005C2102 /* PCCreateSectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCCreateSectionViewController.m; sourceTree = "<group>"; };
+		0CCD39071B77ED06005C2102 /* PCSectionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCSectionsViewController.h; sourceTree = "<group>"; };
+		0CCD39081B77ED06005C2102 /* PCSectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCSectionsViewController.m; sourceTree = "<group>"; };
 		0CCF89431AE46E2300051244 /* PCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCMessage.h; sourceTree = "<group>"; };
 		0CCF89441AE46E2300051244 /* PCMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCMessage.m; sourceTree = "<group>"; };
 		0CD16F171AE75DB200B5F85B /* PCMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCMessagesViewController.h; sourceTree = "<group>"; };
@@ -882,6 +891,12 @@
 			children = (
 				0CCD38FE1B77DBD0005C2102 /* PCSection.h */,
 				0CCD38FF1B77DBD0005C2102 /* PCSection.m */,
+				0CCD39011B77DE85005C2102 /* PCSectionView.h */,
+				0CCD39021B77DE85005C2102 /* PCSectionView.m */,
+				0CCD39071B77ED06005C2102 /* PCSectionsViewController.h */,
+				0CCD39081B77ED06005C2102 /* PCSectionsViewController.m */,
+				0CCD39041B77E798005C2102 /* PCCreateSectionViewController.h */,
+				0CCD39051B77E798005C2102 /* PCCreateSectionViewController.m */,
 			);
 			path = Sections;
 			sourceTree = "<group>";
@@ -1096,6 +1111,7 @@
 				0C8B61681ABD028800BC13C8 /* PTKView.m in Sources */,
 				0C61390A1AB8EAFC00D12C50 /* PCLoadingIndicator.m in Sources */,
 				0C0F2F3F1ABCF55900DBFD8F /* STPCheckoutOptions.m in Sources */,
+				0CCD39091B77ED06005C2102 /* PCSectionsViewController.m in Sources */,
 				0C6139001AB8E8C700D12C50 /* AFSecurityPolicy.m in Sources */,
 				0CCF89451AE46E2300051244 /* PCMessage.m in Sources */,
 				0C6138FC1AB8E8C700D12C50 /* AFHTTPRequestOperation.m in Sources */,
@@ -1116,6 +1132,7 @@
 				0C0F2F481ABCF55900DBFD8F /* STPBankAccount.m in Sources */,
 				0C8B61661ABD028800BC13C8 /* PTKTextField.m in Sources */,
 				0C7F11201AEB68E60068D367 /* PCMessageViewController.m in Sources */,
+				0CCD39061B77E798005C2102 /* PCCreateSectionViewController.m in Sources */,
 				0CDD96DC1B16F3520026E052 /* PCInviteViewController.m in Sources */,
 				0C0F2F4B1ABCF55900DBFD8F /* STPToken.m in Sources */,
 				0C91E76A1AC111D6006D7F1D /* PCOrderViewController.m in Sources */,
@@ -1136,6 +1153,7 @@
 				0C5DC66C1AE2EA9B00C4B38B /* PCPostViewController.m in Sources */,
 				0C0F2F3D1ABCF55900DBFD8F /* Stripe+ApplePay.m in Sources */,
 				0C1BC8921ABBF7CC000E9EDB /* PCLoginViewController.m in Sources */,
+				0CCD39031B77DE85005C2102 /* PCSectionView.m in Sources */,
 				0C8B61671ABD028800BC13C8 /* PTKUSAddressZip.m in Sources */,
 				0C0F2F3E1ABCF55900DBFD8F /* STPCheckoutInternalUIWebViewController.m in Sources */,
 				0C0F2F4C1ABCF55900DBFD8F /* StripeError.m in Sources */,
