@@ -142,6 +142,7 @@
 		0CC94F7A1B59CAA7000203FB /* backgroundLights@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CC94F791B59CAA7000203FB /* backgroundLights@2x.png */; };
 		0CCA8A681B4E386E004FF7D4 /* iconChat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CCA8A671B4E386E004FF7D4 /* iconChat@2x.png */; };
 		0CCA8A6A1B4E3A54004FF7D4 /* iconEye@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CCA8A691B4E3A54004FF7D4 /* iconEye@2x.png */; };
+		0CCD39001B77DBD0005C2102 /* PCSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCD38FF1B77DBD0005C2102 /* PCSection.m */; };
 		0CCF89451AE46E2300051244 /* PCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCF89441AE46E2300051244 /* PCMessage.m */; };
 		0CD16F191AE75DB200B5F85B /* PCMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD16F181AE75DB200B5F85B /* PCMessagesViewController.m */; };
 		0CD782D11AC1AAEA0072A0F3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD782CE1AC1AAEA0072A0F3 /* Reachability.m */; };
@@ -382,6 +383,8 @@
 		0CC94F791B59CAA7000203FB /* backgroundLights@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backgroundLights@2x.png"; sourceTree = "<group>"; };
 		0CCA8A671B4E386E004FF7D4 /* iconChat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconChat@2x.png"; sourceTree = "<group>"; };
 		0CCA8A691B4E3A54004FF7D4 /* iconEye@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconEye@2x.png"; sourceTree = "<group>"; };
+		0CCD38FE1B77DBD0005C2102 /* PCSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCSection.h; sourceTree = "<group>"; };
+		0CCD38FF1B77DBD0005C2102 /* PCSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCSection.m; sourceTree = "<group>"; };
 		0CCF89431AE46E2300051244 /* PCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCMessage.h; sourceTree = "<group>"; };
 		0CCF89441AE46E2300051244 /* PCMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCMessage.m; sourceTree = "<group>"; };
 		0CD16F171AE75DB200B5F85B /* PCMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCMessagesViewController.h; sourceTree = "<group>"; };
@@ -598,6 +601,7 @@
 				0C61390C1AB8EC7B00D12C50 /* PCContainerViewController.h */,
 				0C61390D1AB8EC7B00D12C50 /* PCContainerViewController.m */,
 				0C6138E61AB8E83900D12C50 /* BaseClasses */,
+				0CCD38FD1B77DBBB005C2102 /* Sections */,
 				0C89E26B1ABAA39D00077ABD /* Profile */,
 				0CDCBB9C1AC1B2E20034DAB0 /* About */,
 				0C69261A1ABBECA200C91B6D /* PCOrder */,
@@ -873,6 +877,15 @@
 			path = backgrounds;
 			sourceTree = "<group>";
 		};
+		0CCD38FD1B77DBBB005C2102 /* Sections */ = {
+			isa = PBXGroup;
+			children = (
+				0CCD38FE1B77DBD0005C2102 /* PCSection.h */,
+				0CCD38FF1B77DBD0005C2102 /* PCSection.m */,
+			);
+			path = Sections;
+			sourceTree = "<group>";
+		};
 		0CD782CC1AC1AAEA0072A0F3 /* Reachability */ = {
 			isa = PBXGroup;
 			children = (
@@ -1113,6 +1126,7 @@
 				0CB937971B4736FD00F28DD3 /* PCPostView.m in Sources */,
 				0C91E7671AC0EB19006D7F1D /* PCDateFormatter.m in Sources */,
 				0C0F2F421ABCF55900DBFD8F /* STPIOSCheckoutWebViewAdapter.m in Sources */,
+				0CCD39001B77DBD0005C2102 /* PCSection.m in Sources */,
 				0C6139151AB8F2CA00D12C50 /* PCVenue.m in Sources */,
 				0C0F2F461ABCF55900DBFD8F /* STPAPIClient.m in Sources */,
 				0C6138FE1AB8E8C700D12C50 /* AFHTTPSessionManager.m in Sources */,
