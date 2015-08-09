@@ -12,6 +12,7 @@
 #import "PCPost.h"
 #import "PCMessage.h"
 #import "PCComment.h"
+#import "PCSection.h"
 
 typedef void (^PCWebServiceRequestCompletionBlock)(id result, NSError *error);
 
@@ -54,6 +55,12 @@ typedef void (^PCWebServiceRequestCompletionBlock)(id result, NSError *error);
 // COMMENTS
 - (void)submitComment:(PCComment *)comment completion:(PCWebServiceRequestCompletionBlock)completionBlock;
 - (void)fetchComments:(NSDictionary *)params completion:(PCWebServiceRequestCompletionBlock)completionBlock;
+
+// SECTIONS
+- (void)createSection:(PCSection *)section completion:(PCWebServiceRequestCompletionBlock)completionBlock;
+
+
+
 
 
 // STRIPE

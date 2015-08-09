@@ -27,6 +27,7 @@
 #define kPathZones @"/api/zones/"
 #define kPathOrders @"/api/orders/"
 #define kPathPosts @"/api/posts/"
+#define kPathSections @"/api/sections/"
 
 
 
@@ -529,7 +530,6 @@
 - (void)submitComment:(PCComment *)comment completion:(PCWebServiceRequestCompletionBlock)completionBlock
 {
     AFHTTPRequestOperationManager *manager = [self requestManagerForJSONSerializiation];
-    
     [manager POST:kPathComments
        parameters:[comment parametersDictionary]
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -551,6 +551,35 @@
                   completionBlock(nil, error);
           }];
 }
+
+
+#pragma mark - Sections
+- (void)createSection:(PCSection *)section completion:(PCWebServiceRequestCompletionBlock)completionBlock
+{
+    AFHTTPRequestOperationManager *manager = [self requestManagerForJSONSerializiation];
+    [manager POST:kPathSections
+       parameters:[section parametersDictionary]
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+              NSDictionary *results = responseDictionary[@"results"];
+              
+              if ([results[@"confirmation"] isEqualToString:@"success"]==NO){
+                  if (completionBlock){
+                      completionBlock(nil, [NSError errorWithDomain:kErrorDomain code:0 userInfo:@{NSLocalizedDescriptionKey:results[@"message"]}]);
+                  }
+                  return;
+              }
+              
+              if (completionBlock)
+                  completionBlock(results, nil);
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              if (completionBlock)
+                  completionBlock(nil, error);
+          }];
+}
+
+
 
 #pragma mark - Stripe
 - (void)processStripeToken:(NSDictionary *)params completion:(PCWebServiceRequestCompletionBlock)completionBlock
