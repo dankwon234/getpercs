@@ -71,13 +71,13 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{@"name":self.name}];
     
     if (self.moderators)
-        self.moderators = self.moderators;
+        params[@"moderators"] = self.moderators;
 
     if (self.image)
-        self.image = self.image;
+        params[@"image"] = self.image;
 
     if (self.zone)
-        self.zone = self.zone;
+        params[@"zone"] = self.zone;
 
     return params;
 
