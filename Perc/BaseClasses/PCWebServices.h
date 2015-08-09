@@ -58,6 +58,7 @@ typedef void (^PCWebServiceRequestCompletionBlock)(id result, NSError *error);
 
 // SECTIONS
 - (void)createSection:(PCSection *)section completion:(PCWebServiceRequestCompletionBlock)completionBlock;
+- (void)fetchSections:(NSDictionary *)params completion:(PCWebServiceRequestCompletionBlock)completionBlock;
 
 
 
