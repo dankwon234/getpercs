@@ -40,4 +40,5 @@
 - (void)viewMenu:(id)sender;
 - (void)back:(UIButton *)btn;
 - (void)clearObserved:(NSString *)keyPath;
+- (void)addSwipeBackGesture:(UIView *)view;
 @end

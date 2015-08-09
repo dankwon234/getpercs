@@ -73,29 +73,6 @@
     self.observed = [NSMutableArray array];
 }
 
-//- (void)addNavigationTitleView
-//{
-//    static CGFloat width = 200.0f;
-//    static CGFloat height = 46.0f;
-//    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, width, height)];
-//    titleView.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
-//    titleView.backgroundColor = [UIColor clearColor];
-//    UIImage *imgLogo = [UIImage imageNamed:@"logo-white.png"];
-//    UIImageView *logo = [[UIImageView alloc] initWithImage:imgLogo];
-//    static double scale = 0.7f;
-//    CGRect frame = logo.frame;
-//    frame.size.width = scale*imgLogo.size.width;
-//    frame.size.height = scale*imgLogo.size.height;
-//    logo.frame = frame;
-//    logo.center = CGPointMake(0.5f*width, 20.0f);
-//    
-//    [titleView addSubview:logo];
-//    
-//    self.navigationItem.titleView = titleView;
-//    
-//}
-
-
 - (void)addNavigationTitleView
 {
     static CGFloat width = 200.0f;
@@ -234,6 +211,14 @@
     navController.navigationBar.shadowImage = [UIImage new];
     navController.navigationBar.translucent = YES;
     return navController;
+}
+
+- (void)addSwipeBackGesture:(UIView *)view
+{
+    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(back:)];
+    swipe.direction = UISwipeGestureRecognizerDirectionRight;
+    [view addGestureRecognizer:swipe];
+
 }
 
 
