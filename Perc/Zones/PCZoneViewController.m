@@ -20,10 +20,8 @@
 @property (strong, nonatomic) UIScrollView *bulletinBoardScroll;
 @property (strong, nonatomic) UIImageView *reflection;
 @property (strong, nonatomic) UIImageView *icon;
-@property (strong, nonatomic) UIImageView *blurryScreenshot;
 @property (strong, nonatomic) UICollectionView *venuesTable;
 @property (strong, nonatomic) UIPageControl *pageControl;
-@property (strong, nonatomic) UIView *optionsView;
 @property (strong, nonatomic) UIButton *btnAccount;
 @property (strong, nonatomic) UIButton *btnLocation;
 @property (strong, nonatomic) UIButton *btnDrivers;
@@ -78,7 +76,7 @@ static NSString *cellId = @"cellId";
     self.reflection.alpha = 0;
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = self.reflection.bounds;
-    gradient.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.60f] CGColor], (id)[[UIColor clearColor] CGColor]];
+    gradient.colors = @[(id)[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.70f] CGColor], (id)[[UIColor clearColor] CGColor]];
     [self.reflection.layer insertSublayer:gradient atIndex:0];
 
     [view addSubview:self.reflection];
@@ -87,18 +85,8 @@ static NSString *cellId = @"cellId";
     self.pageControl.numberOfPages = 0;
     self.pageControl.userInteractionEnabled = NO;
     [view addSubview:self.pageControl];
+    y += self.pageControl.frame.size.height;
 
-    self.blurryScreenshot = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-    self.blurryScreenshot.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    self.blurryScreenshot.alpha = 0.0f;
-    [view addSubview:self.blurryScreenshot];
-
-    self.optionsView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height)];
-    self.optionsView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    self.optionsView.backgroundColor = [UIColor blackColor];
-    self.optionsView.alpha = 0.0f;
-    
-    y = 0.50f*frame.size.height;
     CGFloat x = 24.0f;
     CGFloat h = 44.0f;
     
@@ -125,13 +113,11 @@ static NSString *cellId = @"cellId";
         button.layer.masksToBounds = YES;
         [button setImage:[UIImage imageNamed:icons[i]] forState:UIControlStateNormal];
         [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
-        [self.optionsView addSubview:button];
+        [view addSubview:button];
         y += button.frame.size.height+12.0f;
     }
     
 
-    [self.optionsView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideOptionsView:)]];
-    [view addSubview:self.optionsView];
     
     self.view = view;
 }
@@ -139,7 +125,6 @@ static NSString *cellId = @"cellId";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self addOptionsButton];
     
     CGPoint center = self.loadingIndicator.center;
     center.y += 120.0f;
@@ -154,7 +139,7 @@ static NSString *cellId = @"cellId";
     [self.profile addObserver:self forKeyPath:@"isPopulated" options:0 context:nil];
     
     BOOL connected = [[PCWebServices sharedInstance] checkConnection];
-    if (connected==NO){
+    if (connected == NO){
         [self showAlertWithTitle:@"No Connection" message:@"Please find an internet connection."];
         return;
     }
@@ -228,70 +213,15 @@ static NSString *cellId = @"cellId";
             return;
         }
         
-        
         PCPostsViewController *postsVc = [[PCPostsViewController alloc] init];
         postsVc.mode = 1;
         [self.navigationController pushViewController:postsVc animated:YES];
     }
-
-    
 }
-
-- (void)toggleOptionsView:(id)sender
-{
-    if (self.optionsView.alpha == 0.0f){
-        [self showOptionsView:nil];
-        return;
-    }
-    
-    [self hideOptionsView:nil];
-}
-
-- (void)hideOptionsView:(UIGestureRecognizer *)tap
-{
-    [UIView animateWithDuration:0.35f
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         self.icon.alpha = 0.0f;
-                         self.optionsView.alpha = 0.0f;
-                         self.blurryScreenshot.alpha = 0.0f;
-                     }
-                     completion:^(BOOL finished){
-                         [self.view bringSubviewToFront:self.bulletinBoardScroll];
-                         self.icon.alpha = 1.0f;
-                         self.blurryScreenshot.image = nil;
-                     }];
-}
-
-
-- (void)showOptionsView:(UIButton *)btn
-{
-    self.blurryScreenshot.image = [[UIImage screenshot:self.view] applyBlurOnImage:0.75f];
-    [self.view bringSubviewToFront:self.blurryScreenshot];
-    [self.view bringSubviewToFront:self.optionsView];
-    [self.view bringSubviewToFront:self.icon];
-    self.icon.alpha = 0.0f;
-    
-    [UIView animateWithDuration:0.35f
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         self.blurryScreenshot.alpha = 1.0f;
-                         self.icon.alpha = 1.0f;
-                         self.optionsView.alpha = 0.85f;
-                     }
-                     completion:^(BOOL finished){
-                         
-                     }];
-}
-
-
 
 
 - (void)updateLocation
 {
-    [self hideOptionsView:nil];
     [self.loadingIndicator startLoading];
     [self.locationMgr findLocation:^(NSError *error){
         
@@ -333,8 +263,6 @@ static NSString *cellId = @"cellId";
                         [self.loadingIndicator stopLoading];
                         [self showAlertWithTitle:@"No Service" message:@"Sorry, Perc is not in your area yet. Hopefully we will be in your town soon!"];
                         
-                        if (self.optionsView.alpha == 0.0f)
-                            [self showOptionsView:nil];
                         return;
                     }
                     
@@ -366,18 +294,11 @@ static NSString *cellId = @"cellId";
         return;
     }
     
-    if (self.optionsView.alpha  > 0.0f){
-        [self performSelector:@selector(nextPage) withObject:nil afterDelay:kPageDuration];
-        return;
-    }
-    
-    
     if (self.currentPage == self.currentZone.posts.count-1)
         self.currentPage = 0;
     else
         self.currentPage++;
     
-//    NSLog(@"NEXT PAGE: %d", self.currentPage);
     CGFloat x = self.bulletinBoardScroll.frame.size.width*self.currentPage;
     [self.bulletinBoardScroll setContentOffset:CGPointMake(x, self.bulletinBoardScroll.contentOffset.y) animated:YES];
     
