@@ -19,6 +19,7 @@
 @property (strong, nonatomic) NSMutableArray *posts;
 @property (strong, nonatomic) NSMutableArray *moderators;
 @property (strong, nonatomic) UIImage  *imageData;
++ (PCSection *)sectionWithInfo:(NSDictionary *)info;
 - (void)populate:(NSDictionary *)info;
 - (NSDictionary *)parametersDictionary;
 - (NSString *)jsonRepresentation;

@@ -37,6 +37,14 @@
     return self;
 }
 
++ (PCSection *)sectionWithInfo:(NSDictionary *)info
+{
+    PCSection *section = [[PCSection alloc] init];
+    [section populate:info];
+    return section;
+}
+
+
 - (void)populate:(NSDictionary *)info
 {
     self.uniqueId = info[@"id"];
