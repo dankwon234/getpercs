@@ -134,6 +134,7 @@ static NSString *cellId = @"cellId";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self addMenuButton];
     
     CGPoint center = self.loadingIndicator.center;
     center.y += 120.0f;
@@ -179,26 +180,6 @@ static NSString *cellId = @"cellId";
             
         });
     }
-    
-//    if ([keyPath isEqualToString:@"imageData"]){
-//        PCPost *post = (PCPost *)object;
-//        [post removeObserver:self forKeyPath:@"imageData"];
-//        
-//        int index = (int)[self.currentZone.posts indexOfObject:post];
-//        if (self.currentPage != index) // this post is not up, ignore
-//            return;
-//
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            PCSectionView *sectionView = (PCSectionView *)[self.bulletinBoardScroll viewWithTag:index+1000];
-//            if (sectionView==nil) // huh?
-//                return;
-//            
-//            sectionView.postImage.image = post.imageData;
-//            if (index==0)
-//                [self fadeReflectionImage:post.imageData];
-//        });
-//    }
-    
     
     if ([keyPath isEqualToString:@"imageData"]){
         PCSection *section = (PCSection *)object;
