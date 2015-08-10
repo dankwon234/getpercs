@@ -364,6 +364,7 @@ static NSString *placeholder = @"Bio";
 - (void)viewPosts:(UIButton *)btn
 {
     PCPostsViewController *postsVc = [[PCPostsViewController alloc] init];
+    postsVc.readOnly = NO; // this enables user to edit posts
     [self.navigationController pushViewController:postsVc animated:YES];
 }
 
