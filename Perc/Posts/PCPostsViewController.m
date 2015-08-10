@@ -23,12 +23,14 @@ static NSString *cellId = @"cellId";
 
 @implementation PCPostsViewController
 @synthesize mode;
+@synthesize readOnly;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
+        self.readOnly = YES;
         self.mode = 0;
         self.edgesForExtendedLayout = UIRectEdgeAll;
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -345,16 +347,26 @@ static NSString *cellId = @"cellId";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (self.mode==0){
+        if (self.readOnly==YES){
+            PCPostViewController *postVc = [[PCPostViewController alloc] init];
+            postVc.post = (PCPost *)self.profile.posts[indexPath.row];
+            [self.navigationController pushViewController:postVc animated:YES];
+            return;
+        }
+        
         PCCreatePostViewController *editPostVc = [[PCCreatePostViewController alloc] init];
         editPostVc.post = (PCPost *)self.profile.posts[indexPath.row];
         [self.navigationController pushViewController:editPostVc animated:YES];
         return;
     }
     
-    // this is an event user was invited to:
-    PCPostViewController *eventVc = [[PCPostViewController alloc] init];
-    eventVc.post = (PCPost *)self.profile.invited[indexPath.row];
-    [self.navigationController pushViewController:eventVc animated:YES];
+    if (self.mode==1){
+        // this is an event user was invited to:
+        PCPostViewController *eventVc = [[PCPostViewController alloc] init];
+        eventVc.post = (PCPost *)self.profile.invited[indexPath.row];
+        [self.navigationController pushViewController:eventVc animated:YES];
+    }
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

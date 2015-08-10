@@ -10,5 +10,6 @@
 
 @interface PCPostsViewController : PCViewController <UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic) int mode; // 0=standard, 1=invited
+@property (nonatomic) int mode; // 0=standard, 1=invited, 2=read only
+@property (nonatomic) BOOL readOnly;
 @end
