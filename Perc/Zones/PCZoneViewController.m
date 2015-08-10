@@ -10,9 +10,10 @@
 #import "PCVenueViewController.h"
 #import "PCPostsViewController.h"
 #import "PCPostViewController.h"
+#import "PCSectionsViewController.h"
 #import "PCCollectionViewFlowLayout.h"
 #import "PCVenueCell.h"
-#import "PCPostView.h"
+#import "PCSectionView.h"
 #import "UIImage+PQImageEffects.h"
 
 
@@ -24,7 +25,7 @@
 @property (strong, nonatomic) UIPageControl *pageControl;
 @property (strong, nonatomic) UIButton *btnAccount;
 @property (strong, nonatomic) UIButton *btnLocation;
-@property (strong, nonatomic) UIButton *btnDrivers;
+@property (strong, nonatomic) UIButton *btnSections;
 @property (strong, nonatomic) UIButton *btnInvited;
 @property (nonatomic) int currentPage;
 @property (nonatomic) BOOL showNextPage;
@@ -92,12 +93,12 @@ static NSString *cellId = @"cellId";
     
     self.btnAccount = [UIButton buttonWithType:UIButtonTypeCustom];
     self.btnLocation = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.btnDrivers = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.btnSections = [UIButton buttonWithType:UIButtonTypeCustom];
     self.btnInvited = [UIButton buttonWithType:UIButtonTypeCustom];
     
-    NSArray *buttons = @[self.btnAccount, self.btnLocation, self.btnDrivers, self.btnInvited];
+    NSArray *buttons = @[self.btnAccount, self.btnLocation, self.btnSections, self.btnInvited];
     NSArray *icons = @[@"iconInfo.png", @"iconLocation.png", @"iconCar.png", @"iconCalendar.png"];
-    NSArray *titles = @[@"Account", @"Location", @"Drivers", @"Events"];
+    NSArray *titles = @[@"Account", @"Location", @"Sections", @"Events"];
     UIFont *font = [UIFont fontWithName:kBaseFontName size:16.0f];
     UIColor *white = [UIColor whiteColor];
     
@@ -117,8 +118,6 @@ static NSString *cellId = @"cellId";
         y += button.frame.size.height+12.0f;
     }
     
-
-    
     self.view = view;
 }
 
@@ -130,12 +129,7 @@ static NSString *cellId = @"cellId";
     center.y += 120.0f;
     self.loadingIndicator.center = center;
     
-    
-    if (self.profile.isPopulated)
-        [self.btnAccount setTitle:@"Account" forState:UIControlStateNormal];
-    else
-        [self.btnAccount setTitle:@"Log In" forState:UIControlStateNormal];
-    
+    [self.btnAccount setTitle:(self.profile.isPopulated) ? @"Account" : @"Log In" forState:UIControlStateNormal];
     [self.profile addObserver:self forKeyPath:@"isPopulated" options:0 context:nil];
     
     BOOL connected = [[PCWebServices sharedInstance] checkConnection];
@@ -176,25 +170,45 @@ static NSString *cellId = @"cellId";
         });
     }
     
+//    if ([keyPath isEqualToString:@"imageData"]){
+//        PCPost *post = (PCPost *)object;
+//        [post removeObserver:self forKeyPath:@"imageData"];
+//        
+//        int index = (int)[self.currentZone.posts indexOfObject:post];
+//        if (self.currentPage != index) // this post is not up, ignore
+//            return;
+//
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            PCSectionView *sectionView = (PCSectionView *)[self.bulletinBoardScroll viewWithTag:index+1000];
+//            if (sectionView==nil) // huh?
+//                return;
+//            
+//            sectionView.postImage.image = post.imageData;
+//            if (index==0)
+//                [self fadeReflectionImage:post.imageData];
+//        });
+//    }
+    
+    
     if ([keyPath isEqualToString:@"imageData"]){
-        PCPost *post = (PCPost *)object;
-        [post removeObserver:self forKeyPath:@"imageData"];
+        PCSection *section = (PCSection *)object;
+        [section removeObserver:self forKeyPath:@"imageData"];
         
-        int index = (int)[self.currentZone.posts indexOfObject:post];
+        int index = (int)[self.currentZone.sections indexOfObject:section];
         if (self.currentPage != index) // this post is not up, ignore
             return;
-
+        
         dispatch_async(dispatch_get_main_queue(), ^{
-            PCPostView *postView = (PCPostView *)[self.bulletinBoardScroll viewWithTag:index+1000];
-            if (postView==nil) // huh?
+            PCSectionView *sectionView = (PCSectionView *)[self.bulletinBoardScroll viewWithTag:index+1000];
+            if (sectionView==nil) // huh?
                 return;
             
-            postView.postImage.image = post.imageData;
-            
+            sectionView.postImage.image = section.imageData;
             if (index==0)
-                [self fadeReflectionImage:post.imageData];
+                [self fadeReflectionImage:section.imageData];
         });
     }
+
 }
 
 
@@ -206,6 +220,11 @@ static NSString *cellId = @"cellId";
     
     if ([btn isEqual:self.btnLocation])
         [self updateLocation];
+    
+    if ([btn isEqual:self.btnSections]){
+        PCSectionsViewController *sectionsVc = [[PCSectionsViewController alloc] init];
+        [self.navigationController pushViewController:sectionsVc animated:YES];
+    }
 
     if ([btn isEqual:self.btnInvited]){
         if (self.profile.isPopulated==NO){
@@ -269,16 +288,14 @@ static NSString *cellId = @"cellId";
                     NSDictionary *zoneInfo = z[0];
                     [self.currentZone populate:zoneInfo];
                     self.currentZone.venues = nil;
-                    self.currentZone.posts = nil;
+                    self.currentZone.sections = nil;
                     
                     self.profile.lastZone = self.currentZone.uniqueId;
                     [self.profile updateProfile]; // update profile with last zone info on backend
                     [self.loadingIndicator stopLoading];
-                    [self.btnDrivers setTitle:[NSString stringWithFormat:@"%d Drivers on Standby", (int)self.currentZone.admins.count] forState:UIControlStateNormal];
+//                    [self.btnDrivers setTitle:[NSString stringWithFormat:@"%d Drivers on Standby", (int)self.currentZone.admins.count] forState:UIControlStateNormal];
                     
                     [self fetchPostsForCurrentLocation];
-                    
-                    
                 });
             }];
         }];
@@ -294,7 +311,7 @@ static NSString *cellId = @"cellId";
         return;
     }
     
-    if (self.currentPage == self.currentZone.posts.count-1)
+    if (self.currentPage == self.currentZone.sections.count-1)
         self.currentPage = 0;
     else
         self.currentPage++;
@@ -302,7 +319,7 @@ static NSString *cellId = @"cellId";
     CGFloat x = self.bulletinBoardScroll.frame.size.width*self.currentPage;
     [self.bulletinBoardScroll setContentOffset:CGPointMake(x, self.bulletinBoardScroll.contentOffset.y) animated:YES];
     
-    PCPost *post = self.currentZone.posts[self.currentPage];
+    PCPost *post = self.currentZone.sections[self.currentPage];
     [self fadeReflectionImage:post.imageData];
 
     [self performSelector:@selector(nextPage) withObject:nil afterDelay:kPageDuration];
@@ -364,9 +381,105 @@ static NSString *cellId = @"cellId";
 }
 
 
+//- (void)fetchPostsForCurrentLocation
+//{
+//    [[PCWebServices sharedInstance] fetchPosts:@{@"zone":self.currentZone.uniqueId, @"limit":@"5", @"featured":@"yes"} completion:^(id result, NSError *error){
+//        [self.loadingIndicator stopLoading];
+//        if (error){
+//            [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
+//            return;
+//        }
+//        
+//        NSDictionary *results = (NSDictionary *)result;
+//        NSLog(@"%@", [results description]);
+//        
+//        self.currentZone.posts = [NSMutableArray array];
+//        NSArray *a = results[@"posts"];
+//        for (NSDictionary *postInfo in a)
+//            [self.currentZone.posts addObject:[PCPost postWithInfo:postInfo]];
+//        
+//        NSArray *colors = @[kLightBlue, kDarkGray, kGreen, kOrange];
+//
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            CGFloat dimen = self.bulletinBoardScroll.frame.size.width;
+//            for (int i=0; i<self.currentZone.posts.count; i++) {
+//                PCPost *post = self.currentZone.posts[i];
+//                PCSectionView *sectionView = [[PCSectionView alloc] initWithFrame:CGRectMake(i*dimen, 0.0f, dimen, dimen)];
+//                sectionView.banner.backgroundColor = colors[i % colors.count];
+//                sectionView.tag = 1000+i;
+//                sectionView.lblTitle.text = post.title;
+//                [sectionView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewPost:)]];
+//                [self.bulletinBoardScroll addSubview:sectionView];
+//                
+//                // a little hacky but helps reduce latency:
+//                [post addObserver:self forKeyPath:@"imageData" options:0 context:nil];
+//                [post performSelector:@selector(fetchImage) withObject:nil afterDelay:i*0.5f];
+//            }
+//            
+//            self.pageControl.numberOfPages = self.currentZone.posts.count;
+//            self.bulletinBoardScroll.contentSize = CGSizeMake(self.currentZone.posts.count*dimen, 0);
+//            [self performSelector:@selector(nextPage) withObject:nil afterDelay:kPageDuration];
+////            [self fetchVenuesForCurrentLocation];
+//
+//        });
+//        
+//    }];
+//
+//}
+
+
 - (void)fetchPostsForCurrentLocation
 {
-    [[PCWebServices sharedInstance] fetchPosts:@{@"zone":self.currentZone.uniqueId, @"limit":@"12", @"featured":@"yes"} completion:^(id result, NSError *error){
+    [[PCWebServices sharedInstance] fetchSections:@{@"zone":self.currentZone.uniqueId} completion:^(id result, NSError *error){
+        [self.loadingIndicator stopLoading];
+        if (error){
+            [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
+            return;
+        }
+        
+        NSDictionary *results = (NSDictionary *)result;
+        NSLog(@"%@", [results description]);
+        
+        self.currentZone.sections = [NSMutableArray array];
+        NSArray *list = results[@"sections"];
+        for (int i=0; i<list.count; i++)
+            [self.currentZone.sections addObject:[PCSection sectionWithInfo:list[i]]];
+            
+        
+        NSArray *colors = @[kLightBlue, kDarkGray, kGreen, kOrange];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            CGFloat dimen = self.bulletinBoardScroll.frame.size.width;
+            for (int i=0; i<self.currentZone.sections.count; i++) {
+                PCSection *section = self.currentZone.sections[i];
+                PCSectionView *sectionView = [[PCSectionView alloc] initWithFrame:CGRectMake(i*dimen, 0.0f, dimen, dimen)];
+                sectionView.banner.backgroundColor = colors[i % colors.count];
+                sectionView.tag = 1000+i;
+                sectionView.lblTitle.text = section.name;
+//                [sectionView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewPost:)]];
+                [self.bulletinBoardScroll addSubview:sectionView];
+                
+                // a little hacky but helps reduce latency:
+                [section addObserver:self forKeyPath:@"imageData" options:0 context:nil];
+                [section performSelector:@selector(fetchImage) withObject:nil afterDelay:i*0.5f];
+            }
+            
+            self.pageControl.numberOfPages = self.currentZone.sections.count;
+            self.bulletinBoardScroll.contentSize = CGSizeMake(self.currentZone.sections.count*dimen, 0);
+            if (self.currentZone.sections.count > 1)
+                [self performSelector:@selector(nextPage) withObject:nil afterDelay:kPageDuration];
+            
+            //            [self fetchVenuesForCurrentLocation];
+            
+        });
+        
+
+        
+    }];
+    
+    
+    /*
+    [[PCWebServices sharedInstance] fetchPosts:@{@"zone":self.currentZone.uniqueId, @"limit":@"5", @"featured":@"yes"} completion:^(id result, NSError *error){
         [self.loadingIndicator stopLoading];
         if (error){
             [self showAlertWithTitle:@"Error" message:[error localizedDescription]];
@@ -380,19 +493,19 @@ static NSString *cellId = @"cellId";
         NSArray *a = results[@"posts"];
         for (NSDictionary *postInfo in a)
             [self.currentZone.posts addObject:[PCPost postWithInfo:postInfo]];
-
+        
+        NSArray *colors = @[kLightBlue, kDarkGray, kGreen, kOrange];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             CGFloat dimen = self.bulletinBoardScroll.frame.size.width;
             for (int i=0; i<self.currentZone.posts.count; i++) {
                 PCPost *post = self.currentZone.posts[i];
-                PCPostView *postView = [[PCPostView alloc] initWithFrame:CGRectMake(i*dimen, 0.0f, dimen, dimen)];
-                postView.tag = 1000+i;
-                postView.lblTitle.text = post.title;
-                postView.lblDate.text = post.formattedDate;
-                postView.lblViews.text = [NSString stringWithFormat:@"%d", post.numViews];
-                postView.lblComments.text = [NSString stringWithFormat:@"%d", post.numComments];
-                [postView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewPost:)]];
-                [self.bulletinBoardScroll addSubview:postView];
+                PCSectionView *sectionView = [[PCSectionView alloc] initWithFrame:CGRectMake(i*dimen, 0.0f, dimen, dimen)];
+                sectionView.banner.backgroundColor = colors[i % colors.count];
+                sectionView.tag = 1000+i;
+                sectionView.lblTitle.text = post.title;
+                [sectionView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewPost:)]];
+                [self.bulletinBoardScroll addSubview:sectionView];
                 
                 // a little hacky but helps reduce latency:
                 [post addObserver:self forKeyPath:@"imageData" options:0 context:nil];
@@ -402,13 +515,18 @@ static NSString *cellId = @"cellId";
             self.pageControl.numberOfPages = self.currentZone.posts.count;
             self.bulletinBoardScroll.contentSize = CGSizeMake(self.currentZone.posts.count*dimen, 0);
             [self performSelector:@selector(nextPage) withObject:nil afterDelay:kPageDuration];
-//            [self fetchVenuesForCurrentLocation];
-
+            //            [self fetchVenuesForCurrentLocation];
+            
         });
         
     }];
-
+     
+     */
+    
+    
+    
 }
+
 
 - (void)layoutListsCollectionView
 {
@@ -501,7 +619,7 @@ static NSString *cellId = @"cellId";
     int tag = (int)tap.view.tag-1000;
     NSLog(@"viewPost: %d", tag);
     
-    PCPost *post = self.currentZone.posts[tag];
+    PCPost *post = self.currentZone.sections[tag];
     PCPostViewController *postVc = [[PCPostViewController alloc] init];
     postVc.post = post;
     [self.navigationController pushViewController:postVc animated:YES];
@@ -514,11 +632,11 @@ static NSString *cellId = @"cellId";
 
 - (void)fadeReflectionImage:(UIImage *)postImage
 {
-    PCPost *post = (PCPost *)self.currentZone.posts[self.currentPage];
-    if (post.imageData==nil)
+    PCSection *section = (PCSection *)self.currentZone.sections[self.currentPage];
+    if (section.imageData==nil)
         return;
     
-    self.reflection.image = [postImage reflectedImage:post.imageData withBounds:self.reflection.bounds withHeight:self.reflection.frame.size.height];
+    self.reflection.image = [postImage reflectedImage:section.imageData withBounds:self.reflection.bounds withHeight:self.reflection.frame.size.height];
     if (self.reflection.alpha==0)
         self.reflection.alpha = 1.0f;
 }
@@ -621,19 +739,19 @@ static NSString *cellId = @"cellId";
     
     
     self.currentPage = page;
-    PCPost *post = self.currentZone.posts[page];
-    if (post.imageData==nil){
-        [post fetchImage];
+    PCSection *section = self.currentZone.sections[page];
+    if (section.imageData==nil){
+        [section fetchImage];
         return;
     }
     
-    [self fadeReflectionImage:post.imageData];
+    [self fadeReflectionImage:section.imageData];
     
-    PCPostView *postView = (PCPostView *)[self.bulletinBoardScroll viewWithTag:page+1000];
-    if (postView.postImage.alpha != 0)
+    PCSectionView *sectionView = (PCSectionView *)[self.bulletinBoardScroll viewWithTag:page+1000];
+    if (sectionView.postImage.alpha != 0)
         return;
     
-    postView.postImage.image = post.imageData;
+    sectionView.postImage.image = section.imageData;
 }
 
 
