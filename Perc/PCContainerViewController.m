@@ -12,11 +12,13 @@
 #import "PCZoneViewController.h"
 
 
-@interface PCContainerViewController ()
+@interface PCContainerViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) UINavigationController *navCtr;
 @property (strong, nonatomic) PCZoneViewController *zoneVc;
 @property (strong, nonatomic) PCViewController *currentVc;
 @property (strong, nonatomic) PCWelcomeView *welcomeView;
+@property (strong, nonatomic) UITableView *sectionsTable;
+@property (strong, nonatomic) NSArray *sections;
 @end
 
 
@@ -26,7 +28,12 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self){
-        
+        self.sections = @[@"Account"];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(toggleMainMenu:)
+                                                     name:kViewMenuNotification
+                                                   object:nil];
+
         
     }
     
@@ -39,6 +46,12 @@
     UIView *view = [self baseView];
     view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
     CGRect frame = view.frame;
+    
+    self.sectionsTable = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height) style:UITableViewStylePlain];
+    self.sectionsTable.dataSource = self;
+    self.sectionsTable.delegate = self;
+    self.sectionsTable.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight);
+    [view addSubview:self.sectionsTable];
     
     self.zoneVc = [[PCZoneViewController alloc] init];
     self.currentVc = self.zoneVc;
@@ -104,6 +117,39 @@
 }
 
 
+- (void)toggleMainMenu:(NSNotification *)notfication
+{
+    [self toggleMenu:0.85f];
+
+}
+
+
+- (void)toggleMenu:(NSTimeInterval)duration
+{
+    CGRect frame = self.view.frame;
+    CGFloat halfWidth = 0.50f*frame.size.width;
+    
+    [UIView animateWithDuration:duration
+                          delay:0
+         usingSpringWithDamping:0.5f
+          initialSpringVelocity:0.0f
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         CGPoint center = self.navCtr.view.center;
+                         center.x = (center.x==halfWidth) ? 1.15f*frame.size.width : halfWidth;
+                         self.navCtr.view.center = center;
+                     }
+                     completion:^(BOOL finished){
+                         CGPoint center = self.navCtr.view.center;
+                         self.navCtr.topViewController.view.userInteractionEnabled = (center.x==halfWidth);
+//                         [self.sectionsTable deselectRowAtIndexPath:[self.sectionsTable indexPathForSelectedRow] animated:YES];
+                     }];
+}
+
+
+
+
+
 - (void)login:(UIButton *)btn
 {
     // logged in - go to account view controller
@@ -155,5 +201,23 @@
 }
 
 
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.sections.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellId = @"cellId";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+    if (cell==nil){
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+    }
+    
+    cell.textLabel.text = self.sections[indexPath.row];
+    return cell;
+}
 
 @end
