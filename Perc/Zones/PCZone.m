@@ -19,7 +19,6 @@
 @synthesize longitude;
 @synthesize baseFee;
 @synthesize venues;
-@synthesize posts;
 @synthesize isPopulated;
 @synthesize admins;
 @synthesize sections;
@@ -29,10 +28,9 @@
     self = [super init];
     if (self){
         self.venues = nil;
-        self.posts = nil;
+        self.sections = nil;
         self.isPopulated = NO;
         self.admins = [NSMutableArray array];
-        self.sections = nil;
         
     }
     return self;

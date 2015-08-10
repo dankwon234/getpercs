@@ -18,7 +18,6 @@
 @property (copy, nonatomic) NSString *message;
 @property (strong, nonatomic) NSArray *towns;
 @property (strong, nonatomic) NSMutableArray *venues; // restaurants in the zone
-@property (strong, nonatomic) NSMutableArray *posts;
 @property (strong, nonatomic) NSMutableArray *admins;
 @property (strong, nonatomic) NSMutableArray *sections;
 @property (nonatomic) double latitude;
