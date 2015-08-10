@@ -72,6 +72,14 @@ static NSString *cellId = @"cellId";
     self.bulletinBoardScroll.showsHorizontalScrollIndicator = NO;
     [view addSubview:self.bulletinBoardScroll];
     
+    UIImage *imgLogo = [UIImage imageNamed:@"logoTransparent.png"];
+    UIImageView *logo = [[UIImageView alloc] initWithImage:imgLogo];
+    double scale = 0.65f;
+    CGFloat w = scale*imgLogo.size.width;
+    CGFloat h = scale*imgLogo.size.height;
+    logo.frame = CGRectMake(0.5f*(frame.size.width-w), 16.0f, w, h);
+    [view addSubview:logo];
+
     CGFloat y = self.bulletinBoardScroll.frame.size.height;
     self.reflection = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, y, width, width)];
     self.reflection.alpha = 0;
@@ -89,7 +97,8 @@ static NSString *cellId = @"cellId";
     y += self.pageControl.frame.size.height;
 
     CGFloat x = 24.0f;
-    CGFloat h = 44.0f;
+    h = 44.0f;
+    y = frame.size.height-h-36.0f;
     
     self.btnAccount = [UIButton buttonWithType:UIButtonTypeCustom];
     self.btnLocation = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -115,16 +124,10 @@ static NSString *cellId = @"cellId";
         [button setImage:[UIImage imageNamed:icons[i]] forState:UIControlStateNormal];
         [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:button];
-        y += button.frame.size.height+12.0f;
+//        y += button.frame.size.height+12.0f;
+        y -= (h+12.0f);
     }
     
-    UIImage *imgLogo = [UIImage imageNamed:@"logoTransparent.png"];
-    UIImageView *logo = [[UIImageView alloc] initWithImage:imgLogo];
-    double scale = 0.65f;
-    CGFloat w = scale*imgLogo.size.width;
-    h = scale*imgLogo.size.height;
-    logo.frame = CGRectMake(0.5f*(frame.size.width-w), 16.0f, w, h);
-    [view addSubview:logo];
     
     
     
