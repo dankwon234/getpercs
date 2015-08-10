@@ -37,10 +37,13 @@
         [self.postImage addObserver:self forKeyPath:@"image" options:0 context:0];
         [self addSubview:self.postImage];
         
-        CGFloat y = 48.0f;
+        CGFloat y = frame.size.height-64.0f;
         self.banner = [[UIView alloc] initWithFrame:CGRectMake(0.0f, y, 0.8f*frame.size.width, 36.0f)];
-//        self.banner.backgroundColor = kLightBlue;
-        self.banner.alpha = 0.7f;
+        self.banner.layer.shadowColor = [[UIColor blackColor] CGColor];
+        self.banner.layer.shadowOffset = CGSizeMake(1.0f, 1.0f);
+        self.banner.layer.shadowOpacity = 0.5f;
+        self.banner.layer.shadowRadius = 2.0f;
+        self.banner.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.banner.bounds].CGPath;
         [self addSubview:self.banner];
         y += 6.0f;
         
@@ -49,6 +52,8 @@
         self.lblTitle.textAlignment = NSTextAlignmentLeft;
         self.lblTitle.textColor = [UIColor whiteColor];
         self.lblTitle.font = [UIFont boldSystemFontOfSize:20.0f];
+        self.lblTitle.shadowColor = [UIColor darkGrayColor];
+        self.lblTitle.shadowOffset = CGSizeMake(1, 1);
         [self addSubview:self.lblTitle];
         
         
